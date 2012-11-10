@@ -1,0 +1,5 @@
+build/*
+docs/figs/*.png
+docs/art/*
+docs/fonts/*
+*.pdf
