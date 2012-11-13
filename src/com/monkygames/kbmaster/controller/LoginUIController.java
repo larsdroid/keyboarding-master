@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
 /**
@@ -22,12 +23,25 @@ public class LoginUIController implements Initializable {
     // === variables === //
     @FXML
     public ChoiceBox accessCB;
+    @FXML
+    public Button loginB;
+    @FXML
+    public Button close;
+
+    /**
+     * Used for setting animation effects.
+     */
+    private ButtonController buttonController;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+	buttonController = new ButtonController();
+	buttonController.addNode(loginB);
+	buttonController.addNode(close);
+
 	accessCB.setItems(FXCollections.observableArrayList("Local","Network"));
 	accessCB.getSelectionModel().selectFirst();
 
@@ -50,6 +64,7 @@ public class LoginUIController implements Initializable {
 
     @FXML
     public void loginEventFired(ActionEvent evt){
+	//loginButtonTimeline.play();
 	System.out.println("event fired");
 	
     }
