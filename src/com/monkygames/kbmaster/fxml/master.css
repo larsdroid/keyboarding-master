@@ -1,0 +1,81 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+/**
+ * Affects all components.
+ */
+.mainFxmlClass {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.popupWindow{
+    -fx-border-color: #cecee0;
+    -fx-background-radius: 5.0; 
+    -fx-padding: 8;
+    -fx-border-width: 3px;
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#4b4b4b 0%, #292929 20%, #171717 100%),
+        linear-gradient(#20262b, #191d22),
+        radial-gradient(center 50% 0%, radius 100%, rgba(138,138,138,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+
+/**
+ * Used for buttons that like close.
+ */
+.button_control {
+    -fx-text-fill: white;
+    -fx-background-color: black;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-background-color: black;
+}
+
+.choice-box {
+    -fx-text-fill: white;
+    -fx-background-color: #090a0c;
+}
+.choice-box .label {
+    -fx-background-color: #666666;
+}
+.choice-box .context-menu {
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
+    -fx-background-color: #090a0c;
+}
+
+.choice-box .open-button {
+    -fx-text-fill: white;
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#4b4b4b 0%, #292929 20%, #171717 100%),
+        linear-gradient(#20262b, #191d22),
+        radial-gradient(center 50% 0%, radius 100%, rgba(138,138,138,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-padding: 10 10 10 10;
+
+}
+
+.check-box {
+    -fx-text-fill: white;
+    -fx-background-color: black;
+}
