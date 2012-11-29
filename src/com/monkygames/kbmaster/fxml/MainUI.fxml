@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.MainUIController">
+  <children>
+    <VBox alignment="TOP_CENTER" layoutX="269.0" layoutY="14.0" prefHeight="84.0" prefWidth="515.0">
+      <children>
+        <ImageView fitHeight="40.170716394451006" fitWidth="329.3998718261719" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/main_text.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <HBox fx:id="versionHBox" alignment="CENTER" prefHeight="17.0" prefWidth="158.0" visible="true">
+          <children>
+            <Label alignment="TOP_CENTER" text="Software Version: " />
+            <Label fx:id="versionL" alignment="CENTER" contentDisplay="CENTER" text="0.1" textAlignment="LEFT" />
+          </children>
+        </HBox>
+        <Hyperlink text="No Updates Available" textFill="WHITE" />
+      </children>
+    </VBox>
+    <ComboBox layoutX="54.0" layoutY="38.0" prefHeight="53.0" prefWidth="61.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <VBox alignment="CENTER_LEFT" layoutX="126.0" layoutY="38.0" minHeight="53.0" prefHeight="53.0" prefWidth="197.0">
+      <children>
+        <HBox prefHeight="16.0" prefWidth="137.0">
+          <children>
+            <Label text="Status: " />
+            <Label fx:id="driverStatus" text="Off" />
+          </children>
+        </HBox>
+        <HBox prefHeight="16.0" prefWidth="165.0">
+          <children>
+            <Label text="Driver Version: " />
+            <Label fx:id="driverVersion" text="0.0.0" />
+          </children>
+        </HBox>
+        <Hyperlink alignment="CENTER_LEFT" minHeight="17.0" prefHeight="22.0" prefWidth="157.0" text="No Updates Available" textAlignment="LEFT" textFill="WHITE" />
+      </children>
+    </VBox>
+    <HBox alignment="CENTER_RIGHT" layoutX="699.0" layoutY="69.0" prefHeight="22.0" prefWidth="254.0">
+      <children>
+        <Label text="Local Account  " />
+        <Circle fill="#14ff00" radius="7.5" stroke="BLACK" strokeType="INSIDE" />
+      </children>
+    </HBox>
+    <Line endX="801.0" endY="-3.0" layoutX="148.0" layoutY="110.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
+    <Line endX="801.0" endY="-3.0" layoutX="148.0" layoutY="542.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
+    <HBox layoutX="54.0" layoutY="545.0" prefHeight="41.0" prefWidth="321.800048828125">
+      <children>
+        <ImageView fx:id="keyboardingMasterLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/KeyboardingMaster.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="linuxLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/LinuxGamer.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="javaLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/java.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="javafxLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/javafx.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="jinputLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/jinput.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="db4oLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/db4o.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="installBuilderLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/InstallBuilder.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="kryonetLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/icons/Kryonet.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+      </children>
+    </HBox>
+    <HBox layoutX="200.0" layoutY="254.0" prefHeight="40.17071533203125" prefWidth="244.0" />
+    <Button layoutX="855.0" layoutY="552.0" mnemonicParsing="false" prefWidth="95.0" text="Save" />
+    <Button layoutX="752.0" layoutY="552.0" mnemonicParsing="false" prefWidth="95.0" text="Hide" />
+    <Button layoutX="652.0" layoutY="552.0" mnemonicParsing="false" text="Edit Mode" />
+    <Line endX="157.0" endY="-233.0" layoutX="164.0" layoutY="361.0" startX="160.0" startY="162.0" stroke="WHITE" strokeLineCap="ROUND" />
+  </children>
+  <stylesheets>
+    <URL value="@master.css" />
+  </stylesheets>
+</AnchorPane>

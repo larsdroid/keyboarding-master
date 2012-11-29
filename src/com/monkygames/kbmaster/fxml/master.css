@@ -3,6 +3,18 @@
  */
 
 /**
+ * Load Fonts external fonts.
+ */
+@font-face {
+    font-family: Title1;
+    src: url('OCRAEXT.TTF');
+}
+
+.titleClass {
+    -fx-font-family: 'Title1';
+}
+
+/**
  * Affects all components.
  */
 .mainFxmlClass {
@@ -11,7 +23,7 @@
 }
 
 .popupWindow{
-    -fx-border-color: #cecee0;
+    -fx-border-color: #a093cf;
     -fx-background-radius: 5.0; 
     -fx-padding: 8;
     -fx-border-width: 3px;
