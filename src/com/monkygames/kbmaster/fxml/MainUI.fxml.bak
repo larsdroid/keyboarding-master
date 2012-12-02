@@ -64,42 +64,42 @@
     <Line endX="801.0" endY="-3.0" layoutX="148.0" layoutY="542.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
     <HBox layoutX="54.0" layoutY="545.0" prefHeight="41.0" prefWidth="321.800048828125">
       <children>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="keyboardingMasterLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/KeyboardingMaster.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="linuxLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/LinuxGamer.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="javaLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/java.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="javafxLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/javafx.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="jinputLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/jinput.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="db4oLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/db4o.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="installBuilderLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/InstallBuilder.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="kryonetLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/Kryonet.png" preserveRatio="false" smooth="false" />
           </image>
