@@ -112,6 +112,50 @@
     <Button layoutX="652.0" layoutY="552.0" mnemonicParsing="false" text="Edit Mode" />
     <Line endX="157.0" endY="-233.0" layoutX="208.0" layoutY="357.0" startX="160.0" startY="162.0" stroke="WHITE" strokeLineCap="ROUND" />
     <fx:include source="ProfileUI.fxml" layoutX="14.0" layoutY="117.0" />
+    <TabPane fx:id="driverTabPane" layoutX="376.0" layoutY="124.0" prefHeight="395.5" prefWidth="573.5" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="keymap 1">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="keymap 2">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="keymap 3">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="keymap 4">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="keymap 5">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="keymap 6">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="keymap 7">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab text="keymap 8">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
   </children>
   <stylesheets>
     <URL value="@master.css" />

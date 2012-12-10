@@ -15,14 +15,10 @@ import javafx.scene.layout.Pane;
  * Handles UI Events for the main window.
  * @version 1.0
  */
-public class MainUIController implements Initializable{
+public class DriverUIController implements Initializable{
 
 
 // ============= Class variables ============== //
-    @FXML
-    private Label versionL;
-    @FXML
-    private Pane driverPane;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

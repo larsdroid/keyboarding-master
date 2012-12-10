@@ -1,36 +1,21 @@
 /* 
  * See COPYING in top-level directory.
  */
-package com.monkygames.kbmaster.controller;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+package com.monkygames.kbmaster.driver;
 
 /**
- * Handles UI Events for the main window.
+ * The possible device types.
  * @version 1.0
  */
-public class MainUIController implements Initializable{
-
+public enum DeviceType {
 
 // ============= Class variables ============== //
-    @FXML
-    private Label versionL;
-    @FXML
-    private Pane driverPane;
+    KEYBOARD, MOUSE
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-    }
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
