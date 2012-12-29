@@ -4,16 +4,24 @@
  */
 package com.monkygames.kbmaster.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -27,11 +35,19 @@ public class LoginUIController implements Initializable {
     public Button loginB;
     @FXML
     public Button close;
+    @FXML
+    public Pane loginPane;
 
     /**
      * Used for setting animation effects.
      */
     private ButtonController buttonController;
+    private Parent root;
+
+    /**
+     * Used for closing the window.
+     */
+    private Stage loginStage;
 
     /**
      * Initializes the controller class.
@@ -64,8 +80,23 @@ public class LoginUIController implements Initializable {
 
     @FXML
     public void loginEventFired(ActionEvent evt){
-	//loginButtonTimeline.play();
-	System.out.println("event fired");
+	//TODO check if local or network and take apropriate action
+	// right now, just concider local
+
+	// hide login gui
+	loginStage.hide();
+
+	// create main gui
+	try {
+	    root = FXMLLoader.load(getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml"));
+	    Scene scene = new Scene(root);
+	    Stage mainStage = new Stage();
+	    mainStage.setScene(scene);
+	    mainStage.show();
+	    
+	} catch (IOException ex) {
+	    Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
+	}
 	
     }
 
@@ -75,5 +106,9 @@ public class LoginUIController implements Initializable {
     @FXML
     public void closeEventFired(ActionEvent evt){
 	System.exit(1);
+    }
+
+    public void setStage(Stage loginStage){
+	this.loginStage = loginStage;
     }
 }

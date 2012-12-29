@@ -4,11 +4,14 @@
  */
 package com.monkygames.kbmaster;
 
+import com.monkygames.kbmaster.controller.LoginUIController;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,7 +25,17 @@ public class KeyboardingMaster extends Application {
     public void start(Stage stage) {
 	Parent root;
 	try {
-	    root = FXMLLoader.load(getClass().getResource("/com/monkygames/kbmaster/fxml/LoginUI.fxml"));
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/LoginUI.fxml");
+	    FXMLLoader fxmlLoader = new FXMLLoader();
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    root = (Parent)fxmlLoader.load(location.openStream());
+	    //root = fxmlLoader.load(getClass().getResource("/com/monkygames/kbmaster/fxml/LoginUI.fxml"));
+	    LoginUIController controller = (LoginUIController) fxmlLoader.getController();
+	    controller.setStage(stage);
+
+
+	    //root = FXMLLoader.load(getClass().getResource("/com/monkygames/kbmaster/fxml/LoginUI.fxml"));
 	    Scene scene = new Scene(root);
 	    
 	    stage.setScene(scene);
