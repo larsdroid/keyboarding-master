@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -22,7 +23,7 @@ public class MainUIController implements Initializable{
     @FXML
     private Label versionL;
     @FXML
-    private Pane driverPane;
+    private TabPane driverTabPane;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

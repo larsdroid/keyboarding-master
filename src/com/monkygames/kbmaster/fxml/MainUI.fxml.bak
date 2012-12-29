@@ -112,7 +112,7 @@
     <Button layoutX="652.0" layoutY="552.0" mnemonicParsing="false" text="Edit Mode" />
     <Line endX="157.0" endY="-233.0" layoutX="208.0" layoutY="357.0" startX="160.0" startY="162.0" stroke="WHITE" strokeLineCap="ROUND" />
     <fx:include source="ProfileUI.fxml" layoutX="14.0" layoutY="117.0" />
-    <TabPane layoutX="376.0" layoutY="124.0" prefHeight="395.5" prefWidth="573.5" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+    <TabPane fx:id="driverTabPane" layoutX="376.0" layoutY="124.0" prefHeight="395.5" prefWidth="573.5" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
         <Tab text="keymap 1">
           <content>
