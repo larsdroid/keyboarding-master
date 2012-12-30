@@ -5,12 +5,15 @@ package com.monkygames.kbmaster.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -37,6 +40,11 @@ public class MainUIController implements Initializable{
 // ============= Private Methods ============== //
     private void initDriverComboBox(){
 	//driverComboBox.setItems(list);
+	driverComboBox.getItems().removeAll();
+	//Image image = new Image("/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png");
+	//ObservableList<Image> images = FXCollections.observableArrayList(image);
+	//driverComboBox.setItems(images);
+	//ObservableList<Image> images = FXCollections.observableArrayList(image);
 
     }
 // ============= Implemented Methods ============== //

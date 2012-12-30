@@ -1,7 +1,7 @@
 /* 
  * See COPYING in top-level directory.
  */
-package com.monkygames.kbmaster.input;
+package com.monkygames.kbmaster.engine;
 
 /**
  * Informs of hardware status change.
