@@ -12,10 +12,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 
 /**
  * Handles UI Events for the main window.
@@ -41,10 +46,25 @@ public class MainUIController implements Initializable{
     private void initDriverComboBox(){
 	//driverComboBox.setItems(list);
 	driverComboBox.getItems().removeAll();
-	//Image image = new Image("/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png");
+	Image image = new Image("/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png");
+	ObservableList<Image> images = FXCollections.observableArrayList(image);
+	driverComboBox.setItems(images);
 	//ObservableList<Image> images = FXCollections.observableArrayList(image);
-	//driverComboBox.setItems(images);
-	//ObservableList<Image> images = FXCollections.observableArrayList(image);
+	 driverComboBox.setCellFactory(new Callback<ListView<Image>, ListCell<Image>>() {
+	 @Override public ListCell<Image> call(ListView<Image> p) {
+	     return new ListCell<Image>() {
+		 @Override protected void updateItem(Image item, boolean empty) {
+		     super.updateItem(item, empty);
+		     
+		     if (item == null || empty) {
+			 setGraphic(null);
+		     } else {
+			 setGraphic(new ImageView(item));
+		     }
+		}
+	   };
+       }
+    });
 
     }
 // ============= Implemented Methods ============== //
