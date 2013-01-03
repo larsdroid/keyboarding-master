@@ -3,12 +3,84 @@
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.ProfileUIController">
-    <stylesheets>
-	<URL value="@master.css"/>
-    </stylesheets>
+<AnchorPane id="AnchorPane" prefHeight="340.0" prefWidth="350.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.ProfileUIController">
+  <children>
+    <Label layoutX="14.0" layoutY="14.0" text="Profiles">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <GridPane layoutX="15.0" layoutY="44.0" prefHeight="99.0" prefWidth="335.0">
+      <children>
+        <Label text="Type: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <ComboBox fx:id="typeCB" onAction="typeComboBoxChanged" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Item 1" />
+              <String fx:value="Item 2" />
+              <String fx:value="Item 3" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+        <Label text="Program: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <ComboBox fx:id="programCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Item 1" />
+              <String fx:value="Item 2" />
+              <String fx:value="Item 3" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+        <Label text="Profile: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <ComboBox prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Item 1" />
+              <String fx:value="Item 2" />
+              <String fx:value="Item 3" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" prefWidth="80.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <HBox layoutX="14.0" layoutY="150.0" prefHeight="135.0" prefWidth="335.0">
+      <children>
+        <Label text="Description: " />
+        <TextArea prefHeight="135.0" prefWidth="247.0" wrapText="true" />
+      </children>
+    </HBox>
+    <HBox layoutX="45.0" layoutY="301.0" prefHeight="22.0" prefWidth="305.0">
+      <children>
+        <Label text="Action: " />
+        <ComboBox prefWidth="249.0">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Item 1" />
+              <String fx:value="Item 2" />
+              <String fx:value="Item 3" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+      </children>
+    </HBox>
+  </children>
+  <stylesheets>
+    <URL value="@master.css" />
+  </stylesheets>
 </AnchorPane>

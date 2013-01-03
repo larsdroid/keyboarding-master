@@ -14,26 +14,36 @@ public class Profile{
 
 // ============= Class variables ============== //
     /**
-     * The keymaps for this profile.
+     * The type of profile.
      */
-    private Keymap[] keymaps;
+    private ProfileType profileType;
+    /**
+     * The name of the game/application.
+     */
+    private String appName;
     /**
      * The name of the profile.
      */
-    private String name;
+    private String profileName;
+    /**
+     * The keymaps for this profile.
+     */
+    private Keymap[] keymaps;
 // ============= Constructors ============== //
     public Profile(){
-	this("Default");
+	this(ProfileType.APPLICATION,"Generic","Default");
     }
-    public Profile(String name){
-	this.name = name;
+    public Profile(ProfileType profileType, String appName, String profileName){
+	this.profileType = profileType;
+	this.appName = appName;
+	this.profileName = profileName;
 	keymaps = new Keymap[8];
+	//TODO need to populate this profile based on the device!
 	for(int i = 0; i < keymaps.length; i++){
 	    //keymaps[i] = Mapper.generateDefaultKeymap(i+1);
 	}
     }
 // ============= Public Methods ============== //
-
     /**
      * Sets this profile to the contents of the profile specified.
      */
@@ -43,13 +53,22 @@ public class Profile{
 	}
     }
 
-    public String getName() {
-	return name;
+    public ProfileType getProfileType() {
+	return profileType;
     }
 
-    public void setName(String name) {
-	this.name = name;
+    public String getAppName() {
+	return appName;
     }
+
+    public String getProfileName() {
+	return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+	this.profileName = profileName;
+    }
+
     
     /**
      * Returns the keymap at the specified index.
@@ -69,7 +88,7 @@ public class Profile{
      * @return the cloned profile.
      */
     public Profile cloneProfile(String newName){
-	Profile newProfile = new Profile(newName);
+	Profile newProfile = new Profile(profileType,appName,newName);
 	for(int i = 0; i < 8; i++){
 	    newProfile.setKeymap(i, (Keymap)keymaps[i].clone());
 	}
@@ -77,7 +96,7 @@ public class Profile{
     }
 
     public void printString(){
-	String out = "Profile "+name+"[\n";
+	String out = "Profile "+profileType+"->"+appName+"->"+profileName+"[\n";
 	for(int i = 0; i < 8; i++){
 	    out += keymaps[i].toStringFormatted()+"\n";
 	}
@@ -89,7 +108,7 @@ public class Profile{
 // ============= Extended Methods ============== //
     @Override
     public String toString(){
-	return name;
+	return profileName;
     }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //

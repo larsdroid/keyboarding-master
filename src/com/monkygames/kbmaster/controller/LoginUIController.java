@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -88,11 +89,33 @@ public class LoginUIController implements Initializable {
 
 	// create main gui
 	try {
+	    /*
 	    root = FXMLLoader.load(getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml"));
 	    Scene scene = new Scene(root);
 	    Stage mainStage = new Stage();
 	    mainStage.setScene(scene);
 	    mainStage.show();
+	    */
+
+
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml");
+	    FXMLLoader fxmlLoader = new FXMLLoader();
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    root = (Parent)fxmlLoader.load(location.openStream());
+	    MainUIController controller = (MainUIController) fxmlLoader.getController();
+	    Scene scene = new Scene(root);
+	    
+	    Stage stage = new Stage();
+	    stage.setScene(scene);
+	    stage.show();
+
+	    System.out.println("LoginUIController:controller = "+controller);
+
+	    URL profileLocation = getClass().getResource( "/com/monkygames/kbmaster/fxml/ProfileUI.fxml");
+	    FXMLLoader profileFxmlLoader = new FXMLLoader(profileLocation);
+	    ProfileUIController profileController = (ProfileUIController)profileFxmlLoader.getController();
+	    System.out.println("Profile Controller = "+profileController);
 	    
 	} catch (IOException ex) {
 	    Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);

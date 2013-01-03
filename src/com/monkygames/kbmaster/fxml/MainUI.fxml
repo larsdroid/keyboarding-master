@@ -12,7 +12,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="608.0" prefWidth="1000.0000999999975" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.MainUIController">
   <children>
-    <VBox alignment="TOP_CENTER" layoutX="269.0" layoutY="14.0" prefHeight="84.0" prefWidth="515.0">
+    <VBox alignment="TOP_CENTER" layoutX="341.0" layoutY="14.0" prefHeight="84.0" prefWidth="443.0">
       <children>
         <ImageView fitHeight="40.170716394451006" fitWidth="329.3998718261719" pickOnBounds="true" preserveRatio="true">
           <image>
@@ -28,7 +28,7 @@
         <Hyperlink text="No Updates Available" textFill="WHITE" />
       </children>
     </VBox>
-    <ComboBox fx:id="driverComboBox" layoutX="54.0" layoutY="38.0" prefHeight="53.0" prefWidth="61.0">
+    <ComboBox fx:id="driverComboBox" layoutX="54.0" layoutY="38.0" prefHeight="53.0" prefWidth="80.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -37,7 +37,7 @@
         </FXCollections>
       </items>
     </ComboBox>
-    <VBox alignment="CENTER_LEFT" layoutX="126.0" layoutY="38.0" minHeight="53.0" prefHeight="53.0" prefWidth="197.0">
+    <VBox alignment="CENTER_LEFT" layoutX="144.0" layoutY="38.0" minHeight="53.0" prefHeight="53.0" prefWidth="197.0">
       <children>
         <HBox prefHeight="16.0" prefWidth="137.0">
           <children>
