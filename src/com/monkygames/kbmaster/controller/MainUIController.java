@@ -3,14 +3,20 @@
  */
 package com.monkygames.kbmaster.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -39,13 +45,19 @@ public class MainUIController implements Initializable{
     @FXML
     private ComboBox driverComboBox;
     @FXML
-    private AnchorPane profilesAnchorPane;
+    private Pane profilePane;
+    private ProfileUIController profileUIController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
     public void deviceComboBoxChanged(ActionEvent evt){
 
     }
+
+    public ProfileUIController getProfileUIController() {
+	return profileUIController;
+    }
+    
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     private void initDriverComboBox(){
@@ -62,22 +74,17 @@ public class MainUIController implements Initializable{
 	// get available drivers and load them in list.
 	initDriverComboBox();
 
-
-	/**
-	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource( "/com/monkygames/kbmaster/fxml/ProfileUI.fxml"));
-	ProfileUIController profileController = (ProfileUIController)fxmlLoader.getController();
-	System.out.println("Profile Controller = "+profileController);
-	*/
-	URL profileLocation = getClass().getResource( "/com/monkygames/kbmaster/fxml/ProfileUI.fxml");
-	FXMLLoader profileFxmlLoader = new FXMLLoader(profileLocation);
-	ProfileUIController profileController = (ProfileUIController)profileFxmlLoader.getController();
-	System.out.println("Profile Controller = "+profileController);
-
-	/**
-	    System.out.println("Handling button action");
-	    loadableContent.getChildren().clear();
-	    loadableContent.getChildren().add((Node)FXMLLoader.load(getClass().getResource("DB4OUI.fxml")));
-	**/
+	try {
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/ProfileUI.fxml");
+	    FXMLLoader fxmlLoader = new FXMLLoader(location);
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    Parent profileRoot = (Parent)fxmlLoader.load(location.openStream());
+	    profileUIController = (ProfileUIController) fxmlLoader.getController();
+	    profilePane.getChildren().add(profileRoot);
+	} catch (IOException ex) {
+	    Logger.getLogger(MainUIController.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //

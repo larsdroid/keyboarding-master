@@ -8,12 +8,10 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 
 /**
  * Handles UI Events for the profile panel.
@@ -29,6 +27,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private ComboBox programCB;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    @FXML
+    public void profileEventFired(ActionEvent evt){
+	
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //
@@ -41,6 +43,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	typeCB.valueProperty().addListener(this);
 
 	// populate the applist
+	//actionCB.setCellFactory(new ImageCellFactoryCallback());
+	//actionCB.setButtonCell(new ListCellImage());
 
 	/*
 	typeCB.getItems().removeAll();

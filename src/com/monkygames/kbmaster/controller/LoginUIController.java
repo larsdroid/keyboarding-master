@@ -110,12 +110,6 @@ public class LoginUIController implements Initializable {
 	    stage.setScene(scene);
 	    stage.show();
 
-	    System.out.println("LoginUIController:controller = "+controller);
-
-	    URL profileLocation = getClass().getResource( "/com/monkygames/kbmaster/fxml/ProfileUI.fxml");
-	    FXMLLoader profileFxmlLoader = new FXMLLoader(profileLocation);
-	    ProfileUIController profileController = (ProfileUIController)profileFxmlLoader.getController();
-	    System.out.println("Profile Controller = "+profileController);
 	    
 	} catch (IOException ex) {
 	    Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
