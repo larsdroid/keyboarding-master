@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.controller;
 
 // === java imports === //
+import com.monkygames.kbmaster.input.ProfileType;
 import java.net.URL;
 import java.util.ResourceBundle;
 // === javafx imports === //
@@ -17,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
+import javafx.collections.ObservableList;
 
 /**
  * Handles UI Events for the profile panel.
@@ -29,6 +31,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private ComboBox typeCB;
     @FXML
     private ComboBox programCB;
+    @FXML
+    private ComboBox profileCB;
     @FXML
     private Button newProfileB;
     @FXML
@@ -48,32 +52,38 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     public void profileEventFired(ActionEvent evt){
 	Object src = evt.getSource();
 	if(src == newProfileB){
-	    System.out.println("New Profile");
 	}else if(src == cloneProfileB){
 	}else if(src == importProfileB){
 	}else if(src == exportProfileB){
 	}else if(src == printPDFB){
 	}else if(src == deleteProfileB){
-
 	}
 	
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    private void updateComboBoxesOnType(ProfileType type){
+	ObservableList<String> programs;
+	if(type == ProfileType.APPLICATION){
+	    programs = FXCollections.observableArrayList(profileManager.getApplicationNames());
+	}else{
+	    programs = FXCollections.observableArrayList(profileManager.getGameNames());
+	}
+
+	programCB.setItems(programs);
+	profileCB.setItems(FXCollections.observableArrayList());
+    }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
 	profileManager = new ProfileManager("local.prof");
 	
-	//typeCB.setItems(FXCollections.observableArrayList("Local","Network"));
 	typeCB.setItems(FXCollections.observableArrayList("Game","Application"));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
 
-	// populate the applist
-	//actionCB.setCellFactory(new ImageCellFactoryCallback());
-	//actionCB.setButtonCell(new ListCellImage());
+	updateComboBoxesOnType(ProfileType.GAME);
 
 	/*
 	typeCB.getItems().removeAll();
@@ -88,7 +98,11 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @Override
     public void changed(ObservableValue<? extends String> ov, String previousValue, String newValue) {
 	if(ov == typeCB.valueProperty()){
-	    System.out.println("selected index = "+typeCB.getSelectionModel().getSelectedIndex());
+	    if(typeCB.getSelectionModel().getSelectedIndex() == 0){
+		updateComboBoxesOnType(ProfileType.GAME);
+	    }else{
+		updateComboBoxesOnType(ProfileType.APPLICATION);
+	    }
 	}
     }
 

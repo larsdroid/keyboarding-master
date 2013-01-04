@@ -17,8 +17,10 @@ import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Output;
 import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.input.ProfileType;
 import com.monkygames.kbmaster.input.Wheel;
 import com.monkygames.kbmaster.input.WheelMapping;
+import java.util.ArrayList;
 
 /**
  * Manages saving and loading profiles.
@@ -71,6 +73,18 @@ public class ProfileManager{
     }
     public List<Profile> getProfiles(){
 	return profiles;
+    }
+    /**
+     * Returns a list of applications that have profiles.
+     */
+    public List<String> getApplicationNames(){
+	return getProfileTypeNames(ProfileType.APPLICATION);
+    }
+    /**
+     * Returns a list of games that have profiles.
+     */
+    public List<String> getGameNames(){
+	return getProfileTypeNames(ProfileType.GAME);
     }
     /**
      * Adds the profile to the database and then reloads from the database.
@@ -199,6 +213,20 @@ public class ProfileManager{
 	try{
 	    profiles = db.query(Profile.class);
 	}catch(Exception e){}
+    }
+    /**
+     * Returns a list of applications that have profiles.
+     */
+    private List<String> getProfileTypeNames(ProfileType type){
+	ArrayList<String> list = new ArrayList<>();
+	for(Profile profile: profiles){
+	    if(profile.getProfileType() == type){
+		if(!list.contains(profile.getAppName())){
+		    list.add(profile.getAppName());
+		}
+	    }
+	}
+	return list;
     }
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //
