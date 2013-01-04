@@ -68,11 +68,11 @@
     <HBox alignment="CENTER" layoutX="11.0" layoutY="334.0" prefHeight="48.0" prefWidth="329.0">
       <children>
         <Button fx:id="newProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="newProfile" text="New Profile" />
-        <Button id="newProfileB" fx:id="cloneProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="cloneProfile" text="Clone Profile" />
-        <Button id="newProfileB" fx:id="importProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="importProfile" text="Import Profile" />
-        <Button id="newProfileB" fx:id="exportProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="exportProfile" text="Export Profile" />
-        <Button id="newProfileB" fx:id="printPDFB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="pdfProfile" text="Print to PDF" />
-        <Button id="newProfileB" fx:id="deleteProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="deleteProfile" text="Delete Profile" />
+        <Button fx:id="cloneProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="cloneProfile" text="Clone Profile" />
+        <Button fx:id="importProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="importProfile" text="Import Profile" />
+        <Button fx:id="exportProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="exportProfile" text="Export Profile" />
+        <Button id="pdfProfileB" fx:id="printPDFB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="pdfProfile" text="Print to PDF" />
+        <Button fx:id="deleteProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="deleteProfile" text="Delete Profile" />
       </children>
     </HBox>
   </children>

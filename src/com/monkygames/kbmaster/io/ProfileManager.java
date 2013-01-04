@@ -12,20 +12,12 @@ import com.db4o.ObjectContainer;
 // === kbmaster imports === //
 import com.db4o.config.EmbeddedConfiguration;
 import com.monkygames.kbmaster.input.Button;
-import com.monkygames.kbmaster.input.Button;
-import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
-import com.monkygames.kbmaster.input.Keymap;
-import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Output;
-import com.monkygames.kbmaster.input.Output;
-import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.Wheel;
-import com.monkygames.kbmaster.input.Wheel;
-import com.monkygames.kbmaster.input.WheelMapping;
 import com.monkygames.kbmaster.input.WheelMapping;
 
 /**

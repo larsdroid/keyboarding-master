@@ -3,6 +3,7 @@
  */
 package com.monkygames.kbmaster.controller;
 
+import com.monkygames.kbmaster.io.ProfileManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -25,6 +26,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private ComboBox typeCB;
     @FXML
     private ComboBox programCB;
+    private ProfileManager profileManager;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -36,6 +38,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+	profileManager = new ProfileManager("local.prof");
 	
 	//typeCB.setItems(FXCollections.observableArrayList("Local","Network"));
 	typeCB.setItems(FXCollections.observableArrayList("Game","Application"));
