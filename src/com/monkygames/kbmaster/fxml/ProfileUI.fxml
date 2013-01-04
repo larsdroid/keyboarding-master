@@ -39,7 +39,7 @@
           </items>
         </ComboBox>
         <Label text="Profile: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <ComboBox prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <ComboBox fx:id="profileCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Item 1" />
@@ -65,7 +65,7 @@
         <TextArea prefHeight="172.0" prefWidth="247.0" wrapText="true" />
       </children>
     </HBox>
-    <HBox alignment="CENTER" layoutX="11.0" layoutY="334.0" prefHeight="48.0" prefWidth="329.0">
+    <HBox alignment="TOP_RIGHT" layoutX="11.0" layoutY="334.0" prefHeight="48.0" prefWidth="329.0">
       <children>
         <Button fx:id="newProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="newProfile" text="New Profile" />
         <Button fx:id="cloneProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="48.0" minWidth="48.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="48.0" prefWidth="48.0" styleClass="cloneProfile" text="Clone Profile" />

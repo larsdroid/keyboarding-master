@@ -3,16 +3,20 @@
  */
 package com.monkygames.kbmaster.controller;
 
-import com.monkygames.kbmaster.io.ProfileManager;
+// === java imports === //
 import java.net.URL;
 import java.util.ResourceBundle;
+// === javafx imports === //
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+// === kbmaster imports === //
+import com.monkygames.kbmaster.io.ProfileManager;
 
 /**
  * Handles UI Events for the profile panel.
@@ -20,17 +24,38 @@ import javafx.scene.control.ComboBox;
  */
 public class ProfileUIController implements Initializable, ChangeListener<String>{
 
-
 // ============= Class variables ============== //
     @FXML
     private ComboBox typeCB;
     @FXML
     private ComboBox programCB;
+    @FXML
+    private Button newProfileB;
+    @FXML
+    private Button cloneProfileB;
+    @FXML
+    private Button importProfileB;
+    @FXML
+    private Button exportProfileB;
+    @FXML
+    private Button printPDFB;
+    @FXML
+    private Button deleteProfileB;
     private ProfileManager profileManager;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
     public void profileEventFired(ActionEvent evt){
+	Object src = evt.getSource();
+	if(src == newProfileB){
+	    System.out.println("New Profile");
+	}else if(src == cloneProfileB){
+	}else if(src == importProfileB){
+	}else if(src == exportProfileB){
+	}else if(src == printPDFB){
+	}else if(src == deleteProfileB){
+
+	}
 	
     }
 // ============= Protected Methods ============== //
