@@ -4,10 +4,10 @@
 package com.monkygames.kbmaster.account;
 
 // === kbmaster imports === //
-import com.monkygames.kbmaster.driver.DeviceInformation;
+import com.monkygames.kbmaster.driver.Device;
 
 /**
- * The package information about a device and its relationship to the 
+ * The package a device driver and its relationship to the 
  * global account.
  * IE, its used to determine if a device has been downloaded.
  * @version 1.0
@@ -18,7 +18,7 @@ public class DevicePackage{
     /**
      * The device information represented by this class.
      */
-    private DeviceInformation deviceInformation;
+    private Device device;
     /**
      * True if this device has been downloaded and available locally or false
      * otherwise.
@@ -33,17 +33,17 @@ public class DevicePackage{
 // ============= Static Methods ============== //
 
     // ============= Constructors ============== //
-    public DevicePackage(DeviceInformation deviceInformation){
-	this.deviceInformation = deviceInformation;
+    public DevicePackage(Device device){
+	this.device = device;
 	isDownloaded = false;
     }
     // ============= Public Methods ============== //
-    public DeviceInformation getDeviceInformation() {
-	return deviceInformation;
+    public Device getDevice(){
+	return device;
     }
 
-    public void setDeviceInformation(DeviceInformation deviceInformation) {
-	this.deviceInformation = deviceInformation;
+    public void setDevice(Device device) {
+	this.device = device;
     }
 
     public boolean isIsDownloaded() {

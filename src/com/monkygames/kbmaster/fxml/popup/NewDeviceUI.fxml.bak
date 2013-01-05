@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="454.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.NewDeviceUIController">
+  <children>
+    <Label layoutX="197.0" layoutY="16.0" text="Add Device">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <HBox layoutX="48.0" layoutY="44.0" prefHeight="58.0" prefWidth="348.0">
+      <children>
+        <VBox alignment="TOP_RIGHT" prefHeight="86.0" prefWidth="100.0" spacing="5.0">
+          <children>
+            <Label alignment="CENTER_LEFT" prefHeight="22.0" text="Device Type: " />
+            <Label prefHeight="22.0" text="Device Name: " />
+          </children>
+        </VBox>
+        <VBox prefHeight="67.0" prefWidth="234.0" spacing="5.0">
+          <children>
+            <ComboBox prefWidth="220.00009999999747">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+            </ComboBox>
+            <ComboBox prefWidth="221.0">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+            </ComboBox>
+          </children>
+          <padding>
+            <Insets />
+          </padding>
+        </VBox>
+      </children>
+    </HBox>
+    <Line endX="171.0" endY="0.0" layoutX="239.0" layoutY="111.0" startX="-200.0" stroke="WHITE" />
+    <Label layoutX="177.0" layoutY="122.0" text="Device Information">
+      <font>
+        <Font size="15.0" />
+      </font>
+    </Label>
+    <HBox id="iconImage" fx:id="iconImageHBox" layoutX="48.0" layoutY="146.0" minHeight="68.0" minWidth="69.0" prefHeight="70.0" prefWidth="70.0" styleClass="display-border" />
+    <TextArea layoutX="177.0" layoutY="147.0" prefHeight="159.0" prefWidth="247.0" wrapText="true" />
+    <HBox layoutX="14.0" layoutY="228.0" prefHeight="18.0" prefWidth="144.0">
+      <children>
+        <Label text="Driver Version: " />
+        <Label text="x.x.x" />
+      </children>
+    </HBox>
+    <HBox layoutX="14.0" layoutY="252.0" prefHeight="18.0" prefWidth="144.0">
+      <children>
+        <Label text="Status: " />
+        <Label text="Disconnected" />
+      </children>
+    </HBox>
+    <Button layoutX="197.0" layoutY="348.0" mnemonicParsing="false" prefWidth="90.0" text="Add" />
+    <Button layoutX="307.0" layoutY="348.0" mnemonicParsing="false" prefWidth="90.0" text="Cancel" />
+  </children>
+  <stylesheets>
+    <URL value="@../master.css" />
+  </stylesheets>
+</AnchorPane>

@@ -8,9 +8,11 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.query.Predicate;
+import com.monkygames.kbmaster.driver.Device;
 import java.util.ArrayList;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.DeviceInformation;
+import com.monkygames.kbmaster.driver.DriverManager;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,12 +36,20 @@ public class GlobalAccount{
      * Contains the database for the device information.
      */
     private ObjectContainer db;
+    private DriverManager driverManager;
     private static final String dbFileName = "global_account.db4o";
 // ============= Constructors ============== //
     public GlobalAccount(){
+	driverManager = new DriverManager();
+	this.initDatabase();
 	this.loadLists();
     }
-// ============= Public Methods ============== //
+
+    // ============= Public Methods ============== //
+    public DriverManager getDriverManager() {
+	return driverManager;
+    }
+    
     /**
      * Updates the local list of supported devices with the passed in list.
      * @param newList the new list that should contain the equal number of devices
@@ -77,12 +87,15 @@ public class GlobalAccount{
 	if(deviceInformation == null) return false;
 	DevicePackage devicePackage = localDevices.get(deviceName);
 	if(devicePackage == null){
-	    devicePackage = new DevicePackage(deviceInformation);
+	    Device device = instantiate("com.monkygames.kbmaster.driver."+deviceInformation.getPackageName(),Device.class);
+	    devicePackage = new DevicePackage(device);
 	    devicePackage.setIsDownloaded(true);
 	}else if(devicePackage.isIsDownloaded()){
 	    return false;
 	}else{
-	    devicePackage.setDeviceInformation(deviceInformation);
+	    //TODO think about what to do here - should I set the device information
+	    // or does the entire driver just need to be replaced????
+	    //devicePackage.getDevice().setDeviceInformation(deviceInformation);
 	    devicePackage.setIsDownloaded(true);
 	}
 	return true;
@@ -98,15 +111,14 @@ public class GlobalAccount{
      * Returns a list of locally installed devices.
      * @return a list of locally installed devices.
      */
-    public ArrayList<DeviceInformation> getInstalledDevices(){
-	ArrayList<DeviceInformation> devices = new ArrayList<>();
+    public ArrayList<Device> getInstalledDevices(){
+	ArrayList<Device> devices = new ArrayList<>();
 
 	for(DevicePackage devicePackage: localDevices.values()){
 	    if(devicePackage.isIsDownloaded()){
-		devices.add(devicePackage.getDeviceInformation());
+		devices.add(devicePackage.getDevice());
 	    }
 	}
-
 	return devices;
     }
 // ============= Protected Methods ============== //
@@ -141,6 +153,11 @@ public class GlobalAccount{
 	// initialize the db if there are no lists
 	if(supportedDevicesFromDB == null || supportedDevicesFromDB.size() == 0){
 	    supportedDevices = new HashMap<String,DeviceInformation>();
+	    // get all devices 
+	    ArrayList<Device> list = driverManager.getDevices();
+	    for(Device device: list){
+		supportedDevices.put(device.getDeviceInformation().getName(), device.getDeviceInformation());
+	    }
 	    db.store(supportedDevices);
 
 	}else{
@@ -153,6 +170,13 @@ public class GlobalAccount{
 	    localDevices = localDevicesFromDB.get(0);
 	}
     }
+    private <T> T instantiate(final String className, final Class<T> type){
+    try{
+        return type.cast(Class.forName(className).newInstance());
+    } catch(final InstantiationException | IllegalAccessException | ClassNotFoundException e){
+        throw new IllegalStateException(e);
+    }
+}
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //

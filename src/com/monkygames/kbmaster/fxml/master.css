@@ -169,3 +169,7 @@
 .tab-pane *.tab-label {
     -fx-text-fill: white;
 }
+
+.display-border {
+    -fx-border-color: white;
+}

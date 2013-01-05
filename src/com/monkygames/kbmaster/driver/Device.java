@@ -21,12 +21,17 @@ public abstract class Device implements Mapper{
     }
     public Device(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
-		   String deviceDescription, String version){
+		   String deviceDescription, String version,
+		   String packageName){
 	deviceInformation = new DeviceInformation(make,model,jinputName,
 						  deviceType, deviceIcon,
-						  deviceDescription, version);
+						  deviceDescription, version,
+						  packageName);
     }
 // ============= Public Methods ============== //
+    public DeviceInformation getDeviceInformation(){
+	return deviceInformation;
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //

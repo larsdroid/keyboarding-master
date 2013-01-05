@@ -38,11 +38,15 @@ public class DeviceInformation {
      * The version of this device.
      */
     private String version;
+    /**
+     * The full name of the package.
+     */
+    private String packageName;
 
 // ============= Constructors ============== //
     public DeviceInformation(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
-		   String deviceDescription, String version){
+		   String deviceDescription, String version, String packageName){
 	this.make = make;
 	this.model = model;
 	this.jinputName = jinputName;
@@ -50,6 +54,7 @@ public class DeviceInformation {
 	this.deviceIcon = deviceIcon;
 	this.deviceDescription = deviceDescription;
 	this.version = version;
+	this.packageName = packageName;
     }
     
 // ============= Protected Methods ============== //
@@ -81,6 +86,11 @@ public class DeviceInformation {
     public String getVersion() {
 	return version;
     }
+
+    public String getPackageName() {
+	return packageName;
+    }
+    
 
     /**
      * Returns true if this device information has the same make and model.
