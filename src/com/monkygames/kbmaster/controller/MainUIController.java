@@ -71,7 +71,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 	driverComboBox.getItems().removeAll();
 	Image image = new Image("/com/monkygames/kbmaster/fxml/resources/device/add_device.png");
 	//Image image = new Image("/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png");
-	ObservableList<Image> images = FXCollections.observableArrayList(image);
+	ObservableList<Image> images = FXCollections.observableArrayList(null,image);
 	driverComboBox.setItems(images);
 	driverComboBox.setCellFactory(new ImageCellFactoryCallback());
 	driverComboBox.setButtonCell(new ListCellImage());
@@ -103,11 +103,9 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 
     @Override
     public void changed(ObservableValue<? extends Image> ov, Image t, Image t1) {
-	System.out.println("Changed!!!!");
 	if(ov == driverComboBox.valueProperty()){
-	    System.out.println("driver combobox");
 	    int index = driverComboBox.getSelectionModel().getSelectedIndex();
-	    if(index == 0){
+	    if(index == 1){
 		if(newDeviceStage == null){
 		    try {
 			// pop open add new device
@@ -127,7 +125,10 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 		    }
 		}
 		newDeviceStage.show();
-
+		driverComboBox.valueProperty().removeListener(this);
+		driverComboBox.getSelectionModel().selectFirst();
+		driverComboBox.valueProperty().addListener(this);
+		//driverComboBox.setValue(null);
 	    }else{
 
 	    }
