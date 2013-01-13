@@ -77,7 +77,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-	profileManager = new ProfileManager("local.prof");
+	profileManager = new ProfileManager("local.db4o");
 	
 	typeCB.setItems(FXCollections.observableArrayList("Game","Application"));
 	typeCB.getSelectionModel().selectFirst();

@@ -83,8 +83,8 @@
         <Label fx:id="driverStatusL" text="Disconnected" />
       </children>
     </HBox>
-    <Button layoutX="184.0" layoutY="351.0" mnemonicParsing="false" prefWidth="117.0" text="Add" />
-    <Button layoutX="314.0" layoutY="351.0" mnemonicParsing="false" prefWidth="117.0" text="Cancel" />
+    <Button fx:id="addB" layoutX="184.0" layoutY="351.0" mnemonicParsing="false" onAction="#addEventFired" prefWidth="117.0" text="Add" />
+    <Button fx:id="cancelB" layoutX="314.0" layoutY="351.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="117.0" text="Cancel" />
   </children>
   <stylesheets>
     <URL value="@../master.css" />

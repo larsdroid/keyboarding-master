@@ -13,8 +13,11 @@ import java.util.ArrayList;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.DeviceInformation;
 import com.monkygames.kbmaster.driver.DriverManager;
+import com.monkygames.kbmaster.util.PopupManager;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Contains a list of device drivers available for download and whats already
@@ -78,6 +81,9 @@ public class GlobalAccount{
     /**
      * Downloads the device specified by the name which is the concat
      * of make:model.
+     * Note, right now this method expects the driver to be already
+     * packaged in the jar; however, the future development of this
+     * method should get the driver from outside the jar.
      * @param deviceName the make:model
      * @return true on success and false otherwise (if the device is already 
      * downloaded than returns false).
@@ -87,16 +93,41 @@ public class GlobalAccount{
 	if(deviceInformation == null) return false;
 	DevicePackage devicePackage = localDevices.get(deviceName);
 	if(devicePackage == null){
-	    Device device = instantiate("com.monkygames.kbmaster.driver."+deviceInformation.getPackageName(),Device.class);
+	    Device device = instantiate(deviceInformation.getPackageName(),Device.class);
+	    //Device device = loadDriver(deviceInformation.getPackageName());
+	    if(device == null){
+		return false;
+	    }
 	    devicePackage = new DevicePackage(device);
 	    devicePackage.setIsDownloaded(true);
+	    localDevices.put(deviceName, devicePackage);
+	    db.store(localDevices);
+	    System.out.println("===Download Device===");
+	    for(DevicePackage packages: localDevices.values()){
+		System.out.println(packages);
+	    }
+
+	List<HashMap<String,DevicePackage>> localDevicesFromDB = db.query(new Predicate<HashMap<String,DevicePackage>>(){
+	    @Override
+	    public boolean match(HashMap<String, DevicePackage> testList){
+		return true;
+	    }
+	});
+	System.out.println("queck query");
+	for(Object obj: localDevicesFromDB.toArray()){
+	    System.out.println(obj);
+	}
+
+
 	}else if(devicePackage.isIsDownloaded()){
 	    return false;
 	}else{
 	    //TODO think about what to do here - should I set the device information
 	    // or does the entire driver just need to be replaced????
 	    //devicePackage.getDevice().setDeviceInformation(deviceInformation);
-	    devicePackage.setIsDownloaded(true);
+	    ///devicePackage.setIsDownloaded(true);
+	    // for now just return false
+	    return false;
 	}
 	return true;
     }
@@ -131,6 +162,7 @@ public class GlobalAccount{
 	// make sure that when a profile is updated so are all the data members
 	config.common().objectClass(DeviceInformation.class).cascadeOnUpdate(true);
 	config.common().objectClass(DevicePackage.class).cascadeOnUpdate(true);
+	config.common().objectClass(Device.class).cascadeOnUpdate(true);
 	db = Db4oEmbedded.openFile(config, dbFileName);
     }
     /**
@@ -141,13 +173,19 @@ public class GlobalAccount{
 	List<HashMap<String,DeviceInformation>> supportedDevicesFromDB = db.query(new Predicate<HashMap<String,DeviceInformation>>(){
 	    @Override
 	    public boolean match(HashMap<String, DeviceInformation> testList){
-		return true;
+		if(!testList.values().isEmpty() && testList.values().toArray()[0] instanceof DeviceInformation){
+		    return true;
+		};
+		return false;
 	    }
 	});
 	List<HashMap<String,DevicePackage>> localDevicesFromDB = db.query(new Predicate<HashMap<String,DevicePackage>>(){
 	    @Override
 	    public boolean match(HashMap<String, DevicePackage> testList){
-		return true;
+		if(!testList.values().isEmpty() && testList.values().toArray()[0] instanceof DevicePackage){
+		    return true;
+		}
+		return false;
 	    }
 	});
 	// initialize the db if there are no lists
@@ -165,10 +203,40 @@ public class GlobalAccount{
 	}
 	if(localDevicesFromDB == null || localDevicesFromDB.size() == 0){
 	    localDevices = new HashMap<String,DevicePackage>();
-	    db.store(localDevices);
+	    // don't store an empty list!
+	    //db.store(localDevices);
 	}else{
 	    localDevices = localDevicesFromDB.get(0);
 	}
+	System.out.println("==== supported devices ====");
+	for(Object obj: supportedDevices.values()){
+	    System.out.println(obj);
+	}
+	System.out.println("==== local devices ====");
+	for(Object obj: localDevices.values()){
+	    System.out.print(obj);
+	}
+    }
+    private Device loadDriver(String packageName){
+	try {
+		return (Device)Class.forName(packageName).newInstance();
+	    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+	    Logger.getLogger(GlobalAccount.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
+	/*
+	ClassLoader classLoader = GlobalAccount.class.getClassLoader();
+	try {
+	    Class aClass = classLoader.loadClass(packageName);
+	    System.out.println("aClass.getName() = " + aClass.getName());
+	    return (Device)aClass.newInstance();
+	} catch (InstantiationException | IllegalAccessException ex) {
+	    Logger.getLogger(GlobalAccount.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (ClassNotFoundException e) {
+	    e.printStackTrace();
+	}
+	*/
+	return null;
     }
     private <T> T instantiate(final String className, final Class<T> type){
     try{

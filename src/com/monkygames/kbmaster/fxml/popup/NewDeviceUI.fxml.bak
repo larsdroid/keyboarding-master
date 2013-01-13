@@ -69,8 +69,8 @@
         <Font size="15.0" />
       </font>
     </Label>
-    <HBox id="iconImage" fx:id="iconImageHBox" layoutX="55.0" layoutY="174.0" minHeight="68.0" minWidth="69.0" prefHeight="70.0" prefWidth="70.0" styleClass="display-border" />
-    <TextArea layoutX="184.0" layoutY="175.0" prefHeight="159.0" prefWidth="247.0" wrapText="true" />
+    <HBox id="iconImage" fx:id="iconImageHBox" alignment="CENTER" layoutX="55.0" layoutY="174.0" minHeight="68.0" minWidth="69.0" prefHeight="70.0" prefWidth="70.0" styleClass="display-border" />
+    <TextArea id="deviceInformationTA" fx:id="deviceDescriptionTA" layoutX="184.0" layoutY="175.0" prefHeight="159.0" prefWidth="247.0" wrapText="true" />
     <HBox layoutX="21.0" layoutY="256.0" prefHeight="18.0" prefWidth="144.0">
       <children>
         <Label text="Driver Version: " />
@@ -83,8 +83,8 @@
         <Label fx:id="driverStatusL" text="Disconnected" />
       </children>
     </HBox>
-    <Button layoutX="184.0" layoutY="351.0" mnemonicParsing="false" prefWidth="117.0" text="Add" />
-    <Button layoutX="314.0" layoutY="351.0" mnemonicParsing="false" prefWidth="117.0" text="Cancel" />
+    <Button fx:id="addB" layoutX="184.0" layoutY="351.0" mnemonicParsing="false" prefWidth="117.0" text="Add" />
+    <Button fx:id="cancelB" layoutX="314.0" layoutY="351.0" mnemonicParsing="false" prefWidth="117.0" text="Cancel" />
   </children>
   <stylesheets>
     <URL value="@../master.css" />

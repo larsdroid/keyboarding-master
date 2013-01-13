@@ -5,6 +5,8 @@ package com.monkygames.kbmaster.controller;
 
 // === java imports === //
 import com.monkygames.kbmaster.account.GlobalAccount;
+import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.util.PopupManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -64,14 +66,37 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
     public ProfileUIController getProfileUIController() {
 	return profileUIController;
     }
+
+    /**
+     * Adds the following device to the local account.
+     * Note, if the device is already added, then an error pops
+     * indicating that the device already is added.
+     * @param device the device to add.
+     */
+    public void addDevice(Device device){
+	// update global account
+	if(!globalAccount.downloadDevice(device.getDeviceInformation().getName())){
+	    PopupManager.getPopupManager().showError("Unable to add device.  Is it already added?");
+	    return;
+	}
+	// update the pull down
+	driverComboBox.valueProperty().removeListener(this);
+	driverComboBox.getItems().add(new Image(device.getDeviceInformation().getDeviceIcon()));
+	driverComboBox.valueProperty().addListener(this);
+    }
     
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     private void initDriverComboBox(){
 	driverComboBox.getItems().removeAll();
 	Image image = new Image("/com/monkygames/kbmaster/fxml/resources/device/add_device.png");
-	//Image image = new Image("/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png");
 	ObservableList<Image> images = FXCollections.observableArrayList(null,image);
+
+	for(Device dPackage: globalAccount.getInstalledDevices()){
+	    Image newImage = new Image(dPackage.getDeviceInformation().getDeviceIcon());
+	    images.add(newImage);
+	}
+
 	driverComboBox.setItems(images);
 	driverComboBox.setCellFactory(new ImageCellFactoryCallback());
 	driverComboBox.setButtonCell(new ListCellImage());
@@ -120,6 +145,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 			newDeviceStage.setScene(scene);
 			controller.setStage(newDeviceStage);
 			controller.setAccount(globalAccount);
+			controller.setMainUIController(this);
 		    } catch (IOException ex) {
 			Logger.getLogger(MainUIController.class.getName()).log(Level.SEVERE, null, ex);
 		    }
@@ -129,7 +155,11 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 		driverComboBox.getSelectionModel().selectFirst();
 		driverComboBox.valueProperty().addListener(this);
 		//driverComboBox.setValue(null);
-	    }else{
+	    }else if(index != 0){
+		// this means a driver has been selected, so we need to populate
+		// the profiles and keymaps entries
+		Device device = globalAccount.getInstalledDevices().get(index-2);
+		System.out.println("Device to populate "+device);
 
 	    }
 

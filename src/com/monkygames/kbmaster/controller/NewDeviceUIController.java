@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.driver.DeviceType;
+import com.monkygames.kbmaster.util.PopupManager;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,6 +52,11 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 
     private Stage stage;
     private GlobalAccount globalAccount;
+    /**
+     * Used for notifying the main application when a user selects a new
+     * device to add to the local account.
+     */
+    private MainUIController mainUIController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public void setStage(Stage stage){
@@ -63,7 +69,28 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	stage.hide();
     }
     public void addEventFired(ActionEvent evt){
-
+	int index = deviceTypeCB.getSelectionModel().getSelectedIndex();
+	String make = (String)deviceMakeCB.getSelectionModel().getSelectedItem();
+	String model = (String)deviceNameCB.getSelectionModel().getSelectedItem();
+	Device device = null;
+	switch(index){
+	    case 1:
+		device = globalAccount.getDriverManager().getDevice(DeviceType.MOUSE, make, model);
+		break;
+	    case 0:
+	    default:
+		device = globalAccount.getDriverManager().getDevice(DeviceType.KEYBOARD, make, model);
+	}
+	if(device == null){
+	    PopupManager.getPopupManager().showError("Device could not be found");
+	    return;
+	}
+	//notify main gui that a device should be added 
+	mainUIController.addDevice(device);
+	stage.hide();
+    }
+    public void setMainUIController(MainUIController mainUIController){
+	this.mainUIController = mainUIController;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -95,7 +122,7 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	// find device
 	Device device = globalAccount.getDriverManager().getDevice(type, make, model);
 	if(device == null){
-	    // TODO - pop an error dialog
+	    PopupManager.getPopupManager().showError("Unable to find device");
 	    return;
 	}
 	iconImageHBox.getChildren().removeAll();

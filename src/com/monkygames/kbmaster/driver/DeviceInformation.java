@@ -115,11 +115,15 @@ public class DeviceInformation {
 	   info.getModel().equals(model) &&
 	   info.getVersion().equals(version) &&
 	   info.getDeviceIcon().equals(deviceIcon) &&
-	   info.getDeviceDescription().equals(deviceDescription) &&
-	   info.getDeviceIcon().equals(deviceIcon)){
+	   info.getDeviceDescription().equals(deviceDescription)){
 	    return true;
 	}
 	return false;
+    }
+    @Override
+    public String toString(){
+	return "DeviceInformation["+deviceType+","+make+","+model+","+
+		version+","+deviceDescription+"]";
     }
     /**
      * Returns the name of this device which is the make+:+model.
