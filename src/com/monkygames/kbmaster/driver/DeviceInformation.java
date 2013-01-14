@@ -132,6 +132,13 @@ public class DeviceInformation {
     public String getName(){
 	return make+":"+model;
     }
+    /**
+     * Returns a name used for a profile file.
+     * @return the name of the profile file.
+     */
+    public String getProfileName(){
+	return make+"_"+model+".prof";
+    }
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //

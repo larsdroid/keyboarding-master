@@ -18,7 +18,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
+import java.io.File;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Tooltip;
 
 /**
  * Handles UI Events for the profile panel.
@@ -46,6 +48,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @FXML
     private Button deleteProfileB;
     private ProfileManager profileManager;
+    private File profileDir;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -60,6 +63,17 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	
     }
+    /**
+     * Sets the device based on the device name.
+     * @param deviceName the device name to be set.
+     */
+    public void setDevice(String deviceName){
+	if(profileManager != null){
+	    profileManager.close();
+	}
+	profileManager = new ProfileManager(profileDir+File.separator+deviceName);
+	updateComboBoxes();
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     private void updateComboBoxesOnType(ProfileType type){
@@ -73,17 +87,43 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	programCB.setItems(programs);
 	profileCB.setItems(FXCollections.observableArrayList());
     }
+    /**
+     * Updates combo boxes based on Profile Type.
+     */
+    private void updateComboBoxes(){
+	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
+	    updateComboBoxesOnType(ProfileType.GAME);
+	}else{
+	    updateComboBoxesOnType(ProfileType.APPLICATION);
+	}
+    }
+    /**
+     * Sets the tool tip with the string by the specified information.
+     * @param button the button to set the tooltip.
+     * @param toolString the string to on the tooltip.
+     */
+    private void setButtonToolTip(Button button, String toolString){
+	Tooltip tooltip = new Tooltip();
+	tooltip.setText(toolString);
+	button.setTooltip(tooltip);
+    }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-	profileManager = new ProfileManager("local.db4o");
+	//profileManager = new ProfileManager("local.db4o");
 	
 	typeCB.setItems(FXCollections.observableArrayList("Game","Application"));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
 
-	updateComboBoxesOnType(ProfileType.GAME);
+	profileDir = new File("profiles");
+	if(!profileDir.exists()){
+	    profileDir.mkdir();
+	}
+	
+
+	//updateComboBoxesOnType(ProfileType.GAME);
 
 	/*
 	typeCB.getItems().removeAll();
@@ -93,6 +133,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	typeCB.setItems(images);
 	typeCB.setCellFactory(new ImageCellFactoryCallback());
 	*/
+	setButtonToolTip(newProfileB, "New Profile");
+	setButtonToolTip(cloneProfileB, "Clone Profile");
+	setButtonToolTip(importProfileB, "Import Profile");
+	setButtonToolTip(exportProfileB, "Export Profile");
+	setButtonToolTip(printPDFB, "Print PDF");
+	setButtonToolTip(deleteProfileB, "Delete Profile");
     }
 
     @Override
