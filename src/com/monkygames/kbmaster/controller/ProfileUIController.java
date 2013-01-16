@@ -4,23 +4,23 @@
 package com.monkygames.kbmaster.controller;
 
 // === java imports === //
-import com.monkygames.kbmaster.input.ProfileType;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 // === javafx imports === //
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tooltip;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
-import java.io.File;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Tooltip;
+import com.monkygames.kbmaster.input.ProfileType;
 
 /**
  * Handles UI Events for the profile panel.

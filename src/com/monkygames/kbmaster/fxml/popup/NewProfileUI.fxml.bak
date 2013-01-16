@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="215.0" prefWidth="378.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProfileUIController">
+  <children>
+    <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../resources/profile/new.png" preserveRatio="false" smooth="false" />
+      </image>
+    </ImageView>
+    <Label layoutX="98.0" layoutY="25.0" text="Create New Profile">
+      <font>
+        <Font size="24.0" />
+      </font>
+    </Label>
+    <Label layoutX="133.0" layoutY="88.0" text="Enter New Profile Name" />
+    <TextField layoutX="39.0" layoutY="111.0" prefWidth="311.0" />
+    <Button layoutX="275.0" layoutY="168.0" mnemonicParsing="false" prefWidth="89.0" text="Cancel" />
+    <Button layoutX="181.0" layoutY="167.0" mnemonicParsing="false" prefWidth="89.0" text="OK" />
+    <Line endX="146.0" endY="0.0" layoutX="188.0" layoutY="64.0" startX="-100.0" stroke="WHITE" />
+  </children>
+  <stylesheets>
+    <URL value="@../master.css" />
+  </stylesheets>
+</AnchorPane>
