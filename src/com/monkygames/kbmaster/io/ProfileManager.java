@@ -31,6 +31,7 @@ public class ProfileManager{
 // ============= Class variables ============== //
     private ObjectContainer db;
     private List<Profile> profiles;
+    private ProgramListManager programListManager;
 // ============= Constructors ============== //
     /**
      * Create a new profile manager where the specified string is the location
@@ -49,6 +50,7 @@ public class ProfileManager{
 	config.common().objectClass(Button.class).cascadeOnUpdate(true);
 	config.common().objectClass(Wheel.class).cascadeOnUpdate(true);
 	config.common().objectClass(Output.class).cascadeOnUpdate(true);
+	config.common().objectClass(ProgramListManager.class).cascadeOnUpdate(true);
 	// make sure keymap objects are removed when a profile is deleted
 	config.common().objectClass(Profile.class).cascadeOnDelete(true);
 	config.common().objectClass(Keymap.class).cascadeOnDelete(true);
@@ -58,6 +60,7 @@ public class ProfileManager{
 	config.common().objectClass(Button.class).cascadeOnDelete(true);
 	config.common().objectClass(Wheel.class).cascadeOnDelete(true);
 	config.common().objectClass(Output.class).cascadeOnDelete(true);
+	config.common().objectClass(ProgramListManager.class).cascadeOnDelete(true);
 
 	db = Db4oEmbedded.openFile(config, databaseFilename);
 
@@ -73,6 +76,29 @@ public class ProfileManager{
     }
     public List<Profile> getProfiles(){
 	return profiles;
+    }
+    /**
+     * Returns a list of programs that are available to use with profiles.
+     * Note, this list can contain program names that are not associated with
+     * profiles.
+     * @param type the type of program.
+     */
+    public List<String> getAvailablePrograms(ProfileType type){
+	return programListManager.getAvailableProgramList(type);
+    }
+    /**
+     * Adds a program to the list if it doesn't already exist.
+     * @param program the name of the program to add to the list.
+     * @param type the type of program.
+     * @return true on success and false if the name already exists.
+     */
+    public boolean addProgramName(String program, ProfileType type){
+	if(programListManager.addProgram(program, type)){
+	    // store the list
+	    db.store(programListManager);
+	    return true;
+	}
+	return false;
     }
     /**
      * Returns a list of applications that have profiles.
@@ -94,6 +120,8 @@ public class ProfileManager{
 	try{
 	    db.store(profile);
 	    loadProfiles();
+	    // add the program to the list if its not already added
+	    addProgramName(profile.getAppName(),profile.getProfileType());
 	}catch(Exception e){}
     }
     
@@ -105,6 +133,7 @@ public class ProfileManager{
 	try{
 	    db.store(profile);
 	    loadProfiles();
+	    addProgramName(profile.getAppName(),profile.getProfileType());
 
 	}catch(Exception e){}
     }
@@ -212,6 +241,18 @@ public class ProfileManager{
     private void loadProfiles(){
 	try{
 	    profiles = db.query(Profile.class);
+	}catch(Exception e){}
+    }
+    private void loadProgramListManager(){
+	try{
+	    List<ProgramListManager> programListManagerList = db.query(ProgramListManager.class);
+	    if(!programListManagerList.isEmpty()){
+		programListManager = programListManagerList.get(0);
+	    }
+	    if(programListManager == null){
+		programListManager = new ProgramListManager();
+		db.store(programListManager);
+	    }
 	}catch(Exception e){}
     }
     /**

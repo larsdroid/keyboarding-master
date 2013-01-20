@@ -28,6 +28,12 @@ public class PopupController implements Initializable{
     public void setStage(Stage stage){
 	this.stage = stage;
     }
+    /**
+     * Shows the window.
+     */
+    public void showStage(){
+	stage.show();
+    }
 // ============= Protected Methods ============== //
     /**
      * Hides this popup.

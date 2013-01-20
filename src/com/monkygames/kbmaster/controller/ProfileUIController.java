@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.controller;
 
 // === java imports === //
+import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +22,15 @@ import javafx.scene.control.Tooltip;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.util.ProfileTypeNames;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Handles UI Events for the profile panel.
@@ -48,6 +58,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @FXML
     private Button deleteProfileB;
     private ProfileManager profileManager;
+    private NewProfileUIController newProfileUIController;
     private File profileDir;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -107,13 +118,36 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	tooltip.setText(toolString);
 	button.setTooltip(tooltip);
     }
+    public void openNewProfilePopup(){
+	if(newProfileUIController == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/NewProfileUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		newProfileUIController = (NewProfileUIController) fxmlLoader.getController();
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		newProfileUIController.setStage(stage);
+		newProfileUIController.setProfileManager(profileManager);
+	    } catch (IOException ex) {
+		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
+		return;
+	    }
+	}
+	newProfileUIController.showStage();
+    }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
 	//profileManager = new ProfileManager("local.db4o");
 	
-	typeCB.setItems(FXCollections.observableArrayList("Game","Application"));
+	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(ProfileType.GAME),
+							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
 
