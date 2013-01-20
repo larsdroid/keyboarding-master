@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.controller;
 
 // === java imports === //
+import com.monkygames.kbmaster.controller.profile.CloneProfileUIController;
 import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Profile;
@@ -24,6 +25,7 @@ import javafx.scene.control.Tooltip;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +41,7 @@ import javafx.stage.Stage;
  * Handles UI Events for the profile panel.
  * @version 1.0
  */
-public class ProfileUIController implements Initializable, ChangeListener<String>{
+public class ProfileUIController implements Initializable, ChangeListener<String>, PopupNotifyInterface{
 
 // ============= Class variables ============== //
     @FXML
@@ -62,6 +64,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private Button deleteProfileB;
     private ProfileManager profileManager;
     private NewProfileUIController newProfileUIController;
+    private CloneProfileUIController cloneProfileUIController;
     private File profileDir;
     private Device device;
 // ============= Constructors ============== //
@@ -72,6 +75,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	if(src == newProfileB){
 	    openNewProfilePopup();
 	}else if(src == cloneProfileB){
+	    openCloneProfilePopup();
 	}else if(src == importProfileB){
 	}else if(src == exportProfileB){
 	}else if(src == printPDFB){
@@ -188,14 +192,44 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 		stage.setScene(scene);
 		newProfileUIController.setStage(stage);
 		newProfileUIController.setProfileManager(profileManager);
-		newProfileUIController.setProfileController(this);
 		newProfileUIController.setDevice(device);
+		newProfileUIController.addNotification(this);
 	    } catch (IOException ex) {
 		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
 		return;
 	    }
 	}
 	newProfileUIController.showStage();
+    }
+    private void openCloneProfilePopup(){
+	// check if a profile has been selected
+	Profile profile = (Profile)profileCB.getSelectionModel().getSelectedItem();
+	if(profile == null){
+	    PopupManager.getPopupManager().showError("No Profile selected");
+	    return; 
+	}
+	if(cloneProfileUIController == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/CloneProfileUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		cloneProfileUIController = (CloneProfileUIController) fxmlLoader.getController();
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		cloneProfileUIController.setStage(stage);
+		cloneProfileUIController.setProfileManager(profileManager);
+		cloneProfileUIController.setDevice(device);
+		cloneProfileUIController.addNotification(this);
+	    } catch (IOException ex) {
+		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
+		return;
+	    }
+	}
+	cloneProfileUIController.showStage();
     }
 // ============= Implemented Methods ============== //
     @Override
@@ -241,6 +275,16 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
+
+    @Override
+    public void onOK(Object src) {
+	updateComboBoxes();
+    }
+
+    @Override
+    public void onCancel(Object src) {
+	// do nothing for now
+    }
 
 }
 /*

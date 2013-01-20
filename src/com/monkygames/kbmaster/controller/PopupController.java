@@ -5,6 +5,7 @@ package com.monkygames.kbmaster.controller;
 
 // === java imports === //
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 // === javafx imports === //
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ public class PopupController implements Initializable{
 
 // ============= Class variables ============== //
     private Stage stage;
+    private ArrayList<PopupNotifyInterface> notifiers = new ArrayList<>();
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     /**
@@ -34,12 +36,25 @@ public class PopupController implements Initializable{
     public void showStage(){
 	stage.show();
     }
+    public void addNotification(PopupNotifyInterface notify){
+	notifiers.add(notify);
+    }
 // ============= Protected Methods ============== //
     /**
      * Hides this popup.
      */
     protected void hideStage(){
 	stage.hide();
+    }
+    protected void notifyOK(){
+	for(PopupNotifyInterface notify: notifiers){
+	    notify.onOK(this);
+	}
+    }
+    protected void notifyCancel(){
+	for(PopupNotifyInterface notify: notifiers){
+	    notify.onCancel(this);
+	}
     }
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //

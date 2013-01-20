@@ -34,14 +34,10 @@ public class NewProgramUIController extends PopupController{
     @FXML
     private TextField programTF;
     private ProfileManager profileManager;
-    private NewProfileUIController newProfileUIController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public void setProfileManager(ProfileManager profileManager){
 	this.profileManager = profileManager;
-    }
-    public void setNewProfileController(NewProfileUIController newProfileUIController){
-	this.newProfileUIController = newProfileUIController;
     }
     public void okEventFired(ActionEvent evt){
 	ProfileType type;
@@ -58,9 +54,11 @@ public class NewProgramUIController extends PopupController{
 	    PopupManager.getPopupManager().showError("Program name already exists");
 	}
 	reset();
+	notifyOK();
     }
     public void cancelEventFired(ActionEvent evt){
 	reset();
+	notifyCancel();
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

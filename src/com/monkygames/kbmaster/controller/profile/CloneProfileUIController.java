@@ -3,49 +3,43 @@
  */
 package com.monkygames.kbmaster.controller.profile;
 
-// === kbmaster imports === //
 import com.monkygames.kbmaster.controller.PopupController;
 import com.monkygames.kbmaster.controller.PopupNotifyInterface;
-import com.monkygames.kbmaster.controller.ProfileUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.ProfileType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
-// === java imports === //
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-// === javafx imports === //
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * A controller for the New Profile UI.
+ * Handles the cloning feature.
  * @version 1.0
  */
-public class NewProfileUIController extends PopupController implements ChangeListener<String>, PopupNotifyInterface{
+public class CloneProfileUIController extends PopupController implements ChangeListener<String>, PopupNotifyInterface{
 
 // ============= Class variables ============== //
     @FXML
-    private Button okB;
-    @FXML
-    private Button cancelB;
+    private Label profileNameL;
     @FXML
     private ComboBox typeCB;
     @FXML
@@ -53,8 +47,8 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     @FXML
     private TextField profileTF;
     private ProfileManager profileManager;
-    private NewProgramUIController newProgramUIController;
     private Device device;
+    private NewProgramUIController newProgramUIController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public void setProfileManager(ProfileManager profileManager){
@@ -63,42 +57,61 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     public void setDevice(Device device){
 	this.device = device;
     }
-    /**
-     * Re-populate the combo boxes based on the type selected.
-     */
-    public void updateLists(){
-	updateComboBoxesOnType(getProfileType());
-    }
     public void okEventFired(ActionEvent evt){
 	try{
-	    if(programCB.getSelectionModel().getSelectedIndex() == 0){
-		openNewProgramPopup();
-		//TODO need to pass a parameter to continue
-		// this action, instead of just returning.
+	    // check for a valid name
+	    String newProfileName = profileTF.getText();
+	    if(newProfileName == null || newProfileName.equals("")){
+		PopupManager.getPopupManager().showError("Invalid profile name");
 		return;
 	    }
 	    ProfileType type = getProfileType();
-	    String programName = (String)programCB.getSelectionModel().getSelectedItem();
-	    String profileName = profileTF.getText();
-	    // check for existing profile names
-	    if(profileManager.doesProfileNameExists(type, programName, profileName)){
+	    if(programCB.getSelectionModel().getSelectedIndex() == 0){
+		this.openNewProgramPopup();
+		return;
+	    }
+	    String program = (String)programCB.getSelectionModel().getSelectedItem();
+	    
+	    // check for a redundant name
+	    if(profileManager.doesProfileNameExists(type, program, newProfileName)){
 		PopupManager.getPopupManager().showError("Profile name already exists");
 		return;
 	    }
-	    Profile profile = new Profile(type,programName,profileName);
+	    Profile profile = new Profile(type,program,newProfileName);
 	    device.setDefaultKeymaps(profile);
-	    // save the profile
 	    profileManager.addProfile(profile);
-	    notifyOK();
-	} finally{
+
+	}finally{
 	    reset();
 	}
     }
-    public void cancelEventFired(ActionEvent evt){;
+    public void cancelEventFired(ActionEvent evt){
 	reset();
-	notifyCancel();
     }
+// ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    private void updateComboBoxesOnType(ProfileType type){
+	ObservableList<String> programs;
+	programs = FXCollections.observableArrayList(profileManager.getAvailablePrograms(type));
+	programs.add(0, "New");
+	programCB.setItems(programs);
+    }
+    private void reset(){
+	profileTF.setText("");
+	hideStage();
+    }
+    /**
+     * Returns the profile type based on the type combo box.
+     */
+    private ProfileType getProfileType(){
+	ProfileType type;
+	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
+	    type = ProfileType.GAME;
+	}else{
+	    type = ProfileType.APPLICATION;
+	}
+	return type;
+    }
     private void openNewProgramPopup(){
 	if(newProgramUIController == null){
 	    try {
@@ -115,41 +128,15 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 		newProgramUIController.setStage(stage);
 		newProgramUIController.setProfileManager(profileManager);
 		newProgramUIController.addNotification(this);
-		//newProgramUIController.setNewProfileController(this);
 	    } catch (IOException ex) {
-		Logger.getLogger(NewProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
+		Logger.getLogger(CloneProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
 		return;
 	    }
 	}
 	newProgramUIController.showStage();
     }
-    /**
-     * Reset to the defaults.
-     */
-    private void reset(){
-	profileTF.setText("");
-	hideStage();
-
-    }
-    private void updateComboBoxesOnType(ProfileType type){
-	ObservableList<String> programs;
-	programs = FXCollections.observableArrayList(profileManager.getAvailablePrograms(type));
-	programs.add(0, "New");
-	programCB.setItems(programs);
-    }
-    /**
-     * Returns the profile type based on the type combo box.
-     */
-    private ProfileType getProfileType(){
-	ProfileType type;
-	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    type = ProfileType.GAME;
-	}else{
-	    type = ProfileType.APPLICATION;
-	}
-	return type;
-    }
 // ============= Implemented Methods ============== //
+// ============= Extended Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(ProfileType.GAME),
@@ -160,27 +147,24 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     }
     @Override
     public void changed(ObservableValue<? extends String> ov, String t, String t1) {
-	if(ov == typeCB.valueProperty()){
+	if(ov == typeCB){
 	    updateComboBoxesOnType(getProfileType());
 	}
-    }
-    @Override
-    public void onOK(Object src) {
-	updateComboBoxesOnType(getProfileType());
-    }
-    @Override
-    public void onCancel(Object src) {
-	// do nothing
-    }
-// ============= Extended Methods ============== //
-    @Override
-    public void showStage(){
-	super.showStage();
-	updateLists();
     }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
 
+    @Override
+    public void onOK(Object src) {
+	if(src == newProgramUIController){
+	    updateComboBoxesOnType(getProfileType());
+	}
+    }
+
+    @Override
+    public void onCancel(Object src) {
+	// do nothing for now
+    }
 }
 /*
  * Local variables:
