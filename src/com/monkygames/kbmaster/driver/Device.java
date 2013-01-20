@@ -3,6 +3,9 @@
  */
 package com.monkygames.kbmaster.driver;
 
+// === kbmaster imports === //
+import com.monkygames.kbmaster.input.Profile;
+
 /**
  * Contains device information and device driver implementation.
  * @version 1.0
@@ -31,6 +34,15 @@ public abstract class Device implements Mapper{
 // ============= Public Methods ============== //
     public DeviceInformation getDeviceInformation(){
 	return deviceInformation;
+    }
+    /**
+     * Sets the default mapping for the passed in profile for this device.
+     * @param profile the profile to set the keymaps.
+     */
+    public void setDefaultKeymaps(Profile profile){
+	for(int i = 0; i < 8; i++){
+	    profile.setKeymap(i,this.generateDefaultKeymap(i));
+	}
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

@@ -20,7 +20,7 @@ public class Profile{
     /**
      * The name of the game/application.
      */
-    private String appName;
+    private String programName;
     /**
      * The name of the profile.
      */
@@ -33,15 +33,17 @@ public class Profile{
     public Profile(){
 	this(ProfileType.APPLICATION,"Generic","Default");
     }
-    public Profile(ProfileType profileType, String appName, String profileName){
+    public Profile(ProfileType profileType, String programName, String profileName){
 	this.profileType = profileType;
-	this.appName = appName;
+	this.programName = programName;
 	this.profileName = profileName;
 	keymaps = new Keymap[8];
 	//TODO need to populate this profile based on the device!
+	/*
 	for(int i = 0; i < keymaps.length; i++){
-	    //keymaps[i] = Mapper.generateDefaultKeymap(i+1);
+	    keymaps[i] = Mapper.generateDefaultKeymap(i+1);
 	}
+	*/
     }
 // ============= Public Methods ============== //
     /**
@@ -57,8 +59,8 @@ public class Profile{
 	return profileType;
     }
 
-    public String getAppName() {
-	return appName;
+    public String getProgramName() {
+	return programName;
     }
 
     public String getProfileName() {
@@ -88,7 +90,7 @@ public class Profile{
      * @return the cloned profile.
      */
     public Profile cloneProfile(String newName){
-	Profile newProfile = new Profile(profileType,appName,newName);
+	Profile newProfile = new Profile(profileType,programName,newName);
 	for(int i = 0; i < 8; i++){
 	    newProfile.setKeymap(i, (Keymap)keymaps[i].clone());
 	}
@@ -96,7 +98,7 @@ public class Profile{
     }
 
     public void printString(){
-	String out = "Profile "+profileType+"->"+appName+"->"+profileName+"[\n";
+	String out = "Profile "+profileType+"->"+programName+"->"+profileName+"[\n";
 	for(int i = 0; i < 8; i++){
 	    out += keymaps[i].toStringFormatted()+"\n";
 	}

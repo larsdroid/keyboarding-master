@@ -5,6 +5,8 @@ package com.monkygames.kbmaster.controller;
 
 // === java imports === //
 import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
+import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.input.Profile;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +26,7 @@ import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.input.ProfileType;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -60,12 +63,14 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private ProfileManager profileManager;
     private NewProfileUIController newProfileUIController;
     private File profileDir;
+    private Device device;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
     public void profileEventFired(ActionEvent evt){
 	Object src = evt.getSource();
 	if(src == newProfileB){
+	    openNewProfilePopup();
 	}else if(src == cloneProfileB){
 	}else if(src == importProfileB){
 	}else if(src == exportProfileB){
@@ -75,37 +80,87 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	
     }
     /**
-     * Sets the device based on the device name.
-     * @param deviceName the device name to be set.
+     * Sets the device in order to get device name and to be used in
+     * popups for creating profiles.
+     * @param device the device to be set.
      */
-    public void setDevice(String deviceName){
+    public void setDevice(Device device){
+	this.device = device;
+	if(newProfileUIController != null){
+	    newProfileUIController.setDevice(device);
+	}
+	String deviceName = device.getDeviceInformation().getProfileName();
 	if(profileManager != null){
 	    profileManager.close();
 	}
 	profileManager = new ProfileManager(profileDir+File.separator+deviceName);
+
+	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(ProfileType.GAME),
+							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
+	typeCB.getSelectionModel().selectFirst();
+	typeCB.valueProperty().addListener(this);
+
 	updateComboBoxes();
+    }
+    /**
+     * Only updates the profiles combo box.
+     */
+    public void updateProfilesComboBox(){
+	ProfileType type;
+	String programName;
+	ObservableList<Profile> profiles = null;
+	if(programCB.getSelectionModel().getSelectedIndex() == 0){
+	    programName = null;
+	}else{
+	    programName = (String)programCB.getSelectionModel().getSelectedItem();
+	}
+	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
+	    type = ProfileType.GAME;
+	}else{
+	    type = ProfileType.APPLICATION;
+	}
+	if(programName == null){
+	    return;
+	}
+
+	profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programName));
+	profileCB.setItems(profiles);
+    }
+    /**
+     * Updates the type, programs, and profiles combo boxes.
+     */
+    public void updateComboBoxes(){
+	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
+	    updateComboBoxesOnType(ProfileType.GAME);
+	}else{
+	    updateComboBoxesOnType(ProfileType.APPLICATION);
+	}
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    /**
+     * Updates the combo box by type and always selects the first program
+     * to populate the profiles list.
+     * @param type the type of profile to sort on.
+     */
     private void updateComboBoxesOnType(ProfileType type){
 	ObservableList<String> programs;
+	ObservableList<Profile> profiles = null;
 	if(type == ProfileType.APPLICATION){
 	    programs = FXCollections.observableArrayList(profileManager.getApplicationNames());
 	}else{
 	    programs = FXCollections.observableArrayList(profileManager.getGameNames());
 	}
 
+	if(programs.size() > 0 && programs.get(0) != null){
+	    profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programs.get(0)));
+	}
+
 	programCB.setItems(programs);
-	profileCB.setItems(FXCollections.observableArrayList());
-    }
-    /**
-     * Updates combo boxes based on Profile Type.
-     */
-    private void updateComboBoxes(){
-	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    updateComboBoxesOnType(ProfileType.GAME);
+	if(profiles == null){
+	    profileCB.setItems(FXCollections.observableArrayList());
 	}else{
-	    updateComboBoxesOnType(ProfileType.APPLICATION);
+	    profileCB.setItems(profiles);
 	}
     }
     /**
@@ -118,7 +173,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	tooltip.setText(toolString);
 	button.setTooltip(tooltip);
     }
-    public void openNewProfilePopup(){
+    private void openNewProfilePopup(){
 	if(newProfileUIController == null){
 	    try {
 		// pop open add new device
@@ -133,6 +188,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 		stage.setScene(scene);
 		newProfileUIController.setStage(stage);
 		newProfileUIController.setProfileManager(profileManager);
+		newProfileUIController.setProfileController(this);
+		newProfileUIController.setDevice(device);
 	    } catch (IOException ex) {
 		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
 		return;
@@ -146,19 +203,15 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 
 	//profileManager = new ProfileManager("local.db4o");
 	
-	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(ProfileType.GAME),
-							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
-	typeCB.getSelectionModel().selectFirst();
-	typeCB.valueProperty().addListener(this);
+	typeCB.setItems(FXCollections.observableArrayList());
+	profileCB.setItems(FXCollections.observableArrayList());
+	programCB.setItems(FXCollections.observableArrayList());
 
 	profileDir = new File("profiles");
 	if(!profileDir.exists()){
 	    profileDir.mkdir();
 	}
 	
-
-	//updateComboBoxesOnType(ProfileType.GAME);
-
 	/*
 	typeCB.getItems().removeAll();
 	Image gameImage = new Image("/com/monkygames/kbmaster/fxml/resources/sort/game.png");
@@ -178,12 +231,11 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @Override
     public void changed(ObservableValue<? extends String> ov, String previousValue, String newValue) {
 	if(ov == typeCB.valueProperty()){
-	    if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-		updateComboBoxesOnType(ProfileType.GAME);
-	    }else{
-		updateComboBoxesOnType(ProfileType.APPLICATION);
-	    }
+	    updateComboBoxes();
+	}else if(ov == programCB.valueProperty()){
+	    updateProfilesComboBox();
 	}
+
     }
 
 // ============= Extended Methods ============== //

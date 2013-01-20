@@ -65,6 +65,7 @@ public class ProfileManager{
 	db = Db4oEmbedded.openFile(config, databaseFilename);
 
 	loadProfiles();
+	loadProgramListManager();
 	// if no profiles exist, create a default
 	if(profiles.isEmpty()){
 	    addProfile(new Profile());
@@ -76,6 +77,22 @@ public class ProfileManager{
     }
     public List<Profile> getProfiles(){
 	return profiles;
+    }
+    /**
+     * Returns the profiles that have the specified type and program name.
+     * @param type the type of profile.
+     * @param programName the program name associated with this profile.
+     * @return the list of profiles with the specified type and program name.
+     */
+    public List<Profile> getProfile(ProfileType type, String programName){
+	List<Profile> sortedList = new ArrayList<>();
+	for(Profile profile: profiles){
+	    if(profile.getProfileType() == type &&
+	       profile.getProgramName().equals(programName)){
+		sortedList.add(profile);
+	    }
+	}
+	return sortedList;
     }
     /**
      * Returns a list of programs that are available to use with profiles.
@@ -113,6 +130,23 @@ public class ProfileManager{
 	return getProfileTypeNames(ProfileType.GAME);
     }
     /**
+     * Returns true if the profile already exists and false otherwise.
+     * @param type the type of profile.
+     * @param programName the name of the program.
+     * @param profileName the name of the profile.
+     * @return true if profile exists and false if it does not exists.
+     */
+    public boolean doesProfileNameExists(ProfileType type, String programName, String profileName){
+	for(Profile profile: profiles){
+	    if(profile.getProfileType() == type && 
+	       profile.getProgramName().equals(programName) && 
+	       profile.getProfileName().equals(profileName)){
+		return true;
+	    }
+	}
+	return false;
+    }
+    /**
      * Adds the profile to the database and then reloads from the database.
      * @param profile the profile to store.
      */
@@ -121,7 +155,7 @@ public class ProfileManager{
 	    db.store(profile);
 	    loadProfiles();
 	    // add the program to the list if its not already added
-	    addProgramName(profile.getAppName(),profile.getProfileType());
+	    addProgramName(profile.getProgramName(),profile.getProfileType());
 	}catch(Exception e){}
     }
     
@@ -133,7 +167,7 @@ public class ProfileManager{
 	try{
 	    db.store(profile);
 	    loadProfiles();
-	    addProgramName(profile.getAppName(),profile.getProfileType());
+	    addProgramName(profile.getProgramName(),profile.getProfileType());
 
 	}catch(Exception e){}
     }
@@ -262,8 +296,8 @@ public class ProfileManager{
 	ArrayList<String> list = new ArrayList<>();
 	for(Profile profile: profiles){
 	    if(profile.getProfileType() == type){
-		if(!list.contains(profile.getAppName())){
-		    list.add(profile.getAppName());
+		if(!list.contains(profile.getProgramName())){
+		    list.add(profile.getProgramName());
 		}
 	    }
 	}

@@ -16,6 +16,7 @@ import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
+import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.Wheel;
 import com.monkygames.kbmaster.input.WheelMapping;
 
@@ -168,6 +169,7 @@ public class RazerNostromoDevice extends Device{
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
+
 }
 /*
  * Local variables:

@@ -159,7 +159,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 		// this means a driver has been selected, so we need to populate
 		// the profiles and keymaps entries
 		Device device = globalAccount.getInstalledDevices().get(index-2);
-		profileUIController.setDevice(device.getDeviceInformation().getProfileName());
+		profileUIController.setDevice(device);
 	    }
 	}
     }

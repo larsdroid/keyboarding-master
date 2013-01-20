@@ -13,6 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.controller.PopupController;
+import com.monkygames.kbmaster.controller.ProfileUIController;
+import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.ProfileType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
@@ -50,8 +53,22 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     private TextField profileTF;
     private ProfileManager profileManager;
     private NewProgramUIController newProgramUIController;
+    private Device device;
+    private ProfileUIController profileController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    public void setProfileController(ProfileUIController profileController){
+	this.profileController = profileController;
+    }
+    public void setProfileManager(ProfileManager profileManager){
+	this.profileManager = profileManager;
+    }
+    public void setDevice(Device device){
+	this.device = device;
+    }
+    /**
+     * Re-populate the combo boxes based on the type selected.
+     */
     public void updateLists(){
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
 	    updateComboBoxesOnType(ProfileType.GAME);
@@ -59,26 +76,42 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	    updateComboBoxesOnType(ProfileType.APPLICATION);
 	}
     }
-    public void setProfileManager(ProfileManager profileManager){
-	this.profileManager = profileManager;
-    }
     public void okEventFired(ActionEvent evt){
-	if(programCB.getSelectionModel().getSelectedIndex() == 0){
-	    //pop new program ui.
+	try{
+	    if(programCB.getSelectionModel().getSelectedIndex() == 0){
+		openNewProgramPopup();
+		//TODO need to pass a parameter to continue
+		// this action, instead of just returning.
+		return;
+	    }
+	    ProfileType type;
+	    if(typeCB.getSelectionModel().getSelectedIndex() == 0){
+		type = ProfileType.GAME;
+	    }else{
+		type = ProfileType.APPLICATION;
+	    }
+	    String programName = (String)programCB.getSelectionModel().getSelectedItem();
+	    String profileName = profileTF.getText();
+	    // check for existing profile names
+	    if(profileManager.doesProfileNameExists(type, programName, profileName)){
+		PopupManager.getPopupManager().showError("Profile name already exists");
+		return;
+	    }
+	    Profile profile = new Profile(type,programName,profileName);
+	    device.setDefaultKeymaps(profile);
+	    // save the profile
+	    profileManager.addProfile(profile);
+	    profileController.updateProfilesComboBox();
+	    
+	} finally{
+	    reset();
 	}
-	String profileName = profileTF.getText();
-
-	// check for existing profile names
-	// pop an error
-	PopupManager.getPopupManager().showError("Profile name already exists");
-
-	reset();
     }
-    public void cancelEventFired(ActionEvent evt){
+    public void cancelEventFired(ActionEvent evt){;
 	reset();
     }
 // ============= Private Methods ============== //
-    private void openNewProgramePopup(){
+    private void openNewProgramPopup(){
 	if(newProgramUIController == null){
 	    try {
 		// pop open add new device
@@ -122,6 +155,7 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
+	programCB.setItems(FXCollections.observableArrayList());
     }
     @Override
     public void changed(ObservableValue<? extends String> ov, String t, String t1) {
@@ -134,6 +168,11 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	}
     }
 // ============= Extended Methods ============== //
+    @Override
+    public void showStage(){
+	super.showStage();
+	updateLists();
+    }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
 
