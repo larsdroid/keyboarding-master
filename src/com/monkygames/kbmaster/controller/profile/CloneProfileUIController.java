@@ -53,6 +53,7 @@ public class CloneProfileUIController extends PopupController implements ChangeL
 // ============= Public Methods ============== //
     public void setProfileManager(ProfileManager profileManager){
 	this.profileManager = profileManager;
+	updateComboBoxesOnType(ProfileType.GAME);
     }
     public void setDevice(Device device){
 	this.device = device;
@@ -80,6 +81,7 @@ public class CloneProfileUIController extends PopupController implements ChangeL
 	    Profile profile = new Profile(type,program,newProfileName);
 	    device.setDefaultKeymaps(profile);
 	    profileManager.addProfile(profile);
+	    notifyOK();
 
 	}finally{
 	    reset();
@@ -87,6 +89,7 @@ public class CloneProfileUIController extends PopupController implements ChangeL
     }
     public void cancelEventFired(ActionEvent evt){
 	reset();
+	notifyCancel();
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
