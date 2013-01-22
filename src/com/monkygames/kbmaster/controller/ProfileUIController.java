@@ -5,6 +5,7 @@ package com.monkygames.kbmaster.controller;
 
 // === java imports === //
 import com.monkygames.kbmaster.controller.profile.CloneProfileUIController;
+import com.monkygames.kbmaster.controller.profile.DeleteProfileUIController;
 import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Profile;
@@ -65,6 +66,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private ProfileManager profileManager;
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
+    private DeleteProfileUIController deleteProfileUIController;
     private File profileDir;
     private Device device;
 // ============= Constructors ============== //
@@ -80,6 +82,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}else if(src == exportProfileB){
 	}else if(src == printPDFB){
 	}else if(src == deleteProfileB){
+	    openDeleteProfilePopup();
 	}
 	
     }
@@ -178,30 +181,17 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	button.setTooltip(tooltip);
     }
     private void openNewProfilePopup(){
+	if(!checkDevice()) return;
 	if(newProfileUIController == null){
-	    try {
-		// pop open add new device
-		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/NewProfileUI.fxml");
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(location);
-		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-		Parent root = (Parent)fxmlLoader.load(location.openStream());
-		newProfileUIController = (NewProfileUIController) fxmlLoader.getController();
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		newProfileUIController.setStage(stage);
-		newProfileUIController.setProfileManager(profileManager);
-		newProfileUIController.setDevice(device);
-		newProfileUIController.addNotification(this);
-	    } catch (IOException ex) {
-		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
-		return;
-	    }
+	    newProfileUIController = (NewProfileUIController)openPopup("/com/monkygames/kbmaster/fxml/popup/NewProfileUI.fxml");
+	    if(newProfileUIController == null) return;
+	    newProfileUIController.setProfileManager(profileManager);
+	    newProfileUIController.setDevice(device);
 	}
 	newProfileUIController.showStage();
     }
     private void openCloneProfilePopup(){
+	if(!checkDevice()) return;
 	// check if a profile has been selected
 	Profile profile = (Profile)profileCB.getSelectionModel().getSelectedItem();
 	if(profile == null){
@@ -209,27 +199,64 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    return; 
 	}
 	if(cloneProfileUIController == null){
-	    try {
-		// pop open add new device
-		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/CloneProfileUI.fxml");
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(location);
-		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-		Parent root = (Parent)fxmlLoader.load(location.openStream());
-		cloneProfileUIController = (CloneProfileUIController) fxmlLoader.getController();
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		cloneProfileUIController.setStage(stage);
-		cloneProfileUIController.setProfileManager(profileManager);
-		cloneProfileUIController.setDevice(device);
-		cloneProfileUIController.addNotification(this);
-	    } catch (IOException ex) {
-		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
-		return;
-	    }
+	    cloneProfileUIController = (CloneProfileUIController) openPopup("/com/monkygames/kbmaster/fxml/popup/CloneProfileUI.fxml");
+	    if(cloneProfileUIController == null) return;
+	    cloneProfileUIController.setProfileManager(profileManager);
+	    cloneProfileUIController.setDevice(device);
 	}
 	cloneProfileUIController.showStage();
+    }
+    private void openDeleteProfilePopup(){
+	if(!checkDevice()) return;
+	Profile profile = (Profile)profileCB.getSelectionModel().getSelectedItem();
+	if(profile == null){
+	    PopupManager.getPopupManager().showError("No Profile selected");
+	    return; 
+	}
+	if(deleteProfileUIController == null){
+	    deleteProfileUIController = (DeleteProfileUIController)openPopup("/com/monkygames/kbmaster/fxml/popup/DeleteProfileUI.fxml");
+	    if(deleteProfileUIController == null)return;
+	    deleteProfileUIController.setProfileManager(profileManager);
+	}
+	deleteProfileUIController.setProfile(profile);
+	deleteProfileUIController.showStage();
+    }
+    /**
+     * Opens a popup specified by the url.
+     * @param fxmlURL the url of the fxml file to open.
+     * @return the controller associated with the fxml file.
+     */
+    private PopupController openPopup(String fxmlURL){
+	PopupController popupController = null;
+	try {
+	    // pop open add new device
+	    URL location = getClass().getResource(fxmlURL);
+	    FXMLLoader fxmlLoader = new FXMLLoader();
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    Parent root = (Parent)fxmlLoader.load(location.openStream());
+	    popupController = (PopupController)fxmlLoader.getController();
+	    Scene scene = new Scene(root);
+	    Stage stage = new Stage();
+	    stage.setScene(scene);
+	    popupController.setStage(stage);
+	    popupController.addNotification(this);
+	} catch (IOException ex) {
+	    Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    return null;
+	}
+	return popupController;
+    }
+    /**
+     * Checks if a device has been selected and pops an error if it has not.
+     * @return true if the device has been selected and false if no device has been selected.
+     */
+    private boolean checkDevice(){
+	if(device == null){
+	    PopupManager.getPopupManager().showError("No device selected");
+	    return false;
+	}
+	return true;
     }
 // ============= Implemented Methods ============== //
     @Override
