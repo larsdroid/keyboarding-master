@@ -50,6 +50,10 @@ public class NewProgramUIController extends PopupController{
 	    programs = profileManager.getApplicationNames();
 	}
 	String program = programTF.getText();
+	// check for a valid program name
+	if(program == null || program.equals("")){
+	    PopupManager.getPopupManager().showError("Invalid Program Name");
+	}
 	if(!profileManager.addProgramName(program, type)){
 	    PopupManager.getPopupManager().showError("Program name already exists");
 	}

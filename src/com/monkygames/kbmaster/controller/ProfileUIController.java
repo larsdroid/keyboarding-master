@@ -26,6 +26,8 @@ import javafx.scene.control.Tooltip;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.io.BindingPDFWriter;
+import com.monkygames.kbmaster.io.GenerateBindingsImage;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.io.IOException;
@@ -36,6 +38,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -69,6 +72,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private DeleteProfileUIController deleteProfileUIController;
     private File profileDir;
     private Device device;
+    /**
+     * Used for selecting a file to write a pdf binding.
+     */
+    private FileChooser pdfChooser;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -81,6 +88,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}else if(src == importProfileB){
 	}else if(src == exportProfileB){
 	}else if(src == printPDFB){
+	    openPDFPopup();
 	}else if(src == deleteProfileB){
 	    openDeleteProfilePopup();
 	}
@@ -206,6 +214,20 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	cloneProfileUIController.showStage();
     }
+    private void openPDFPopup(){
+	Profile profile = (Profile)profileCB.getSelectionModel().getSelectedItem();
+	if(profile == null){
+	    PopupManager.getPopupManager().showError("No Profile selected");
+	    return; 
+	}
+	File file = pdfChooser.showSaveDialog(null);
+	if(file != null){
+	    GenerateBindingsImage generator = new GenerateBindingsImage(device);
+	    BindingPDFWriter pdfWriter = new BindingPDFWriter(generator.generateImages(profile),
+							      profile.getProfileName(),
+							      file.getPath());
+	}
+    }
     private void openDeleteProfilePopup(){
 	if(!checkDevice()) return;
 	Profile profile = (Profile)profileCB.getSelectionModel().getSelectedItem();
@@ -287,6 +309,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	setButtonToolTip(exportProfileB, "Export Profile");
 	setButtonToolTip(printPDFB, "Print PDF");
 	setButtonToolTip(deleteProfileB, "Delete Profile");
+
+	pdfChooser = new FileChooser();
+	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+	pdfChooser.getExtensionFilters().add(extFilter);
     }
 
     @Override

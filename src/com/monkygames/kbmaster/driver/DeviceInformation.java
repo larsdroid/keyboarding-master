@@ -42,11 +42,16 @@ public class DeviceInformation {
      * The full name of the package.
      */
     private String packageName;
+    /**
+     * An template image used for printing out configuration.
+     */
+    private String imageBindingsTemplate;
 
 // ============= Constructors ============== //
     public DeviceInformation(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
-		   String deviceDescription, String version, String packageName){
+		   String deviceDescription, String version, String packageName,
+		   String imageBindingsTemplate){
 	this.make = make;
 	this.model = model;
 	this.jinputName = jinputName;
@@ -55,6 +60,7 @@ public class DeviceInformation {
 	this.deviceDescription = deviceDescription;
 	this.version = version;
 	this.packageName = packageName;
+	this.imageBindingsTemplate = imageBindingsTemplate;
     }
     
 // ============= Protected Methods ============== //
@@ -90,6 +96,10 @@ public class DeviceInformation {
     public String getPackageName() {
 	return packageName;
     }
+
+    public String getImageBindingsTemplate() {
+	return imageBindingsTemplate;
+    }
     
 
     /**
@@ -115,7 +125,8 @@ public class DeviceInformation {
 	   info.getModel().equals(model) &&
 	   info.getVersion().equals(version) &&
 	   info.getDeviceIcon().equals(deviceIcon) &&
-	   info.getDeviceDescription().equals(deviceDescription)){
+	   info.getDeviceDescription().equals(deviceDescription) &&
+	   info.getImageBindingsTemplate().equals(imageBindingsTemplate)){
 	    return true;
 	}
 	return false;

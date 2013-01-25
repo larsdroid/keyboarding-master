@@ -16,7 +16,6 @@ import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
-import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.Wheel;
 import com.monkygames.kbmaster.input.WheelMapping;
 
@@ -33,7 +32,8 @@ public class RazerNostromoDevice extends Device{
 	super("Razer","Nostromo","",DeviceType.KEYBOARD,
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png",
 		"device information","1.0",
-		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice");
+		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
+		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

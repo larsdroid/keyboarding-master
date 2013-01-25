@@ -80,6 +80,11 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	    ProfileType type = getProfileType();
 	    String programName = (String)programCB.getSelectionModel().getSelectedItem();
 	    String profileName = profileTF.getText();
+	    // check for valid profileName
+	    if(profileName == null || profileName.equals("")){
+		PopupManager.getPopupManager().showError("Invalid Profile name");
+		return;
+	    }
 	    // check for existing profile names
 	    if(profileManager.doesProfileNameExists(type, programName, profileName)){
 		PopupManager.getPopupManager().showError("Profile name already exists");
