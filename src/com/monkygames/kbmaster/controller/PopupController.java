@@ -7,8 +7,10 @@ package com.monkygames.kbmaster.controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 // === javafx imports === //
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 /**
@@ -46,14 +48,14 @@ public class PopupController implements Initializable{
     protected void hideStage(){
 	stage.hide();
     }
-    protected void notifyOK(){
+    protected void notifyOK(String message){
 	for(PopupNotifyInterface notify: notifiers){
-	    notify.onOK(this);
+	    notify.onOK(this,message);
 	}
     }
-    protected void notifyCancel(){
+    protected void notifyCancel(String message){
 	for(PopupNotifyInterface notify: notifiers){
-	    notify.onCancel(this);
+	    notify.onCancel(this,message);
 	}
     }
 // ============= Private Methods ============== //

@@ -73,16 +73,19 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	try{
 	    if(programCB.getSelectionModel().getSelectedIndex() == 0){
 		openNewProgramPopup();
-		//TODO need to pass a parameter to continue
-		// this action, instead of just returning.
 		return;
 	    }
 	    ProfileType type = getProfileType();
 	    String programName = (String)programCB.getSelectionModel().getSelectedItem();
 	    String profileName = profileTF.getText();
+	    // check for a valid program name
+	    if(programName == null || programName.equals("")){
+		PopupManager.getPopupManager().showError("Invalid program name");
+		return;
+	    }
 	    // check for valid profileName
 	    if(profileName == null || profileName.equals("")){
-		PopupManager.getPopupManager().showError("Invalid Profile name");
+		PopupManager.getPopupManager().showError("Invalid profile name");
 		return;
 	    }
 	    // check for existing profile names
@@ -94,14 +97,14 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	    device.setDefaultKeymaps(profile);
 	    // save the profile
 	    profileManager.addProfile(profile);
-	    notifyOK();
+	    notifyOK(profileName);
 	} finally{
 	    reset();
 	}
     }
     public void cancelEventFired(ActionEvent evt){;
 	reset();
-	notifyCancel();
+	notifyCancel(null);
     }
 // ============= Private Methods ============== //
     private void openNewProgramPopup(){
@@ -170,11 +173,14 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	}
     }
     @Override
-    public void onOK(Object src) {
-	updateComboBoxesOnType(getProfileType());
+    public void onOK(Object src, String message) {
+	this.showStage();
+	if(message != null || !message.equals("")){
+	    programCB.getSelectionModel().select(message);
+	}
     }
     @Override
-    public void onCancel(Object src) {
+    public void onCancel(Object src, String message) {
 	// do nothing
     }
 // ============= Extended Methods ============== //

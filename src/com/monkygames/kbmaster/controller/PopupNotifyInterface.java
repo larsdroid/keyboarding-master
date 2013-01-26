@@ -15,13 +15,15 @@ public interface PopupNotifyInterface {
     /**
      * Notifies that the OK button has been used and is complete.
      * @param src the popup that is notifying.
+     * @param message a message to pass about the notification.
      */
-    public void onOK(Object src);
+    public void onOK(Object src, String message);
     /**
      * Notifies that the Cancel button has been used and is complete.
      * @parma src the popup that is notifying.
+     * @param message a message to pass about the notification.
      */
-    public void onCancel(Object src);
+    public void onCancel(Object src, String message);
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //

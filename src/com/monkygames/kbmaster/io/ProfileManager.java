@@ -88,7 +88,7 @@ public class ProfileManager{
 	List<Profile> sortedList = new ArrayList<>();
 	for(Profile profile: profiles){
 	    if(profile.getProfileType() == type &&
-	       profile.getProgramName().equals(programName)){
+		profile.getProgramName().equals(programName)){
 		sortedList.add(profile);
 	    }
 	}

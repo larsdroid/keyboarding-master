@@ -58,11 +58,11 @@ public class NewProgramUIController extends PopupController{
 	    PopupManager.getPopupManager().showError("Program name already exists");
 	}
 	reset();
-	notifyOK();
+	notifyOK(program);
     }
     public void cancelEventFired(ActionEvent evt){
 	reset();
-	notifyCancel();
+	notifyCancel(null);
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

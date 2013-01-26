@@ -44,7 +44,7 @@ public class DeleteProfileUIController extends PopupController {
 	try{
 	    if(profile != null){
 		profileManager.removeProfile(profile);
-		notifyOK();
+		notifyOK(profile.getProfileName());
 	    }else{
 		PopupManager.getPopupManager().showError("Invalid Profile");
 	    }
@@ -54,7 +54,7 @@ public class DeleteProfileUIController extends PopupController {
     }
     public void cancelEventFired(ActionEvent evt){
 	reset();
-	notifyCancel();
+	notifyCancel(null);
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

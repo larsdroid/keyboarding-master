@@ -60,18 +60,27 @@ public class CloneProfileUIController extends PopupController implements ChangeL
     }
     public void okEventFired(ActionEvent evt){
 	try{
+	    ProfileType type = getProfileType();
+
+	    if(programCB.getSelectionModel().getSelectedIndex() == 0){
+		this.openNewProgramPopup();
+		return;
+	    }
+
+	    // check for a valid program name
+	    String program = (String)programCB.getSelectionModel().getSelectedItem();
+	    if(program == null || program.equals("")){
+		PopupManager.getPopupManager().showError("Invalid program name");
+		return;
+	    }
+
+
 	    // check for a valid name
 	    String newProfileName = profileTF.getText();
 	    if(newProfileName == null || newProfileName.equals("")){
 		PopupManager.getPopupManager().showError("Invalid profile name");
 		return;
 	    }
-	    ProfileType type = getProfileType();
-	    if(programCB.getSelectionModel().getSelectedIndex() == 0){
-		this.openNewProgramPopup();
-		return;
-	    }
-	    String program = (String)programCB.getSelectionModel().getSelectedItem();
 	    
 	    // check for a redundant name
 	    if(profileManager.doesProfileNameExists(type, program, newProfileName)){
@@ -81,7 +90,7 @@ public class CloneProfileUIController extends PopupController implements ChangeL
 	    Profile profile = new Profile(type,program,newProfileName);
 	    device.setDefaultKeymaps(profile);
 	    profileManager.addProfile(profile);
-	    notifyOK();
+	    notifyOK(newProfileName);
 
 	}finally{
 	    reset();
@@ -89,7 +98,7 @@ public class CloneProfileUIController extends PopupController implements ChangeL
     }
     public void cancelEventFired(ActionEvent evt){
 	reset();
-	notifyCancel();
+	notifyCancel(null);
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -158,15 +167,24 @@ public class CloneProfileUIController extends PopupController implements ChangeL
 // ============= Static Methods ============== //
 
     @Override
-    public void onOK(Object src) {
+    public void onOK(Object src, String message) {
 	if(src == newProgramUIController){
-	    updateComboBoxesOnType(getProfileType());
+	    this.showStage();
+	    if(message != null || !message.equals("")){
+		programCB.getSelectionModel().select(message);
+		System.out.println(""+programCB.getSelectionModel().getSelectedIndex());
+	    }
 	}
     }
 
     @Override
-    public void onCancel(Object src) {
+    public void onCancel(Object src, String message) {
 	// do nothing for now
+    }
+    @Override
+    public void showStage(){
+	super.showStage();
+	updateComboBoxesOnType(getProfileType());
     }
 }
 /*

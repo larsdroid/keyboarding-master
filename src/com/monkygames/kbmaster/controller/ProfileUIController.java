@@ -124,16 +124,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	ProfileType type;
 	String programName;
 	ObservableList<Profile> profiles = null;
-	if(programCB.getSelectionModel().getSelectedIndex() == 0){
-	    programName = null;
-	}else{
-	    programName = (String)programCB.getSelectionModel().getSelectedItem();
-	}
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
 	    type = ProfileType.GAME;
 	}else{
 	    type = ProfileType.APPLICATION;
 	}
+	programName = (String)programCB.getSelectionModel().getSelectedItem();
 	if(programName == null){
 	    return;
 	}
@@ -166,17 +162,18 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}else{
 	    programs = FXCollections.observableArrayList(profileManager.getGameNames());
 	}
-
 	if(programs.size() > 0 && programs.get(0) != null){
 	    profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programs.get(0)));
 	}
 
+	programCB.valueProperty().removeListener(this);
 	programCB.setItems(programs);
 	if(profiles == null){
 	    profileCB.setItems(FXCollections.observableArrayList());
 	}else{
 	    profileCB.setItems(profiles);
 	}
+	programCB.valueProperty().addListener(this);
     }
     /**
      * Sets the tool tip with the string by the specified information.
@@ -330,12 +327,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 // ============= Static Methods ============== //
 
     @Override
-    public void onOK(Object src) {
+    public void onOK(Object src, String message) {
 	updateComboBoxes();
     }
 
     @Override
-    public void onCancel(Object src) {
+    public void onCancel(Object src, String message) {
 	// do nothing for now
     }
 
