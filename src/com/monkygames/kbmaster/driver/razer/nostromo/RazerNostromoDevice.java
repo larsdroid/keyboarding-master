@@ -33,6 +33,7 @@ public class RazerNostromoDevice extends Device{
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png",
 		"device information","1.0",
 		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
+		"/com/monkygames/kbmaster/driver/razer/nostromo/RazerNostromo.fxml",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
     }
 // ============= Public Methods ============== //

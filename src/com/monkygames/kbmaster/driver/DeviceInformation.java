@@ -43,6 +43,10 @@ public class DeviceInformation {
      */
     private String packageName;
     /**
+     * The path to the UI FXML file.
+     */
+    private String uiFXMLURL;
+    /**
      * An template image used for printing out configuration.
      */
     private String imageBindingsTemplate;
@@ -51,7 +55,7 @@ public class DeviceInformation {
     public DeviceInformation(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version, String packageName,
-		   String imageBindingsTemplate){
+		   String uiFXMLURL, String imageBindingsTemplate){
 	this.make = make;
 	this.model = model;
 	this.jinputName = jinputName;
@@ -60,6 +64,7 @@ public class DeviceInformation {
 	this.deviceDescription = deviceDescription;
 	this.version = version;
 	this.packageName = packageName;
+	this.uiFXMLURL = uiFXMLURL;
 	this.imageBindingsTemplate = imageBindingsTemplate;
     }
     
@@ -97,6 +102,10 @@ public class DeviceInformation {
 	return packageName;
     }
 
+    public String getUIFXMLURL(){
+	return uiFXMLURL;
+    }
+
     public String getImageBindingsTemplate() {
 	return imageBindingsTemplate;
     }
@@ -126,6 +135,7 @@ public class DeviceInformation {
 	   info.getVersion().equals(version) &&
 	   info.getDeviceIcon().equals(deviceIcon) &&
 	   info.getDeviceDescription().equals(deviceDescription) &&
+	   info.getUIFXMLURL().equals(uiFXMLURL) &&
 	   info.getImageBindingsTemplate().equals(imageBindingsTemplate)){
 	    return true;
 	}

@@ -3,18 +3,19 @@
  */
 package com.monkygames.kbmaster.controller;
 
-// === java imports === //
+// === kbmaster imports === //
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.util.PopupManager;
+// === java imports === //
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+// === javafx imports === //
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-// === javafx imports === //
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -118,6 +119,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 	    Parent profileRoot = (Parent)fxmlLoader.load(location.openStream());
 	    profileUIController = (ProfileUIController) fxmlLoader.getController();
 	    profilePane.getChildren().add(profileRoot);
+	    profileUIController.setKeymapTabPane(driverTabPane);
 	} catch (IOException ex) {
 	    Logger.getLogger(MainUIController.class.getName()).log(Level.SEVERE, null, ex);
 	}

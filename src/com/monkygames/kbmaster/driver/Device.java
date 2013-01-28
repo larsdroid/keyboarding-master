@@ -25,11 +25,13 @@ public abstract class Device implements Mapper{
     public Device(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version,
-		   String packageName, String imageBindingsTemplate){
+		   String packageName, String uiFXMLURL, 
+		   String imageBindingsTemplate){
 	deviceInformation = new DeviceInformation(make,model,jinputName,
 						  deviceType, deviceIcon,
 						  deviceDescription, version,
-						  packageName, imageBindingsTemplate);
+						  packageName, uiFXMLURL,
+						  imageBindingsTemplate);
     }
 // ============= Public Methods ============== //
     public DeviceInformation getDeviceInformation(){

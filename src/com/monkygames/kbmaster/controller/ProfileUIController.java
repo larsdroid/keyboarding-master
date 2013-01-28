@@ -38,6 +38,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -66,6 +67,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private Button printPDFB;
     @FXML
     private Button deleteProfileB;
+    @FXML
+    private DriverUIController driverUIController;
     private ProfileManager profileManager;
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
@@ -76,6 +79,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * Used for selecting a file to write a pdf binding.
      */
     private FileChooser pdfChooser;
+    private TabPane keymapTabPane;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -93,6 +97,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    openDeleteProfilePopup();
 	}
 	
+    }
+    public void setKeymapTabPane(TabPane keymapTabPane){
+	this.keymapTabPane = keymapTabPane;
     }
     /**
      * Sets the device in order to get device name and to be used in
@@ -276,6 +283,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    return false;
 	}
 	return true;
+    }
+    private void populateTabPane(){
     }
 // ============= Implemented Methods ============== //
     @Override
