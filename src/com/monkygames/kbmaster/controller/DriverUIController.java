@@ -47,7 +47,7 @@ public class DriverUIController implements Initializable{
 	Object obj = evt.getSource();
 	if(obj instanceof Button){
 	    Button button = (Button)obj;
-	    button.getText();
+	    int buttonID = Integer.parseInt(button.getText());
 	}
     }
 // ============= Implemented Methods ============== //

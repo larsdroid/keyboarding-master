@@ -39,7 +39,7 @@
           </items>
         </ComboBox>
         <Label text="Profile: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <ComboBox prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <ComboBox fx:id="profileCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Item 1" />

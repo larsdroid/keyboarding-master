@@ -28,6 +28,7 @@ import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.input.ProfileType;
 import com.monkygames.kbmaster.io.BindingPDFWriter;
 import com.monkygames.kbmaster.io.GenerateBindingsImage;
+import com.monkygames.kbmaster.util.KeymapUIManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.io.IOException;
@@ -80,6 +81,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     private FileChooser pdfChooser;
     private TabPane keymapTabPane;
+    private KeymapUIManager keymapUIManager;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -100,6 +102,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     }
     public void setKeymapTabPane(TabPane keymapTabPane){
 	this.keymapTabPane = keymapTabPane;
+	keymapUIManager.setTabPane(keymapTabPane);
     }
     /**
      * Sets the device in order to get device name and to be used in
@@ -108,6 +111,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     public void setDevice(Device device){
 	this.device = device;
+	keymapUIManager.setDevice(device);
 	if(newProfileUIController != null){
 	    newProfileUIController.setDevice(device);
 	}
@@ -121,6 +125,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
+
 
 	updateComboBoxes();
     }
@@ -143,6 +148,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 
 	profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programName));
 	profileCB.setItems(profiles);
+
+	// TODO set profile on the keymaps
+	keymapUIManager.initializeTabs();
     }
     /**
      * Updates the type, programs, and profiles combo boxes.
@@ -319,6 +327,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	pdfChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
 	pdfChooser.getExtensionFilters().add(extFilter);
+
+	keymapUIManager = new KeymapUIManager();
     }
 
     @Override

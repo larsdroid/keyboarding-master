@@ -27,6 +27,9 @@ public class KeymapUIManager{
     private TabPane tabPane;
     private DriverUIController[] driverUIController;
 // ============= Constructors ============== //
+    public KeymapUIManager(){
+	driverUIController = new DriverUIController[8];
+    }
 // ============= Public Methods ============== //
     public void setDevice(Device device){
 	this.device = device;
@@ -34,7 +37,10 @@ public class KeymapUIManager{
     public void setTabPane(TabPane tabPane){
 	this.tabPane = tabPane;
     }
-    public void updateTabs(){
+    /**
+     * Populates tabs with the UI from the device.
+     */
+    public void initializeTabs(){
 	ObservableList list = tabPane.getTabs();
 	for(int i = 0; i < list.size(); i++){
 	    initializeTab(i,(Tab)list.get(i));
