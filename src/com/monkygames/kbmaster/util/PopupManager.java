@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.util;
 
 import com.monkygames.kbmaster.controller.ErrorUIController;
+import com.monkygames.kbmaster.controller.PopupController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -47,6 +48,31 @@ public class PopupManager{
      */
     public void showError(String errorMessage){
 	errorUIController.showError(errorMessage);
+    }
+    /**
+     * Opens a popup specified by the url.
+     * @param fxmlURL the url of the fxml file to open.
+     * @return the controller associated with the fxml file.
+     */
+    public PopupController openPopup(String fxmlURL){
+	PopupController popupController = null;
+	try {
+	    // pop open add new device
+	    URL location = getClass().getResource(fxmlURL);
+	    FXMLLoader fxmlLoader = new FXMLLoader();
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    Parent root = (Parent)fxmlLoader.load(location.openStream());
+	    popupController = (PopupController)fxmlLoader.getController();
+	    Scene scene = new Scene(root);
+	    Stage stage = new Stage();
+	    stage.setScene(scene);
+	    popupController.setStage(stage);
+	} catch (IOException ex) {
+	    Logger.getLogger(PopupManager.class.getName()).log(Level.SEVERE, null, ex);
+	    return null;
+	}
+	return popupController;
     }
     
 // ============= Protected Methods ============== //

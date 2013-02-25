@@ -261,24 +261,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @return the controller associated with the fxml file.
      */
     private PopupController openPopup(String fxmlURL){
-	PopupController popupController = null;
-	try {
-	    // pop open add new device
-	    URL location = getClass().getResource(fxmlURL);
-	    FXMLLoader fxmlLoader = new FXMLLoader();
-	    fxmlLoader.setLocation(location);
-	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-	    Parent root = (Parent)fxmlLoader.load(location.openStream());
-	    popupController = (PopupController)fxmlLoader.getController();
-	    Scene scene = new Scene(root);
-	    Stage stage = new Stage();
-	    stage.setScene(scene);
-	    popupController.setStage(stage);
-	    popupController.addNotification(this);
-	} catch (IOException ex) {
-	    Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
-	    return null;
-	}
+	PopupController popupController = PopupManager.getPopupManager().openPopup(fxmlURL);
+	if(popupController == null) return null;
+	popupController.addNotification(this);
 	return popupController;
     }
     /**

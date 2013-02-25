@@ -1,11 +1,10 @@
 /* 
  * See COPYING in top-level directory.
  */
-package com.monkygames.kbmaster.controller;
+package com.monkygames.kbmaster.controller.driver;
 
 // === javafx imports === //
-import com.monkygames.kbmaster.controller.driver.AssignInputUIController;
-import com.monkygames.kbmaster.util.PopupManager;
+import com.monkygames.kbmaster.controller.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,48 +17,24 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 // === jinput imports === //
-import net.java.games.input.Component.Identifier.Key;
 
 /**
  * Handles UI Events for the main window.
  * @version 1.0
  */
-public class DriverUIController implements Initializable{
+public class KeymapController implements Initializable{
 
 
 // ============= Class variables ============== //
     @FXML
     private Pane rootPane;
-    private AssignInputUIController assignInputUIController = null;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
-    public void initButtons(){
-	List<Node> nodes = rootPane.getChildren();
-	//Note, in Java 8, can use Lamba Function here
-	for(Node node: nodes){
-	    if(node instanceof Button){
-		
-	    }
-	}
-    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     @FXML
     private void handleButtonAction(ActionEvent evt){
-	System.out.println("button action "+evt);
 	Object obj = evt.getSource();
-	if(obj instanceof Button){
-	    Button button = (Button)obj;
-	    int buttonID = Integer.parseInt(button.getText());
-	    openAssignInputPopup();
-	}
-    }
-    private void openAssignInputPopup(){
-	if(assignInputUIController == null){
-	    assignInputUIController = (AssignInputUIController)PopupManager.getPopupManager().openPopup("/com/monkygames/kbmaster/fxml/driver/AssignInputUI.fxml");
-	    if(assignInputUIController == null) return;
-	}
-	assignInputUIController.showStage();
     }
 // ============= Implemented Methods ============== //
     @Override
