@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="186.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.driver.MouseButtonController">
+<AnchorPane id="AnchorPane" prefHeight="186.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.driver.KeymapController">
   <children>
     <Label layoutX="251.0" layoutY="47.0" text="Select Keymap" />
     <HBox alignment="CENTER_LEFT" layoutX="189.0" layoutY="11.0" minHeight="39.0" prefHeight="39.0" prefWidth="223.0">
@@ -36,7 +36,12 @@
         </FXCollections>
       </items>
     </ComboBox>
-    <CheckBox alignment="CENTER_LEFT" contentDisplay="LEFT" layoutX="189.0" layoutY="115.0" mnemonicParsing="false" text="Switch Back When Released" />
+    <HBox alignment="CENTER" layoutX="200.0" layoutY="111.0" prefHeight="21.0" prefWidth="216.0" spacing="5.0">
+      <children>
+        <Label alignment="CENTER_LEFT" contentDisplay="CENTER" text="Switch Back when Released" />
+        <CheckBox fx:id="switchBackCB" alignment="CENTER_LEFT" contentDisplay="LEFT" mnemonicParsing="false" text="" />
+      </children>
+    </HBox>
   </children>
   <stylesheets>
     <URL value="@../master.css" />

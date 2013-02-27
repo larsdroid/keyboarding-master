@@ -51,8 +51,13 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     private Device device;
     private SingleKeyController singleKeyController;
     private MouseButtonController mouseButtonController;
-    private Parent singleKeyParent, mouseButtonParent;
+    private KeymapController keymapController;
+    private Parent singleKeyParent, mouseButtonParent, keymapParent, disabledParent;
     private Parent currentParent;
+    private static final String SINGLE_KEY = "Single Key";
+    private static final String MOUSE_BUTTON = "Mouse Button";
+    private static final String KEYMAP = "Keymap";
+    private static final String DISABLED = "Disabled";
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public void setDevice(Device device){
@@ -75,7 +80,7 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	// set up mapping cb
-	mappingCB.setItems(FXCollections.observableArrayList("Single Key","Mouse Button","Keymap","Disabled"));
+	mappingCB.setItems(FXCollections.observableArrayList(SINGLE_KEY,MOUSE_BUTTON,KEYMAP,DISABLED));
 	//mappingCB.getSelectionModel().selectFirst();
 	mappingCB.valueProperty().addListener(this);
 	try {
@@ -98,16 +103,39 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	} catch (IOException ex) {
 	    Logger.getLogger(AssignInputUIController.class.getName()).log(Level.SEVERE, null, ex);
 	}
+	try {
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/driver/KeymapPane.fxml");
+	    FXMLLoader fxmlLoader = new FXMLLoader(location);
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    keymapParent = (Parent)fxmlLoader.load(location.openStream());
+	    keymapController = (KeymapController) fxmlLoader.getController();
+	} catch (IOException ex) {
+	    Logger.getLogger(AssignInputUIController.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	try {
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/driver/DisabledPane.fxml");
+	    FXMLLoader fxmlLoader = new FXMLLoader(location);
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    disabledParent = (Parent)fxmlLoader.load(location.openStream());
+	} catch (IOException ex) {
+	    Logger.getLogger(AssignInputUIController.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
     @Override
     public void changed(ObservableValue<? extends String> ov, String oldValue, String newValue) {
 	if(currentParent != null){
 	    settingsPane.getChildren().remove(currentParent);
 	}
-	if(newValue.equals("Single Key")){
+	if(newValue.equals(SINGLE_KEY)){
 	    currentParent = singleKeyParent;
-	}else if(newValue.equals("Mouse Button")){
+	}else if(newValue.equals(MOUSE_BUTTON)){
 	    currentParent = mouseButtonParent;
+	}else if(newValue.equals(KEYMAP)){
+	    currentParent = keymapParent;
+	}else if(newValue.equals(DISABLED)){
+	    currentParent = disabledParent;
 	}
 	if(currentParent != null){
 	    settingsPane.getChildren().add(currentParent);
