@@ -148,6 +148,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 
 	profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programName));
 	profileCB.setItems(profiles);
+	profileCB.getSelectionModel().selectFirst();
 
 	// TODO set profile on the keymaps
 	keymapUIManager.initializeTabs();
@@ -322,6 +323,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    updateComboBoxes();
 	}else if(ov == programCB.valueProperty()){
 	    updateProfilesComboBox();
+	}else if(ov == profileCB.valueProperty()){
+	    // load new profile
+	    // set configurations!
 	}
 
     }
