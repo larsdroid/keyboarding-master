@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
@@ -36,7 +37,7 @@ import javafx.stage.Stage;
  * Handles UI Events for the main window.
  * @version 1.0
  */
-public class MainUIController implements Initializable, ChangeListener<Image>{
+public class MainUIController implements Initializable, ChangeListener<Image>, PopupNotifyInterface{
 
 
 // ============= Class variables ============== //
@@ -48,6 +49,10 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
     private ComboBox driverComboBox;
     @FXML
     private Pane profilePane;
+    @FXML
+    private Button descriptionB;
+    @FXML
+    private Label keymapDescriptionL;
     private ProfileUIController profileUIController;
     /**
      * Contains the device information.
@@ -120,13 +125,21 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 	    profileUIController = (ProfileUIController) fxmlLoader.getController();
 	    profilePane.getChildren().add(profileRoot);
 	    profileUIController.setKeymapTabPane(driverTabPane);
+	    profileUIController.setDescriptionLabel(keymapDescriptionL);
 	} catch (IOException ex) {
 	    Logger.getLogger(MainUIController.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
-// ============= Extended Methods ============== //
-// ============= Internal Classes ============== //
-// ============= Static Methods ============== //
+
+    @FXML
+    private void handleButtonAction(ActionEvent evt){
+	Object obj = evt.getSource();
+	// handle the description button action
+	if(obj == descriptionB){
+	    PopupController descriptionController = PopupManager.getPopupManager().openPopup("/com/monkygames/kbmaster/fxml/popup/SetDescriptionUI.fxml");
+	    descriptionController.addNotification(this);
+	}
+    }
 
     @Override
     public void changed(ObservableValue<? extends Image> ov, Image t, Image t1) {
@@ -165,6 +178,18 @@ public class MainUIController implements Initializable, ChangeListener<Image>{
 	    }
 	}
     }
+    @Override
+    public void onOK(Object src, String message){
+	// description for keymap has been set
+	profileUIController.setKeymapDescription(driverTabPane.getSelectionModel().getSelectedIndex(),message);
+    }
+    @Override
+    public void onCancel(Object src, String message){
+
+    }
+// ============= Extended Methods ============== //
+// ============= Internal Classes ============== //
+// ============= Static Methods ============== //
 }
 /*
  * Local variables:

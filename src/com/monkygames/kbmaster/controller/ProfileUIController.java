@@ -39,6 +39,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -82,6 +83,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private FileChooser pdfChooser;
     private TabPane keymapTabPane;
     private KeymapUIManager keymapUIManager;
+    /**
+     * The currently used profile.
+     */
+    private Profile currentProfile;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -130,6 +135,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	updateComboBoxes();
     }
     /**
+     * Set the description label for keymaps.
+     */
+    public void setDescriptionLabel(Label descriptionLabel){
+	keymapUIManager.setLabel(descriptionLabel);
+    }
+    /**
      * Only updates the profiles combo box.
      */
     public void updateProfilesComboBox(){
@@ -149,9 +160,40 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programName));
 	profileCB.setItems(profiles);
 	profileCB.getSelectionModel().selectFirst();
+	currentProfile = profiles.get(0);
+	keymapUIManager.setProfile(currentProfile);
 
 	// TODO set profile on the keymaps
 	keymapUIManager.initializeTabs();
+    }
+    /**
+     * The profiles combo box selected a new profile.
+     */
+    public void profileSelected(){
+	ProfileType type;
+	String programName;
+	Profile selectedProfile;
+
+	ObservableList<Profile> profiles = null;
+	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
+	    type = ProfileType.GAME;
+	}else{
+	    type = ProfileType.APPLICATION;
+	}
+	programName = (String)programCB.getSelectionModel().getSelectedItem();
+	if(programName == null){
+	    return;
+	}
+
+	selectedProfile = (Profile)profileCB.getSelectionModel().getSelectedItem();
+	if(selectedProfile != null){
+	    currentProfile = selectedProfile;
+	    //set the profile to the keymap controller
+	    keymapUIManager.setProfile(currentProfile);
+	    //keymapUIManager.initializeTabs();
+	}
+	
+
     }
     /**
      * Updates the type, programs, and profiles combo boxes.
@@ -162,6 +204,14 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}else{
 	    updateComboBoxesOnType(ProfileType.APPLICATION);
 	}
+    }
+    /**
+     * Set the description for the currently selected keymap.
+     * @param keymapID the id of the keymap to set the description.
+     * @param description the description of the keymap.
+     */
+    public void setKeymapDescription(int keymapID, String description){
+	currentProfile.getKeymap(keymapID).setDescription(description);
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -278,8 +328,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	return true;
     }
-    private void populateTabPane(){
-    }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -326,6 +374,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}else if(ov == profileCB.valueProperty()){
 	    // load new profile
 	    // set configurations!
+	    profileSelected();
 	}
 
     }

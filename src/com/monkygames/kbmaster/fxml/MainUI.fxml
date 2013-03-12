@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1000.0000999999975" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.MainUIController">
+<AnchorPane id="AnchorPane" prefHeight="735.0" prefWidth="1000.0000999999975" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.MainUIController">
   <children>
     <VBox alignment="TOP_CENTER" layoutX="341.0" layoutY="14.0" prefHeight="84.0" prefWidth="443.0">
       <children>
@@ -61,8 +61,8 @@
       </children>
     </HBox>
     <Line endX="801.0" endY="-3.0" layoutX="148.0" layoutY="110.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
-    <Line endX="801.0" endY="-3.0" layoutX="151.0" layoutY="638.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
-    <HBox layoutX="57.0" layoutY="641.0" prefHeight="41.0" prefWidth="321.800048828125">
+    <Line endX="801.0" endY="-3.0" layoutX="151.0" layoutY="677.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
+    <HBox layoutX="57.0" layoutY="680.0" prefHeight="41.0" prefWidth="321.800048828125">
       <children>
         <ImageView fx:id="keyboardingMasterLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
@@ -106,12 +106,11 @@
         </ImageView>
       </children>
     </HBox>
-    <HBox layoutX="200.0" layoutY="254.0" prefHeight="40.17071533203125" prefWidth="244.0" />
-    <Button layoutX="858.0" layoutY="648.0" mnemonicParsing="false" prefWidth="95.0" text="Save" />
-    <Button layoutX="755.0" layoutY="648.0" mnemonicParsing="false" prefWidth="95.0" text="Hide" />
-    <Button layoutX="655.0" layoutY="648.0" mnemonicParsing="false" text="Edit Mode" />
+    <Button layoutX="858.0" layoutY="687.0" mnemonicParsing="false" prefWidth="95.0" text="Save" />
+    <Button layoutX="755.0" layoutY="687.0" mnemonicParsing="false" prefWidth="95.0" text="Hide" />
+    <Button layoutX="655.0" layoutY="687.0" mnemonicParsing="false" text="Edit Mode" />
     <Line endX="160.0" endY="-233.0" layoutX="208.0" layoutY="357.0" startX="160.0" startY="260.0" stroke="WHITE" strokeLineCap="ROUND" />
-    <TabPane fx:id="driverTabPane" layoutX="376.0" layoutY="124.0" prefHeight="498.0" prefWidth="574.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+    <TabPane fx:id="driverTabPane" layoutX="379.0" layoutY="162.0" prefHeight="498.0" prefWidth="574.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
         <Tab text="keymap 1">
           <content>
@@ -155,7 +154,13 @@
         </Tab>
       </tabs>
     </TabPane>
-    <Pane fx:id="profilePane" layoutX="11.0" layoutY="124.0" prefHeight="484.0" prefWidth="350.0" />
+    <Pane fx:id="profilePane" layoutX="11.0" layoutY="124.0" prefHeight="536.0" prefWidth="350.0" />
+    <HBox alignment="CENTER_LEFT" layoutX="379.0" layoutY="124.0" prefHeight="22.0" prefWidth="574.0" spacing="10.0">
+      <children>
+        <Button fx:id="descriptionB" mnemonicParsing="false" onAction="#handleButtonAction" text="Description" />
+        <Label id="keymapDescription" fx:id="keymapDescriptionL" text="" />
+      </children>
+    </HBox>
   </children>
   <stylesheets>
     <URL value="@master.css" />

@@ -5,6 +5,8 @@ package com.monkygames.kbmaster.controller;
 
 // === javafx imports === //
 import com.monkygames.kbmaster.controller.driver.AssignInputUIController;
+import com.monkygames.kbmaster.input.Keymap;
+import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.PopupManager;
 import java.net.URL;
 import java.util.List;
@@ -14,11 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-// === jinput imports === //
-import net.java.games.input.Component.Identifier.Key;
 
 /**
  * Handles UI Events for the main window.
@@ -31,8 +29,20 @@ public class DriverUIController implements Initializable{
     @FXML
     private Pane rootPane;
     private AssignInputUIController assignInputUIController = null;
+    private Profile profile;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    public void setProfile(Profile profile){
+	this.profile = profile;
+	assignInputUIController.setProfile(profile);
+    }
+    /**
+     * Sets the selected keymap.
+     * @param keymap the selected keyamp.
+     */
+    public void setSelectedKeymap(Keymap keymap){
+	assignInputUIController.setSelectedKeymap(keymap);
+    }
     public void initButtons(){
 	List<Node> nodes = rootPane.getChildren();
 	//Note, in Java 8, can use Lamba Function here
@@ -51,19 +61,27 @@ public class DriverUIController implements Initializable{
 	if(obj instanceof Button){
 	    Button button = (Button)obj;
 	    int buttonID = Integer.parseInt(button.getText());
-	    openAssignInputPopup();
+	    openAssignInputPopup(buttonID);
 	}
     }
-    private void openAssignInputPopup(){
+    private void openAssignInputPopup(int buttonID){
+	/*
 	if(assignInputUIController == null){
 	    assignInputUIController = (AssignInputUIController)PopupManager.getPopupManager().openPopup("/com/monkygames/kbmaster/fxml/driver/AssignInputUI.fxml");
 	    if(assignInputUIController == null) return;
 	}
+	*/
+
+	// set the configuration for this button!
 	assignInputUIController.showStage();
     }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+	if(assignInputUIController == null){
+	    assignInputUIController = (AssignInputUIController)PopupManager.getPopupManager().openPopup("/com/monkygames/kbmaster/fxml/driver/AssignInputUI.fxml");
+	    if(assignInputUIController == null) return;
+	}
     }
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //

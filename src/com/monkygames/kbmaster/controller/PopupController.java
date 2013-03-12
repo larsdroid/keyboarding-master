@@ -21,7 +21,10 @@ public class PopupController implements Initializable{
 
 
 // ============= Class variables ============== //
-    private Stage stage;
+    /**
+     * Its protected because the popup may need access to the stage.
+     */
+    protected Stage stage;
     private ArrayList<PopupNotifyInterface> notifiers = new ArrayList<>();
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -65,7 +68,6 @@ public class PopupController implements Initializable{
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
-
 }
 /*
  * Local variables:

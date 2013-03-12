@@ -7,6 +7,14 @@ import com.monkygames.kbmaster.controller.profile.*;
 import com.monkygames.kbmaster.controller.PopupController;
 import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.input.ButtonMapping;
+import com.monkygames.kbmaster.input.Keymap;
+import com.monkygames.kbmaster.input.KeymapSwitchMapping;
+import com.monkygames.kbmaster.input.Output;
+import com.monkygames.kbmaster.input.OutputDisabled;
+import com.monkygames.kbmaster.input.OutputKey;
+import com.monkygames.kbmaster.input.OutputKeymapSwitch;
+import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.ProfileType;
 import com.monkygames.kbmaster.io.ProfileManager;
@@ -54,6 +62,18 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     private KeymapController keymapController;
     private Parent singleKeyParent, mouseButtonParent, keymapParent, disabledParent;
     private Parent currentParent;
+    /**
+     * Used for getting and setting the configuration.
+     */
+    private Profile profile;
+    /**
+     * The selected keymap.
+     */
+    private Keymap keymap;
+    /**
+     * The current button mapping for the selected index.
+     */
+    private Output currentOutput;
     private static final String SINGLE_KEY = "Single Key";
     private static final String MOUSE_BUTTON = "Mouse Button";
     private static final String KEYMAP = "Keymap";
@@ -69,6 +89,53 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     public void cancelEventFired(ActionEvent evt){
 	reset();
 	notifyCancel(null);
+    }
+    /**
+     * Sets the profile to be used for configuration.
+     */
+    public void setProfile(Profile profile){
+	this.profile = profile;
+    }
+    public void setSelectedKeymap(Keymap keymap){
+	this.keymap = keymap;
+    }
+    /**
+     * Set the configuration for the specified button id.
+     */
+    public void setAssignedConfig(int buttonID){
+	ButtonMapping buttonMapping = device.getButtonMapping(buttonID, keymap);
+	currentOutput = buttonMapping.getOutput();
+
+	if(currentParent != null){
+	    settingsPane.getChildren().remove(currentParent);
+	}
+
+	// TODO update the configurations!!!
+	if(currentOutput instanceof OutputKey){
+	    currentParent = singleKeyParent;
+	    //singleKeyParent.set
+
+	}else if(currentOutput instanceof OutputMouse){
+	}else if(currentOutput instanceof OutputKeymapSwitch){
+	}else if(currentOutput instanceof OutputDisabled){
+	}
+
+	buttonMapping.getInputHardware().getID();
+
+	/*
+	if(newValue.equals(SINGLE_KEY)){
+	    currentParent = singleKeyParent;
+	}else if(newValue.equals(MOUSE_BUTTON)){
+	    currentParent = mouseButtonParent;
+	}else if(newValue.equals(KEYMAP)){
+	    currentParent = keymapParent;
+	}else if(newValue.equals(DISABLED)){
+	    currentParent = disabledParent;
+	}
+	if(currentParent != null){
+	    settingsPane.getChildren().add(currentParent);
+	}
+	*/
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -155,6 +222,11 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     @Override
     public void showStage(){
 	super.showStage();
+    }
+    @Override
+    public void setStage(Stage stage){
+	super.setStage(stage);
+	singleKeyController.setStage(stage);
     }
 }
 /*
