@@ -4,21 +4,16 @@
 package com.monkygames.kbmaster.controller.driver;
 
 // === javafx imports === //
-import com.monkygames.kbmaster.controller.*;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 // === jinput imports === //
@@ -49,6 +44,7 @@ public class SingleKeyController implements Initializable, EventHandler{
     public void setStage(Stage stage){
 	stage.addEventHandler(KeyEvent.KEY_TYPED, this);
 	//stage.addEventHandler(KeyEvent.KEY_PRESSED, this);
+	//stage.addEventHandler(KeyEvent.KEY_RELEASED, this);
 	//rootPane.addEventHandler(KeyEvent.KEY_TYPED, this);
     }
 // ============= Protected Methods ============== //
@@ -61,18 +57,39 @@ public class SingleKeyController implements Initializable, EventHandler{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
-    public void handleOnKeyTyped(KeyEvent keyEvent){
-	System.out.println("handleOnKeyTyped "+keyEvent);
-	singleKeyTF.setText(keyEvent.getCharacter());
-    }
-    public void handleOnKeyPressed(KeyEvent keyEvent){
-	System.out.println("handleOnKeyPressed "+keyEvent);
-    }
     @Override
     public void handle(Event event) {
 	System.out.println("Handle - "+event);
 	if(KeyEvent.KEY_TYPED.equals(event.getEventType())){
-	    String key = ((KeyEvent)event).getText();
+	    KeyEvent keyEvent = (KeyEvent)event;
+	    System.out.println("KEY TYPED");
+	    String key = keyEvent.getCharacter();
+	    System.out.println("key: "+key);
+	    System.out.println("is shift down: "+keyEvent.isShiftDown());
+	    System.out.println("is ctrl down: "+keyEvent.isControlDown());
+	    System.out.println("is alt down: "+keyEvent.isAltDown());
+	    System.out.println("is meta down: "+keyEvent.isMetaDown());
+	    System.out.println("is shortcut down:: "+keyEvent.isShortcutDown());
+	    singleKeyTF.setText(key);
+	} else if(KeyEvent.KEY_PRESSED.equals(event.getEventType())){
+	    KeyEvent keyEvent = (KeyEvent)event;
+	    System.out.println("KEY Pressed");
+	    String key = keyEvent.getCharacter();
+	    System.out.println("key: "+key);
+	    System.out.println("is shift down: "+keyEvent.isShiftDown());
+	    System.out.println("is ctrl down: "+keyEvent.isControlDown());
+	    System.out.println("is alt down: "+keyEvent.isAltDown());
+	    System.out.println("is meta down: "+keyEvent.isMetaDown());
+	    singleKeyTF.setText(key);
+	} else if(KeyEvent.KEY_RELEASED.equals(event.getEventType())){
+	    KeyEvent keyEvent = (KeyEvent)event;
+	    System.out.println("KEY Released");
+	    String key = keyEvent.getCharacter();
+	    System.out.println("key: "+key);
+	    System.out.println("is shift down: "+keyEvent.isShiftDown());
+	    System.out.println("is ctrl down: "+keyEvent.isControlDown());
+	    System.out.println("is alt down: "+keyEvent.isAltDown());
+	    System.out.println("is meta down: "+keyEvent.isMetaDown());
 	    singleKeyTF.setText(key);
 	}
     }
