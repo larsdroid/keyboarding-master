@@ -54,6 +54,14 @@ public class MainUIController implements Initializable, ChangeListener<Image>, P
     @FXML
     private Label keymapDescriptionL;
     private ProfileUIController profileUIController;
+    @FXML
+    private Button displayKeymapB;
+    @FXML
+    private Button editModeB;
+    @FXML
+    private Button saveB;
+    @FXML
+    private Button cancelB;
     /**
      * Contains the device information.
      */
@@ -139,6 +147,8 @@ public class MainUIController implements Initializable, ChangeListener<Image>, P
 	    PopupController descriptionController = PopupManager.getPopupManager().openPopup("/com/monkygames/kbmaster/fxml/popup/SetDescriptionUI.fxml");
 	    descriptionController.addNotification(this);
 	    descriptionController.showStage();
+	}else if(obj == displayKeymapB){
+	    
 	}
     }
 

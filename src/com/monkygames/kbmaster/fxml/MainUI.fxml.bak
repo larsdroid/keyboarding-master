@@ -157,10 +157,11 @@
     <Pane fx:id="profilePane" layoutX="11.0" layoutY="124.0" prefHeight="536.0" prefWidth="350.0" />
     <HBox alignment="CENTER_LEFT" layoutX="379.0" layoutY="124.0" prefHeight="22.0" prefWidth="574.0" spacing="10.0">
       <children>
-        <Button fx:id="descriptionB" mnemonicParsing="false" onAction="#handleButtonAction" text="Description" />
-        <Label fx:id="keymapDescription" text="" />
+        <Button fx:id="descriptionB" mnemonicParsing="false" onAction="#handleButtonAction" text="Set Keymap Description" />
+        <Label id="keymapDescription" fx:id="keymapDescriptionL" text="" />
       </children>
     </HBox>
+    <Button fx:id="displayKeymapB" layoutX="520.0" layoutY="687.0" mnemonicParsing="false" text="Display Keymap" />
   </children>
   <stylesheets>
     <URL value="@master.css" />

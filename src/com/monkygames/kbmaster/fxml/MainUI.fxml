@@ -106,9 +106,9 @@
         </ImageView>
       </children>
     </HBox>
-    <Button layoutX="858.0" layoutY="687.0" mnemonicParsing="false" prefWidth="95.0" text="Save" />
-    <Button layoutX="755.0" layoutY="687.0" mnemonicParsing="false" prefWidth="95.0" text="Hide" />
-    <Button layoutX="655.0" layoutY="687.0" mnemonicParsing="false" text="Edit Mode" />
+    <Button fx:id="saveB" layoutX="858.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Save" />
+    <Button fx:id="hideB" layoutX="755.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Hide" />
+    <Button fx:id="editModeB" layoutX="655.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Edit Mode" />
     <Line endX="160.0" endY="-233.0" layoutX="208.0" layoutY="357.0" startX="160.0" startY="260.0" stroke="WHITE" strokeLineCap="ROUND" />
     <TabPane fx:id="driverTabPane" layoutX="379.0" layoutY="162.0" prefHeight="498.0" prefWidth="574.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -157,10 +157,11 @@
     <Pane fx:id="profilePane" layoutX="11.0" layoutY="124.0" prefHeight="536.0" prefWidth="350.0" />
     <HBox alignment="CENTER_LEFT" layoutX="379.0" layoutY="124.0" prefHeight="22.0" prefWidth="574.0" spacing="10.0">
       <children>
-        <Button fx:id="descriptionB" mnemonicParsing="false" onAction="#handleButtonAction" text="Description" />
+        <Button fx:id="descriptionB" mnemonicParsing="false" onAction="#handleButtonAction" text="Set Keymap Description" />
         <Label id="keymapDescription" fx:id="keymapDescriptionL" text="" />
       </children>
     </HBox>
+    <Button fx:id="displayKeymapB" layoutX="520.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Display Keymap" />
   </children>
   <stylesheets>
     <URL value="@master.css" />
