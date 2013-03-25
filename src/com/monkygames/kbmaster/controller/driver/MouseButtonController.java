@@ -5,6 +5,7 @@ package com.monkygames.kbmaster.controller.driver;
 
 // === javafx imports === //
 import com.monkygames.kbmaster.controller.*;
+import com.monkygames.kbmaster.input.Output;
 import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
 import java.awt.event.InputEvent;
@@ -49,6 +50,15 @@ public class MouseButtonController implements Initializable{
 		return;
 	    }
 	}
+    }
+    /**
+     * Returns the configured output based on the user's selection
+     * or pre-configured selection.
+     */
+    public Output getConfiguredOutput(){
+	Output output = (Output)buttonCB.getSelectionModel().getSelectedItem();
+	Output clone = (Output)output.clone();
+	return clone;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

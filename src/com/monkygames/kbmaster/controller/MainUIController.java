@@ -138,6 +138,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>, P
 	if(obj == descriptionB){
 	    PopupController descriptionController = PopupManager.getPopupManager().openPopup("/com/monkygames/kbmaster/fxml/popup/SetDescriptionUI.fxml");
 	    descriptionController.addNotification(this);
+	    descriptionController.showStage();
 	}
     }
 

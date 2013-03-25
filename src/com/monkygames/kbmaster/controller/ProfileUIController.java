@@ -203,6 +203,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     public void setKeymapDescription(int keymapID, String description){
 	currentProfile.getKeymap(keymapID).setDescription(description);
+	keymapUIManager.setDescriptionText(description);
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

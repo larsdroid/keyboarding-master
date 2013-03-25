@@ -20,7 +20,7 @@ import javafx.stage.Stage;
  * Note, must set the stage.
  * @version 1.0
  */
-public class SetDescriptionController extends PopupController{
+public class SetDescriptionUIController extends PopupController{
 
     @FXML
     private TextField descriptionTF;
@@ -28,10 +28,12 @@ public class SetDescriptionController extends PopupController{
 // ============= Class variables ============== //
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    @FXML
     public void okEventFired(ActionEvent evt){
 	this.notifyOK(descriptionTF.getText());
 	hideStage();
     }
+    @FXML
     public void cancelEventFired(ActionEvent evt){
 	descriptionTF.setText("");;
 	notifyCancel("");

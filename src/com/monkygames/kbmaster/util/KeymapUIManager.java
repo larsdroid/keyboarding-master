@@ -40,6 +40,13 @@ public class KeymapUIManager implements ChangeListener{
 	driverUIController = new DriverUIController[8];
     }
 // ============= Public Methods ============== //
+    /**
+     * Sets the text for the description.
+     * @param message the text to set.
+     */
+    public void setDescriptionText(String message){
+	keymapDescription.setText(message);
+    }
     public void setLabel(Label keymapDescription){
 	this.keymapDescription = keymapDescription;
     }

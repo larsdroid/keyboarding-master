@@ -119,6 +119,7 @@ public class SingleKeyController implements Initializable, EventHandler{
 	    singleKeyTF.setText(key);
 	} else if(KeyEvent.KEY_RELEASED.equals(event.getEventType())){
 	    KeyEvent keyEvent = (KeyEvent)event;
+	    System.out.println(keyEvent);
 
 	    if (keyEvent.getCode() == KeyCode.CONTROL && !ignoreModifierRelease) {
 		setKeyPressed(keyEvent, "KEY");

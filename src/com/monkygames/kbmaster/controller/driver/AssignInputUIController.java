@@ -3,23 +3,18 @@
  */
 package com.monkygames.kbmaster.controller.driver;
 
-import com.monkygames.kbmaster.controller.profile.*;
 import com.monkygames.kbmaster.controller.PopupController;
 import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
-import com.monkygames.kbmaster.input.KeymapSwitchMapping;
 import com.monkygames.kbmaster.input.Output;
 import com.monkygames.kbmaster.input.OutputDisabled;
 import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputKeymapSwitch;
 import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.Profile;
-import com.monkygames.kbmaster.input.ProfileType;
 import com.monkygames.kbmaster.io.ProfileManager;
-import com.monkygames.kbmaster.util.PopupManager;
-import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,18 +23,14 @@ import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 /**

@@ -5,14 +5,20 @@ package com.monkygames.kbmaster.controller.driver;
 
 // === javafx imports === //
 import com.monkygames.kbmaster.controller.*;
+import com.monkygames.kbmaster.input.Output;
+import com.monkygames.kbmaster.input.OutputKeymapSwitch;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -28,8 +34,29 @@ public class KeymapController implements Initializable{
 // ============= Class variables ============== //
     @FXML
     private Pane rootPane;
+    @FXML
+    private ComboBox keymapCB;
+    @FXML
+    private CheckBox switchBackCB;
+    
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    /**
+     * Returns the configured output based on the user's selection
+     * or pre-configured selection.
+     */
+    public Output getConfiguredOutput(){
+	OutputKeymapSwitch outputKeymapSwitch = (OutputKeymapSwitch)keymapCB.getSelectionModel().getSelectedItem();
+	// clone so that a new instance is created in order to not effect
+	// the instance in the list.
+	OutputKeymapSwitch output = (OutputKeymapSwitch)outputKeymapSwitch.clone();
+	if(switchBackCB.isSelected()){
+	    output.setIsSwitchOnRelease(true);
+	}else{
+	    output.setIsSwitchOnRelease(false);
+	}
+	return output;
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     @FXML
@@ -39,6 +66,13 @@ public class KeymapController implements Initializable{
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+	// set the items for the keymap (1 - 8);
+	FXCollections.observableArrayList();
+	ObservableList<OutputKeymapSwitch> list = FXCollections.observableArrayList();
+	for(int i = 1; i <= 8; i++){
+	   list.add(new OutputKeymapSwitch("Keymap "+i,i,false));
+	}
+	keymapCB.setItems(list);
     }
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //
