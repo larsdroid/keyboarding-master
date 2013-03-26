@@ -36,7 +36,7 @@ public class RazerNostromoMapper implements Mapper{
 // ============= Static Methods ============== //
     @Override
     public Keymap generateDefaultKeymap(int id){
-	Keymap keymap = new Keymap(id);
+	Keymap keymap = new Keymap(id+1);
 	// add 01 - 20
 	keymap.addButtonMapping(Key.TAB.getName(), new ButtonMapping(new Button(1,Key.TAB.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_TAB),KeyEvent.VK_TAB)));
 	keymap.addButtonMapping(Key.Q.getName(), new ButtonMapping(new Button(2,Key.Q.getName()),new OutputKey("Q",KeyEvent.VK_Q)));

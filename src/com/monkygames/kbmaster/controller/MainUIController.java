@@ -148,7 +148,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>, P
 	    descriptionController.addNotification(this);
 	    descriptionController.showStage();
 	}else if(obj == displayKeymapB){
-	    
+	    profileUIController.openDisplayKeymapPopup(driverTabPane.getSelectionModel().getSelectedIndex());
 	}
     }
 

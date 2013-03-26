@@ -31,9 +31,15 @@ import com.monkygames.kbmaster.io.GenerateBindingsImage;
 import com.monkygames.kbmaster.util.KeymapUIManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * Handles UI Events for the profile panel.
@@ -66,6 +72,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
     private DeleteProfileUIController deleteProfileUIController;
+    private DisplayKeymapUIController displayKeymapUIController;
     private File profileDir;
     private Device device;
     /**
@@ -204,6 +211,28 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     public void setKeymapDescription(int keymapID, String description){
 	currentProfile.getKeymap(keymapID).setDescription(description);
 	keymapUIManager.setDescriptionText(description);
+    }
+    /**
+     * Opens the display keymap popup with the specified keymap id.
+     * @param keymapID from 0 to 7.
+     */ 
+    public void openDisplayKeymapPopup(int keymapID){
+	if(!checkDevice()) return;
+	try{
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/DisplayKeymapUI.fxml");
+	    FXMLLoader fxmlLoader = new FXMLLoader();
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    Parent root = (Parent)fxmlLoader.load(location.openStream());
+	    displayKeymapUIController = (DisplayKeymapUIController) fxmlLoader.getController();
+	    Scene scene = new Scene(root);
+	    Stage stage = new Stage();
+	    stage.setScene(scene);
+	    displayKeymapUIController.setStage(stage);
+	}catch(IOException e){}
+	GenerateBindingsImage generator = new GenerateBindingsImage(device);
+	displayKeymapUIController.setGenerateBindingsImage(generator);
+	displayKeymapUIController.displayKeymap(currentProfile.getKeymap(keymapID));
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
