@@ -38,27 +38,27 @@ public class RazerNostromoMapper implements Mapper{
     public Keymap generateDefaultKeymap(int id){
 	Keymap keymap = new Keymap(id+1);
 	// add 01 - 20
-	keymap.addButtonMapping(Key.TAB.getName(), new ButtonMapping(new Button(1,Key.TAB.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_TAB),KeyEvent.VK_TAB)));
-	keymap.addButtonMapping(Key.Q.getName(), new ButtonMapping(new Button(2,Key.Q.getName()),new OutputKey("Q",KeyEvent.VK_Q)));
-	keymap.addButtonMapping(Key.W.getName(), new ButtonMapping(new Button(3,Key.W.getName()),new OutputKey("W",KeyEvent.VK_W)));
-	keymap.addButtonMapping(Key.E.getName(), new ButtonMapping(new Button(4,Key.E.getName()),new OutputKey("E",KeyEvent.VK_E)));
-	keymap.addButtonMapping(Key.R.getName(), new ButtonMapping(new Button(5,Key.R.getName()),new OutputKey("R",KeyEvent.VK_R)));
-	keymap.addButtonMapping(Key.CAPITAL.getName(), new ButtonMapping(new Button(6,Key.CAPITAL.getName()),new OutputKey("CAPS_LOCK",KeyEvent.VK_CAPS_LOCK)));
-	keymap.addButtonMapping(Key.A.getName(), new ButtonMapping(new Button(7,Key.A.getName()),new OutputKey("A",KeyEvent.VK_A)));
-	keymap.addButtonMapping(Key.S.getName(), new ButtonMapping(new Button(8,Key.S.getName()),new OutputKey("S",KeyEvent.VK_S)));
-	keymap.addButtonMapping(Key.D.getName(), new ButtonMapping(new Button(9,Key.D.getName()),new OutputKey("D",KeyEvent.VK_D)));
-	keymap.addButtonMapping(Key.F.getName(), new ButtonMapping(new Button(10,Key.F.getName()),new OutputKey("F",KeyEvent.VK_F)));
-	keymap.addButtonMapping(Key.LSHIFT.getName(), new ButtonMapping(new Button(11,Key.LSHIFT.getName()),new OutputKey("SHIFT",KeyEvent.VK_SHIFT)));
-	keymap.addButtonMapping(Key.Z.getName(), new ButtonMapping(new Button(12,Key.Z.getName()),new OutputKey("Z",KeyEvent.VK_Z)));
-	keymap.addButtonMapping(Key.X.getName(), new ButtonMapping(new Button(13,Key.X.getName()),new OutputKey("X",KeyEvent.VK_X)));
-	keymap.addButtonMapping(Key.C.getName(), new ButtonMapping(new Button(14,Key.C.getName()),new OutputKey("C",KeyEvent.VK_C)));
-	keymap.addButtonMapping(Key.SPACE.getName(), new ButtonMapping(new Button(15,Key.SPACE.getName()),new OutputKey("SPACE",KeyEvent.VK_SPACE)));
-	keymap.addButtonMapping(Key.LALT.getName(), new ButtonMapping(new Button(16,Key.LALT.getName()),new OutputKey("ALT",KeyEvent.VK_ALT)));
+	keymap.addButtonMapping(Key.TAB.getName(), new ButtonMapping(new Button(1,Key.TAB.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_TAB),KeyEvent.VK_TAB,0)));
+	keymap.addButtonMapping(Key.Q.getName(), new ButtonMapping(new Button(2,Key.Q.getName()),new OutputKey("Q",KeyEvent.VK_Q,0)));
+	keymap.addButtonMapping(Key.W.getName(), new ButtonMapping(new Button(3,Key.W.getName()),new OutputKey("W",KeyEvent.VK_W,0)));
+	keymap.addButtonMapping(Key.E.getName(), new ButtonMapping(new Button(4,Key.E.getName()),new OutputKey("E",KeyEvent.VK_E,0)));
+	keymap.addButtonMapping(Key.R.getName(), new ButtonMapping(new Button(5,Key.R.getName()),new OutputKey("R",KeyEvent.VK_R,0)));
+	keymap.addButtonMapping(Key.CAPITAL.getName(), new ButtonMapping(new Button(6,Key.CAPITAL.getName()),new OutputKey("CAPS_LOCK",KeyEvent.VK_CAPS_LOCK,0)));
+	keymap.addButtonMapping(Key.A.getName(), new ButtonMapping(new Button(7,Key.A.getName()),new OutputKey("A",KeyEvent.VK_A,0)));
+	keymap.addButtonMapping(Key.S.getName(), new ButtonMapping(new Button(8,Key.S.getName()),new OutputKey("S",KeyEvent.VK_S,0)));
+	keymap.addButtonMapping(Key.D.getName(), new ButtonMapping(new Button(9,Key.D.getName()),new OutputKey("D",KeyEvent.VK_D,0)));
+	keymap.addButtonMapping(Key.F.getName(), new ButtonMapping(new Button(10,Key.F.getName()),new OutputKey("F",KeyEvent.VK_F,0)));
+	keymap.addButtonMapping(Key.LSHIFT.getName(), new ButtonMapping(new Button(11,Key.LSHIFT.getName()),new OutputKey("SHIFT",KeyEvent.VK_SHIFT,0)));
+	keymap.addButtonMapping(Key.Z.getName(), new ButtonMapping(new Button(12,Key.Z.getName()),new OutputKey("Z",KeyEvent.VK_Z,0)));
+	keymap.addButtonMapping(Key.X.getName(), new ButtonMapping(new Button(13,Key.X.getName()),new OutputKey("X",KeyEvent.VK_X,0)));
+	keymap.addButtonMapping(Key.C.getName(), new ButtonMapping(new Button(14,Key.C.getName()),new OutputKey("C",KeyEvent.VK_C,0)));
+	keymap.addButtonMapping(Key.SPACE.getName(), new ButtonMapping(new Button(15,Key.SPACE.getName()),new OutputKey("SPACE",KeyEvent.VK_SPACE,0)));
+	keymap.addButtonMapping(Key.LALT.getName(), new ButtonMapping(new Button(16,Key.LALT.getName()),new OutputKey("ALT",KeyEvent.VK_ALT,0)));
 	// d-pad
-	keymap.addButtonMapping(Key.UP.getName(), new ButtonMapping(new Button(17,Key.UP.getName()),new OutputKey("UP",KeyEvent.VK_UP)));
-	keymap.addButtonMapping(Key.RIGHT.getName(), new ButtonMapping(new Button(18,Key.RIGHT.getName()),new OutputKey("RIGHT",KeyEvent.VK_RIGHT)));
-	keymap.addButtonMapping(Key.DOWN.getName(), new ButtonMapping(new Button(19,Key.DOWN.getName()),new OutputKey("DOWN",KeyEvent.VK_DOWN)));
-	keymap.addButtonMapping(Key.LEFT.getName(), new ButtonMapping(new Button(20,Key.LEFT.getName()),new OutputKey("LEFT",KeyEvent.VK_LEFT)));
+	keymap.addButtonMapping(Key.UP.getName(), new ButtonMapping(new Button(17,Key.UP.getName()),new OutputKey("UP",KeyEvent.VK_UP,0)));
+	keymap.addButtonMapping(Key.RIGHT.getName(), new ButtonMapping(new Button(18,Key.RIGHT.getName()),new OutputKey("RIGHT",KeyEvent.VK_RIGHT,0)));
+	keymap.addButtonMapping(Key.DOWN.getName(), new ButtonMapping(new Button(19,Key.DOWN.getName()),new OutputKey("DOWN",KeyEvent.VK_DOWN,0)));
+	keymap.addButtonMapping(Key.LEFT.getName(), new ButtonMapping(new Button(20,Key.LEFT.getName()),new OutputKey("LEFT",KeyEvent.VK_LEFT,0)));
 	// wheel 
 	keymap.setzUpWheelMapping(new WheelMapping(new Wheel(21),new OutputMouse("Scroll Up",-1,MouseType.MouseWheel)));
 	keymap.setzDownWheelMapping(new WheelMapping(new Wheel(22),new OutputMouse("Scroll Down",1,MouseType.MouseWheel)));

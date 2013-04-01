@@ -20,19 +20,28 @@ public class Output{
      */
     protected int keycode;
     /**
+     * The modifier for the key to be sent to the system for an event generation.
+     */
+    protected int modifier;
+    /**
      * The description for the functionality of this output.
      */
     protected String description;
 // ============= Constructors ============== //
     public Output(){}
-    public Output(String name, int keycode){
+    public Output(String name, int keycode, int modifier){
 	this.name = name;
 	this.keycode = keycode;
+	this.modifier = modifier;
 	this.description = name;
     }
 // ============= Public Methods ============== //
     public int getKeycode() {
 	return keycode;
+    }
+
+    public int getModifier() {
+	return modifier;
     }
 
     public String getName() {
@@ -45,6 +54,10 @@ public class Output{
 
     public void setKeycode(int keycode) {
 	this.keycode = keycode;
+    }
+
+    public void setModifier(int modifier) {
+	this.modifier = modifier;
     }
 
     public void setName(String name) {
@@ -61,9 +74,8 @@ public class Output{
 // ============= Extended Methods ============== //
     @Override
     public Object clone(){
-	Output output = new Output(name,keycode);
+	Output output = new Output(name,keycode,modifier);
 	output.setDescription(description);
-	System.out.println("Description  = "+description+" but output.description = "+output.getDescription());
 	return output;
     }
     @Override

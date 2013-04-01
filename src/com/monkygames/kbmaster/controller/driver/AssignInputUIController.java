@@ -104,6 +104,7 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	// TODO update the configurations!!!
 	if(currentOutput instanceof OutputKey){
 	    currentParent = singleKeyParent;
+	    currentOutput.getKeycode();
 	    //singleKeyParent.set
 
 	}else if(currentOutput instanceof OutputMouse){

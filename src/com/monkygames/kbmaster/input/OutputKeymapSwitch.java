@@ -23,7 +23,7 @@ public class OutputKeymapSwitch extends Output{
 
 // ============= Constructors ============== //
     public OutputKeymapSwitch(String name, int keycode, boolean isSwitchOnRelease){
-	super(name,keycode);
+	super(name,keycode,0);
 	this.isSwitchOnRelease = isSwitchOnRelease;
 	this.originalName = new String(name);
 	updateName();

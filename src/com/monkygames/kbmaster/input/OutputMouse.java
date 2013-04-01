@@ -18,7 +18,7 @@ public class OutputMouse extends Output{
     public enum MouseType { MouseWheel, MouseClick, MouseDoubleClick};
 // ============= Constructors ============== //
     public OutputMouse(String name, int keycode, MouseType mouseType){
-	super(name,keycode);
+	super(name,keycode,0);
 	this.mouseType = mouseType;
     }
 // ============= Public Methods ============== //

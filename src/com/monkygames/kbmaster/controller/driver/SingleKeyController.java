@@ -4,6 +4,9 @@
 package com.monkygames.kbmaster.controller.driver;
 
 // === javafx imports === //
+import com.monkygames.kbmaster.input.Output;
+import com.monkygames.kbmaster.input.OutputKey;
+import com.monkygames.kbmaster.util.JavaFXToAwt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -35,6 +38,10 @@ public class SingleKeyController implements Initializable, EventHandler{
     @FXML
     private Label shiftL, ctrlL, altL;
     private boolean ignoreModifierRelease = false;
+    /**
+     * Used for storing the output key to be assigned.
+     */
+    private OutputKey outputKey;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -46,10 +53,17 @@ public class SingleKeyController implements Initializable, EventHandler{
 	singleKeyTF.setText(singleKey);
     }
     public void setStage(Stage stage){
+	stage.addEventFilter(KeyEvent.KEY_RELEASED, this);
 	//stage.addEventHandler(KeyEvent.KEY_TYPED, this);
-	//stage.addEventHandler(KeyEvent.KEY_PRESSED, this);
-	stage.addEventHandler(KeyEvent.KEY_RELEASED, this);
-	//rootPane.addEventHandler(KeyEvent.KEY_TYPED, this);
+    }
+    /**
+     * Returns the configured output based on the user's selection
+     * or pre-configured selection.
+     */
+    public Output getConfiguredOutput(){
+	//Output output = (Output)buttonCB.getSelectionModel().getSelectedItem();
+	Output clone = (Output)outputKey.clone();
+	return clone;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -67,6 +81,15 @@ public class SingleKeyController implements Initializable, EventHandler{
 	String key = keyEvent.getCharacter();
 	System.out.println("key: "+key+" Code: "+keyEvent.getCode()+" Text: "+keyEvent.getText());
 	KeyCode code = keyEvent.getCode();
+
+	int awtCode = JavaFXToAwt.getAWTKeyCode(keyEvent);
+	int awtModifier = JavaFXToAwt.getAWTModifiers(keyEvent);
+	outputKey.setName(code.getName());
+	outputKey.setKeycode(awtCode);
+	outputKey.setModifier(awtModifier);
+
+	System.out.println("OutputKey = "+code.getName()+","+awtCode+","+awtModifier);
+
 	singleKeyTF.setText(code.getName());
 	if(type.equals("ALT")){
 	    altL.setDisable(false);
@@ -89,34 +112,21 @@ public class SingleKeyController implements Initializable, EventHandler{
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+	outputKey = new OutputKey("Unassigned",0,0);
     }
     @Override
     public void handle(Event event) {
-	//System.out.println("Handle - "+event);
-
-
+	System.out.println("Handle - "+event);
 	if(KeyEvent.KEY_TYPED.equals(event.getEventType())){
 	    KeyEvent keyEvent = (KeyEvent)event;
 	    System.out.println("KEY TYPED");
 	    String key = keyEvent.getCharacter();
-	    System.out.println("key: "+key);
-	    System.out.println("is shift down: "+keyEvent.isShiftDown());
-	    System.out.println("is ctrl down: "+keyEvent.isControlDown());
-	    System.out.println("is alt down: "+keyEvent.isAltDown());
-	    System.out.println("is meta down: "+keyEvent.isMetaDown());
-	    System.out.println("is shortcut down:: "+keyEvent.isShortcutDown());
 	    singleKeyTF.setText(key);
 	} else if(KeyEvent.KEY_PRESSED.equals(event.getEventType())){
 	    KeyEvent keyEvent = (KeyEvent)event;
-
 	    System.out.println("KEY Pressed");
 	    String key = keyEvent.getCharacter();
 	    System.out.println("key: "+key);
-	    System.out.println("is shift down: "+keyEvent.isShiftDown());
-	    System.out.println("is ctrl down: "+keyEvent.isControlDown());
-	    System.out.println("is alt down: "+keyEvent.isAltDown());
-	    System.out.println("is meta down: "+keyEvent.isMetaDown());
-	    singleKeyTF.setText(key);
 	} else if(KeyEvent.KEY_RELEASED.equals(event.getEventType())){
 	    KeyEvent keyEvent = (KeyEvent)event;
 	    System.out.println(keyEvent);

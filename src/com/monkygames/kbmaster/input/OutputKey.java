@@ -12,8 +12,8 @@ public class OutputKey extends Output{
 
 // ============= Class variables ============== //
 // ============= Constructors ============== //
-    public OutputKey(String name, int keycode){
-	super(name,keycode);
+    public OutputKey(String name, int keycode, int modifier){
+	super(name,keycode,modifier);
 	setName(name);
     }
 // ============= Public Methods ============== //
@@ -24,7 +24,7 @@ public class OutputKey extends Output{
 // ============= Extended Methods ============== //
     @Override
     public Object clone(){
-	OutputKey output = new OutputKey(this.name,this.keycode);
+	OutputKey output = new OutputKey(this.name,this.keycode,this.modifier);
 	output.setDescription(getDescription());
 	return output;
     }

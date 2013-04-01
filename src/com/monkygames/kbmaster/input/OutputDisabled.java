@@ -13,7 +13,7 @@ public class OutputDisabled extends Output{
 // ============= Class variables ============== //
 // ============= Constructors ============== //
     public OutputDisabled(){
-	super("Disabled",0);
+	super("Disabled",0,0);
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
