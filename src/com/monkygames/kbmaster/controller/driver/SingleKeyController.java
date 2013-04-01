@@ -53,8 +53,12 @@ public class SingleKeyController implements Initializable, EventHandler{
 	singleKeyTF.setText(singleKey);
     }
     public void setStage(Stage stage){
+	// note, the event filter allows for all events to get generated
+	// using the EventHandler might miss some key strokes like 
+	// space, esc, and enter due to components in the scenegraph
+	// taking focus and consuming the event before it can be passed
+	// to this handler.
 	stage.addEventFilter(KeyEvent.KEY_RELEASED, this);
-	//stage.addEventHandler(KeyEvent.KEY_TYPED, this);
     }
     /**
      * Returns the configured output based on the user's selection
