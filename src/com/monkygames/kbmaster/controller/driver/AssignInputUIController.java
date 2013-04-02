@@ -76,6 +76,15 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	this.device = device;
     }
     public void okEventFired(ActionEvent evt){
+	// save output!
+	if(currentParent == singleKeyParent){
+	    //singleKeyController.getConfiguredOutput();
+	}else if(currentParent == mouseButtonParent){
+	    //mouseButtonController.getConfiguredOutput();
+	}else if(currentParent == keymapParent){
+	    //keymapController.getConfiguredOutput();
+	}else if(currentParent == disabledParent){
+	}
 	reset();
     }
     public void cancelEventFired(ActionEvent evt){
