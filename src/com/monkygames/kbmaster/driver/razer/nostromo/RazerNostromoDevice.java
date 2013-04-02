@@ -13,6 +13,7 @@ import com.monkygames.kbmaster.driver.*;
 import com.monkygames.kbmaster.input.Button;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
+import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
@@ -67,14 +68,28 @@ public class RazerNostromoDevice extends Device{
 	keymap.addButtonMapping(Key.DOWN.getName(), new ButtonMapping(new Button(19,Key.DOWN.getName()),new OutputKey("DOWN",KeyEvent.VK_DOWN,0)));
 	keymap.addButtonMapping(Key.LEFT.getName(), new ButtonMapping(new Button(20,Key.LEFT.getName()),new OutputKey("LEFT",KeyEvent.VK_LEFT,0)));
 	// wheel 
-	keymap.setzUpWheelMapping(new WheelMapping(new Wheel(1),new OutputMouse("Scroll Up",-1,MouseType.MouseWheel)));
-	keymap.setzDownWheelMapping(new WheelMapping(new Wheel(2),new OutputMouse("Scroll Down",1,MouseType.MouseWheel)));
-	keymap.setMiddleWheelMapping(new WheelMapping(new Wheel(3),new OutputMouse("Middle-Click",InputEvent.BUTTON3_MASK,MouseType.MouseClick)));
+	keymap.setzUpWheelMapping(new WheelMapping(new Wheel(21),new OutputMouse("Scroll Up",-1,MouseType.MouseWheel)));
+	keymap.setzDownWheelMapping(new WheelMapping(new Wheel(22),new OutputMouse("Scroll Down",1,MouseType.MouseWheel)));
+	keymap.setMiddleWheelMapping(new WheelMapping(new Wheel(23),new OutputMouse("Middle-Click",InputEvent.BUTTON2_MASK,MouseType.MouseClick)));
 	return keymap;
     }
     @Override
     public ButtonMapping getButtonMapping(int index, Keymap keymap){
 	return keymap.getButtonMapping(getId(index));
+    }
+    @Override
+    public Mapping getMapping(int index, Keymap keymap){
+	switch(index){
+	    case 21:
+		return keymap.getzUpWheelMapping();
+	    case 22:
+		return keymap.getzDownWheelMapping();
+	    case 23:
+		return keymap.getMiddleWheelMapping();
+	    default:
+		return keymap.getButtonMapping(getId(index));
+	}
+
     }
     @Override
     public String getId(int index){

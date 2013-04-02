@@ -5,6 +5,7 @@ package com.monkygames.kbmaster.controller;
 
 // === javafx imports === //
 import com.monkygames.kbmaster.controller.driver.AssignInputUIController;
+import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.PopupManager;
@@ -52,6 +53,9 @@ public class DriverUIController implements Initializable{
 	    }
 	}
     }
+    public void setDevice(Device device){
+	assignInputUIController.setDevice(device);
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     @FXML
@@ -64,15 +68,13 @@ public class DriverUIController implements Initializable{
 	    openAssignInputPopup(buttonID);
 	}
     }
+    /**
+     * Sets the assigned button and opens the AssignInputPopup.
+     * @param buttonID the id of the button to configure.
+     */
     private void openAssignInputPopup(int buttonID){
-	/*
-	if(assignInputUIController == null){
-	    assignInputUIController = (AssignInputUIController)PopupManager.getPopupManager().openPopup("/com/monkygames/kbmaster/fxml/driver/AssignInputUI.fxml");
-	    if(assignInputUIController == null) return;
-	}
-	*/
-
-	// set the configuration for this button!
+	// set the configuration for this button
+	assignInputUIController.setAssignedConfig(buttonID);
 	assignInputUIController.showStage();
     }
 // ============= Implemented Methods ============== //

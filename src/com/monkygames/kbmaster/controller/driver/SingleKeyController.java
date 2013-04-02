@@ -46,11 +46,14 @@ public class SingleKeyController implements Initializable, EventHandler{
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     /**
-     * Sets the single key for the text field.
-     * @param singleKey the single key to be set.
+     * Sets the single key for the specified output.
+     * @parma output the output to be set for this key.
      */
-    public void setSingleKey(String singleKey){
-	singleKeyTF.setText(singleKey);
+    public void setConfiguredOutput(Output output){
+	outputKey.setName(output.getName());
+	outputKey.setKeycode(output.getKeycode());
+	outputKey.setModifier(output.getModifier());
+	singleKeyTF.setText(outputKey.getName());
     }
     public void setStage(Stage stage){
 	// note, the event filter allows for all events to get generated
@@ -65,7 +68,6 @@ public class SingleKeyController implements Initializable, EventHandler{
      * or pre-configured selection.
      */
     public Output getConfiguredOutput(){
-	//Output output = (Output)buttonCB.getSelectionModel().getSelectedItem();
 	Output clone = (Output)outputKey.clone();
 	return clone;
     }

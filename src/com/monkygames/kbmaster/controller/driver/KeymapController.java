@@ -42,6 +42,14 @@ public class KeymapController implements Initializable{
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     /**
+     * Selects the keymap in the combo box based on the id.
+     * @param keymapID the id of the keymap to select.
+     * @param isSwitchOnRelease true if switch on release and false otherwise.
+     */
+    public void setConfiguredOutput(int keymapID, boolean isSwitchOnRelease){
+	keymapCB.getSelectionModel().select(keymapID);
+    }
+    /**
      * Returns the configured output based on the user's selection
      * or pre-configured selection.
      */

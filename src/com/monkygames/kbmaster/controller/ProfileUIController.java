@@ -66,8 +66,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private Button printPDFB;
     @FXML
     private Button deleteProfileB;
-    @FXML
-    private DriverUIController driverUIController;
     private ProfileManager profileManager;
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
@@ -114,7 +112,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     public void setDevice(Device device){
 	this.device = device;
-	keymapUIManager.setDevice(device);
 	if(newProfileUIController != null){
 	    newProfileUIController.setDevice(device);
 	}
@@ -159,10 +156,13 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	profileCB.setItems(profiles);
 	profileCB.getSelectionModel().selectFirst();
 	currentProfile = profiles.get(0);
-	keymapUIManager.setProfile(currentProfile);
 
-	// TODO set profile on the keymaps
+	//  set profile on the keymaps
+	// set device is required before calling initialize tabs.
+	keymapUIManager.setDevice(device);
 	keymapUIManager.initializeTabs();
+	// initialize tabs is required before calling set profile.
+	keymapUIManager.setProfile(currentProfile);
     }
     /**
      * The profiles combo box selected a new profile.

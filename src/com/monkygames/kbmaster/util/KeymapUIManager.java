@@ -13,9 +13,6 @@ import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -50,13 +47,24 @@ public class KeymapUIManager implements ChangeListener{
     public void setLabel(Label keymapDescription){
 	this.keymapDescription = keymapDescription;
     }
+    /**
+     * Sets the device to be used for the keymap and all of the DriverUIControllers.
+     * @param device the device to used.
+     */
     public void setDevice(Device device){
 	this.device = device;
     }
+    /**
+     * Sets the profile to be used/configured.
+     * @param profile the profile to be used.
+     */
     public void setProfile(Profile profile){
 	this.profile = profile;
 	// set description for keymap
 	keymapDescription.setText(profile.getKeymap(0).getDescription());
+	for(int i = 0; i < driverUIController.length; i++){
+	    driverUIController[i].setSelectedKeymap(profile.getKeymap(i));
+	}
     }
     public void setTabPane(TabPane tabPane){
 	this.tabPane = tabPane;
@@ -85,6 +93,7 @@ public class KeymapUIManager implements ChangeListener{
 	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 	    root = (Parent)fxmlLoader.load(location.openStream());
 	    driverUIController[index] = (DriverUIController) fxmlLoader.getController();
+	    driverUIController[index].setDevice(device);
 	    tab.setContent(root);
 
 	    //newProgramUIController.setStage(stage);

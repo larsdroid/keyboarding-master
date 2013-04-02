@@ -8,6 +8,7 @@ import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
+import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Output;
 import com.monkygames.kbmaster.input.OutputDisabled;
 import com.monkygames.kbmaster.input.OutputKey;
@@ -87,32 +88,56 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     public void setProfile(Profile profile){
 	this.profile = profile;
     }
+    /**
+     * Sets the selected keymap to be configured.
+     * @param keymap the keymap to be configured.
+     */
     public void setSelectedKeymap(Keymap keymap){
 	this.keymap = keymap;
     }
     /**
      * Set the configuration for the specified button id.
+     * @param buttonID the unique id of the button to be configured.
      */
     public void setAssignedConfig(int buttonID){
-	ButtonMapping buttonMapping = device.getButtonMapping(buttonID, keymap);
-	currentOutput = buttonMapping.getOutput();
+	Mapping mapping = device.getMapping(buttonID, keymap);
+	currentOutput = mapping.getOutput();
 
 	if(currentParent != null){
 	    settingsPane.getChildren().remove(currentParent);
 	}
 
-	// TODO update the configurations!!!
+	int selectionID = 0;
+	// update the configurations
 	if(currentOutput instanceof OutputKey){
 	    currentParent = singleKeyParent;
-	    currentOutput.getKeycode();
-	    //singleKeyParent.set
-
+	    singleKeyController.setConfiguredOutput(currentOutput);
+	    selectionID = 0;
 	}else if(currentOutput instanceof OutputMouse){
+	    currentParent = mouseButtonParent;
+	    mouseButtonController.setSelectedMouse(currentOutput.getKeycode());
+	    selectionID = 1;
 	}else if(currentOutput instanceof OutputKeymapSwitch){
+	    currentParent = keymapParent;
+	    OutputKeymapSwitch keymapSwitch = (OutputKeymapSwitch)currentOutput;
+	    // note, we subtrack one from the keycode since the range is valid from 1 - 8 inclusive.
+	    keymapController.setConfiguredOutput(keymapSwitch.getKeycode()-1,keymapSwitch.isIsSwitchOnRelease());
+	    selectionID = 2;
 	}else if(currentOutput instanceof OutputDisabled){
+	    currentParent = disabledParent;
+	    selectionID = 3;
 	}
 
-	buttonMapping.getInputHardware().getID();
+	if(currentParent != null){
+	    settingsPane.getChildren().add(currentParent);
+
+	    mappingCB.valueProperty().removeListener(this);
+	    mappingCB.getSelectionModel().select(selectionID);
+	    mappingCB.valueProperty().addListener(this);
+	}
+
+	//buttonMapping.getInputHardware().getID();
+
 
 	/*
 	if(newValue.equals(SINGLE_KEY)){

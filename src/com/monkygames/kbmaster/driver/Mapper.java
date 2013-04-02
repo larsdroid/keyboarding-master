@@ -6,6 +6,7 @@ package com.monkygames.kbmaster.driver;
 // == java imports === //
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
+import com.monkygames.kbmaster.input.Mapping;
 
 /**
  * An interface for each device to get the mapping of the default keys.
@@ -34,6 +35,13 @@ public interface Mapper{
      * @return the mapping.
      */
     public ButtonMapping getButtonMapping(int index, Keymap keymap);
+    /**
+     * Returns the mapping for all types of input based on the index.
+     * @param index the index of the mapping.
+     * @param keymap the keymap the mapping is located.
+     * @return the mapping.
+     */
+    public Mapping getMapping(int index, Keymap keymap);
     /**
      * Returns the id associated with the index useful for getting the mapping 
      * of buttons.
