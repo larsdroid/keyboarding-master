@@ -4,7 +4,7 @@
 package com.monkygames.kbmaster.util;
 
 // === kbmaster imports === //
-import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.input.AppType;
 
 /**
  * [about]
@@ -20,7 +20,7 @@ public class ProfileTypeNames{
      * @param type the type of profile.
      * @return the string representation of the type.
      */
-    public static String getProfileTypeName(ProfileType type){
+    public static String getProfileTypeName(AppType type){
 	switch(type){
 	    case APPLICATION:
 		return "Application";

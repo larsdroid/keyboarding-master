@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 // === javafx imports === //
 // === kbmaster imports === //
 import com.monkygames.kbmaster.controller.PopupController;
-import com.monkygames.kbmaster.input.Button;
-import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.input.App;
+import com.monkygames.kbmaster.input.AppType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
@@ -19,7 +19,9 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 /**
  * Controls the New Program UI.
@@ -34,35 +36,53 @@ public class NewProgramUIController extends PopupController{
     @FXML
     private TextField programTF;
     private ProfileManager profileManager;
+    @FXML
+    private TextArea appInfoTA;
+    @FXML
+    private ImageView appIV;
+    @FXML
+    private ImageView devIV;
+    private String appLogoPath = null;
+    private String devLogoPath = null;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public void setProfileManager(ProfileManager profileManager){
 	this.profileManager = profileManager;
     }
     public void okEventFired(ActionEvent evt){
-	ProfileType type;
-	List <String> programs;
+	AppType type;
+	List <App> programs;
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    type = ProfileType.GAME;
-	    programs = profileManager.getGameNames();
+	    type = AppType.GAME;
+	    programs = profileManager.getGames();
 	}else{
-	    type = ProfileType.APPLICATION;
-	    programs = profileManager.getApplicationNames();
+	    type = AppType.APPLICATION;
+	    programs = profileManager.getApplications();
 	}
-	String program = programTF.getText();
+	String appName = programTF.getText();
 	// check for a valid program name
-	if(program == null || program.equals("")){
-	    PopupManager.getPopupManager().showError("Invalid Program Name");
+	if(appName == null || appName.equals("")){
+	    PopupManager.getPopupManager().showError("Invalid App Name");
 	}
-	if(!profileManager.addProgramName(program, type)){
-	    PopupManager.getPopupManager().showError("Program name already exists");
+	if(!profileManager.addApp(new App(appInfoTA.getText(),
+					  appLogoPath,
+					  devLogoPath,
+					  appName,
+					  type))){
+	    PopupManager.getPopupManager().showError("App name already exists");
 	}
 	reset();
-	notifyOK(program);
+	notifyOK(appName);
     }
     public void cancelEventFired(ActionEvent evt){
 	reset();
 	notifyCancel(null);
+    }
+    public void addAppLogoEventFired(ActionEvent evt){
+	// file locator?
+    }
+    public void addDevLogoEventFired(ActionEvent evt){
+
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -73,8 +93,8 @@ public class NewProgramUIController extends PopupController{
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(ProfileType.GAME),
-							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
+	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(AppType.GAME),
+							  ProfileTypeNames.getProfileTypeName(AppType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
     }
 // ============= Extended Methods ============== //

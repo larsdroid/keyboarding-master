@@ -3,62 +3,62 @@
  */
 package com.monkygames.kbmaster.io;
 
-import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.input.App;
+import com.monkygames.kbmaster.input.AppType;
 import java.util.ArrayList;
 
 /**
  * Handles managing the lists of programs.
  * @version 1.0
  */
-public class ProgramListManager{
+public class AppListManager{
 
 // ============= Class variables ============== //
     /** 
      * A list of game names that can be used with profiles.
      */
-    private ArrayList <String> gameNames;
+    private ArrayList <App> games;
     /**
      * A list of application names that can be used with profiles.
      */
-    private ArrayList <String> applicationNames;
+    private ArrayList <App> applications;
 // ============= Constructors ============== //
-    public ProgramListManager(){
-	gameNames = new ArrayList<>();
-	applicationNames = new ArrayList<>();
+    public AppListManager(){
+	games = new ArrayList<>();
+	applications = new ArrayList<>();
     }
 // ============= Public Methods ============== //
     /**
-     * Adds a program to the list specified by type.
-     * @param program the name of the program to be added.
-     * @param type the type of program to be added.
-     * @return if the program already exists, false is returned and true on success.
+     * Adds an app to the list specified by type.
+     * @param app the app to be added.
+     * @return if the app already exists, false is returned and true on success.
      */
-    public boolean addProgram(String program, ProfileType type){
-	ArrayList<String> programs;
-	switch(type){
+    public boolean addApp(App app){
+	ArrayList<App> apps;
+	switch(app.getAppType()){
 	    case APPLICATION:
-		programs = applicationNames;
+		apps = applications;
 		break;
 	    case GAME:
 	    default:
-		programs = gameNames;
+		apps = games;
 
 	}
-	if(programs.contains(program)){
+	if(apps.contains(app)){
 	    return false;
 	}
-	programs.add(program);
+	apps.add(app);
 	return true;
     }
     /**
-     * Returns the available programs that can be used with profiles.
+     * Returns the available apps that can be used with profiles.
      * @param type the type of program names to get.
      */
-    public ArrayList<String> getAvailableProgramList(ProfileType type){
-	if(type == ProfileType.APPLICATION){
-	    return applicationNames;
+    public ArrayList<App> getAvailableAppList(AppType type){
+	if(type == AppType.APPLICATION){
+	    return applications;
 	}
-	return gameNames;
+	return games;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

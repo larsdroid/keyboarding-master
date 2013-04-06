@@ -92,16 +92,25 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
-    <HBox layoutX="10.0" layoutY="435.0" prefHeight="48.0" prefWidth="343.0">
+    <HBox layoutX="10.0" layoutY="435.0" prefHeight="48.0" prefWidth="343.0" spacing="5.0">
       <children>
         <Label text="App Details: " />
-        <TextArea prefHeight="239.0" prefWidth="247.0" wrapText="true" />
+        <ImageView fx:id="appLogoIV" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@resources/profile/app_logo.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+        <TextArea fx:id="appInfoTA" prefHeight="48.0" prefWidth="188.0" wrapText="true" />
       </children>
     </HBox>
     <HBox layoutX="10.0" layoutY="486.0" prefHeight="48.0" prefWidth="176.0">
       <children>
         <Label text="Developer: " />
-        <ImageView fx:id="developerIV" fitHeight="48.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView id="developerIV" fx:id="devLogiIV" blendMode="SRC_OVER" disable="false" fitHeight="48.0" fitWidth="100.0" focusTraversable="false" pickOnBounds="true" preserveRatio="true" smooth="true" visible="true" HBox.hgrow="NEVER">
+          <image>
+            <Image url="@resources/profile/dev_logo.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
       </children>
     </HBox>
   </children>

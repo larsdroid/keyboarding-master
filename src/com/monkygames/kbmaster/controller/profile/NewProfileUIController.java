@@ -6,10 +6,10 @@ package com.monkygames.kbmaster.controller.profile;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.controller.PopupController;
 import com.monkygames.kbmaster.controller.PopupNotifyInterface;
-import com.monkygames.kbmaster.controller.ProfileUIController;
 import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.input.App;
 import com.monkygames.kbmaster.input.Profile;
-import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.input.AppType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
@@ -17,6 +17,8 @@ import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 // === javafx imports === //
@@ -55,6 +57,7 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     private ProfileManager profileManager;
     private NewProgramUIController newProgramUIController;
     private Device device;
+    private List<App> appsList;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public void setProfileManager(ProfileManager profileManager){
@@ -75,12 +78,11 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 		openNewProgramPopup();
 		return;
 	    }
-	    ProfileType type = getProfileType();
-	    String programName = (String)programCB.getSelectionModel().getSelectedItem();
+	    App app = (App)programCB.getSelectionModel().getSelectedItem();
 	    String profileName = profileTF.getText();
 	    // check for a valid program name
-	    if(programName == null || programName.equals("")){
-		PopupManager.getPopupManager().showError("Invalid program name");
+	    if(app == null){
+		PopupManager.getPopupManager().showError("Invalid program");
 		return;
 	    }
 	    // check for valid profileName
@@ -89,11 +91,11 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 		return;
 	    }
 	    // check for existing profile names
-	    if(profileManager.doesProfileNameExists(type, programName, profileName)){
+	    if(profileManager.doesProfileNameExists(app, profileName)){
 		PopupManager.getPopupManager().showError("Profile name already exists");
 		return;
 	    }
-	    Profile profile = new Profile(type,programName,profileName);
+	    Profile profile = new Profile(app,profileName);
 	    device.setDefaultKeymaps(profile);
 	    // save the profile
 	    profileManager.addProfile(profile);
@@ -139,29 +141,30 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	hideStage();
 
     }
-    private void updateComboBoxesOnType(ProfileType type){
-	ObservableList<String> programs;
-	programs = FXCollections.observableArrayList(profileManager.getAvailablePrograms(type));
-	programs.add(0, "New");
-	programCB.setItems(programs);
+    private void updateComboBoxesOnType(AppType type){
+	ObservableList<App> apps;
+	appsList = profileManager.getAvailableApps(type);
+	apps = FXCollections.observableArrayList(appsList);
+	apps.add(0, new App("",null,null,"New",AppType.APPLICATION));
+	programCB.setItems(apps);
     }
     /**
      * Returns the profile type based on the type combo box.
      */
-    private ProfileType getProfileType(){
-	ProfileType type;
+    private AppType getProfileType(){
+	AppType type;
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    type = ProfileType.GAME;
+	    type = AppType.GAME;
 	}else{
-	    type = ProfileType.APPLICATION;
+	    type = AppType.APPLICATION;
 	}
 	return type;
     }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(ProfileType.GAME),
-							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
+	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(AppType.GAME),
+							  ProfileTypeNames.getProfileTypeName(AppType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
 	programCB.setItems(FXCollections.observableArrayList());
@@ -176,7 +179,12 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     public void onOK(Object src, String message) {
 	this.showStage();
 	if(message != null || !message.equals("")){
-	    programCB.getSelectionModel().select(message);
+	    for(App app: appsList){
+		if(app.getName().equals(message)){
+		    programCB.getSelectionModel().select(app);
+		    break;
+		}
+	    }
 	}
     }
     @Override

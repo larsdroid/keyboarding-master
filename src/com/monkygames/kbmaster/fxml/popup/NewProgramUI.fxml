@@ -11,14 +11,14 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="275.0" prefWidth="415.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProgramUIController">
+<AnchorPane id="AnchorPane" minHeight="376.0" prefHeight="388.0" prefWidth="415.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProgramUIController">
   <children>
     <ImageView fitHeight="47.95121765136719" fitWidth="78.63999814819333" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
       <image>
         <Image url="@../resources/sort/game_app.png" preserveRatio="false" smooth="false" />
       </image>
     </ImageView>
-    <Label layoutX="123.0" layoutY="25.0" text="Create New Program">
+    <Label layoutX="145.0" layoutY="25.0" text="Create New App">
       <font>
         <Font size="24.0" />
       </font>
@@ -40,8 +40,21 @@
     </HBox>
     <Label layoutX="169.0" layoutY="135.0" text="Enter New Program Name" />
     <TextField fx:id="programTF" layoutX="135.0" layoutY="162.0" prefWidth="251.0" />
-    <Button fx:id="cancelB" layoutX="308.0" layoutY="216.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="89.0" text="Cancel" />
-    <Button fx:id="okB" layoutX="204.0" layoutY="216.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="89.0" text="Ok" />
+    <Button fx:id="cancelB" layoutX="312.0" layoutY="342.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="89.0" text="Cancel" />
+    <Button fx:id="okB" layoutX="208.0" layoutY="342.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="89.0" text="Ok" />
+    <Button fx:id="appLogoB" layoutX="18.0" layoutY="219.0" mnemonicParsing="false" onAction="#addAppLogoEventFired" text="Add App Logo" />
+    <ImageView fx:id="appIV" fitHeight="48.0" fitWidth="48.0" layoutX="145.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../resources/profile/app_logo.png" preserveRatio="false" smooth="false" />
+      </image>
+    </ImageView>
+    <ImageView fx:id="devIV" fitHeight="48.0" fitWidth="100.0" layoutX="145.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../resources/profile/dev_logo.png" preserveRatio="false" smooth="false" />
+      </image>
+    </ImageView>
+    <Button fx:id="devLogoB" layoutX="18.0" layoutY="282.0" mnemonicParsing="false" onAction="#addDevLogoEventFired" text="Add Dev Logo" />
+    <TextArea id="appInfo" fx:id="appInfoTA" layoutX="198.0" layoutY="212.0" prefHeight="48.0" prefWidth="188.0" wrapText="true" />
   </children>
   <stylesheets>
     <URL value="@../master.css" />

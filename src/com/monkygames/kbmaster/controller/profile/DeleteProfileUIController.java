@@ -36,8 +36,8 @@ public class DeleteProfileUIController extends PopupController {
     }
     public void setProfile(Profile profile){
 	this.profile = profile;
-	typeL.setText(ProfileTypeNames.getProfileTypeName(profile.getProfileType()));
-	programL.setText(profile.getProgramName());
+	typeL.setText(ProfileTypeNames.getProfileTypeName(profile.getApp().getAppType()));
+	programL.setText(profile.getApp().getName());
 	profileL.setText(profile.getProfileName());
     }
     public void okEventFired(ActionEvent evt){

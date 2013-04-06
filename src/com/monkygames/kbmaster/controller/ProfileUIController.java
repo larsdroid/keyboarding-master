@@ -8,6 +8,7 @@ import com.monkygames.kbmaster.controller.profile.CloneProfileUIController;
 import com.monkygames.kbmaster.controller.profile.DeleteProfileUIController;
 import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
 import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.input.App;
 import com.monkygames.kbmaster.input.Profile;
 import java.io.File;
 import java.net.URL;
@@ -25,7 +26,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tooltip;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
-import com.monkygames.kbmaster.input.ProfileType;
+import com.monkygames.kbmaster.input.AppType;
 import com.monkygames.kbmaster.io.BindingPDFWriter;
 import com.monkygames.kbmaster.io.GenerateBindingsImage;
 import com.monkygames.kbmaster.util.KeymapUIManager;
@@ -38,6 +39,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -66,6 +69,14 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private Button printPDFB;
     @FXML
     private Button deleteProfileB;
+    @FXML
+    private TextArea infoTA;
+    @FXML
+    private TextArea appInfoTA;
+    @FXML
+    private ImageView appLogoIV;
+    @FXML
+    private ImageView devLogoIV;
     private ProfileManager profileManager;
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
@@ -121,11 +132,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	profileManager = new ProfileManager(profileDir+File.separator+deviceName);
 
-	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(ProfileType.GAME),
-							  ProfileTypeNames.getProfileTypeName(ProfileType.APPLICATION)));
+	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(AppType.GAME),
+							  ProfileTypeNames.getProfileTypeName(AppType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
-
 
 	updateComboBoxes();
     }
@@ -139,20 +149,23 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * Only updates the profiles combo box.
      */
     public void updateProfilesComboBox(){
-	ProfileType type;
-	String programName;
+	App app;
 	ObservableList<Profile> profiles = null;
+	/*
+	AppType type;
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    type = ProfileType.GAME;
+	    type = AppType.GAME;
 	}else{
-	    type = ProfileType.APPLICATION;
+	    type = AppType.APPLICATION;
 	}
-	programName = (String)programCB.getSelectionModel().getSelectedItem();
-	if(programName == null){
+	*/
+	app = (App)programCB.getSelectionModel().getSelectedItem();
+	if(app == null){
 	    return;
 	}
+	updateAppUIInfo(app);
 
-	profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programName));
+	profiles = FXCollections.observableArrayList(profileManager.getProfile(app));
 	profileCB.setItems(profiles);
 	profileCB.getSelectionModel().selectFirst();
 	currentProfile = profiles.get(0);
@@ -169,18 +182,21 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * The profiles combo box selected a new profile.
      */
     public void profileSelected(){
-	ProfileType type;
-	String programName;
 	Profile selectedProfile;
-
+	App app;
 	ObservableList<Profile> profiles = null;
+
+	/* // I don't think this is needed
+	AppType type;
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    type = ProfileType.GAME;
+	    type = AppType.GAME;
 	}else{
-	    type = ProfileType.APPLICATION;
+	    type = AppType.APPLICATION;
 	}
-	programName = (String)programCB.getSelectionModel().getSelectedItem();
-	if(programName == null){
+	*/
+
+	app = (App)programCB.getSelectionModel().getSelectedItem();
+	if(app == null){
 	    return;
 	}
 
@@ -191,17 +207,15 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    keymapUIManager.setProfile(currentProfile);
 	    //keymapUIManager.initializeTabs();
 	}
-	
-
     }
     /**
      * Updates the type, programs, and profiles combo boxes.
      */
     public void updateComboBoxes(){
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    updateComboBoxesOnType(ProfileType.GAME);
+	    updateComboBoxesOnType(AppType.GAME);
 	}else{
-	    updateComboBoxesOnType(ProfileType.APPLICATION);
+	    updateComboBoxesOnType(AppType.APPLICATION);
 	}
     }
     /**
@@ -242,26 +256,38 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * to populate the profiles list.
      * @param type the type of profile to sort on.
      */
-    private void updateComboBoxesOnType(ProfileType type){
-	ObservableList<String> programs;
+    private void updateComboBoxesOnType(AppType type){
+	ObservableList<App> programs;
 	ObservableList<Profile> profiles = null;
-	if(type == ProfileType.APPLICATION){
-	    programs = FXCollections.observableArrayList(profileManager.getApplicationNames());
+	if(type == AppType.APPLICATION){
+	    programs = FXCollections.observableArrayList(profileManager.getApplications());
 	}else{
-	    programs = FXCollections.observableArrayList(profileManager.getGameNames());
+	    programs = FXCollections.observableArrayList(profileManager.getGames());
 	}
 	if(programs.size() > 0 && programs.get(0) != null){
-	    profiles = FXCollections.observableArrayList(profileManager.getProfile(type, programs.get(0)));
+	    profiles = FXCollections.observableArrayList(profileManager.getProfile(programs.get(0)));
 	}
 
 	programCB.valueProperty().removeListener(this);
+	System.out.println("Just before updateComboBoxesOnType");
 	programCB.setItems(programs);
+	System.out.println("Just after");
 	if(profiles == null){
 	    profileCB.setItems(FXCollections.observableArrayList());
 	}else{
 	    profileCB.setItems(profiles);
 	}
-	programCB.valueProperty().addListener(this);
+	// I usually have a listener for this class but
+	// typeCB and profileCB both contain Strings while programCB contains Apps.
+	// So its necessary to extend a generic listener here
+	programCB.valueProperty().addListener(new ChangeListener<App>(){
+	    @Override
+	    public void changed(ObservableValue<? extends App> ov, App previousValue, App newValue) {
+		if(ov == programCB.valueProperty()){
+		    updateProfilesComboBox();
+		}
+	    }
+	});
     }
     /**
      * Sets the tool tip with the string by the specified information.
@@ -350,6 +376,16 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	return true;
     }
+    /**
+     * Updates the UI with the app information.
+     * @param app the app to be updated.
+     */
+    private void updateAppUIInfo(App app){
+	appInfoTA.setText(app.getInfo());
+	//private ImageView appLogoIV;
+	//private ImageView devLogoIV;
+    }
+	
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -388,17 +424,14 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     }
 
     @Override
-    public void changed(ObservableValue<? extends String> ov, String previousValue, String newValue) {
+    public void changed(ObservableValue<? extends String> ov,  String previousValue, String newValue) {
 	if(ov == typeCB.valueProperty()){
 	    updateComboBoxes();
-	}else if(ov == programCB.valueProperty()){
-	    updateProfilesComboBox();
 	}else if(ov == profileCB.valueProperty()){
 	    // load new profile
 	    // set configurations!
 	    profileSelected();
 	}
-
     }
 
 // ============= Extended Methods ============== //

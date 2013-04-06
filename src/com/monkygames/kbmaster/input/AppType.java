@@ -4,10 +4,10 @@
 package com.monkygames.kbmaster.input;
 
 /**
- * The possible profile types.
+ * The possible app types.
  * @version 1.0
  */
-public enum ProfileType {
+public enum AppType {
 
 // ============= Class variables ============== //
     APPLICATION, GAME 
