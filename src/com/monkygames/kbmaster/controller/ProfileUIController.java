@@ -163,6 +163,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	keymapUIManager.initializeTabs();
 	// initialize tabs is required before calling set profile.
 	keymapUIManager.setProfile(currentProfile);
+	keymapUIManager.addSaveNotification(this);
     }
     /**
      * The profiles combo box selected a new profile.
@@ -406,7 +407,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 
     @Override
     public void onOK(Object src, String message) {
-	updateComboBoxes();
+	if(message != null && message.equals("Save")){
+	    // save the profile
+	    profileManager.updateProfile(currentProfile);
+	}else{
+	    updateComboBoxes();
+	}
     }
 
     @Override

@@ -6,7 +6,6 @@ package com.monkygames.kbmaster.controller.driver;
 import com.monkygames.kbmaster.controller.PopupController;
 import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
-import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Output;
@@ -38,7 +37,7 @@ import javafx.stage.Stage;
  * Handles the cloning feature.
  * @version 1.0
  */
-public class AssignInputUIController extends PopupController implements ChangeListener<String>, PopupNotifyInterface{
+public class AssignInputUIController extends PopupController implements ChangeListener<String>{
 
 // ============= Class variables ============== //
     @FXML
@@ -66,6 +65,10 @@ public class AssignInputUIController extends PopupController implements ChangeLi
      * The current button mapping for the selected index.
      */
     private Output currentOutput;
+    /**
+     * The current mapping that is being configured;
+     */
+    private Mapping currentMapping;
     private static final String SINGLE_KEY = "Single Key";
     private static final String MOUSE_BUTTON = "Mouse Button";
     private static final String KEYMAP = "Keymap";
@@ -76,26 +79,23 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	this.device = device;
     }
     public void okEventFired(ActionEvent evt){
-	// save output!
+	// set the mapping
 	if(currentParent == singleKeyParent){
-	    //singleKeyController.getConfiguredOutput();
+	    currentMapping.setOutput(singleKeyController.getConfiguredOutput());
 	}else if(currentParent == mouseButtonParent){
-	    //mouseButtonController.getConfiguredOutput();
+	    currentMapping.setOutput(mouseButtonController.getConfiguredOutput());
 	}else if(currentParent == keymapParent){
-	    //keymapController.getConfiguredOutput();
+	    currentMapping.setOutput(keymapController.getConfiguredOutput());
 	}else if(currentParent == disabledParent){
+	    currentMapping.setMapping(false);
 	}
+	// save profile
+	this.notifyOK("Save");
 	reset();
     }
     public void cancelEventFired(ActionEvent evt){
 	reset();
 	notifyCancel(null);
-    }
-    /**
-     * Sets the profile to be used for configuration.
-     */
-    public void setProfile(Profile profile){
-	this.profile = profile;
     }
     /**
      * Sets the selected keymap to be configured.
@@ -109,8 +109,8 @@ public class AssignInputUIController extends PopupController implements ChangeLi
      * @param buttonID the unique id of the button to be configured.
      */
     public void setAssignedConfig(int buttonID){
-	Mapping mapping = device.getMapping(buttonID, keymap);
-	currentOutput = mapping.getOutput();
+	currentMapping = device.getMapping(buttonID, keymap);
+	currentOutput = currentMapping.getOutput();
 
 	if(currentParent != null){
 	    settingsPane.getChildren().remove(currentParent);
@@ -237,14 +237,6 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
 
-    @Override
-    public void onOK(Object src, String message) {
-    }
-
-    @Override
-    public void onCancel(Object src, String message) {
-	// do nothing for now
-    }
     @Override
     public void showStage(){
 	super.showStage();

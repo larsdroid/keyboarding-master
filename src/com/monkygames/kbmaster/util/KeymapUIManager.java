@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.util;
 
 import com.monkygames.kbmaster.controller.DriverUIController;
+import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Profile;
 import java.io.IOException;
@@ -64,6 +65,15 @@ public class KeymapUIManager implements ChangeListener{
 	keymapDescription.setText(profile.getKeymap(0).getDescription());
 	for(int i = 0; i < driverUIController.length; i++){
 	    driverUIController[i].setSelectedKeymap(profile.getKeymap(i));
+	}
+    }
+    /**
+     * Adds notification if a profile should be saved.
+     * @param notification the interface to listen for save events.
+     */
+    public void addSaveNotification(PopupNotifyInterface notification){
+	for(int i = 0; i < driverUIController.length; i++){
+	    driverUIController[i].addSaveNotification(notification);
 	}
     }
     public void setTabPane(TabPane tabPane){

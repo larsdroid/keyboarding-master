@@ -30,12 +30,16 @@ public class DriverUIController implements Initializable{
     @FXML
     private Pane rootPane;
     private AssignInputUIController assignInputUIController = null;
-    private Profile profile;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
-    public void setProfile(Profile profile){
-	this.profile = profile;
-	assignInputUIController.setProfile(profile);
+    /**
+     * Adds a notification of popup (ok/cancel) specificaly if the
+     * profile should be saved.
+     * @parma popupNotification the interface to be notified if the profile
+     * should be saved.
+     */
+    public void addSaveNotification(PopupNotifyInterface popupNotification){
+	assignInputUIController.addNotification(popupNotification);
     }
     /**
      * Sets the selected keymap.
