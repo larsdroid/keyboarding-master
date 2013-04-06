@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="650.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.driver.AssignInputUIController">
+<AnchorPane id="AnchorPane" focusTraversable="true" prefHeight="400.0" prefWidth="650.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.driver.AssignInputUIController">
   <children>
     <Label alignment="CENTER" contentDisplay="LEFT" layoutX="219.0" layoutY="14.0" text="Input Assignment" textAlignment="CENTER">
       <font>
@@ -30,7 +30,7 @@
           </items>
         </ComboBox>
         <Label text="Description: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="descriptionTF" prefWidth="279.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="descriptionTF" disable="false" onMouseEntered="#handleMouseEntered" onMouseExited="#handleMouseExited" prefWidth="279.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       </children>
       <columnConstraints>
         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
@@ -44,7 +44,7 @@
     <Line endX="287.0" endY="-9.0" layoutX="325.0" layoutY="147.0" startX="-285.0" startY="-9.0" stroke="WHITE" />
     <Button layoutX="497.0" layoutY="345.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="126.0" text="Cancel" />
     <Button layoutX="353.0" layoutY="345.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="126.0" text="Ok" />
-    <Pane id="settingsPanel" fx:id="settingsPane" layoutX="14.0" layoutY="145.0" prefHeight="186.0" prefWidth="622.0" />
+    <Pane id="settingsPanel" fx:id="settingsPane" focusTraversable="true" layoutX="14.0" layoutY="145.0" prefHeight="186.0" prefWidth="622.0" />
   </children>
   <stylesheets>
     <URL value="@../master.css" />

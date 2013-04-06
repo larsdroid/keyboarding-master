@@ -24,6 +24,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -88,7 +89,10 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	    currentMapping.setOutput(keymapController.getConfiguredOutput());
 	}else if(currentParent == disabledParent){
 	    currentMapping.setMapping(false);
+	    currentMapping.setOutput(new OutputDisabled());
 	}
+	// save description
+	currentMapping.getOutput().setDescription(descriptionTF.getText());
 	// save profile
 	this.notifyOK("Save");
 	reset();
@@ -144,24 +148,8 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	    mappingCB.getSelectionModel().select(selectionID);
 	    mappingCB.valueProperty().addListener(this);
 	}
-
-	//buttonMapping.getInputHardware().getID();
-
-
-	/*
-	if(newValue.equals(SINGLE_KEY)){
-	    currentParent = singleKeyParent;
-	}else if(newValue.equals(MOUSE_BUTTON)){
-	    currentParent = mouseButtonParent;
-	}else if(newValue.equals(KEYMAP)){
-	    currentParent = keymapParent;
-	}else if(newValue.equals(DISABLED)){
-	    currentParent = disabledParent;
-	}
-	if(currentParent != null){
-	    settingsPane.getChildren().add(currentParent);
-	}
-	*/
+	// update the description
+	descriptionTF.setText(currentOutput.getDescription());
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -233,6 +221,17 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	if(currentParent != null){
 	    settingsPane.getChildren().add(currentParent);
 	}
+    }
+    public void handleMouseEntered(Event event){
+	// the text field is disabled until the user mouses over it.	
+	descriptionTF.setEditable(true);
+	// disable the single key controller
+	singleKeyController.setEnabled(false);
+
+    }
+    public void handleMouseExited(Event event){
+	descriptionTF.setEditable(false);
+	singleKeyController.setEnabled(true);
     }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //

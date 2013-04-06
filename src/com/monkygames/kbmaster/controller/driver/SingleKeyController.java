@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -42,6 +43,8 @@ public class SingleKeyController implements Initializable, EventHandler{
      * Used for storing the output key to be assigned.
      */
     private OutputKey outputKey;
+    private boolean isEnabled = false;
+    private Stage stage;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -61,7 +64,22 @@ public class SingleKeyController implements Initializable, EventHandler{
 	// space, esc, and enter due to components in the scenegraph
 	// taking focus and consuming the event before it can be passed
 	// to this handler.
-	stage.addEventFilter(KeyEvent.KEY_RELEASED, this);
+	//rootPane.addEventFilter(KeyEvent.KEY_RELEASED, this);
+	this.stage = stage;
+    }
+    /**
+     * Sets the key event filtered based on this.
+     */
+    public void setEnabled(boolean isEnabled){
+	if(this.isEnabled == isEnabled){
+	    return;
+	}
+	if(isEnabled){
+	    stage.addEventFilter(KeyEvent.KEY_RELEASED, this);
+	}else{
+	    stage.removeEventFilter(KeyEvent.KEY_RELEASED, this);
+	}
+	this.isEnabled = isEnabled;
     }
     /**
      * Returns the configured output based on the user's selection
