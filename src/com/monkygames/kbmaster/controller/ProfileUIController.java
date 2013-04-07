@@ -35,6 +35,8 @@ import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -82,6 +84,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private ImageView appLogoIV;
     @FXML
     private ImageView devLogoIV;
+    @FXML
+    private Label authorL;
+    @FXML
+    private Label updatedL;
     private ProfileManager profileManager;
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
@@ -166,6 +172,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	profileCB.setItems(profiles);
 	profileCB.getSelectionModel().selectFirst();
 	currentProfile = profiles.get(0);
+	updateProfileUIInfo(currentProfile);
 
 	//  set profile on the keymaps
 	// set device is required before calling initialize tabs.
@@ -203,6 +210,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    //set the profile to the keymap controller
 	    keymapUIManager.setProfile(currentProfile);
 	    //keymapUIManager.initializeTabs();
+	    updateProfileUIInfo(selectedProfile);
 	}
     }
     /**
@@ -266,9 +274,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 
 	programCB.valueProperty().removeListener(this);
-	System.out.println("Just before updateComboBoxesOnType");
 	programCB.setItems(programs);
-	System.out.println("Just after");
 	if(profiles == null){
 	    profileCB.setItems(FXCollections.observableArrayList());
 	}else{
@@ -397,6 +403,19 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 	}
+    }
+
+    /**
+     * Updates the UI with the profile information.
+     * @param profile the information to update the UI with.
+     */
+    private void updateProfileUIInfo(Profile profile){
+	infoTA.setText(profile.getInfo());
+	authorL.setText(profile.getAuthor());
+	Calendar cal = Calendar.getInstance();
+	cal.setTimeInMillis(profile.getLastUpdatedDate());
+	SimpleDateFormat date_format = new SimpleDateFormat("yyyy/MM/dd");
+	updatedL.setText(date_format.format(cal.getTime()));
     }
 	
 // ============= Implemented Methods ============== //

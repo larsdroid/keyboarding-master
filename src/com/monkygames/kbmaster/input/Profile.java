@@ -25,13 +25,31 @@ public class Profile{
      * The keymaps for this profile.
      */
     private Keymap[] keymaps;
+    /**
+     * The author of this profile.
+     */
+    private String author;
+    /**
+     * The time in milliseconds
+     */
+    private long lastUpdatedDate;
+    /**
+     * The information about this profile.
+     */
+    private String info;
 // ============= Constructors ============== //
     public Profile(){
 	this(new App("",null,null,"Generic", AppType.APPLICATION),"Default");
     }
     public Profile(App app, String profileName){
+	this(app,profileName,"","",0);
+    }
+    public Profile(App app, String profileName, String author, String info, long lastUpdatedDate){
 	this.app = app;
 	this.profileName = profileName;
+	this.author = author;
+	this.info = info;
+	this.lastUpdatedDate = lastUpdatedDate;
 	keymaps = new Keymap[8];
 	//TODO need to populate this profile based on the device!
 	/*
@@ -66,7 +84,6 @@ public class Profile{
 	this.profileName = profileName;
     }
 
-    
     /**
      * Returns the keymap at the specified index.
      * Note, valid index is 0 - 7 inclusive.
@@ -74,9 +91,35 @@ public class Profile{
     public Keymap getKeymap(int index){
 	return keymaps[index];
     }
+
     public void setKeymap(int index, Keymap keymap){
 	keymaps[index] = keymap;
     }
+
+    public String getAuthor() {
+	return author;
+    }
+
+    public void setAuthor(String author) {
+	this.author = author;
+    }
+
+    public String getInfo() {
+	return info;
+    }
+
+    public void setInfo(String info) {
+	this.info = info;
+    }
+
+    public long getLastUpdatedDate() {
+	return lastUpdatedDate;
+    }
+
+    public void setLastUpdatedDate(long lastUpdatedDate) {
+	this.lastUpdatedDate = lastUpdatedDate;
+    }
+    
 
     /**
      * Clones this profile and returns the clone with the specified name.

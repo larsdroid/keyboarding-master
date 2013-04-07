@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +36,7 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 /**
@@ -54,6 +56,10 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     private ComboBox programCB;
     @FXML
     private TextField profileTF;
+    @FXML
+    private TextField authorTF;
+    @FXML
+    private TextArea infoTA;
     private ProfileManager profileManager;
     private NewProgramUIController newProgramUIController;
     private Device device;
@@ -95,7 +101,17 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 		PopupManager.getPopupManager().showError("Profile name already exists");
 		return;
 	    }
-	    Profile profile = new Profile(app,profileName);
+	    String author = authorTF.getText();
+	    if(author == null){
+		author = "";
+	    }
+	    String info = infoTA.getText();
+	    if(info == null){
+		info = "";
+	    }
+	    // get the current time
+	    long time = Calendar.getInstance().getTimeInMillis();;
+	    Profile profile = new Profile(app,profileName,author,info,time);
 	    device.setDefaultKeymaps(profile);
 	    // save the profile
 	    profileManager.addProfile(profile);
