@@ -32,7 +32,11 @@ import com.monkygames.kbmaster.io.GenerateBindingsImage;
 import com.monkygames.kbmaster.util.KeymapUIManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -378,12 +382,20 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	if(app.getAppLogoPath() == null){
 	    appLogoIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/app_logo.png"));
 	}else{
-	    appLogoIV.setImage(new Image(app.getAppLogoPath()));
+	    try {
+		appLogoIV.setImage(new Image(new FileInputStream(new File(app.getAppLogoPath()))));
+	    } catch (FileNotFoundException ex) {
+		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 	}
 	if(app.getDevLogoPath() == null){
 	    devLogoIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/dev_logo.png"));
 	}else{
-	    devLogoIV.setImage(new Image(app.getDevLogoPath()));
+	    try {
+		devLogoIV.setImage(new Image(new FileInputStream(new File(app.getDevLogoPath()))));
+	    } catch (FileNotFoundException ex) {
+		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 	}
     }
 	
