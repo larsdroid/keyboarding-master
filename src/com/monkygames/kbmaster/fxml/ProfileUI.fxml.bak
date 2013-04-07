@@ -63,7 +63,7 @@
     <HBox layoutX="59.0" layoutY="150.0" prefHeight="244.0" prefWidth="291.0">
       <children>
         <Label text="Info: " />
-        <TextArea prefHeight="239.0" prefWidth="247.0" wrapText="true" />
+        <TextArea id="infoA" fx:id="infoTA" prefHeight="239.0" prefWidth="247.0" wrapText="true" />
       </children>
     </HBox>
     <HBox alignment="TOP_RIGHT" layoutX="186.0" layoutY="499.0" minHeight="22.0" prefHeight="22.0" prefWidth="154.0">

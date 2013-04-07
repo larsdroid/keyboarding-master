@@ -40,6 +40,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -151,14 +152,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     public void updateProfilesComboBox(){
 	App app;
 	ObservableList<Profile> profiles = null;
-	/*
-	AppType type;
-	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    type = AppType.GAME;
-	}else{
-	    type = AppType.APPLICATION;
-	}
-	*/
 	app = (App)programCB.getSelectionModel().getSelectedItem();
 	if(app == null){
 	    return;
@@ -382,8 +375,16 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     private void updateAppUIInfo(App app){
 	appInfoTA.setText(app.getInfo());
-	//private ImageView appLogoIV;
-	//private ImageView devLogoIV;
+	if(app.getAppLogoPath() == null){
+	    appLogoIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/app_logo.png"));
+	}else{
+	    appLogoIV.setImage(new Image(app.getAppLogoPath()));
+	}
+	if(app.getDevLogoPath() == null){
+	    devLogoIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/dev_logo.png"));
+	}else{
+	    devLogoIV.setImage(new Image(app.getDevLogoPath()));
+	}
     }
 	
 // ============= Implemented Methods ============== //
