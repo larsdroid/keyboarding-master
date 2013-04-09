@@ -164,12 +164,20 @@ public class NewProgramUIController extends PopupController{
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    /**
+     * Resets all the values to default.
+     */
     private void reset(){
 	programTF.setText("");
+	appInfoTA.setText("");
 	appLogoPath = null;
 	appLogoFileName = null;
 	devLogoPath = null;
 	devLogoFileName = null;
+	// set the icons to the generic
+	appIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/app_logo.png"));
+	devIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/dev_logo.png"));
+	typeCB.getSelectionModel().selectFirst();
 	hideStage();
     }
 // ============= Implemented Methods ============== //

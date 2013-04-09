@@ -154,8 +154,10 @@ public class NewProfileUIController extends PopupController implements ChangeLis
      */
     private void reset(){
 	profileTF.setText("");
+	authorTF.setText("");
+	infoTA.setText("");
+	programCB.getSelectionModel().selectFirst();
 	hideStage();
-
     }
     private void updateComboBoxesOnType(AppType type){
 	ObservableList<App> apps;
