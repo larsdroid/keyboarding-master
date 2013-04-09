@@ -61,7 +61,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @FXML
     private ComboBox typeCB;
     @FXML
-    private ComboBox programCB;
+    private ComboBox appsCB;
     @FXML
     private ComboBox profileCB;
     @FXML
@@ -105,6 +105,11 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * The currently used profile.
      */
     private Profile currentProfile;
+    /**
+     * True if its the first time a new device has been set.
+     * Used to not re-initialize the device GUI.
+     */
+    private boolean isNewDevice = true;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -134,6 +139,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     public void setDevice(Device device){
 	this.device = device;
+	isNewDevice = true;
 	if(newProfileUIController != null){
 	    newProfileUIController.setDevice(device);
 	}
@@ -147,6 +153,13 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 							  ProfileTypeNames.getProfileTypeName(AppType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
 	typeCB.valueProperty().addListener(this);
+
+	//  set profile on the keymaps
+	// set device is required before calling initialize tabs.
+	keymapUIManager.setDevice(device);
+	keymapUIManager.initializeTabs();
+	// initialize tabs is required before calling set profile.
+	keymapUIManager.addSaveNotification(this);
 
 	updateComboBoxes();
     }
@@ -162,7 +175,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     public void updateProfilesComboBox(){
 	App app;
 	ObservableList<Profile> profiles = null;
-	app = (App)programCB.getSelectionModel().getSelectedItem();
+	app = (App)appsCB.getSelectionModel().getSelectedItem();
 	if(app == null){
 	    return;
 	}
@@ -174,6 +187,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	currentProfile = profiles.get(0);
 	updateProfileUIInfo(currentProfile);
 
+	/*
 	//  set profile on the keymaps
 	// set device is required before calling initialize tabs.
 	keymapUIManager.setDevice(device);
@@ -181,25 +195,15 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	// initialize tabs is required before calling set profile.
 	keymapUIManager.setProfile(currentProfile);
 	keymapUIManager.addSaveNotification(this);
+	*/
+	keymapUIManager.setProfile(currentProfile);
     }
     /**
      * The profiles combo box selected a new profile.
      */
     public void profileSelected(){
 	Profile selectedProfile;
-	App app;
-	ObservableList<Profile> profiles = null;
-
-	/* // I don't think this is needed
-	AppType type;
-	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
-	    type = AppType.GAME;
-	}else{
-	    type = AppType.APPLICATION;
-	}
-	*/
-
-	app = (App)programCB.getSelectionModel().getSelectedItem();
+	App app = (App)appsCB.getSelectionModel().getSelectedItem();
 	if(app == null){
 	    return;
 	}
@@ -209,7 +213,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    currentProfile = selectedProfile;
 	    //set the profile to the keymap controller
 	    keymapUIManager.setProfile(currentProfile);
-	    //keymapUIManager.initializeTabs();
 	    updateProfileUIInfo(selectedProfile);
 	}
     }
@@ -273,20 +276,23 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    profiles = FXCollections.observableArrayList(profileManager.getProfile(programs.get(0)));
 	}
 
-	programCB.valueProperty().removeListener(this);
-	programCB.setItems(programs);
+	appsCB.valueProperty().removeListener(this);
+	appsCB.setItems(programs);
+	appsCB.getSelectionModel().selectFirst();
 	if(profiles == null){
 	    profileCB.setItems(FXCollections.observableArrayList());
 	}else{
 	    profileCB.setItems(profiles);
+	    profileCB.getSelectionModel().selectFirst();
+	    profileSelected();
 	}
 	// I usually have a listener for this class but
 	// typeCB and profileCB both contain Strings while programCB contains Apps.
 	// So its necessary to extend a generic listener here
-	programCB.valueProperty().addListener(new ChangeListener<App>(){
+	appsCB.valueProperty().addListener(new ChangeListener<App>(){
 	    @Override
 	    public void changed(ObservableValue<? extends App> ov, App previousValue, App newValue) {
-		if(ov == programCB.valueProperty()){
+		if(ov == appsCB.valueProperty()){
 		    updateProfilesComboBox();
 		}
 	    }
@@ -426,7 +432,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	
 	typeCB.setItems(FXCollections.observableArrayList());
 	profileCB.setItems(FXCollections.observableArrayList());
-	programCB.setItems(FXCollections.observableArrayList());
+	appsCB.setItems(FXCollections.observableArrayList());
 
 	profileDir = new File("profiles");
 	if(!profileDir.exists()){

@@ -106,7 +106,7 @@
     <HBox layoutX="10.0" layoutY="486.0" prefHeight="48.0" prefWidth="176.0">
       <children>
         <Label text="Developer: " />
-        <ImageView id="developerIV" fx:id="devLogiIV" blendMode="SRC_OVER" disable="false" fitHeight="48.0" fitWidth="100.0" focusTraversable="false" pickOnBounds="true" preserveRatio="true" smooth="true" visible="true" HBox.hgrow="NEVER">
+        <ImageView id="developerIV" fx:id="devLogoIV" blendMode="SRC_OVER" disable="false" fitHeight="48.0" fitWidth="100.0" focusTraversable="false" pickOnBounds="true" preserveRatio="true" smooth="true" visible="true" HBox.hgrow="NEVER">
           <image>
             <Image url="@resources/profile/dev_logo.png" preserveRatio="false" smooth="false" />
           </image>
