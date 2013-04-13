@@ -42,7 +42,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>, P
 
 // ============= Class variables ============== //
     @FXML
-    private Label versionL;
+    private Label driverVersionL;
     @FXML
     private TabPane driverTabPane;
     @FXML
@@ -116,6 +116,13 @@ public class MainUIController implements Initializable, ChangeListener<Image>, P
 	driverComboBox.setButtonCell(new ListCellImage());
 	driverComboBox.valueProperty().addListener(this);
     }
+    /**
+     * Update the details on the UI from the specified device.
+     * @param device the device's information to be updated from.
+     */
+    private void updateDeviceDetails(Device device){
+	driverVersionL.setText(device.getDeviceInformation().getVersion());
+    }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -186,6 +193,7 @@ public class MainUIController implements Initializable, ChangeListener<Image>, P
 		// the profiles and keymaps entries
 		Device device = globalAccount.getInstalledDevices().get(index-2);
 		profileUIController.setDevice(device);
+		updateDeviceDetails(device);
 	    }
 	}
     }

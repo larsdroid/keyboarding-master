@@ -7,7 +7,6 @@ package com.monkygames.kbmaster.controller;
 import com.monkygames.kbmaster.controller.driver.AssignInputUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Keymap;
-import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.PopupManager;
 import java.net.URL;
 import java.util.List;
@@ -33,7 +32,7 @@ public class DriverUIController implements Initializable{
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     /**
-     * Adds a notification of popup (ok/cancel) specificaly if the
+     * Adds a notification of popup (ok/cancel) specifically if the
      * profile should be saved.
      * @parma popupNotification the interface to be notified if the profile
      * should be saved.

@@ -265,20 +265,24 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @param type the type of profile to sort on.
      */
     private void updateComboBoxesOnType(AppType type){
-	ObservableList<App> programs;
+	ObservableList<App> apps;
 	ObservableList<Profile> profiles = null;
 	if(type == AppType.APPLICATION){
-	    programs = FXCollections.observableArrayList(profileManager.getApplications());
+	    apps = FXCollections.observableArrayList(profileManager.getApplications());
 	}else{
-	    programs = FXCollections.observableArrayList(profileManager.getGames());
+	    apps = FXCollections.observableArrayList(profileManager.getGames());
 	}
-	if(programs.size() > 0 && programs.get(0) != null){
-	    profiles = FXCollections.observableArrayList(profileManager.getProfile(programs.get(0)));
+	if(apps.size() > 0 && apps.get(0) != null){
+	    profiles = FXCollections.observableArrayList(profileManager.getProfile(apps.get(0)));
 	}
 
 	appsCB.valueProperty().removeListener(this);
-	appsCB.setItems(programs);
-	appsCB.getSelectionModel().selectFirst();
+	appsCB.setItems(apps);
+	if(apps.size() > 0){
+	    appsCB.getSelectionModel().selectFirst();
+	    // set app ui
+	    updateAppUIInfo((App)appsCB.getSelectionModel().getSelectedItem());
+	}
 	if(profiles == null){
 	    profileCB.setItems(FXCollections.observableArrayList());
 	}else{

@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" minHeight="245.798828125" prefHeight="245.798828125" prefWidth="386.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProfileUIController">
+<AnchorPane id="AnchorPane" minHeight="245.798828125" prefHeight="496.798828125" prefWidth="386.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProfileUIController">
   <children>
     <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
       <image>
@@ -23,10 +23,10 @@
         <Font size="24.0" />
       </font>
     </Label>
-    <Button fx:id="cancelB" layoutX="283.0" layoutY="194.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="89.0" text="Cancel" />
-    <Button fx:id="okB" layoutX="186.0" layoutY="194.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="89.0" text="OK" />
+    <Button fx:id="cancelB" layoutX="290.0" layoutY="447.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="89.0" text="Cancel" />
+    <Button fx:id="okB" layoutX="189.0" layoutY="447.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="89.0" text="OK" />
     <Line endX="146.0" endY="0.0" layoutX="188.0" layoutY="64.0" startX="-100.0" stroke="WHITE" />
-    <GridPane layoutX="15.0" layoutY="75.0" prefHeight="107.0" prefWidth="357.0">
+    <GridPane layoutX="15.0" layoutY="75.0" prefHeight="107.0" prefWidth="347.0">
       <children>
         <Label text="Type: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <Label prefWidth="62.0" text="Program:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -64,6 +64,8 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
+    <TextArea fx:id="infoTA" layoutX="115.0" layoutY="190.0" prefHeight="239.0" prefWidth="247.0" wrapText="true" />
+    <Label layoutX="81.0" layoutY="190.0" text="Info: " />
   </children>
   <stylesheets>
     <URL value="@../master.css" />

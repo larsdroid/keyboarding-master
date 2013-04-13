@@ -17,11 +17,41 @@ public abstract class Device implements Mapper{
      * The device information.
      */
     private DeviceInformation deviceInformation;
+    /**
+     * The default profile.
+     */
+    private Profile profile;
+    /**
+     * The current status of the device.
+     */
+    private boolean isConnected;
+    /**
+     * The state in which this driver is being used or not.
+     */
+    private boolean isEnabled;
 
 // ============= Constructors ============== //
+    /**
+     * Creates a new device with the specified information.
+     * @param deviceInformation contains the information of this device.
+     */
     public Device(DeviceInformation deviceInformation){
 	this.deviceInformation = deviceInformation;
     }
+    /**
+     * Creates a device and initializes the DeviceInformation
+     * with the specified parameters.
+     * @param make the manufacturer of the device.
+     * @param model the model of the device.
+     * @param jinputName the name of the device recognized by jinput.
+     * @param deviceType the type of device (keyboard or mouse).
+     * @param deviceIcon the icon for this device.
+     * @param deviceDescription the description of the device.
+     * @param version the version of this driver.
+     * @param packageName the name of the package for loading the driver.
+     * @param uiFXMLURL the url to the package in order to load the driver.
+     * @param imageBindingsTemplate used for exporting descriptions to an image.
+     */
     public Device(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version,
@@ -45,6 +75,29 @@ public abstract class Device implements Mapper{
 	for(int i = 0; i < 8; i++){
 	    profile.setKeymap(i,this.generateDefaultKeymap(i));
 	}
+    }
+    public Profile getProfile() {
+	return profile;
+    }
+
+    public void setProfile(Profile profile) {
+	this.profile = profile;
+    }
+
+    public boolean isIsConnected() {
+	return isConnected;
+    }
+
+    public void setIsConnected(boolean isConnected) {
+	this.isConnected = isConnected;
+    }
+
+    public boolean isIsEnabled() {
+	return isEnabled;
+    }
+
+    public void setIsEnabled(boolean isEnabled) {
+	this.isEnabled = isEnabled;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

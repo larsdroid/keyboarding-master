@@ -50,8 +50,8 @@
         </ComboBox>
         <Label text="Profile Name: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <Label text="Author: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <TextField fx:id="authorTF" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <TextField fx:id="profileTF" prefWidth="231.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="authorTF" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       </children>
       <columnConstraints>
         <ColumnConstraints fillWidth="true" halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="1.0" prefWidth="100.0" />

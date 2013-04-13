@@ -48,7 +48,7 @@
         <HBox prefHeight="16.0" prefWidth="165.0">
           <children>
             <Label text="Driver Version: " />
-            <Label fx:id="driverVersion" text="0.0.0" />
+            <Label id="driverVersion" fx:id="driverVersionL" text="0.0.0" />
           </children>
         </HBox>
         <Hyperlink alignment="CENTER_LEFT" minHeight="17.0" prefHeight="22.0" prefWidth="157.0" text="No Updates Available" textAlignment="LEFT" textFill="WHITE" />
@@ -106,9 +106,9 @@
         </ImageView>
       </children>
     </HBox>
-    <Button layoutX="858.0" layoutY="687.0" mnemonicParsing="false" prefWidth="95.0" text="Save" />
-    <Button layoutX="755.0" layoutY="687.0" mnemonicParsing="false" prefWidth="95.0" text="Hide" />
-    <Button layoutX="655.0" layoutY="687.0" mnemonicParsing="false" text="Edit Mode" />
+    <Button fx:id="saveB" layoutX="858.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Save" />
+    <Button fx:id="hideB" layoutX="755.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Hide" />
+    <Button fx:id="editModeB" layoutX="655.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Edit Mode" />
     <Line endX="160.0" endY="-233.0" layoutX="208.0" layoutY="357.0" startX="160.0" startY="260.0" stroke="WHITE" strokeLineCap="ROUND" />
     <TabPane fx:id="driverTabPane" layoutX="379.0" layoutY="162.0" prefHeight="498.0" prefWidth="574.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -161,7 +161,7 @@
         <Label id="keymapDescription" fx:id="keymapDescriptionL" text="" />
       </children>
     </HBox>
-    <Button fx:id="displayKeymapB" layoutX="520.0" layoutY="687.0" mnemonicParsing="false" text="Display Keymap" />
+    <Button fx:id="displayKeymapB" layoutX="520.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Display Keymap" />
   </children>
   <stylesheets>
     <URL value="@master.css" />
