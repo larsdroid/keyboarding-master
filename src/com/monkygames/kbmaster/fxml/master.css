@@ -196,3 +196,10 @@ scroll-bar:vertical .thumb {
 .table-view .column-header-background {
     -fx-border-color: #a093cf;
 }
+.component-border{
+    -fx-border-color: #a093cf;
+    -fx-border-width: 3px;
+}
+.table-cell-center {
+    -fx-alignment: BASELINE_CENTER;
+}

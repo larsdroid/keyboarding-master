@@ -21,22 +21,11 @@
         </ImageView>
         <HBox fx:id="versionHBox" alignment="CENTER" prefHeight="17.0" prefWidth="158.0" visible="true">
           <children>
-            <Label alignment="TOP_CENTER" text="Software Version: " />
-            <Label fx:id="versionL" alignment="CENTER" contentDisplay="CENTER" text="0.1" textAlignment="LEFT" />
+            <Label alignment="TOP_CENTER" text="Device Configuration" />
           </children>
         </HBox>
-        <Hyperlink text="No Updates Available" textFill="WHITE" />
       </children>
     </VBox>
-    <ComboBox fx:id="driverComboBox" layoutX="54.0" layoutY="38.0" prefHeight="53.0" prefWidth="80.0">
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Item 1" />
-          <String fx:value="Item 2" />
-          <String fx:value="Item 3" />
-        </FXCollections>
-      </items>
-    </ComboBox>
     <VBox alignment="CENTER_LEFT" layoutX="144.0" layoutY="38.0" minHeight="53.0" prefHeight="53.0" prefWidth="197.0">
       <children>
         <HBox prefHeight="16.0" prefWidth="137.0">
@@ -54,12 +43,6 @@
         <Hyperlink alignment="CENTER_LEFT" minHeight="17.0" prefHeight="22.0" prefWidth="157.0" text="No Updates Available" textAlignment="LEFT" textFill="WHITE" />
       </children>
     </VBox>
-    <HBox alignment="CENTER_RIGHT" layoutX="699.0" layoutY="69.0" prefHeight="22.0" prefWidth="254.0">
-      <children>
-        <Label text="Local Account  " />
-        <Circle fill="#14ff00" radius="7.5" stroke="BLACK" strokeType="INSIDE" />
-      </children>
-    </HBox>
     <Line endX="801.0" endY="-3.0" layoutX="148.0" layoutY="110.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
     <Line endX="801.0" endY="-3.0" layoutX="151.0" layoutY="677.0" startX="-96.0" startY="-3.0" stroke="WHITE" strokeLineCap="ROUND" />
     <HBox layoutX="57.0" layoutY="680.0" prefHeight="41.0" prefWidth="321.800048828125">
@@ -162,6 +145,7 @@
       </children>
     </HBox>
     <Button fx:id="displayKeymapB" layoutX="520.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Display Keymap" />
+    <ImageView fx:id="deviceIV" fitHeight="48.0" fitWidth="48.0" layoutX="84.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" />
   </children>
   <stylesheets>
     <URL value="@master.css" />

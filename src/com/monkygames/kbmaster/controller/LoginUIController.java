@@ -98,12 +98,22 @@ public class LoginUIController implements Initializable {
 	    */
 
 
+	    /*
 	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml");
 	    FXMLLoader fxmlLoader = new FXMLLoader();
 	    fxmlLoader.setLocation(location);
 	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 	    root = (Parent)fxmlLoader.load(location.openStream());
 	    MainUIController controller = (MainUIController) fxmlLoader.getController();
+	    Scene scene = new Scene(root);
+	    */
+
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/DeviceMenuUI.fxml");
+	    FXMLLoader fxmlLoader = new FXMLLoader();
+	    fxmlLoader.setLocation(location);
+	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+	    root = (Parent)fxmlLoader.load(location.openStream());
+	    DeviceMenuUIController controller = (DeviceMenuUIController) fxmlLoader.getController();
 	    Scene scene = new Scene(root);
 	    
 	    Stage stage = new Stage();

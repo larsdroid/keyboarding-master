@@ -74,7 +74,6 @@
         <Hyperlink text="No Updates Available" textFill="WHITE" />
       </children>
     </VBox>
-    <Button fx:id="configureB" layoutX="713.0" layoutY="96.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="105.00009999999747" text="Configure" />
     <HBox alignment="CENTER_RIGHT" layoutX="564.0" layoutY="70.0" prefHeight="22.0" prefWidth="254.0">
       <children>
         <Label fx:id="accountL" text="Local Account  " />
@@ -84,14 +83,20 @@
     <Button fx:id="logoutB" layoutX="534.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="90.0" text="Logout" />
     <TableView fx:id="deviceTV" layoutX="18.0" layoutY="96.0" prefHeight="237.0" prefWidth="685.0">
       <columns>
-        <TableColumn minWidth="250.0" prefWidth="75.0" text="Device" fx:id="deviceTC" />
-        <TableColumn minWidth="200.0" prefWidth="75.0" text="Current Profile" fx:id="currentProfileTC" />
-        <TableColumn minWidth="100.0" prefWidth="75.0" text="Connected" fx:id="connectedTC" />
-        <TableColumn prefWidth="75.0" text="Enabled" fx:id="enabledTC" />
+        <TableColumn minWidth="250.0" prefWidth="250.0" sortable="true" text="Device" fx:id="deviceNameCol" />
+        <TableColumn minWidth="250.0" prefWidth="250.0" text="Current Profile" fx:id="profileNameCol" />
+        <TableColumn minWidth="100.0" prefWidth="100.0" text="Connected" fx:id="isConnectedCol" />
+        <TableColumn minWidth="85.0" prefWidth="85.0" styleClass="table-cell-center" text="Enabled" fx:id="isEnabledCol" />
       </columns>
     </TableView>
-    <Button fx:id="detailsB" layoutX="716.0" layoutY="137.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="100.0" text="Details" />
-    <Button fx:id="addDeviceB" layoutX="716.0" layoutY="183.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Add Device" />
+    <VBox layoutX="711.0" layoutY="96.0" prefHeight="232.0" prefWidth="107.0" spacing="8.0">
+      <children>
+        <Button fx:id="addDeviceB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="107.0" text="Add" />
+        <Button mnemonicParsing="false" prefWidth="106.0" text="Remove" />
+        <Button fx:id="configureB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="105.00009999999747" text="Configure" />
+        <Button fx:id="detailsB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Details" />
+      </children>
+    </VBox>
   </children>
   <stylesheets>
     <URL value="@master.css" />

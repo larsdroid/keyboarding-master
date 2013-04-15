@@ -56,7 +56,7 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
      * Used for notifying the main application when a user selects a new
      * device to add to the local account.
      */
-    private MainUIController mainUIController;
+    private DeviceMenuUIController deviceMenuUIController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public void setStage(Stage stage){
@@ -86,11 +86,11 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	    return;
 	}
 	//notify main gui that a device should be added 
-	mainUIController.addDevice(device);
+	deviceMenuUIController.addDevice(device);
 	stage.hide();
     }
-    public void setMainUIController(MainUIController mainUIController){
-	this.mainUIController = mainUIController;
+    public void setDeviceMenuUIController(DeviceMenuUIController deviceMenuUIController){
+	this.deviceMenuUIController = deviceMenuUIController;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

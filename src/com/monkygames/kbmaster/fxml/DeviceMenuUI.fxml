@@ -83,10 +83,10 @@
     <Button fx:id="logoutB" layoutX="534.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="90.0" text="Logout" />
     <TableView fx:id="deviceTV" layoutX="18.0" layoutY="96.0" prefHeight="237.0" prefWidth="685.0">
       <columns>
-        <TableColumn minWidth="250.0" prefWidth="75.0" text="Device" fx:id="deviceTC" />
-        <TableColumn minWidth="200.0" prefWidth="75.0" text="Current Profile" fx:id="currentProfileTC" />
-        <TableColumn minWidth="100.0" prefWidth="75.0" text="Connected" fx:id="connectedTC" />
-        <TableColumn prefWidth="75.0" text="Enabled" fx:id="enabledTC" />
+        <TableColumn minWidth="250.0" prefWidth="250.0" sortable="true" text="Device" fx:id="deviceNameCol" />
+        <TableColumn minWidth="250.0" prefWidth="250.0" text="Current Profile" fx:id="profileNameCol" />
+        <TableColumn minWidth="100.0" prefWidth="100.0" text="Connected" fx:id="isConnectedCol" />
+        <TableColumn minWidth="85.0" prefWidth="85.0" text="Enabled" fx:id="isEnabledCol" />
       </columns>
     </TableView>
     <VBox layoutX="711.0" layoutY="96.0" prefHeight="232.0" prefWidth="107.0" spacing="8.0">

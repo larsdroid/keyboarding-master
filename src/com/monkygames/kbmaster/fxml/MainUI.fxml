@@ -26,15 +26,6 @@
         </HBox>
       </children>
     </VBox>
-    <ComboBox fx:id="driverComboBox" layoutX="54.0" layoutY="38.0" prefHeight="53.0" prefWidth="80.0">
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Item 1" />
-          <String fx:value="Item 2" />
-          <String fx:value="Item 3" />
-        </FXCollections>
-      </items>
-    </ComboBox>
     <VBox alignment="CENTER_LEFT" layoutX="144.0" layoutY="38.0" minHeight="53.0" prefHeight="53.0" prefWidth="197.0">
       <children>
         <HBox prefHeight="16.0" prefWidth="137.0">
@@ -154,6 +145,11 @@
       </children>
     </HBox>
     <Button fx:id="displayKeymapB" layoutX="520.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Display Keymap" />
+    <HBox layoutX="72.0" layoutY="37.0" prefHeight="44.0" prefWidth="50.0" styleClass="component-border">
+      <children>
+        <ImageView fx:id="deviceIV" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" />
+      </children>
+    </HBox>
   </children>
   <stylesheets>
     <URL value="@master.css" />

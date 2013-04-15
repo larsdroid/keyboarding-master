@@ -84,7 +84,7 @@ public abstract class Device implements Mapper{
 	this.profile = profile;
     }
 
-    public boolean isIsConnected() {
+    public boolean isConnected() {
 	return isConnected;
     }
 
@@ -92,7 +92,8 @@ public abstract class Device implements Mapper{
 	this.isConnected = isConnected;
     }
 
-    public boolean isIsEnabled() {
+
+    public boolean isEnabled() {
 	return isEnabled;
     }
 
