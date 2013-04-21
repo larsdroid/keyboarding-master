@@ -3,3 +3,6 @@ docs/figs/*.png
 docs/art/*
 docs/fonts/*
 *.pdf
+local/*
+profiles/*
+*.bak

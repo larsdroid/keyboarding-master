@@ -6,9 +6,11 @@ package com.monkygames.kbmaster.controller;
 // === javafx imports === //
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.engine.HardwareManager;
 import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.PopupManager;
+import com.monkygames.kbmaster.util.RepeatManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -62,6 +64,8 @@ public class DeviceMenuUIController implements Initializable{
     private Button configureB;
     @FXML
     private Button detailsB;
+    @FXML
+    private CheckBox keysRepeatCB;
     /**
      * Used for displaying a new device popup.
      */
@@ -78,6 +82,11 @@ public class DeviceMenuUIController implements Initializable{
      * Used for configuring devices.
      */
     private ConfigureDeviceUIController configureDeviceController;
+    /**
+     * Used for managing engines (which do the work of remapping outputs).
+     */
+    private HardwareManager hardwareManager;
+
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     /**
@@ -113,7 +122,16 @@ public class DeviceMenuUIController implements Initializable{
 	    openNewDeviceUI();
 	}else if(src == configureB){
 	    openConfigureDeviceUI();
+	}else if(src == keysRepeatCB){
+	    handleKeysRepeat();
 	}
+    }
+    /**
+     * Sets the xset r to on or off depending on the value of the
+     * checkbox.
+     */
+    private void handleKeysRepeat(){
+	RepeatManager.setRepeat(keysRepeatCB.isSelected());
     }
     /**
      * Opens a new device UI for adding a new device.
@@ -168,6 +186,7 @@ public class DeviceMenuUIController implements Initializable{
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+	hardwareManager = new HardwareManager();
 	deviceNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("deviceName"));
 	profileNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("profileName"));
 	isConnectedCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("isConnected"));
@@ -222,6 +241,11 @@ public class DeviceMenuUIController implements Initializable{
 	// parse and construct User datamodel list by looping your ResultSet rs
 	// and return the list   
 	for (Device device : globalAccount.getInstalledDevices()) {
+	    // initialize devices if not already initialized
+	    if(!hardwareManager.isDeviceManaged(device)){
+		hardwareManager.addManagedDevice(device);
+	    }
+	    hardwareManager.updateConnectionState(device);
 	    list.add(new DeviceEntry(device));
 	}
 	return list;

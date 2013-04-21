@@ -30,7 +30,7 @@ public class RazerNostromoDevice extends Device{
 
 // ============= Constructors ============== //
     public RazerNostromoDevice(){
-	super("Razer","Nostromo","",DeviceType.KEYBOARD,
+	super("Razer","Nostromo","Razer Razer Nostromo", DeviceType.KEYBOARD,
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png",
 		"device information","1.0",
 		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
