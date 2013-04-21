@@ -86,7 +86,7 @@
         <TableColumn minWidth="250.0" prefWidth="250.0" sortable="true" text="Device" fx:id="deviceNameCol" />
         <TableColumn minWidth="250.0" prefWidth="250.0" text="Current Profile" fx:id="profileNameCol" />
         <TableColumn minWidth="100.0" prefWidth="100.0" text="Connected" fx:id="isConnectedCol" />
-        <TableColumn minWidth="85.0" prefWidth="85.0" styleClass="table-cell-center" text="Enabled" fx:id="isEnabledCol" />
+        <TableColumn minWidth="85.0" prefWidth="85.0" text="Enabled" fx:id="isEnabledCol" />
       </columns>
     </TableView>
     <VBox layoutX="711.0" layoutY="96.0" prefHeight="232.0" prefWidth="107.0" spacing="8.0">

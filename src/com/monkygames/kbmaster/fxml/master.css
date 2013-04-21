@@ -188,13 +188,36 @@ scroll-bar:vertical .thumb {
 .table-view{
     -fx-background-color: transparent;
     -fx-border-color: #a093cf;
+    -fx-text-fill: white;
 }
-.table-view .column-header .label {
+.table-view.column-header .label {
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
-.table-view .column-header-background {
+.table-view.column-header-background {
     -fx-border-color: #a093cf;
+}
+.table-view.table-row-cell {
+    -fx-background-color: black;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-text-fill: white;
+}
+.table-view.table-row-cell:odd {
+    -fx-background-color: -fx-table-cell-border-color, derive(-fx-control-inner-background,-5%);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-text-fill: white;
+}
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: -fx-focus-color, -fx-cell-focus-inner-border, -fx-selection-bar;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background: -fx-accent;
+    -fx-text-fill: -fx-selection-bar-text;
+}
+.table-row-cell:empty {
+    -fx-background-color: black;
+}
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
 }
 .component-border{
     -fx-border-color: #a093cf;
@@ -202,4 +225,8 @@ scroll-bar:vertical .thumb {
 }
 .table-cell-center {
     -fx-alignment: BASELINE_CENTER;
+}
+
+.check-box{
+    -fx-background-color:transparent;
 }

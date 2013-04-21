@@ -49,18 +49,13 @@ public class ScanHardware implements Runnable{
 	    if(deviceName != null && controller.getName().equals(deviceName)){
 		returnControllers.add(controller);
 	    }
-	    System.out.println("Name: "+controller.getName()+" Type: "+controller.getType());
-	    Component[] components = controller.getComponents();
-	    System.out.println("=== Inputs ===");
-	    System.out.println("Number of Inputs: "+components.length);
-	    for(Component component: components){
-		if(component.getName().equals("Unknown")){
-		    continue;
-		}
-		String data = getComponentDetails(component);
-		System.out.println(data);
+	    // if no device was specified, than print the controller.
+	    if(deviceName == null){
+		printControllerInformation(controller);
+	    }else if(controller.getName().equals(deviceName)){
+		// if its the controller, print it to the screen.
+		printControllerInformation(controller);
 	    }
-	    System.out.println("===============");
 	}
 	if(deviceName == null || returnControllers.size()== 0){
 	    return null;
@@ -92,6 +87,24 @@ public class ScanHardware implements Runnable{
 	String className = component.getIdentifier().getClass().getName();
 	data += " Class["+className+"]";
 	return data;
+    }
+    /**
+     * Prints the controller information to the screen.
+     * @param controller the controller to print.
+     */
+    private void printControllerInformation(Controller controller){
+	System.out.println("Name: "+controller.getName()+" Type: "+controller.getType());
+	Component[] components = controller.getComponents();
+	System.out.println("=== Inputs ===");
+	System.out.println("Number of Inputs: "+components.length);
+	for(Component component: components){
+	    if(component.getName().equals("Unknown")){
+		continue;
+	    }
+	    String data = getComponentDetails(component);
+	    System.out.println(data);
+	}
+	System.out.println("===============");
     }
 // ============= Implemented Methods ============== //
     @Override

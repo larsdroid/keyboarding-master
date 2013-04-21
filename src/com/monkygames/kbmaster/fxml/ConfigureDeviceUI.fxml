@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="735.0" prefWidth="1000.0000999999975" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.MainUIController">
+<AnchorPane id="AnchorPane" prefHeight="735.0" prefWidth="1000.0000999999975" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.ConfigureDeviceUIController">
   <children>
     <VBox alignment="TOP_CENTER" layoutX="341.0" layoutY="14.0" prefHeight="84.0" prefWidth="443.0">
       <children>
@@ -89,9 +89,8 @@
         </ImageView>
       </children>
     </HBox>
-    <Button fx:id="saveB" layoutX="858.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Save" />
-    <Button fx:id="hideB" layoutX="755.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Hide" />
-    <Button fx:id="editModeB" layoutX="655.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Edit Mode" />
+    <Button fx:id="hideB" layoutX="855.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Hide" />
+    <Button fx:id="editModeB" layoutX="755.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Edit Mode" />
     <Line endX="160.0" endY="-233.0" layoutX="208.0" layoutY="357.0" startX="160.0" startY="260.0" stroke="WHITE" strokeLineCap="ROUND" />
     <TabPane fx:id="driverTabPane" layoutX="379.0" layoutY="162.0" prefHeight="498.0" prefWidth="574.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -144,7 +143,7 @@
         <Label id="keymapDescription" fx:id="keymapDescriptionL" text="" />
       </children>
     </HBox>
-    <Button fx:id="displayKeymapB" layoutX="520.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Display Keymap" />
+    <Button fx:id="displayKeymapB" layoutX="620.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Display Keymap" />
     <HBox layoutX="72.0" layoutY="37.0" prefHeight="44.0" prefWidth="50.0" styleClass="component-border">
       <children>
         <ImageView fx:id="deviceIV" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" />

@@ -6,6 +6,7 @@ package com.monkygames.kbmaster.controller;
 // === javafx imports === //
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.PopupManager;
 import java.io.IOException;
@@ -66,9 +67,17 @@ public class DeviceMenuUIController implements Initializable{
      */
     private Stage newDeviceStage;
     /**
+     * Used for displaying a configuration for a device.
+     */
+    private Stage configureDeviceStage;
+    /**
      * Contains the device information.
      */
     private GlobalAccount globalAccount;
+    /**
+     * Used for configuring devices.
+     */
+    private ConfigureDeviceUIController configureDeviceController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     /**
@@ -81,8 +90,19 @@ public class DeviceMenuUIController implements Initializable{
 	    PopupManager.getPopupManager().showError("Unable to add device.  Is it already added?");
 	    return;
 	}
-	// TODO update device table!
+	// Update device table!
 	deviceTV.getItems().setAll(getDeviceEntryList());
+    }
+    /**
+     * Sets the active profile for the specified device.
+     */
+    public void setActiveProfile(Device device, Profile profile){
+	for(DeviceEntry deviceEntry: deviceTV.getItems()){
+	    if(deviceEntry.getDevice() == device){
+		// repopulate
+		deviceTV.getItems().setAll(getDeviceEntryList());
+	    }
+	}
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -91,8 +111,13 @@ public class DeviceMenuUIController implements Initializable{
 	Object src = evt.getSource();
 	if(src == addDeviceB){
 	    openNewDeviceUI();
+	}else if(src == configureB){
+	    openConfigureDeviceUI();
 	}
     }
+    /**
+     * Opens a new device UI for adding a new device.
+     */
     private void openNewDeviceUI(){
 	if(newDeviceStage == null){
 	    try {
@@ -110,10 +135,35 @@ public class DeviceMenuUIController implements Initializable{
 		controller.setAccount(globalAccount);
 		controller.setDeviceMenuUIController(this);
 	    } catch (IOException ex) {
-		Logger.getLogger(MainUIController.class.getName()).log(Level.SEVERE, null, ex);
+		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 	}
 	newDeviceStage.show();
+    }
+    private void openConfigureDeviceUI(){
+	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
+	if(deviceEntry == null) return;
+	if(configureDeviceStage == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/ConfigureDeviceUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		configureDeviceController = (ConfigureDeviceUIController) fxmlLoader.getController();
+		Scene scene = new Scene(root);
+		configureDeviceStage = new Stage();
+		configureDeviceStage.setScene(scene);
+		configureDeviceController.setStage(configureDeviceStage);
+		configureDeviceController.getProfileUIController().setDeviceMenuController(this);
+	    } catch (IOException ex) {
+		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+	configureDeviceController.setDevice(deviceEntry.getDevice());
+	configureDeviceStage.show();
+
     }
 // ============= Implemented Methods ============== //
     @Override

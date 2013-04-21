@@ -71,6 +71,13 @@ public class DeviceEntry{
     public boolean getIsEnabled() {
 	return device.isEnabled();
     }
+    /**
+     * Returns the device associated with this device entry.
+     * @return the device.
+     */
+    public Device getDevice(){
+	return device;
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //

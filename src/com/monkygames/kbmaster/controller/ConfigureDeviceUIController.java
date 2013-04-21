@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 // === javafx imports === //
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,12 +25,13 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
- * Handles UI Events for the main window.
+ * Handles UI Events for configuring devices.
  * @version 1.0
  */
-public class MainUIController implements Initializable, PopupNotifyInterface{
+public class ConfigureDeviceUIController implements Initializable, PopupNotifyInterface{
 
 
 // ============= Class variables ============== //
@@ -53,9 +53,10 @@ public class MainUIController implements Initializable, PopupNotifyInterface{
     @FXML
     private Button editModeB;
     @FXML
-    private Button saveB;
-    @FXML
     private Button cancelB;
+    @FXML
+    private Button hideB;
+    private Stage stage;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public ProfileUIController getProfileUIController() {
@@ -69,6 +70,9 @@ public class MainUIController implements Initializable, PopupNotifyInterface{
     public void setDevice(Device device){
 	updateDeviceDetails(device);
     }
+    public void setStage(Stage stage){
+	this.stage = stage;
+    }
     
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -79,6 +83,7 @@ public class MainUIController implements Initializable, PopupNotifyInterface{
     private void updateDeviceDetails(Device device){
 	driverVersionL.setText(device.getDeviceInformation().getVersion());
 	deviceIV.setImage(new Image(device.getDeviceInformation().getDeviceIcon()));
+	profileUIController.setDevice(device);
     }
 // ============= Implemented Methods ============== //
     @Override
@@ -95,7 +100,7 @@ public class MainUIController implements Initializable, PopupNotifyInterface{
 	    profileUIController.setKeymapTabPane(driverTabPane);
 	    profileUIController.setDescriptionLabel(keymapDescriptionL);
 	} catch (IOException ex) {
-	    Logger.getLogger(MainUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
 
@@ -109,6 +114,8 @@ public class MainUIController implements Initializable, PopupNotifyInterface{
 	    descriptionController.showStage();
 	}else if(obj == displayKeymapB){
 	    profileUIController.openDisplayKeymapPopup(driverTabPane.getSelectionModel().getSelectedIndex());
+	}else if(obj == hideB){
+	    stage.hide();
 	}
     }
 

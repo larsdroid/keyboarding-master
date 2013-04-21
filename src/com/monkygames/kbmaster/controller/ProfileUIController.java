@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -110,6 +111,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * Used to not re-initialize the device GUI.
      */
     private boolean isNewDevice = true;
+    private DeviceMenuUIController deviceMenuController;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -148,7 +150,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    profileManager.close();
 	}
 	profileManager = new ProfileManager(profileDir+File.separator+deviceName);
-
+	typeCB.valueProperty().removeListener(this);
 	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(AppType.GAME),
 							  ProfileTypeNames.getProfileTypeName(AppType.APPLICATION)));
 	typeCB.getSelectionModel().selectFirst();
@@ -197,6 +199,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	keymapUIManager.addSaveNotification(this);
 	*/
 	keymapUIManager.setProfile(currentProfile);
+	device.setProfile(currentProfile);
+	deviceMenuController.setActiveProfile(device, currentProfile);
     }
     /**
      * The profiles combo box selected a new profile.
@@ -213,6 +217,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    currentProfile = selectedProfile;
 	    //set the profile to the keymap controller
 	    keymapUIManager.setProfile(currentProfile);
+	    deviceMenuController.setActiveProfile(device, currentProfile);
+	    device.setProfile(currentProfile);
 	    updateProfileUIInfo(selectedProfile);
 	}
     }
@@ -256,6 +262,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	GenerateBindingsImage generator = new GenerateBindingsImage(device);
 	displayKeymapUIController.setGenerateBindingsImage(generator);
 	displayKeymapUIController.displayKeymap(currentProfile.getKeymap(keymapID));
+    }
+    /**
+     * Note, this needs to be called before other methods.
+     */
+    public void setDeviceMenuController(DeviceMenuUIController deviceMenuController){
+	this.deviceMenuController = deviceMenuController;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
