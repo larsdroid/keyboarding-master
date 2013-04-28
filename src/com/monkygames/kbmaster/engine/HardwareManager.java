@@ -65,6 +65,7 @@ public class HardwareManager implements HardwareListener{
 	if(engine == null){
 	    return false;
 	}
+	engine.setEnabled(true);
 	engine.startPolling(profile);
 	return true;
     }
@@ -79,6 +80,7 @@ public class HardwareManager implements HardwareListener{
 	    return false;
 	}
 	engine.stopPolling();
+	engine.setEnabled(false);
 	return true;
     }
 // ============= Protected Methods ============== //

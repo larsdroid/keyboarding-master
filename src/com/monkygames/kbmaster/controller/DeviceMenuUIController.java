@@ -11,6 +11,8 @@ import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.RepeatManager;
+import com.sun.javafx.scene.control.skin.TableCellSkin;
+import com.sun.javafx.scene.control.skin.TableRowSkin;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,16 +21,20 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -40,7 +46,8 @@ import javafx.util.Callback;
  * Handles UI Events for managing devices.
  * @version 1.0
  */
-public class DeviceMenuUIController implements Initializable{
+//public class DeviceMenuUIController implements Initializable, EventHandler<CellEditEvent>{
+public class DeviceMenuUIController implements Initializable, EventHandler<ActionEvent>{
 
 
 // ============= Class variables ============== //
@@ -193,6 +200,8 @@ public class DeviceMenuUIController implements Initializable{
 	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("isEnabled"));
 	isEnabledCol.setCellFactory(CheckBoxTableCell.forTableColumn(isEnabledCol));
 	isEnabledCol.setEditable(true);
+	//isEnabledCol.addEventHandler(TableColumn.CellEditEvent<DeviceEntry, Boolean>, this);
+	//isEnabledCol.setOnEditCommit(this);
 	deviceTV.setEditable(true);
 
 	// set the table cell to center for isConnected
@@ -215,16 +224,9 @@ public class DeviceMenuUIController implements Initializable{
 	});
 
 	// set the table cell to center for isEnabled
-	isEnabledCol.setCellFactory(new Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>>() {
-	    @Override
-	    public TableCell call(TableColumn<DeviceEntry, Boolean> param) {
-		CheckBoxTableCell cell = new CheckBoxTableCell();
-
-		//adding style class for the cell
-		cell.getStyleClass().add("table-cell-center");
-		return cell;
-	    }
-	});
+	CheckboxCallback callback = new CheckboxCallback();
+	callback.setCheckboxHandler(this);
+	isEnabledCol.setCellFactory(callback);
 
 
 	// initialize Global Acount first since getDeviceList uses it
@@ -251,8 +253,55 @@ public class DeviceMenuUIController implements Initializable{
 	return list;
     }
 // ============= Extended Methods ============== //
+    @Override
+    public void handle(ActionEvent t) {
+	CheckBoxTableCell cell = (CheckBoxTableCell)t.getSource();
+	// traverse through scene graph to get device entry.
+	TableRowSkin skin = (TableRowSkin)cell.getParent();
+	TableRow row = (TableRow)skin.getParent();
+	DeviceEntry deviceEntry = (DeviceEntry)row.getItem();
+	Device device = deviceEntry.getDevice();
+	if(device.getProfile() == null){
+	    // pop an error 
+	    PopupManager.getPopupManager().showError("No profile selected, not enabled");
+	    // not, cannot enable
+	    device.setIsEnabled(false);
+	    // traverse through scene graph to get checkbox.
+	    TableCellSkin skin2 = (TableCellSkin)cell.getChildrenUnmodifiable().get(0);
+	    CheckBox checkBox = (CheckBox)skin2.getChildren().get(0);
+	    checkBox.selectedProperty().set(false);
+
+	    hardwareManager.stopPollingDevice(device);
+	    device.setIsEnabled(false);
+	    return;
+	}
+	if(!device.isEnabled()){
+	    device.setIsEnabled(true);
+	    hardwareManager.startPollingDevice(device, device.getProfile());
+	}else{
+	    hardwareManager.stopPollingDevice(device);
+	    device.setIsEnabled(false);
+	}
+    }
+
+
 // ============= Internal Classes ============== //
+    public class CheckboxCallback implements Callback<TableColumn<DeviceEntry,Boolean>, TableCell<DeviceEntry,Boolean>> {
+	private EventHandler checkBoxHandler;
+	@Override
+	public TableCell call(TableColumn<DeviceEntry, Boolean> param) {
+	    CheckBoxTableCell cell = new CheckBoxTableCell();
+	    //adding style class for the cell
+	    cell.getStyleClass().add("table-cell-center");
+	    cell.addEventHandler(ActionEvent.ACTION, checkBoxHandler);
+	    return cell;
+	}
+	public void setCheckboxHandler(EventHandler checkBoxHandler){
+	    this.checkBoxHandler = checkBoxHandler;
+	}
+    }
 // ============= Static Methods ============== //
+
 
 }
 /*
