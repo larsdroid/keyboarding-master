@@ -1,0 +1,13 @@
+/* 
+    Document   : undecorator
+    Created on : 30/04/2013, 7:10:32 AM
+    Author     : mspeth
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.undecorator-background {
+    -fx-fill: radial-gradient(focus-angle 45deg, focus-distance 20%, center 25% 25%, radius 50%, reflect, #eeeeee88, #55555588 75%, dimgray);
+    -fx-arc-width:25;
+    -fx-arc-height:25;
+}

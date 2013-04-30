@@ -72,6 +72,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     @FXML
     private Button detailsB;
     @FXML
+    private Button exitB;
+    @FXML
+    private Button logoutB;
+    @FXML
     private CheckBox keysRepeatCB;
     /**
      * Used for displaying a new device popup.
@@ -117,6 +121,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    if(deviceEntry.getDevice() == device){
 		// repopulate
 		deviceTV.getItems().setAll(getDeviceEntryList());
+		// update hardware manager
+		if(deviceEntry.getIsEnabled()){
+		    hardwareManager.startPollingDevice(device, profile);
+		}
 	    }
 	}
     }
@@ -131,6 +139,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    openConfigureDeviceUI();
 	}else if(src == keysRepeatCB){
 	    handleKeysRepeat();
+	}else if(src == exitB){
+	    exitApplication();
 	}
     }
     /**
@@ -251,6 +261,13 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    list.add(new DeviceEntry(device));
 	}
 	return list;
+    }
+    /**
+     * Shutsdown all engines and exits the program.
+     */
+    private void exitApplication(){
+	hardwareManager.stopPollingAllDevices();
+	System.exit(1);
     }
 // ============= Extended Methods ============== //
     @Override

@@ -83,6 +83,16 @@ public class HardwareManager implements HardwareListener{
 	engine.setEnabled(false);
 	return true;
     }
+    /**
+     * Stops all devices from polling.
+     */
+    public void stopPollingAllDevices(){
+	for(HardwareEngine engine: engines.values()){
+	   engine.stopPolling();
+	   engine.setEnabled(false);
+	}
+
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //
