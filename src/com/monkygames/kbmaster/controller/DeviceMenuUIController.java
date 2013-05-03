@@ -11,8 +11,10 @@ import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.RepeatManager;
+import com.monkygames.kbmaster.util.WindowUtil;
 import com.sun.javafx.scene.control.skin.TableCellSkin;
 import com.sun.javafx.scene.control.skin.TableRowSkin;
+import insidefx.undecorator.Undecorator;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,20 +28,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 /**
@@ -187,9 +190,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 		Parent root = (Parent)fxmlLoader.load(location.openStream());
 		configureDeviceController = (ConfigureDeviceUIController) fxmlLoader.getController();
-		Scene scene = new Scene(root);
-		configureDeviceStage = new Stage();
-		configureDeviceStage.setScene(scene);
+		configureDeviceStage = WindowUtil.createStage(root);
+
 		configureDeviceController.setStage(configureDeviceStage);
 		configureDeviceController.getProfileUIController().setDeviceMenuController(this);
 	    } catch (IOException ex) {

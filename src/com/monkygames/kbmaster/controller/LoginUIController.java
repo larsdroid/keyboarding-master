@@ -4,7 +4,7 @@
  */
 package com.monkygames.kbmaster.controller;
 
-import insidefx.undecorator.Undecorator;
+import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,14 +19,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -118,32 +114,8 @@ public class LoginUIController implements Initializable {
 	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 	    root = (Parent)fxmlLoader.load(location.openStream());
 	    DeviceMenuUIController controller = (DeviceMenuUIController) fxmlLoader.getController();
-
-	    Stage stage = new Stage();
-	    Undecorator undecorator = new Undecorator(stage, (Region) root, 
-						      null, StageStyle.UNDECORATED);
-	    // Default theme
-	    undecorator.getStylesheets().add("/com/monkygames/kbmaster/skin/undecorator.css");
-	    
-	    Scene scene = new Scene(undecorator);
-
-	    // Transparent scene and stage
-	    scene.setFill(Color.TRANSPARENT);
-	    stage.initStyle(StageStyle.TRANSPARENT);
-	    
-	    stage.setScene(scene);
-	    // accomodate undecorator style
-	    double width = 832+25*2;
-	    double height = 400+25*2;	
-	    stage.setMinWidth(width);
-	    stage.setMinHeight(height);
-	    stage.setMaxWidth(width);
-	    stage.setMaxHeight(height);
-	    stage.setResizable(false);
-
+	    Stage stage = WindowUtil.createStage(root);
 	    stage.show();
-
-	    
 	} catch (IOException ex) {
 	    Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
 	}

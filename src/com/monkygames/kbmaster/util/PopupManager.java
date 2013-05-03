@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -34,9 +33,13 @@ public class PopupManager{
 	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 	    Parent root = (Parent)fxmlLoader.load(location.openStream());
 	    errorUIController = (ErrorUIController) fxmlLoader.getController();
-	    Scene scene = new Scene(root);
-	    Stage stage = new Stage();
-	    stage.setScene(scene);
+	    /*
+	     * doesn't work - bug in javafx
+	    Stage stage = WindowUtil.createStage(root.getLayoutBounds().getWidth(),
+						 root.getLayoutBounds().getHeight(),
+						 root);
+	     */
+	    Stage stage = WindowUtil.createStage(453, 190.8, root);
 	    errorUIController.setStage(stage);
 	} catch (IOException ex) {
 	    Logger.getLogger(PopupManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,9 +67,7 @@ public class PopupManager{
 	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 	    Parent root = (Parent)fxmlLoader.load(location.openStream());
 	    popupController = (PopupController)fxmlLoader.getController();
-	    Scene scene = new Scene(root);
-	    Stage stage = new Stage();
-	    stage.setScene(scene);
+	    Stage stage = WindowUtil.createStage(root);
 	    popupController.setStage(stage);
 	} catch (IOException ex) {
 	    Logger.getLogger(PopupManager.class.getName()).log(Level.SEVERE, null, ex);
