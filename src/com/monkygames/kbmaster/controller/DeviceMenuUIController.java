@@ -14,7 +14,6 @@ import com.monkygames.kbmaster.util.RepeatManager;
 import com.monkygames.kbmaster.util.WindowUtil;
 import com.sun.javafx.scene.control.skin.TableCellSkin;
 import com.sun.javafx.scene.control.skin.TableRowSkin;
-import insidefx.undecorator.Undecorator;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,10 +38,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 /**
@@ -79,6 +75,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     @FXML
     private Button logoutB;
     @FXML
+    private Button setProfileB;
+    @FXML
     private CheckBox keysRepeatCB;
     /**
      * Used for displaying a new device popup.
@@ -96,6 +94,11 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Used for configuring devices.
      */
     private ConfigureDeviceUIController configureDeviceController;
+    /**
+     * Used for selecting profiles without having to open the
+     * configuration ui.
+     */
+    private SelectProfileUIController selectProfileController;
     /**
      * Used for managing engines (which do the work of remapping outputs).
      */
@@ -144,6 +147,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    handleKeysRepeat();
 	}else if(src == exitB){
 	    exitApplication();
+	}else if(src == setProfileB){
+	    openSelectProfileUI();
 	}
     }
     /**
@@ -180,7 +185,11 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     }
     private void openConfigureDeviceUI(){
 	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
-	if(deviceEntry == null) return;
+	if(deviceEntry == null) {
+	    // pop error
+	    PopupManager.getPopupManager().showError("No device selected");
+	    return;
+	}
 	if(configureDeviceStage == null){
 	    try {
 		// pop open add new device
@@ -201,6 +210,33 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	configureDeviceController.setDevice(deviceEntry.getDevice());
 	configureDeviceStage.show();
 
+    }
+    private void openSelectProfileUI(){
+	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
+	if(deviceEntry == null) {
+	    // pop error
+	    PopupManager.getPopupManager().showError("No device selected");
+	    return;
+	}
+	if(selectProfileController == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/SelectProfile.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		selectProfileController = (SelectProfileUIController) fxmlLoader.getController();
+		Stage stage = WindowUtil.createStage(root);
+
+		selectProfileController.setStage(stage);
+		selectProfileController.setDeviceMenuController(this);
+	    } catch (IOException ex) {
+		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+	selectProfileController.setDevice(deviceEntry.getDevice());
+	selectProfileController.show();
     }
 // ============= Implemented Methods ============== //
     @Override

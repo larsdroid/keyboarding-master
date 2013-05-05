@@ -266,6 +266,15 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     public void setDeviceMenuController(DeviceMenuUIController deviceMenuController){
 	this.deviceMenuController = deviceMenuController;
     }
+    /**
+     * Close the profile manager to free up the associated
+     * database files so other classes can use it.
+     */
+    public void closeProfileManager(){
+	if(profileManager != null){
+	    profileManager.close();
+	}
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     /**

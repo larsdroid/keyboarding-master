@@ -115,6 +115,8 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
 	}else if(obj == displayKeymapB){
 	    profileUIController.openDisplayKeymapPopup(driverTabPane.getSelectionModel().getSelectedIndex());
 	}else if(obj == hideB){
+	    // cleanup profile 
+	    profileUIController.closeProfileManager();
 	    stage.hide();
 	}
     }

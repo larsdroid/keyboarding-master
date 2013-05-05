@@ -95,6 +95,7 @@
         <Button mnemonicParsing="false" prefWidth="106.0" text="Remove" />
         <Button fx:id="configureB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="105.00009999999747" text="Configure" />
         <Button fx:id="detailsB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Details" />
+        <Button fx:id="setProfileB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Set Profile" />
       </children>
     </VBox>
     <CheckBox fx:id="keysRepeatCB" layoutX="390.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleButtonAction" selected="true" text="Keys Repeat" />
