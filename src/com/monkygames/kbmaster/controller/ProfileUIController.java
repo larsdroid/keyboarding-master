@@ -365,8 +365,15 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	File file = pdfChooser.showSaveDialog(null);
 	if(file != null){
 	    GenerateBindingsImage generator = new GenerateBindingsImage(device);
+	    String header = profile.getApp().getName() + " / " + profile.getProfileName();
+	    String footer = device.getDeviceInformation().getMake()+" "+
+			    device.getDeviceInformation().getModel();
 	    BindingPDFWriter pdfWriter = new BindingPDFWriter(generator.generateImages(profile),
-							      profile.getProfileName(),
+							      header,
+							      profile.getInfo(),
+							      "keyboard mice gaming",
+							      header,
+							      footer,
 							      file.getPath());
 	}
     }
