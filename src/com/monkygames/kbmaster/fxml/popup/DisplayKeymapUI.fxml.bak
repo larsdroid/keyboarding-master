@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="650.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.DisplayKeymapUIController">
   <children>
-    <ImageView fitHeight="533.0" fitWidth="800.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
+    <ImageView fx:id="imageView" fitHeight="533.0" fitWidth="800.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
     <Button fx:id="closeB" layoutX="705.0" layoutY="552.0" mnemonicParsing="false" onAction="#closeEventFired" prefWidth="118.0" text="Close" />
   </children>
   <stylesheets>
