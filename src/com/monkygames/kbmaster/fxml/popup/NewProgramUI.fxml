@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" minHeight="376.0" prefHeight="388.0" prefWidth="415.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProgramUIController">
+<AnchorPane id="AnchorPane" minHeight="388.0" minWidth="415.0" prefHeight="388.0" prefWidth="415.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProgramUIController">
   <children>
     <ImageView fitHeight="47.95121765136719" fitWidth="78.63999814819333" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
       <image>

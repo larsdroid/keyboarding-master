@@ -54,7 +54,7 @@
       </image>
     </ImageView>
     <Button fx:id="devLogoB" layoutX="18.0" layoutY="282.0" mnemonicParsing="false" onAction="#addDevLogoEventFired" text="Add Dev Logo" />
-    <TextArea id="appInfo" fx:id="appInfoTF" layoutX="198.0" layoutY="212.0" prefHeight="48.0" prefWidth="188.0" wrapText="true" />
+    <TextArea id="appInfo" fx:id="appInfoTA" layoutX="198.0" layoutY="212.0" prefHeight="48.0" prefWidth="188.0" wrapText="true" />
   </children>
   <stylesheets>
     <URL value="@../master.css" />

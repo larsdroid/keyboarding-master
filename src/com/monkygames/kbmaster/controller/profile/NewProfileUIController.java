@@ -13,6 +13,7 @@ import com.monkygames.kbmaster.input.AppType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
+import com.monkygames.kbmaster.util.WindowUtil;
 // === java imports === //
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -135,9 +136,7 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 		Parent root = (Parent)fxmlLoader.load(location.openStream());
 		newProgramUIController = (NewProgramUIController) fxmlLoader.getController();
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
+		Stage stage = WindowUtil.createStage(root);
 		newProgramUIController.setStage(stage);
 		newProgramUIController.setProfileManager(profileManager);
 		newProgramUIController.addNotification(this);
