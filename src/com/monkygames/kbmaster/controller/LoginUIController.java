@@ -49,6 +49,8 @@ public class LoginUIController implements Initializable {
      * Used for closing the window.
      */
     private Stage loginStage;
+    private Stage deviceMenuStage;
+    private DeviceMenuUIController deviceMenuController;
 
     /**
      * Initializes the controller class.
@@ -88,37 +90,41 @@ public class LoginUIController implements Initializable {
 	loginStage.hide();
 
 	// create main gui
-	try {
-	    /*
-	    root = FXMLLoader.load(getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml"));
-	    Scene scene = new Scene(root);
-	    Stage mainStage = new Stage();
-	    mainStage.setScene(scene);
-	    mainStage.show();
-	    */
+	if(deviceMenuController == null){
+	    try {
+		/*
+		root = FXMLLoader.load(getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml"));
+		Scene scene = new Scene(root);
+		Stage mainStage = new Stage();
+		mainStage.setScene(scene);
+		mainStage.show();
+		*/
 
 
-	    /*
-	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml");
-	    FXMLLoader fxmlLoader = new FXMLLoader();
-	    fxmlLoader.setLocation(location);
-	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-	    root = (Parent)fxmlLoader.load(location.openStream());
-	    MainUIController controller = (MainUIController) fxmlLoader.getController();
-	    Scene scene = new Scene(root);
-	    */
+		/*
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/MainUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		root = (Parent)fxmlLoader.load(location.openStream());
+		MainUIController controller = (MainUIController) fxmlLoader.getController();
+		Scene scene = new Scene(root);
+		*/
 
-	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/DeviceMenuUI.fxml");
-	    FXMLLoader fxmlLoader = new FXMLLoader();
-	    fxmlLoader.setLocation(location);
-	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-	    root = (Parent)fxmlLoader.load(location.openStream());
-	    DeviceMenuUIController controller = (DeviceMenuUIController) fxmlLoader.getController();
-	    Stage stage = WindowUtil.createStage(root);
-	    stage.show();
-	} catch (IOException ex) {
-	    Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/DeviceMenuUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		root = (Parent)fxmlLoader.load(location.openStream());
+		deviceMenuController = (DeviceMenuUIController) fxmlLoader.getController();
+		deviceMenuStage = WindowUtil.createStage(root);
+		deviceMenuController.setLoginController(this);
+	    } catch (IOException ex) {
+		Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 	}
+	deviceMenuController.initResources();
+	deviceMenuStage.show();
 	
     }
 
@@ -132,5 +138,13 @@ public class LoginUIController implements Initializable {
 
     public void setStage(Stage loginStage){
 	this.loginStage = loginStage;
+    }
+
+    /**
+     * The device controller has called to be hiden.
+     */
+    public void hideDeviceMenu(){
+	deviceMenuStage.hide();
+	loginStage.show();
     }
 }

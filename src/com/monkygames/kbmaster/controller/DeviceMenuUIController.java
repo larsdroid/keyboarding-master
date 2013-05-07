@@ -103,9 +103,13 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Used for managing engines (which do the work of remapping outputs).
      */
     private HardwareManager hardwareManager;
+    private LoginUIController loginController;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    public void setLoginController(LoginUIController loginController){
+	this.loginController = loginController;
+    }
     /**
      * Adds a device from the NewDeviceUI.
      * @param device the device to be added.
@@ -134,6 +138,15 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    }
 	}
     }
+    /**
+     * Prepares the gui and databases to populate device list.
+     */
+    public void initResources(){
+	// initialize Global Acount first since getDeviceList uses it
+	// to populate the list.
+	globalAccount = new GlobalAccount();
+	deviceTV.getItems().setAll(getDeviceEntryList());
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     @FXML
@@ -149,6 +162,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    exitApplication();
 	}else if(src == setProfileB){
 	    openSelectProfileUI();
+	}else if(src == logoutB){
+	    logout();
 	}
     }
     /**
@@ -279,8 +294,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 
 	// initialize Global Acount first since getDeviceList uses it
 	// to populate the list.
-	globalAccount = new GlobalAccount();
-	deviceTV.getItems().setAll(getDeviceEntryList());
+	//globalAccount = new GlobalAccount();
+	//deviceTV.getItems().setAll(getDeviceEntryList());
     }
 
     /**
@@ -304,8 +319,23 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Shutsdown all engines and exits the program.
      */
     private void exitApplication(){
-	hardwareManager.stopPollingAllDevices();
+	cleanUp();
 	System.exit(1);
+    }
+    /**
+     * Logs out of this device menu.
+     * Disables all devices.
+     */
+    private void logout(){
+	cleanUp();
+	loginController.hideDeviceMenu();
+    }
+    /**
+     * Closes all databases and prepares this gui to be closed.
+     */
+    private void cleanUp(){
+	hardwareManager.stopPollingAllDevices();
+	globalAccount.close();
     }
 // ============= Extended Methods ============== //
     @Override

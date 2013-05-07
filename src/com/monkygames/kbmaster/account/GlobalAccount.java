@@ -13,7 +13,6 @@ import java.util.ArrayList;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.DeviceInformation;
 import com.monkygames.kbmaster.driver.DriverManager;
-import com.monkygames.kbmaster.util.PopupManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -151,6 +150,12 @@ public class GlobalAccount{
 	    }
 	}
 	return devices;
+    }
+    /**
+     * Closes the database.
+     */
+    public void close(){
+	db.close();
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
