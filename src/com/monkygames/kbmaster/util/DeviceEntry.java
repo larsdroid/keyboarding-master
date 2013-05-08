@@ -6,6 +6,7 @@ package com.monkygames.kbmaster.util;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Profile;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 
 /**
@@ -35,6 +36,7 @@ public class DeviceEntry{
 // ============= Constructors ============== //
     public DeviceEntry(Device device){
 	this.device = device;
+	isEnabled = new SimpleBooleanProperty(device.isEnabled());
     }
 // ============= Public Methods ============== //
     /**

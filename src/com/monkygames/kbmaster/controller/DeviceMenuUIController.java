@@ -312,6 +312,11 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    }
 	    hardwareManager.updateConnectionState(device);
 	    list.add(new DeviceEntry(device));
+	    // check if this device needs to be enabled
+	    if(device.isEnabled()){
+		device.setIsEnabled(true);
+		hardwareManager.startPollingDevice(device, device.getProfile());
+	    }
 	}
 	return list;
     }
@@ -346,14 +351,14 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	TableRow row = (TableRow)skin.getParent();
 	DeviceEntry deviceEntry = (DeviceEntry)row.getItem();
 	Device device = deviceEntry.getDevice();
+	// traverse through scene graph to get checkbox.
+	TableCellSkin skin2 = (TableCellSkin)cell.getChildrenUnmodifiable().get(0);
+	CheckBox checkBox = (CheckBox)skin2.getChildren().get(0);
 	if(device.getProfile() == null){
 	    // pop an error 
 	    PopupManager.getPopupManager().showError("No profile selected, not enabled");
 	    // not, cannot enable
 	    device.setIsEnabled(false);
-	    // traverse through scene graph to get checkbox.
-	    TableCellSkin skin2 = (TableCellSkin)cell.getChildrenUnmodifiable().get(0);
-	    CheckBox checkBox = (CheckBox)skin2.getChildren().get(0);
 	    checkBox.selectedProperty().set(false);
 
 	    hardwareManager.stopPollingDevice(device);

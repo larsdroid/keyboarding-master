@@ -155,6 +155,8 @@ public class GlobalAccount{
      * Closes the database.
      */
     public void close(){
+	db.store(localDevices);
+	db.commit();
 	db.close();
     }
 // ============= Protected Methods ============== //
