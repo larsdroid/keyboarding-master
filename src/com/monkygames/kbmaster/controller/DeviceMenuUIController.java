@@ -121,7 +121,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    return;
 	}
 	// Update device table!
-	deviceTV.getItems().setAll(getDeviceEntryList());
+	deviceTV.getItems().setAll(getDeviceEntryList(true));
     }
     /**
      * Sets the active profile for the specified device.
@@ -130,7 +130,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	for(DeviceEntry deviceEntry: deviceTV.getItems()){
 	    if(deviceEntry.getDevice() == device){
 		// repopulate
-		deviceTV.getItems().setAll(getDeviceEntryList());
+		deviceTV.getItems().setAll(getDeviceEntryList(true));
 		// update hardware manager
 		if(deviceEntry.getIsEnabled()){
 		    hardwareManager.startPollingDevice(device, profile);
@@ -145,7 +145,26 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	// initialize Global Acount first since getDeviceList uses it
 	// to populate the list.
 	globalAccount = new GlobalAccount();
-	deviceTV.getItems().setAll(getDeviceEntryList());
+	deviceTV.getItems().setAll(getDeviceEntryList(true));
+    }
+    /**
+     * One or more devices has changed status and the UI
+     * will be updated to reflect these changes.
+     * Note, its not necessary to specify which devices have been
+     * connected/disconnected since this information is set in the device
+     * object which is universal throughout the program so no need
+     * to pass references around.
+     */
+    public void updateDevices(){
+	System.out.println("DeviceMenuCOntroller:updateDevices]");
+	// update device list
+	deviceTV.getItems().setAll(getDeviceEntryList(false));
+	System.out.println("DeviceMenuCOntroller:updateDevices] after table");
+	// update config ui if its open!
+	if(configureDeviceController != null){
+	    configureDeviceController.updateDeviceDetails();
+	}
+	System.out.println("DeviceMenuCOntroller:updateDevices] after update config");
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -256,7 +275,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	hardwareManager = new HardwareManager();
+	hardwareManager = new HardwareManager(this);
 	deviceNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("deviceName"));
 	profileNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("profileName"));
 	isConnectedCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("isConnected"));
@@ -301,22 +320,24 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     /**
      * Returns a list of device entries available from the Global Account. 
      */
-    private List<DeviceEntry> getDeviceEntryList() {
+    private List<DeviceEntry> getDeviceEntryList(boolean pollDeviceState) {
 	List<DeviceEntry> list = new ArrayList<>();
 	// parse and construct User datamodel list by looping your ResultSet rs
 	// and return the list   
 	for (Device device : globalAccount.getInstalledDevices()) {
 	    // initialize devices if not already initialized
-	    if(!hardwareManager.isDeviceManaged(device)){
-		hardwareManager.addManagedDevice(device);
+	    if(pollDeviceState){
+		if(!hardwareManager.isDeviceManaged(device)){
+		    hardwareManager.addManagedDevice(device);
+		}
+		hardwareManager.updateConnectionState(device);
+		// check if this device needs to be enabled
+		if(device.isEnabled()){
+		    device.setIsEnabled(true);
+		    hardwareManager.startPollingDevice(device, device.getProfile());
+		}
 	    }
-	    hardwareManager.updateConnectionState(device);
 	    list.add(new DeviceEntry(device));
-	    // check if this device needs to be enabled
-	    if(device.isEnabled()){
-		device.setIsEnabled(true);
-		hardwareManager.startPollingDevice(device, device.getProfile());
-	    }
 	}
 	return list;
     }

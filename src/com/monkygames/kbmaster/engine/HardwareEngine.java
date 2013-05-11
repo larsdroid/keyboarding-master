@@ -16,7 +16,6 @@ import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.input.WheelMapping;
 import java.awt.AWTException;
 import java.awt.Robot;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -243,6 +242,7 @@ public class HardwareEngine implements Runnable{
      * Set if hardware has been disconnected.
      */
     private void hardwareDisconnected(Controller controller){
+	System.out.println("[HardwareEngine:hardwareDisconnected]");
 	boolean isHardware = false;
 	if(controller == keyboard){
 	    keyboard = null;
@@ -252,7 +252,7 @@ public class HardwareEngine implements Runnable{
 	    isHardware = true;
 	}
 	if(isHardware){
-	    doesHardwareExist= false;
+	    doesHardwareExist = false;
 	    for(HardwareListener listener:hardwareListeners){
 		listener.hardwareStatusChange(false,device.getDeviceInformation().getJinputName());
 	    }
@@ -260,6 +260,7 @@ public class HardwareEngine implements Runnable{
 	}
     }
     private void hardwareConnected(){
+	System.out.println("[HardwareEngine:hardwareConnected]");
 	if(keyboard != null && mouse != null){
 	    doesHardwareExist = true;
 	    for(HardwareListener listener:hardwareListeners){

@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.engine;
 
 // === imports === //
+import com.monkygames.kbmaster.controller.DeviceMenuUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Profile;
 import java.util.HashMap;
@@ -19,8 +20,13 @@ public class HardwareManager implements HardwareListener{
      * A list of engines that are configured.
      */
     private HashMap<String,HardwareEngine> engines;
+    /**
+     * Used to update if a device was connected/disconnected.
+     */
+    private DeviceMenuUIController deviceMenuController;
 // ============= Constructors ============== //
-    public HardwareManager(){
+    public HardwareManager(DeviceMenuUIController deviceMenuController){
+	this.deviceMenuController = deviceMenuController;
 	engines = new HashMap<>();
     }
 // ============= Public Methods ============== //
@@ -30,6 +36,7 @@ public class HardwareManager implements HardwareListener{
      */
     public boolean addManagedDevice(Device device){
 	HardwareEngine engine = new HardwareEngine(device);
+	engine.addHardwareListener(this);
 	engines.put(device.getDeviceInformation().getJinputName(),engine);
 	return engine.hardwareExist();
     }
@@ -102,7 +109,12 @@ public class HardwareManager implements HardwareListener{
 
     @Override
     public void hardwareStatusChange(boolean hasConnected, String deviceName) {
-	// update table
+	System.out.println("device status changed isConnected["+hasConnected+"] - "+deviceName);
+	// update device connection status
+	HardwareEngine engine = engines.get(deviceName);
+	engine.getDevice().setIsConnected(hasConnected);
+	// propagate the changes
+	deviceMenuController.updateDevices();
     }
 
     @Override

@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 // === javafx imports === //
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,6 +60,7 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
     @FXML
     private Button hideB;
     private Stage stage;
+    private Device device;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     public ProfileUIController getProfileUIController() {
@@ -70,10 +72,30 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
      * @param device the device to be configured.
      */
     public void setDevice(Device device){
+	this.device = device;
 	updateDeviceDetails(device);
     }
     public void setStage(Stage stage){
 	this.stage = stage;
+    }
+    /**
+     * Updates the device details.
+     */
+    public void updateDeviceDetails(){
+	if(device != null){
+	    //updateDeviceDetails(device);
+	    String status;
+	    if(device.isConnected()){
+		status = "Connected";
+	    }else{
+		status = "Disconnected";
+	    }
+	    try{
+		driverStatusL.setText(status);
+	    }catch(Exception e){
+		handleNonFXThread(status);
+	    }
+	}
     }
     
 // ============= Protected Methods ============== //
@@ -84,13 +106,25 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
      */
     private void updateDeviceDetails(Device device){
 	driverVersionL.setText(device.getDeviceInformation().getVersion());
+	String status;
 	if(device.isConnected()){
-	    driverStatusL.setText("Connected");
+	    status = "Connected";
 	}else{
-	    driverStatusL.setText("Disconnected");
+	    status = "Disconnected";
 	}
+	driverStatusL.setText(status);
 	deviceIV.setImage(new Image(device.getDeviceInformation().getDeviceIcon()));
 	profileUIController.setDevice(device);
+    }
+    private void handleNonFXThread(final String status){
+	System.out.println("handlenonFXThread: status = "+status);
+	Platform.runLater(new Runnable() {
+	    @Override
+	    public void run() {
+		System.out.println("handlenonFXThread: updating status = "+status);
+		driverStatusL.setText(status+" ");
+	    }
+	});
     }
 // ============= Implemented Methods ============== //
     @Override
