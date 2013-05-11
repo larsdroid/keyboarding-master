@@ -31,7 +31,7 @@
         <HBox prefHeight="16.0" prefWidth="137.0">
           <children>
             <Label text="Status: " />
-            <Label fx:id="driverStatus" text="Off" />
+            <Label id="driverStatus" fx:id="driverStatusL" text="Off" />
           </children>
         </HBox>
         <HBox prefHeight="16.0" prefWidth="165.0">

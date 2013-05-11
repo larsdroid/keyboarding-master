@@ -38,6 +38,8 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
     @FXML
     private Label driverVersionL;
     @FXML
+    private Label driverStatusL;
+    @FXML
     private TabPane driverTabPane;
     @FXML
     private ImageView deviceIV;
@@ -82,6 +84,11 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
      */
     private void updateDeviceDetails(Device device){
 	driverVersionL.setText(device.getDeviceInformation().getVersion());
+	if(device.isConnected()){
+	    driverStatusL.setText("Connected");
+	}else{
+	    driverStatusL.setText("Disconnected");
+	}
 	deviceIV.setImage(new Image(device.getDeviceInformation().getDeviceIcon()));
 	profileUIController.setDevice(device);
     }
