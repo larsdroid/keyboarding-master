@@ -37,6 +37,7 @@ public class DeviceEntry{
     public DeviceEntry(Device device){
 	this.device = device;
 	isEnabled = new SimpleBooleanProperty(device.isEnabled());
+	System.out.println("[DeviceEntry:init] "+isEnabled);
     }
 // ============= Public Methods ============== //
     /**
@@ -71,6 +72,7 @@ public class DeviceEntry{
      * Returns true if the device is enabled and false otherwise.
      */
     public boolean getIsEnabled() {
+	System.out.println("[DeviceEntry:getIsEnabled] "+device.isEnabled());
 	return device.isEnabled();
     }
     /**

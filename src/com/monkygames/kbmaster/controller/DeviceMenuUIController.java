@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -156,18 +157,34 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * to pass references around.
      */
     public void updateDevices(){
-	System.out.println("DeviceMenuCOntroller:updateDevices]");
 	// update device list
 	deviceTV.getItems().setAll(getDeviceEntryList(false));
-	System.out.println("DeviceMenuCOntroller:updateDevices] after table");
 	// update config ui if its open!
 	if(configureDeviceController != null){
 	    configureDeviceController.updateDeviceDetails();
 	}
-	System.out.println("DeviceMenuCOntroller:updateDevices] after update config");
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    /**
+     * Updates the table.
+     * Note, makes sure that the check marks on the isEnabled column are correct.
+     */
+    private void updateTable(List<DeviceEntry> deviceEntries){
+	deviceTV.getItems().setAll(deviceEntries);
+
+	this.isEnabledCol.sortableProperty().setValue(Boolean.TRUE);
+
+	/*
+	// iterate through the rows
+	TableRow row = (TableRow)skin.getParent();
+	DeviceEntry deviceEntry = (DeviceEntry)row.getItem();
+	Device device = deviceEntry.getDevice();
+	// traverse through scene graph to get checkbox.
+	TableCellSkin skin2 = (TableCellSkin)cell.getChildrenUnmodifiable().get(0);
+	CheckBox checkBox = (CheckBox)skin2.getChildren().get(0);
+	*/
+    }
     @FXML
     private void handleButtonAction(ActionEvent evt){
 	Object src = evt.getSource();
@@ -386,6 +403,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    device.setIsEnabled(false);
 	    return;
 	}
+	System.out.println("[DeviceMenuUIController:handle]");
 	if(!device.isEnabled()){
 	    device.setIsEnabled(true);
 	    hardwareManager.startPollingDevice(device, device.getProfile());
@@ -399,9 +417,17 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 // ============= Internal Classes ============== //
     public class CheckboxCallback implements Callback<TableColumn<DeviceEntry,Boolean>, TableCell<DeviceEntry,Boolean>> {
 	private EventHandler checkBoxHandler;
+
+
+
 	@Override
 	public TableCell call(TableColumn<DeviceEntry, Boolean> param) {
-	    CheckBoxTableCell cell = new CheckBoxTableCell();
+	    CheckboxValueCallback callbackProperty = new CheckboxValueCallback();
+	    callbackProperty.setTableColumn(param);
+
+	    CheckBoxTableCell cell = new CheckBoxTableCell(callbackProperty){
+		public CheckBox checkBox;
+	    };
 	    //adding style class for the cell
 	    cell.getStyleClass().add("table-cell-center");
 	    cell.addEventHandler(ActionEvent.ACTION, checkBoxHandler);
@@ -409,6 +435,17 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	}
 	public void setCheckboxHandler(EventHandler checkBoxHandler){
 	    this.checkBoxHandler = checkBoxHandler;
+	}
+    }
+    public class CheckboxValueCallback implements Callback<Integer, ObservableValue<Boolean>> { 
+	private TableColumn<DeviceEntry, Boolean> tableColumn;
+	public void setTableColumn(TableColumn<DeviceEntry, Boolean> tableColumn){
+	    this.tableColumn = tableColumn;
+	}
+	@Override
+	public ObservableValue<Boolean> call(Integer p) {
+	    System.out.println("[CheckboxValueCallback] "+p+" "+tableColumn.getCellObservableValue(p));
+	    return tableColumn.getCellObservableValue(p);
 	}
     }
 // ============= Static Methods ============== //

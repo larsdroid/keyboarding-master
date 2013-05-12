@@ -117,11 +117,9 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
 	profileUIController.setDevice(device);
     }
     private void handleNonFXThread(final String status){
-	System.out.println("handlenonFXThread: status = "+status);
 	Platform.runLater(new Runnable() {
 	    @Override
 	    public void run() {
-		System.out.println("handlenonFXThread: updating status = "+status);
 		driverStatusL.setText(status+" ");
 	    }
 	});
