@@ -31,13 +31,13 @@ public class DeviceEntry{
     /**
      * True if the device should be enabled and false otherwise.
      */
-    private BooleanProperty isEnabled;
+    private BooleanProperty enabled;
     private Device device;
 // ============= Constructors ============== //
     public DeviceEntry(Device device){
 	this.device = device;
-	isEnabled = new SimpleBooleanProperty(device.isEnabled());
-	System.out.println("[DeviceEntry:init] "+isEnabled);
+	enabled = new SimpleBooleanProperty(device.isEnabled());
+	System.out.println("[DeviceEntry:init] "+enabled);
     }
 // ============= Public Methods ============== //
     /**
@@ -71,9 +71,12 @@ public class DeviceEntry{
     /**
      * Returns true if the device is enabled and false otherwise.
      */
-    public boolean getIsEnabled() {
+    public boolean isEnabled() {
 	System.out.println("[DeviceEntry:getIsEnabled] "+device.isEnabled());
 	return device.isEnabled();
+    }
+    public void setEnabled(boolean enabled){
+	device.setIsEnabled(enabled);
     }
     /**
      * Returns the device associated with this device entry.

@@ -133,7 +133,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 		// repopulate
 		deviceTV.getItems().setAll(getDeviceEntryList(true));
 		// update hardware manager
-		if(deviceEntry.getIsEnabled()){
+		if(deviceEntry.isEnabled()){
 		    hardwareManager.startPollingDevice(device, profile);
 		}
 	    }
@@ -296,9 +296,21 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	deviceNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("deviceName"));
 	profileNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("profileName"));
 	isConnectedCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("isConnected"));
-	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("isEnabled"));
+	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("enabled"));
+	final Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>> defaultCellFactory = CheckBoxTableCell.forTableColumn(isEnabledCol);
+	isEnabledCol.setCellFactory(new Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>>() {
+	    @Override
+	    public TableCell<DeviceEntry, Boolean> call(TableColumn<DeviceEntry, Boolean> col) {
+		TableCell<DeviceEntry, Boolean> cell = defaultCellFactory.call(col);
+		cell.getStyleClass().add("table-cell-center");
+		return cell;
+	    }
+	});
+	isEnabledCol.setEditable(true);
+	/*
 	isEnabledCol.setCellFactory(CheckBoxTableCell.forTableColumn(isEnabledCol));
 	isEnabledCol.setEditable(true);
+	*/
 	//isEnabledCol.addEventHandler(TableColumn.CellEditEvent<DeviceEntry, Boolean>, this);
 	//isEnabledCol.setOnEditCommit(this);
 	deviceTV.setEditable(true);
