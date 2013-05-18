@@ -100,37 +100,45 @@ public class SingleKeyController implements Initializable, EventHandler{
      * @param type the type of event, could by KEY, CTRL, SHIFT, ALT, or META.
      */
     private void setKeyPressed(KeyEvent keyEvent, String type){
-	System.out.println(type+" Pressed");
-	String key = keyEvent.getCharacter();
-	System.out.println("key: "+key+" Code: "+keyEvent.getCode()+" Text: "+keyEvent.getText());
-	KeyCode code = keyEvent.getCode();
-
-	int awtCode = JavaFXToAwt.getAWTKeyCode(keyEvent);
-	int awtModifier = JavaFXToAwt.getAWTModifiers(keyEvent);
-	outputKey.setName(code.getName());
-	outputKey.setKeycode(awtCode);
-	outputKey.setModifier(awtModifier);
-
-	System.out.println("OutputKey = "+code.getName()+","+awtCode+","+awtModifier);
-
-	singleKeyTF.setText(code.getName());
+	int awtModifier = 0;
 	if(type.equals("ALT")){
 	    altL.setDisable(false);
 	    ctrlL.setDisable(true);
 	    shiftL.setDisable(true);
+	    awtModifier = java.awt.event.KeyEvent.VK_ALT;
 	}else if(type.equals("CTRL")){
 	    altL.setDisable(true);
 	    ctrlL.setDisable(false);
 	    shiftL.setDisable(true);
+	    awtModifier = java.awt.event.KeyEvent.VK_CONTROL;
 	}else if(type.equals("SHIFT")){
 	    altL.setDisable(true);
 	    ctrlL.setDisable(true);
 	    shiftL.setDisable(false);
+	    awtModifier = java.awt.event.KeyEvent.VK_SHIFT;
 	}else{
 	    altL.setDisable(true);
 	    ctrlL.setDisable(true);
 	    shiftL.setDisable(true);
 	}
+	String key = keyEvent.getCharacter();
+	KeyCode code = keyEvent.getCode();
+
+	int awtCode = JavaFXToAwt.getAWTKeyCode(keyEvent);
+	//int awtModifier = JavaFXToAwt.getAWTModifiers(keyEvent);
+	outputKey.setName(code.getName());
+	outputKey.setKeycode(awtCode);
+	outputKey.setModifier(awtModifier);
+
+	singleKeyTF.setText(code.getName());
+
+	/* eventually remove once we are certain everything works here
+	System.out.println(type+" Pressed");
+	System.out.println("key: "+key+" Code: "+keyEvent.getCode()+" Text: "+keyEvent.getText());
+	System.out.println("OutputKey = "+code.getName()+","+awtCode+","+awtModifier);
+	System.out.println("ALT = "+java.awt.event.KeyEvent.VK_ALT+" CTRL = "+java.awt.event.KeyEvent.VK_CONTROL+
+		"SHIFT = "+java.awt.event.KeyEvent.VK_SHIFT);
+	*/
     }
 // ============= Implemented Methods ============== //
     @Override
