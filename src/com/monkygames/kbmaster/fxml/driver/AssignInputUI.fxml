@@ -20,7 +20,7 @@
     <GridPane layoutX="90.0" layoutY="59.0" prefWidth="470.0">
       <children>
         <Label text="Mapping: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <ComboBox fx:id="mappingCB" prefWidth="370.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <ComboBox fx:id="mappingCB" focusTraversable="false" prefWidth="370.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Item 1" />
@@ -42,8 +42,8 @@
       </rowConstraints>
     </GridPane>
     <Line endX="287.0" endY="-9.0" layoutX="325.0" layoutY="147.0" startX="-285.0" startY="-9.0" stroke="WHITE" />
-    <Button layoutX="497.0" layoutY="345.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="126.0" text="Cancel" />
-    <Button layoutX="353.0" layoutY="345.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="126.0" text="Ok" />
+    <Button focusTraversable="false" layoutX="497.0" layoutY="345.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="126.0" text="Cancel" />
+    <Button focusTraversable="false" layoutX="353.0" layoutY="345.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="126.0" text="Ok" />
     <Pane id="settingsPanel" fx:id="settingsPane" focusTraversable="true" layoutX="14.0" layoutY="145.0" prefHeight="186.0" prefWidth="622.0" />
   </children>
   <stylesheets>

@@ -28,6 +28,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -298,21 +299,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	isConnectedCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("isConnected"));
 	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("enabled"));
 	final Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>> defaultCellFactory = CheckBoxTableCell.forTableColumn(isEnabledCol);
-	isEnabledCol.setCellFactory(new Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>>() {
-	    @Override
-	    public TableCell<DeviceEntry, Boolean> call(TableColumn<DeviceEntry, Boolean> col) {
-		TableCell<DeviceEntry, Boolean> cell = defaultCellFactory.call(col);
-		cell.getStyleClass().add("table-cell-center");
-		return cell;
-	    }
-	});
-	isEnabledCol.setEditable(true);
-	/*
-	isEnabledCol.setCellFactory(CheckBoxTableCell.forTableColumn(isEnabledCol));
-	isEnabledCol.setEditable(true);
-	*/
-	//isEnabledCol.addEventHandler(TableColumn.CellEditEvent<DeviceEntry, Boolean>, this);
-	//isEnabledCol.setOnEditCommit(this);
+	// set the table cell to center for isEnabled
+	CheckboxCallback callback = new CheckboxCallback();
+	callback.setCheckboxHandler(this);
+	isEnabledCol.setCellFactory(callback);
 	deviceTV.setEditable(true);
 
 	// set the table cell to center for isConnected
@@ -334,10 +324,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    }
 	});
 
-	// set the table cell to center for isEnabled
-	CheckboxCallback callback = new CheckboxCallback();
-	callback.setCheckboxHandler(this);
-	isEnabledCol.setCellFactory(callback);
 
 
 	// initialize Global Acount first since getDeviceList uses it
@@ -396,6 +382,48 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     @Override
     public void handle(ActionEvent t) {
 	CheckBoxTableCell cell = (CheckBoxTableCell)t.getSource();
+	System.out.println("[DeviceMenuController:handle] "+cell.getParent());
+	Parent parent = cell.getParent();
+	Parent parent2 = parent.getParent();
+	if(!(parent2 instanceof TableRow)){
+	    return;
+	}
+	TableRow row = (TableRow)parent2;
+	DeviceEntry deviceEntry = (DeviceEntry)row.getItem();
+	Device device = deviceEntry.getDevice();
+	// traverse through scene graph to get checkbox.
+	Node node = cell.getChildrenUnmodifiable().get(0);
+	if(node == null && !(node instanceof Parent)){
+	    return;
+	}
+	Parent parent3 = (Parent)node;
+	Node node2 = parent3.getChildrenUnmodifiable().get(0);
+	if(node2 != null && !(node2 instanceof CheckBox)){
+	    return;
+	}
+	CheckBox checkBox = (CheckBox)node2;
+	if(device.getProfile() == null){
+	    // pop an error 
+	    PopupManager.getPopupManager().showError("No profile selected, not enabled");
+	    // not, cannot enable
+	    device.setIsEnabled(false);
+	    checkBox.selectedProperty().set(false);
+
+	    hardwareManager.stopPollingDevice(device);
+	    device.setIsEnabled(false);
+	    return;
+	}
+	System.out.println("[DeviceMenuUIController:handle]");
+	if(!device.isEnabled()){
+	    device.setIsEnabled(true);
+	    hardwareManager.startPollingDevice(device, device.getProfile());
+	}else{
+	    hardwareManager.stopPollingDevice(device);
+	    device.setIsEnabled(false);
+	}
+
+
+	/*
 	// traverse through scene graph to get device entry.
 	TableRowSkin skin = (TableRowSkin)cell.getParent();
 	TableRow row = (TableRow)skin.getParent();
@@ -423,14 +451,13 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    hardwareManager.stopPollingDevice(device);
 	    device.setIsEnabled(false);
 	}
+	*/
     }
 
 
 // ============= Internal Classes ============== //
     public class CheckboxCallback implements Callback<TableColumn<DeviceEntry,Boolean>, TableCell<DeviceEntry,Boolean>> {
 	private EventHandler checkBoxHandler;
-
-
 
 	@Override
 	public TableCell call(TableColumn<DeviceEntry, Boolean> param) {
