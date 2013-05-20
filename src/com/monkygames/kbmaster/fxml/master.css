@@ -7,7 +7,7 @@
  */
 @font-face {
     font-family: Title1;
-    src: url('OCRAEXT.TTF');
+    src: url('resources/OCRAEXT.TTF');
 }
 
 .titleClass {

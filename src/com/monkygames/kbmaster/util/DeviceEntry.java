@@ -40,6 +40,9 @@ public class DeviceEntry{
 	System.out.println("[DeviceEntry:init] "+enabled);
     }
 // ============= Public Methods ============== //
+    public BooleanProperty enabledProperty(){
+	return enabled;
+    }
     /**
      * Returns the name of this device.
      * @return the name of this device.
@@ -76,7 +79,7 @@ public class DeviceEntry{
 	return device.isEnabled();
     }
     public void setEnabled(boolean enabled){
-	device.setIsEnabled(enabled);
+	this.enabled.setValue(enabled); 
     }
     /**
      * Returns the device associated with this device entry.
