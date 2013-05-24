@@ -164,11 +164,14 @@ public class HardwareEngine implements Runnable{
     /**
      * Starts polling the devices.
      * Must check that hardware exists before starting.
+     * Note, null can be passed in as long as its not enabled!
      */
     public void startPolling(Profile profile){
 	this.profile = profile;
 	this.profileSwitch = profile;
-	this.keymap = profile.getKeymap(0);
+	if(profile != null){
+	    this.keymap = profile.getKeymap(0);
+	}
 	this.isKeymapOnRelease = false;
 	if(this.doesHardwareExist){
 	    sleepTime = sleepActive;
@@ -224,12 +227,16 @@ public class HardwareEngine implements Runnable{
 	    if(controller.getType() == Controller.Type.KEYBOARD && 
 	       controller.getName().equals(device.getDeviceInformation().getJinputName())){
 		keyboard = (Keyboard)controller;
-		//keyboard.grab();
+		if(isEnabled){
+		    keyboard.grab();
+		}
 		    
 	    }else if(controller.getType() == Controller.Type.MOUSE && 
 	       controller.getName().equals(device.getDeviceInformation().getJinputName())){
 		mouse = (Mouse)controller;
-		//mouse.grab();
+		if(isEnabled){
+		    mouse.grab();
+		}
 	    }
 	}	
 
@@ -285,10 +292,22 @@ public class HardwareEngine implements Runnable{
 		continue;
 	    }
 	    // poll keyboard
-	    if(!keyboard.poll()){
+	    if(keyboard != null && !keyboard.poll()){
 		hardwareDisconnected(keyboard);
 		continue;
 	    }
+	    // poll mouse
+	    if(mouse != null && !mouse.poll()){
+		hardwareDisconnected(mouse);
+		continue;
+	    }
+
+	    // handles just detecting if a device is connected or not.
+	    if(!isEnabled){
+		continue;
+	    }
+
+	    // handle keyboard events
 	    EventQueue queue = keyboard.getEventQueue();
 	    while(queue.getNextEvent(event)){
 		Component component = event.getComponent();
@@ -296,11 +315,7 @@ public class HardwareEngine implements Runnable{
 		ButtonMapping mapping = keymap.getButtonMapping(name);
 		processOutput(name, mapping.getOutput(), event.getValue());
 	    }
-	    // poll mouse
-	    if(!mouse.poll()){
-		hardwareDisconnected(mouse);
-		continue;
-	    }
+	    // handle mouse events
 	    queue = mouse.getEventQueue();
 	    while(queue.getNextEvent(event)){
 		Component component = event.getComponent();

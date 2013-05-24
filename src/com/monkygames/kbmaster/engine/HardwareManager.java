@@ -38,7 +38,8 @@ public class HardwareManager implements HardwareListener{
 	HardwareEngine engine = new HardwareEngine(device);
 	engine.addHardwareListener(this);
 	engines.put(device.getDeviceInformation().getJinputName(),engine);
-	return engine.hardwareExist();
+	boolean hardwareExist = engine.hardwareExist();
+	return hardwareExist;
     }
     /**
      * Checks if this device is already managed.
@@ -62,17 +63,31 @@ public class HardwareManager implements HardwareListener{
 	}
     }
     /**
+     * Disable the specified device but continue to poll to check
+     * for device status.
+     * @param device the device to disable.
+     */
+    public void disableDevice(Device device){
+	HardwareEngine engine = engines.get(device.getDeviceInformation().getJinputName());
+	if(engine != null){
+	    engine.setEnabled(false);
+	}
+    }
+    /**
      * Starts polling the specified device.
      * @param device the device to poll.
      * @param profile the profile used by the Engine to remap the outputs.
      * @return false if the device doesn't exist and true otherwise.
      */
     public boolean startPollingDevice(Device device,Profile profile){
+	System.out.println("[HardwareManager:startPolling]");
 	HardwareEngine engine = engines.get(device.getDeviceInformation().getJinputName());
 	if(engine == null){
 	    return false;
 	}
-	engine.setEnabled(true);
+	if(profile != null){
+	    engine.setEnabled(true);
+	}
 	engine.startPolling(profile);
 	return true;
     }

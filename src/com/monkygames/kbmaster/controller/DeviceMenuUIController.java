@@ -298,6 +298,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	isConnectedCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("isConnected"));
 	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("enabled"));
 	/*
+	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("enabled"));
 	final Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>> defaultCellFactory = CheckBoxTableCell.forTableColumn(isEnabledCol);
 	// set the table cell to center for isEnabled
 	CheckboxCallback callback = new CheckboxCallback();
@@ -305,7 +306,11 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	isEnabledCol.setCellFactory(callback);
 	*/
 
-	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("enabled"));
+	CheckboxCallback callback = new CheckboxCallback();
+	callback.setCheckboxHandler(this);
+	isEnabledCol.setCellFactory(callback);
+
+	/*
 	final Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>> defaultCellFactory = CheckBoxTableCell.forTableColumn(isEnabledCol);
 	isEnabledCol.setCellFactory(new Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>>() {
 	    @Override
@@ -315,6 +320,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 		return cell;
 	    }
 	});
+	*/
 	isEnabledCol.setEditable(true);
 
 
@@ -364,6 +370,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 		// check if this device needs to be enabled
 		if(device.isEnabled()){
 		    hardwareManager.startPollingDevice(device, device.getProfile());
+		}else{
+		    hardwareManager.startPollingDevice(device, null);
 		}
 	    }
 	    list.add(new DeviceEntry(device));
@@ -421,19 +429,24 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    PopupManager.getPopupManager().showError("No profile selected, not enabled");
 	    // not, cannot enable
 	    device.setIsEnabled(false);
+	    deviceEntry.setEnabled(false);
 	    checkBox.selectedProperty().set(false);
 
-	    hardwareManager.stopPollingDevice(device);
+	    //hardwareManager.stopPollingDevice(device);
 	    device.setIsEnabled(false);
 	    return;
 	}
 	System.out.println("[DeviceMenuUIController:handle]");
-	if(!device.isEnabled()){
+	//if(!device.isEnabled()){
+	if(!deviceEntry.isEnabled()){
 	    device.setIsEnabled(true);
+	    //deviceEntry.setEnabled(true);
 	    hardwareManager.startPollingDevice(device, device.getProfile());
 	}else{
-	    hardwareManager.stopPollingDevice(device);
+	    //hardwareManager.stopPollingDevice(device);
 	    device.setIsEnabled(false);
+	    //deviceEntry.setEnabled(false);
+	    hardwareManager.disableDevice(device);
 	}
 
 
