@@ -223,8 +223,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 		Parent root = (Parent)fxmlLoader.load(location.openStream());
 		NewDeviceUIController controller = (NewDeviceUIController) fxmlLoader.getController();
 		Scene scene = new Scene(root);
-		newDeviceStage = new Stage();
-		newDeviceStage.setScene(scene);
+		newDeviceStage = WindowUtil.createStage(root);
 		controller.setStage(newDeviceStage);
 		controller.setAccount(globalAccount);
 		controller.setDeviceMenuUIController(this);
