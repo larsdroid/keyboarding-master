@@ -90,7 +90,7 @@
       </children>
     </HBox>
     <Button fx:id="hideB" layoutX="855.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="95.0" text="Hide" />
-    <Button fx:id="editModeB" layoutX="755.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Edit Mode" />
+    <Button fx:id="editModeB" disable="true" layoutX="755.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Edit Mode" />
     <Line endX="160.0" endY="-233.0" layoutX="208.0" layoutY="357.0" startX="160.0" startY="260.0" stroke="WHITE" strokeLineCap="ROUND" />
     <TabPane fx:id="driverTabPane" layoutX="379.0" layoutY="162.0" prefHeight="498.0" prefWidth="574.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
