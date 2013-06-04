@@ -130,7 +130,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	for(DeviceEntry deviceEntry: deviceTV.getItems()){
 	    if(deviceEntry.getDevice() == device){
 		// repopulate
-		deviceTV.getItems().setAll(getDeviceEntryList(true));
+		deviceTV.getItems().setAll(getDeviceEntryList(false));
 		// update hardware manager
 		if(deviceEntry.isEnabled()){
 		    hardwareManager.startPollingDevice(device, profile);
