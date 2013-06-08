@@ -163,7 +163,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	// initialize tabs is required before calling set profile.
 	keymapUIManager.addSaveNotification(this);
 
-	updateComboBoxes();
+	//device.getProfile()
+	if(device.getProfile() != null){
+	    setComboBoxesOnProfile(device.getProfile());
+	}else{
+	    updateComboBoxes();
+	}
     }
     /**
      * Set the description label for keymaps.
@@ -189,15 +194,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	currentProfile = profiles.get(0);
 	updateProfileUIInfo(currentProfile);
 
-	/*
-	//  set profile on the keymaps
-	// set device is required before calling initialize tabs.
-	keymapUIManager.setDevice(device);
-	keymapUIManager.initializeTabs();
-	// initialize tabs is required before calling set profile.
-	keymapUIManager.setProfile(currentProfile);
-	keymapUIManager.addSaveNotification(this);
-	*/
 	keymapUIManager.setProfile(currentProfile);
 	device.setProfile(currentProfile);
 	deviceMenuController.setActiveProfile(device, currentProfile);
@@ -278,6 +274,44 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    /**
+     * Sets the combo boxes based on the specified profile.
+     * @param profile the profile used to set the combo boxes.
+     */
+    private void setComboBoxesOnProfile(Profile profile){
+	ObservableList<App> apps;
+	ObservableList<Profile> profiles = null;
+	// set the type combo box
+	typeCB.valueProperty().removeListener(this);
+	if(profile.getApp().getAppType() == AppType.APPLICATION){
+	    typeCB.getSelectionModel().selectLast();
+	    apps = FXCollections.observableArrayList(profileManager.getApplications());
+	}else{
+	    typeCB.getSelectionModel().selectFirst();
+	    apps = FXCollections.observableArrayList(profileManager.getGames());
+	}
+	typeCB.valueProperty().addListener(this);
+
+	// set the app combo box
+	appsCB.valueProperty().removeListener(appChangeListener);
+	appsCB.setItems(apps);
+	appsCB.getSelectionModel().select(profile.getApp());
+	appsCB.valueProperty().addListener(appChangeListener);
+	updateAppUIInfo(profile.getApp());
+
+	// set the profile combo box
+	profiles = FXCollections.observableArrayList(profileManager.getProfile(profile.getApp()));
+	profileCB.setItems(profiles);
+	profileCB.getSelectionModel().select(profile);
+	// TODO need to add a change listener for the profileCB!!!!
+
+	currentProfile = profile;
+	//set the profile to the keymap controller
+	keymapUIManager.setProfile(currentProfile);
+	//deviceMenuController.setActiveProfile(device, currentProfile);
+	//device.setProfile(currentProfile);
+	updateProfileUIInfo(currentProfile);
+    }
     /**
      * Updates the combo box by type and always selects the first program
      * to populate the profiles list.
@@ -472,14 +506,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    profileDir.mkdir();
 	}
 	
-	/*
-	typeCB.getItems().removeAll();
-	Image gameImage = new Image("/com/monkygames/kbmaster/fxml/resources/sort/game.png");
-	Image applicationImage = new Image("/com/monkygames/kbmaster/fxml/resources/sort/application.png");
-	ObservableList<Image> images = FXCollections.observableArrayList(gameImage,applicationImage);
-	typeCB.setItems(images);
-	typeCB.setCellFactory(new ImageCellFactoryCallback());
-	*/
 	setButtonToolTip(newProfileB, "New Profile");
 	setButtonToolTip(cloneProfileB, "Clone Profile");
 	setButtonToolTip(importProfileB, "Import Profile");
