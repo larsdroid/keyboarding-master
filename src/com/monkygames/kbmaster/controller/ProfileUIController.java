@@ -111,6 +111,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     private boolean isNewDevice = true;
     private DeviceMenuUIController deviceMenuController;
+    private ChangeListener<App> appChangeListener;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
     @FXML
@@ -294,7 +295,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    profiles = FXCollections.observableArrayList(profileManager.getProfile(apps.get(0)));
 	}
 
-	appsCB.valueProperty().removeListener(this);
+	appsCB.valueProperty().removeListener(appChangeListener);
 	appsCB.setItems(apps);
 	if(apps.size() > 0){
 	    appsCB.getSelectionModel().selectFirst();
@@ -311,14 +312,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	// I usually have a listener for this class but
 	// typeCB and profileCB both contain Strings while programCB contains Apps.
 	// So its necessary to extend a generic listener here
-	appsCB.valueProperty().addListener(new ChangeListener<App>(){
-	    @Override
-	    public void changed(ObservableValue<? extends App> ov, App previousValue, App newValue) {
-		if(ov == appsCB.valueProperty()){
-		    updateProfilesComboBox();
-		}
-	    }
-	});
+	appsCB.valueProperty().addListener(appChangeListener);
     }
     /**
      * Sets the tool tip with the string by the specified information.
@@ -452,7 +446,16 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	SimpleDateFormat date_format = new SimpleDateFormat("yyyy/MM/dd");
 	updatedL.setText(date_format.format(cal.getTime()));
     }
-	
+    private void createChangeListener(){
+	appChangeListener = new ChangeListener<App>(){
+	    @Override
+	    public void changed(ObservableValue<? extends App> ov, App previousValue, App newValue) {
+		if(ov == appsCB.valueProperty()){
+		    updateProfilesComboBox();
+		}
+	    }
+	};
+    }	
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -462,6 +465,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	typeCB.setItems(FXCollections.observableArrayList());
 	profileCB.setItems(FXCollections.observableArrayList());
 	appsCB.setItems(FXCollections.observableArrayList());
+	createChangeListener();
 
 	profileDir = new File("profiles");
 	if(!profileDir.exists()){

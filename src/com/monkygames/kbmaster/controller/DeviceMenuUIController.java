@@ -147,7 +147,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	globalAccount = new GlobalAccount();
 	List<DeviceEntry> deviceEntries = getDeviceEntryList(true);
 	deviceTV.getItems().setAll(deviceEntries);
-	//updateTable(deviceEntries);
     }
     /**
      * One or more devices has changed status and the UI
@@ -167,24 +166,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
-    /**
-     * Updates the table.
-     * Note, makes sure that the check marks on the isEnabled column are correct.
-     */
-    private void updateTable(List<DeviceEntry> deviceEntries){
-	deviceTV.getItems().setAll(deviceEntries);
-
-	this.isEnabledCol.sortableProperty().setValue(Boolean.TRUE);
-	for(DeviceEntry entry: deviceEntries){
-	    System.out.println("Cell data = "+isEnabledCol.getCellData(entry));
-	    System.out.println("Observable Val = "+isEnabledCol.getCellObservableValue(entry));
-	}
-	for (Node r: deviceTV.lookupAll(".table-row-cell")){
-	    for (Node c: r.lookupAll(".table-cell")){
-		System.out.println(c);
-	    }
-	}
-    }
     @FXML
     private void handleButtonAction(ActionEvent evt){
 	Object src = evt.getSource();
@@ -403,7 +384,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     @Override
     public void handle(ActionEvent t) {
 	CheckBoxTableCell cell = (CheckBoxTableCell)t.getSource();
-	System.out.println("[DeviceMenuController:handle] "+cell.getParent());
 	Parent parent = cell.getParent();
 	Parent parent2 = parent.getParent();
 	if(!(parent2 instanceof TableRow)){
@@ -435,7 +415,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    device.setIsEnabled(false);
 	    return;
 	}
-	System.out.println("[DeviceMenuUIController:handle]");
 	//if(!device.isEnabled()){
 	if(!deviceEntry.isEnabled()){
 	    device.setIsEnabled(true);
@@ -469,7 +448,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    device.setIsEnabled(false);
 	    return;
 	}
-	System.out.println("[DeviceMenuUIController:handle]");
 	if(!device.isEnabled()){
 	    device.setIsEnabled(true);
 	    hardwareManager.startPollingDevice(device, device.getProfile());
@@ -515,7 +493,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	}
 	@Override
 	public ObservableValue<Boolean> call(Integer p) {
-	    System.out.println("[CheckboxValueCallback] "+p+" "+tableColumn.getCellObservableValue(p));
 	    return tableColumn.getCellObservableValue(p);
 	}
     }
