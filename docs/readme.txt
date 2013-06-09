@@ -16,6 +16,12 @@ To uninstall
 cd <kbmaster install dir>
 sudo ./uninstall
 
+== Versions ===
+
+[0.1.1]
+* Fixed a performance issue with opening the configuration menu multiple times.
+* When the configuration menu is opened, the profile showing in the device menu will be used.
+
 === Known Bugs / Disabled Features ===
 This is a beta release so there are none bugs/issues.
 

@@ -68,7 +68,7 @@
         <HBox id="versionHBox" alignment="CENTER" prefHeight="17.0" prefWidth="158.0" visible="true">
           <children>
             <Label alignment="TOP_CENTER" text="Software Version: " />
-            <Label id="versionL" alignment="CENTER" contentDisplay="CENTER" text="0.1" textAlignment="LEFT" />
+            <Label fx:id="versionL" alignment="CENTER" contentDisplay="CENTER" text="0.1" textAlignment="LEFT" />
           </children>
         </HBox>
         <Hyperlink text="No Updates Available" textFill="WHITE" />

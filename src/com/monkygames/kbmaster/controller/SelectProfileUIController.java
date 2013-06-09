@@ -74,6 +74,14 @@ public class SelectProfileUIController implements Initializable, ChangeListener<
     private Profile currentProfile;
     private Device device;
     private DeviceMenuUIController deviceMenuController;
+    /**
+     * The default image to be used if the app has not set a logo.
+     */
+    private Image defaultAppLogoImage;
+    /**
+     * The default image to be used if the app has not set a logo.
+     */
+    private Image defaultDevLogoImage;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
 
@@ -238,29 +246,23 @@ public class SelectProfileUIController implements Initializable, ChangeListener<
      */
     private void updateAppUIInfo(App app){
 	appInfoTA.setText(app.getInfo());
-	if(app.getAppLogoPath() == null){
-	    appLogoIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/app_logo.png"));
+	if(app.getAppLogo() == null){
+	    appLogoIV.setImage(defaultAppLogoImage);
 	}else{
-	    try {
-		appLogoIV.setImage(new Image(new FileInputStream(new File(app.getAppLogoPath()))));
-	    } catch (FileNotFoundException ex) {
-		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+	    appLogoIV.setImage(app.getAppLogo());
 	}
-	if(app.getDevLogoPath() == null){
-	    developerIV.setImage(new Image("/com/monkygames/kbmaster/fxml/resources/profile/dev_logo.png"));
+	if(app.getDevLogo() == null){
+	    developerIV.setImage(defaultDevLogoImage);
 	}else{
-	    try {
-		developerIV.setImage(new Image(new FileInputStream(new File(app.getDevLogoPath()))));
-	    } catch (FileNotFoundException ex) {
-		Logger.getLogger(ProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+	    developerIV.setImage(app.getDevLogo());
 	}
     }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	profileDir = new File("profiles");
+	defaultAppLogoImage = new Image("/com/monkygames/kbmaster/fxml/resources/profile/app_logo.png");
+	defaultDevLogoImage = new Image("/com/monkygames/kbmaster/fxml/resources/profile/dev_logo.png");
     }
 
     @FXML

@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.controller;
 
 // === javafx imports === //
+import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.engine.HardwareManager;
@@ -31,6 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -78,6 +80,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private Button setProfileB;
     @FXML
     private CheckBox keysRepeatCB;
+    @FXML
+    private Label versionL;
     /**
      * Used for displaying a new device popup.
      */
@@ -272,6 +276,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+	versionL.setText(KeyboardingMaster.VERSION);
 	hardwareManager = new HardwareManager(this);
 	deviceNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("deviceName"));
 	profileNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("profileName"));

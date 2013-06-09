@@ -3,6 +3,16 @@
  */
 package com.monkygames.kbmaster.input;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.image.Image;
+import sun.misc.IOUtils;
+
 /**
  * Contains information about an App.
  * App's are used for sorting profiles.
@@ -17,13 +27,13 @@ public class App{
      */
     private String info;
     /**
-     * The path to this application's logo.
+     * The image of this application's logo.
      */
-    private String appLogoPath;
+    private byte[] appLogoByteArray;
     /**
-     * The path to the logo for the developer of this app.
+     * The image of the developer's logo of this app.
      */
-    private String devLogoPath;
+    private byte[] devLogoByteArray;
     /**
      * The name of this app.
      */
@@ -37,13 +47,12 @@ public class App{
 // ============= Constructors ============== //
     public App(String info, String appLogoPath, String devLogoPath, String name, AppType appType) {
 	this.info = info;
-	this.appLogoPath = appLogoPath;
-	this.devLogoPath = devLogoPath;
+	setAppLogoPath(appLogoPath);
+	setDevLogoPath(devLogoPath);
 	this.name = name;
 	this.appType = appType;
     }
 // ============= Public Methods ============== //
-
 
     public String getInfo() {
 	return info;
@@ -53,20 +62,50 @@ public class App{
 	this.info = info;
     }
 
-    public String getAppLogoPath() {
-	return appLogoPath;
-    }
-
     public void setAppLogoPath(String appLogoPath) {
-	this.appLogoPath = appLogoPath;
+	if(appLogoPath == null){
+	    return;
+	}
+	try {
+	    FileInputStream fis = new FileInputStream(new File(appLogoPath));
+	    appLogoByteArray = IOUtils.readFully(fis, -1, true);
+	} catch (FileNotFoundException ex) {
+	    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (IOException ex) {
+	    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
-
-    public String getDevLogoPath() {
-	return devLogoPath;
+    /**
+     * Returns the app logo image and null if it doesn't exists.
+     */
+    public Image getAppLogo(){
+	if(appLogoByteArray == null){
+	    return null;
+	}
+	return new Image(new ByteArrayInputStream(appLogoByteArray));
     }
 
     public void setDevLogoPath(String devLogoPath) {
-	this.devLogoPath = devLogoPath;
+	if(devLogoPath == null){
+	    return;
+	}
+	try {
+	    FileInputStream fis = new FileInputStream(new File(devLogoPath));
+	    devLogoByteArray = IOUtils.readFully(fis, -1, true);
+	} catch (FileNotFoundException ex) {
+	    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (IOException ex) {
+	    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }
+    /**
+     * Returns the dev logo image and null if it doesn't exists.
+     */
+    public Image getDevLogo(){
+	if(devLogoByteArray == null){
+	    return null;
+	}
+	return new Image(new ByteArrayInputStream(devLogoByteArray));
     }
 
     public String getName() {

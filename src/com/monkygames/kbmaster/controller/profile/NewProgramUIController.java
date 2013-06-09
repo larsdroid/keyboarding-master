@@ -94,36 +94,6 @@ public class NewProgramUIController extends PopupController{
 					  type))){
 	    PopupManager.getPopupManager().showError("App name already exists");
 	}
-	// check for app icon is set
-	if(appLogoPath != null){
-	    // copy file locally -- note, don't do that until "saved"
-	    File dir = new File("local"+File.separator+appName);
-	    dir.mkdirs();
-	    File dest = new File(dir.getPath()+File.separator+appLogoFileName);
-	    CopyOption options[] = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING,
-						  StandardCopyOption.COPY_ATTRIBUTES};
-	    File file = new File(appLogoPath);
-	    try {
-		Files.copy(file.toPath(), dest.toPath(), options);
-	    } catch (IOException ex) {
-		Logger.getLogger(NewProgramUIController.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	}
-	if(devLogoPath != null){
-	    // copy file locally -- note, don't do that until "saved"
-	    File dir = new File("local"+File.separator+appName);
-	    dir.mkdirs();
-	    File dest = new File(dir.getPath()+File.separator+devLogoFileName);
-	    CopyOption options[] = new CopyOption[]{StandardCopyOption.REPLACE_EXISTING,
-						  StandardCopyOption.COPY_ATTRIBUTES};
-	    File file = new File(devLogoPath);
-	    try {
-		Files.copy(file.toPath(), dest.toPath(), options);
-	    } catch (IOException ex) {
-		Logger.getLogger(NewProgramUIController.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-
-	}
 	reset();
 	notifyOK(appName);
     }
