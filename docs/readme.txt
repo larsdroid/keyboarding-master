@@ -18,6 +18,10 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.2]
+* Added import/export of profiles
+* Added proper delete of profile support
+
 [0.1.1]
 * Fixed a performance issue with opening the configuration menu multiple times.
 * When the configuration menu is opened, the profile showing in the device menu will be used.
