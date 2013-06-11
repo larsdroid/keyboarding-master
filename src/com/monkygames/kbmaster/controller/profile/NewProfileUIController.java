@@ -197,7 +197,7 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	this.showStage();
 	if(message != null || !message.equals("")){
 	    for(App app: appsList){
-		if(app.getName().equals(message)){
+		if(app != null && app.getName().equals(message)){
 		    programCB.getSelectionModel().select(app);
 		    break;
 		}

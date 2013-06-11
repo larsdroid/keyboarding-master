@@ -33,13 +33,9 @@ import com.monkygames.kbmaster.util.KeymapUIManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
 import com.monkygames.kbmaster.util.WindowUtil;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -120,6 +116,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * The default image to be used if the app has not set a logo.
      */
     private Image defaultDevLogoImage;
+    /**
+     * Used for importing/exporting files.
+     */
+    private FileChooser kmpFileChooser;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -131,7 +131,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}else if(src == cloneProfileB){
 	    openCloneProfilePopup();
 	}else if(src == importProfileB){
+	    importProfile();
 	}else if(src == exportProfileB){
+	    exportProfile();
 	}else if(src == printPDFB){
 	    openPDFPopup();
 	}else if(src == deleteProfileB){
@@ -344,12 +346,17 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    appsCB.getSelectionModel().selectFirst();
 	    // set app ui
 	    updateAppUIInfo((App)appsCB.getSelectionModel().getSelectedItem());
+	}else{
+	    resetAppUIInfo();
 	}
 	if(profiles == null){
 	    profileCB.setItems(FXCollections.observableArrayList());
+	    // reset
+	    resetProfileUIInfo();
 	}else{
 	    profileCB.setItems(profiles);
 	    profileCB.getSelectionModel().selectFirst();
+	    currentProfile = (Profile)profileCB.getSelectionModel().getSelectedItem();
 	    profileSelected();
 	}
 	// I usually have a listener for this class but
@@ -468,7 +475,14 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    devLogoIV.setImage(app.getDevLogo());
 	}
     }
-
+    /**
+     * Resets the app ui information.
+     */
+    private void resetAppUIInfo(){
+	appInfoTA.setText("");
+	appLogoIV.setImage(defaultAppLogoImage);
+	devLogoIV.setImage(defaultDevLogoImage);
+    }
     /**
      * Updates the UI with the profile information.
      * @param profile the information to update the UI with.
@@ -481,6 +495,14 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	SimpleDateFormat date_format = new SimpleDateFormat("yyyy/MM/dd");
 	updatedL.setText(date_format.format(cal.getTime()));
     }
+    /**
+     * Resets the profile information.
+     */
+    private void resetProfileUIInfo(){
+	infoTA.setText("");
+	authorL.setText("");
+	updatedL.setText("");
+    }
     private void createChangeListener(){
 	appChangeListener = new ChangeListener<App>(){
 	    @Override
@@ -491,6 +513,32 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    }
 	};
     }	
+    /**
+     * Opens a file selector and writes the profile out.
+     */
+    private void exportProfile(){
+	File file = kmpFileChooser.showSaveDialog(null);
+	if(file != null){
+	    profileManager.exportProfile(file, currentProfile);
+	}
+
+    }
+    /**
+     * Opens a file selector for importing a profile.
+     */
+    private void importProfile(){
+	File file = kmpFileChooser.showOpenDialog(null);
+	System.out.println(file);
+	if(file != null){
+	    if(!profileManager.importProfile(file)){
+		PopupManager.getPopupManager().showError("Import failed");
+	    }
+	    // update comboboxes
+	    updateComboBoxes();
+	}else{
+	    PopupManager.getPopupManager().showError("Import failed: can't find file");
+	}
+    }
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -521,6 +569,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	pdfChooser.getExtensionFilters().add(extFilter);
 
 	keymapUIManager = new KeymapUIManager();
+
+	kmpFileChooser = new FileChooser();
+	FileChooser.ExtensionFilter kmpExtFilter = new FileChooser.ExtensionFilter("kbmaster profiles (*.kmp)","*.kmp");
+	kmpFileChooser.getExtensionFilters().add(kmpExtFilter);
     }
 
     @Override
@@ -543,6 +595,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	if(message != null && message.equals("Save")){
 	    // save the profile
 	    profileManager.updateProfile(currentProfile);
+	}else if(src instanceof DeleteProfileUIController && message != null){
+	    System.out.println("Profile deleted: "+message);
+	    currentProfile = null;
+	    // update device manager
+	    deviceMenuController.setActiveProfile(device, null);
+	    updateComboBoxes();
 	}else{
 	    updateComboBoxes();
 	}

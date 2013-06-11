@@ -74,6 +74,14 @@ public class HardwareManager implements HardwareListener{
 	}
     }
     /**
+     * The currently active profile has been removed and
+     * a new profile has not been selected.
+     */
+    public void deviceProfileRemoved(Device device){
+	device.setProfile(null);
+	disableDevice(device);
+    }
+    /**
      * Starts polling the specified device.
      * @param device the device to poll.
      * @param profile the profile used by the Engine to remap the outputs.

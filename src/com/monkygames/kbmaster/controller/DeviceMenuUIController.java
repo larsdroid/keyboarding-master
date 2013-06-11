@@ -131,6 +131,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Sets the active profile for the specified device.
      */
     public void setActiveProfile(Device device, Profile profile){
+	if(profile == null){
+	    hardwareManager.deviceProfileRemoved(device);
+	    return;
+	}
 	for(DeviceEntry deviceEntry: deviceTV.getItems()){
 	    if(deviceEntry.getDevice() == device){
 		// repopulate

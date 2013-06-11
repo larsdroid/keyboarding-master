@@ -7,10 +7,8 @@ package com.monkygames.kbmaster.controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
 // === javafx imports === //
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 /**
