@@ -528,7 +528,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      */
     private void importProfile(){
 	File file = kmpFileChooser.showOpenDialog(null);
-	System.out.println(file);
 	if(file != null){
 	    if(!profileManager.importProfile(file)){
 		PopupManager.getPopupManager().showError("Import failed");
@@ -596,7 +595,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    // save the profile
 	    profileManager.updateProfile(currentProfile);
 	}else if(src instanceof DeleteProfileUIController && message != null){
-	    System.out.println("Profile deleted: "+message);
 	    currentProfile = null;
 	    // update device manager
 	    deviceMenuController.setActiveProfile(device, null);

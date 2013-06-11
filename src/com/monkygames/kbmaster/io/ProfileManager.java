@@ -180,16 +180,10 @@ public class ProfileManager{
      */
     public void removeProfile(Profile profile){
 	try{
-	    System.out.println("=== before delete");
-	    for(Profile prof: profiles){
-		System.out.println(prof.getProfileName());
-	    }
-
 	    for(Profile prof: profiles){
 		if(prof.getApp().getAppType() == profile.getApp().getAppType() && 
 		    profile.getApp().getName().equals(profile.getApp().getName()) &&
 		    profile.getProfileName().equals(profile.getProfileName())){
-		    System.out.println("profile found and is deleted");
 		    db.delete(prof);
 		    break;
 		}
@@ -197,10 +191,6 @@ public class ProfileManager{
 
 	    db.delete(profile);
 	    loadProfiles();
-	    System.out.println("=== after delete");
-	    for(Profile prof: profiles){
-		System.out.println(prof.getProfileName());
-	    }
 	}catch(Exception e){}
     }
 
@@ -210,14 +200,8 @@ public class ProfileManager{
      * @profile the profile to save.
      * @return true on success and false otherwise.
      */
-    //public boolean exportProfile(String path, Profile profile){
     public boolean exportProfile(File file, Profile profile){
 	try{
-	    /*
-	    String name = path+File.separator+profile.getProfileName()+".prof";
-	    // check if the file exists, if so, delete it
-	    File file = new File(name);
-	    */
 	    if(file.exists()){
 		file.delete();
 	    }
@@ -246,8 +230,6 @@ public class ProfileManager{
      * @return false if error and true on success.
      */
     public boolean importProfile(File file){
-	System.out.println("importProfile file = "+file);
-	//File file = new File(path);
 	if(!file.exists()){
 	    return false;
 	}
@@ -260,11 +242,9 @@ public class ProfileManager{
 	config.common().objectClass(Button.class).cascadeOnUpdate(true);
 	config.common().objectClass(Wheel.class).cascadeOnUpdate(true);
 	config.common().objectClass(Output.class).cascadeOnUpdate(true);
-	//ObjectContainer importDB = Db4oEmbedded.openFile(config, file.getPath());
 	ObjectContainer importDB = Db4oEmbedded.openFile(config, file.getAbsolutePath());
 	try{
 	    List<Profile> importProfiles = importDB.query(Profile.class);
-	    System.out.println("imprtProfiles.size = "+importProfiles.size());
 	    // first delete all profiles that match the profile to be imported
 	    for(Profile importProfile: importProfiles){
 		for(Profile profile: profiles){
@@ -278,7 +258,6 @@ public class ProfileManager{
 	    }
 	    // import the profiles
 	    for(Profile importProfile: importProfiles){
-		System.out.println("importing profile: "+importProfile);
 		db.store(importProfile);
 	    }
 	    // load profiles
