@@ -39,6 +39,8 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -82,6 +84,9 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private CheckBox keysRepeatCB;
     @FXML
     private Label versionL;
+    @FXML
+    private ImageView kbmIV, linuxGamerIV, javaIV, javafxIV, jinputIV, 
+			db4oIV, installBuilderIV, kryonetIV;
     /**
      * Used for displaying a new device popup.
      */
@@ -108,6 +113,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     private HardwareManager hardwareManager;
     private LoginUIController loginController;
+    private AboutUIController aboutController;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -189,6 +195,43 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    openSelectProfileUI();
 	}else if(src == logoutB){
 	    logout();
+	}
+    }
+    @FXML
+    public void handleAboutEvent(MouseEvent evt){
+	if(aboutController == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/AboutUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		aboutController = (AboutUIController) fxmlLoader.getController();
+		Scene scene = new Scene(root);
+		Stage stage = WindowUtil.createStage(root);
+		aboutController.setStage(stage);
+	    } catch (IOException ex) {
+		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+	Object src = evt.getSource();
+	if(src == kbmIV){
+	    aboutController.showAbout(AboutUIController.AboutType.KBM);
+	}else if(src == linuxGamerIV){
+	    aboutController.showAbout(AboutUIController.AboutType.LINUXGAMER);
+	}else if(src == javaIV){
+	    aboutController.showAbout(AboutUIController.AboutType.JAVA);
+	}else if(src == javafxIV){
+	    aboutController.showAbout(AboutUIController.AboutType.JAVAFX);
+	}else if(src == jinputIV){
+	    aboutController.showAbout(AboutUIController.AboutType.JINPUT);
+	}else if(src == db4oIV){
+	    aboutController.showAbout(AboutUIController.AboutType.DB4O);
+	}else if(src == installBuilderIV){
+	    aboutController.showAbout(AboutUIController.AboutType.INSTALLBUILDER);
+	}else if(src == kryonetIV){
+	    aboutController.showAbout(AboutUIController.AboutType.KRYONET);
 	}
     }
     /**
@@ -466,8 +509,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	}
 	*/
     }
-
-
 // ============= Internal Classes ============== //
     public class CheckboxCallback implements Callback<TableColumn<DeviceEntry,Boolean>, TableCell<DeviceEntry,Boolean>> {
 	private EventHandler checkBoxHandler;

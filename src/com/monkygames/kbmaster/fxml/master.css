@@ -230,3 +230,8 @@ scroll-bar:vertical .thumb {
 .check-box{
     -fx-background-color:transparent;
 }
+.custom-text-area, .custom-text-area:focused{
+    -fx-background-color:black;
+    -fx-text-fill: white;
+    -fx-background-insets:0;
+}

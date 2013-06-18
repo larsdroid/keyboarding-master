@@ -14,42 +14,42 @@
   <children>
     <HBox layoutX="14.0" layoutY="345.0" prefHeight="41.0" prefWidth="321.800048828125">
       <children>
-        <ImageView id="keyboardingMasterLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="keyboardingMasterLogo" fx:id="kbmIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/KeyboardingMaster.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="linuxLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="linuxLogo" fx:id="linuxGamerIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/LinuxGamer.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="javaLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="javaLogo" fx:id="javaIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/java.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="javafxLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="javafxLogo" fx:id="javafxIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/javafx.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="jinputLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="jinputLogo" fx:id="jinputIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/jinput.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="db4oLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="db4oLogo" fx:id="db4oIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/db4o.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="installBuilderLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="installBuilderLogo" fx:id="installBuilderIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/InstallBuilder.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="kryonetLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="kryonetLogo" fx:id="kryonetIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/Kryonet.png" preserveRatio="false" smooth="false" />
           </image>
@@ -68,7 +68,7 @@
         <HBox id="versionHBox" alignment="CENTER" prefHeight="17.0" prefWidth="158.0" visible="true">
           <children>
             <Label alignment="TOP_CENTER" text="Software Version: " />
-            <Label id="versionL" alignment="CENTER" contentDisplay="CENTER" text="0.1" textAlignment="LEFT" />
+            <Label fx:id="versionL" alignment="CENTER" contentDisplay="CENTER" text="0.1" textAlignment="LEFT" />
           </children>
         </HBox>
         <Hyperlink text="No Updates Available" textFill="WHITE" />
