@@ -12,6 +12,7 @@ import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.RepeatManager;
+import com.monkygames.kbmaster.util.SystemTray;
 import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.net.URL;
@@ -114,6 +115,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private HardwareManager hardwareManager;
     private LoginUIController loginController;
     private AboutUIController aboutController;
+    private SystemTray systemTray;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -383,6 +385,9 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	// to populate the list.
 	//globalAccount = new GlobalAccount();
 	//deviceTV.getItems().setAll(getDeviceEntryList());
+
+	// add the system tray
+	systemTray = new SystemTray(this);
     }
 
     /**
