@@ -33,7 +33,8 @@ public class WindowUtil{
 	AnchorPane pane = (AnchorPane)root;
 	double width = pane.prefWidthProperty().doubleValue();
 	double height = pane.prefHeightProperty().doubleValue();
-	return configureStage(width,height,root,new Stage());
+	Stage stage = new Stage();
+	return configureStage(width,height,root,stage);
     }
     /**
      * Creates a stage with special decorations.

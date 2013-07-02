@@ -17,19 +17,22 @@ public class SystemTray implements AppIndicatorEventListener{
 
 // ============= Class variables ============== //
     private JAppIndicator appIndicator;
-    private static final String path = "/com/monkygames/kbmaster/fxml/resources";
-    private static final String icon = "systray";
+    //private static final String path = "/com/monkygames/kbmaster/fxml/resources";
+    //private static final String icon = "systray";
+    private static final String path = "/home/mspeth/Projects/tools/jappindicator/dist";
+    private static final String icon = "test_app_icon";
     private DeviceMenuUIController controller;
 // ============= Constructors ============== //
     public SystemTray(DeviceMenuUIController controller){
 	this.controller = controller;
 	appIndicator = new JAppIndicator("libs/native");
-	//appIndicator.registerAppIndicatorEventListener(this);
+	appIndicator.registerAppIndicatorEventListener(this);
 
 	System.out.println("Has App-Indictor library: " + appIndicator.hasAppIndicatorLibrary());
 
 	String[] menuItems = {"show", "|", "quit"};
 	File pathF = new File(path);
+	System.out.println("pathF.exists "+pathF.exists());
 	boolean ret = appIndicator.startAppIndicator(icon, pathF.getAbsolutePath(), menuItems, appIndicator);
 	if (ret) {
 	    System.out.println("Started App Indicator: Success");
