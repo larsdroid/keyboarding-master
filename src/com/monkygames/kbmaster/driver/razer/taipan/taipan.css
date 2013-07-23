@@ -1,0 +1,10 @@
+/* 
+    Document   : taipan
+    Created on : 7/07/2013, 4:26:18 PM
+    Author     : mspeth
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.zUpWheel {
+    -fx-background-image: url("resources/button.png");
+}

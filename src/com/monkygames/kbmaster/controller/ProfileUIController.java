@@ -245,8 +245,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @param description the description of the keymap.
      */
     public void setKeymapDescription(int keymapID, String description){
-	currentProfile.getKeymap(keymapID).setDescription(description);
-	keymapUIManager.setDescriptionText(description);
+	if(currentProfile != null){
+	    currentProfile.getKeymap(keymapID).setDescription(description);
+	    keymapUIManager.setDescriptionText(description);
+	}
     }
     /**
      * Opens the display keymap popup with the specified keymap id.

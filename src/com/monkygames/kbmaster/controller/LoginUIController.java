@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -79,6 +80,8 @@ public class LoginUIController implements Initializable {
 		}
 	    }
 	});
+	// so that stages can hide without being terminated.
+	Platform.setImplicitExit(false);
     }    
 
     @FXML
@@ -142,9 +145,38 @@ public class LoginUIController implements Initializable {
 
     /**
      * The device controller has called to be hiden.
+     * @param showLogin true if the login should also be shown and false otherwise.
      */
-    public void hideDeviceMenu(){
+    public void hideDeviceMenu(boolean showLogin){
 	deviceMenuStage.hide();
-	loginStage.show();
+	if(showLogin){
+	    loginStage.show();
+	}
+    }
+    /**
+     * Shows the device menu.
+     * @param hideLogin true if the login should also be hidden and false otherwise.
+     */
+    public void showDeviceMenu(boolean hideLogin){
+	deviceMenuStage.show();
+	if(hideLogin){
+	    loginStage.hide();
+	}
+    }
+    /**
+     * Shows the device menu.
+     * @param hideLogin true if the login should also be hidden and false otherwise.
+     */
+    public void showDeviceMenuFromNonJavaFXThread(){
+	try{
+	    deviceMenuStage.show();
+	}catch(Exception e){
+	    Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+		    deviceMenuStage.show();
+		}
+	    });
+	}
     }
 }

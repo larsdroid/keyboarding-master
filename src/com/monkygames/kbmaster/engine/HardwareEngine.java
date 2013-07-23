@@ -341,9 +341,8 @@ public class HardwareEngine implements Runnable{
 			processOutput(name, mapping.getOutput(),event.getValue());
 		    }
 		}else{
-		    // must be middle mouse click
-		    mapping = keymap.getMiddleWheelMapping();
-		    processOutput(name, mapping.getOutput(),event.getValue());
+		    ButtonMapping bMapping = keymap.getButtonMapping(name);
+		    processOutput(name, bMapping.getOutput(),event.getValue());
 		}
 	    }
 	}

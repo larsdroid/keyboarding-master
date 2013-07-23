@@ -18,6 +18,9 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.3]
+* Added System Tray support
+
 [0.1.2]
 * Added import/export of profiles
 * Added proper delete of profile support

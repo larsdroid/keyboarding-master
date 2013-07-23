@@ -68,9 +68,12 @@ public class RazerNostromoDevice extends Device{
 	keymap.addButtonMapping(Key.DOWN.getName(), new ButtonMapping(new Button(19,Key.DOWN.getName()),new OutputKey("DOWN",KeyEvent.VK_DOWN,0)));
 	keymap.addButtonMapping(Key.LEFT.getName(), new ButtonMapping(new Button(20,Key.LEFT.getName()),new OutputKey("LEFT",KeyEvent.VK_LEFT,0)));
 	// wheel 
+	net.java.games.input.Component.Identifier.Button jinputB;
+	jinputB = net.java.games.input.Component.Identifier.Button.MIDDLE;
+	keymap.addButtonMapping(jinputB.getName(), new ButtonMapping(new Button(23,jinputB.getName()),new OutputMouse(jinputB.getName(),InputEvent.BUTTON2_MASK,MouseType.MouseClick)));
 	keymap.setzUpWheelMapping(new WheelMapping(new Wheel(21),new OutputMouse("Scroll Up",-1,MouseType.MouseWheel)));
 	keymap.setzDownWheelMapping(new WheelMapping(new Wheel(22),new OutputMouse("Scroll Down",1,MouseType.MouseWheel)));
-	keymap.setMiddleWheelMapping(new WheelMapping(new Wheel(23),new OutputMouse("Middle-Click",InputEvent.BUTTON2_MASK,MouseType.MouseClick)));
+	//keymap.setMiddleWheelMapping(new WheelMapping(new Wheel(23),new OutputMouse("Middle-Click",InputEvent.BUTTON2_MASK,MouseType.MouseClick)));
 	return keymap;
     }
     @Override
@@ -84,8 +87,8 @@ public class RazerNostromoDevice extends Device{
 		return keymap.getzUpWheelMapping();
 	    case 22:
 		return keymap.getzDownWheelMapping();
-	    case 23:
-		return keymap.getMiddleWheelMapping();
+	    //case 23:
+		//return keymap.getMiddleWheelMapping();
 	    default:
 		return keymap.getButtonMapping(getId(index));
 	}
@@ -134,6 +137,8 @@ public class RazerNostromoDevice extends Device{
 		return Key.DOWN.getName();
 	    case 20:
 		return Key.LEFT.getName();
+	    case 23:
+		return net.java.games.input.Component.Identifier.Button.MIDDLE.getName();
 	}
 	return Key.TAB.getName();
     }
@@ -179,6 +184,8 @@ public class RazerNostromoDevice extends Device{
 	    return 19;
 	}else if(id.equals(Key.LEFT.getName())){
 	    return 20;
+	}else if(id.equals(net.java.games.input.Component.Identifier.Button.MIDDLE.getName())){
+	    return 23;
 	}
 	return 1;
     }

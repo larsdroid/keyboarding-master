@@ -12,7 +12,7 @@ import com.monkygames.kbmaster.input.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.RepeatManager;
-import com.monkygames.kbmaster.util.SystemTray;
+import com.monkygames.kbmaster.util.KBMSystemTray;
 import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -70,17 +71,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private TableColumn<DeviceEntry, Boolean> isEnabledCol;
     // buttons
     @FXML
-    private Button addDeviceB;
-    @FXML
-    private Button configureB;
-    @FXML
-    private Button detailsB;
-    @FXML
-    private Button exitB;
-    @FXML
-    private Button logoutB;
-    @FXML
-    private Button setProfileB;
+    private Button addDeviceB, configureB, detailsB, exitB, logoutB, 
+	    setProfileB, hideB;
     @FXML
     private CheckBox keysRepeatCB;
     @FXML
@@ -115,7 +107,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private HardwareManager hardwareManager;
     private LoginUIController loginController;
     private AboutUIController aboutController;
-    private SystemTray systemTray;
+    private KBMSystemTray systemTray;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -180,6 +172,25 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    configureDeviceController.updateDeviceDetails();
 	}
     }
+    /**
+     * Shutsdown all engines and exits the program.
+     */
+    public void exitApplication(){
+	cleanUp();
+	System.exit(1);
+    }
+    public void showKBMAboutFromNonJavaFXThread(){
+	Platform.runLater(new Runnable() {
+	    @Override
+	    public void run() {
+		initializeAboutController();
+		aboutController.showAbout(AboutUIController.AboutType.KBM);
+	    }
+	});
+    }
+    public void showDeviceUI(){
+	loginController.showDeviceMenuFromNonJavaFXThread();
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     @FXML
@@ -197,26 +208,13 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    openSelectProfileUI();
 	}else if(src == logoutB){
 	    logout();
+	}else if(src == hideB){
+	    loginController.hideDeviceMenu(false);
 	}
     }
     @FXML
     public void handleAboutEvent(MouseEvent evt){
-	if(aboutController == null){
-	    try {
-		// pop open add new device
-		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/AboutUI.fxml");
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(location);
-		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-		Parent root = (Parent)fxmlLoader.load(location.openStream());
-		aboutController = (AboutUIController) fxmlLoader.getController();
-		Scene scene = new Scene(root);
-		Stage stage = WindowUtil.createStage(root);
-		aboutController.setStage(stage);
-	    } catch (IOException ex) {
-		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	}
+	initializeAboutController();
 	Object src = evt.getSource();
 	if(src == kbmIV){
 	    aboutController.showAbout(AboutUIController.AboutType.KBM);
@@ -234,6 +232,27 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    aboutController.showAbout(AboutUIController.AboutType.INSTALLBUILDER);
 	}else if(src == kryonetIV){
 	    aboutController.showAbout(AboutUIController.AboutType.KRYONET);
+	}
+    }
+    /**
+     * Initializes the about controller if it doesn't already exist.
+     */
+    private void initializeAboutController(){
+	if(aboutController == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/AboutUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		aboutController = (AboutUIController) fxmlLoader.getController();
+		Scene scene = new Scene(root);
+		Stage stage = WindowUtil.createStage(root);
+		aboutController.setStage(stage);
+	    } catch (IOException ex) {
+		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 	}
     }
     /**
@@ -387,7 +406,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	//deviceTV.getItems().setAll(getDeviceEntryList());
 
 	// add the system tray
-	systemTray = new SystemTray(this);
+	systemTray = new KBMSystemTray(this);
     }
 
     /**
@@ -416,19 +435,12 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	return list;
     }
     /**
-     * Shutsdown all engines and exits the program.
-     */
-    private void exitApplication(){
-	cleanUp();
-	System.exit(1);
-    }
-    /**
      * Logs out of this device menu.
      * Disables all devices.
      */
     private void logout(){
 	cleanUp();
-	loginController.hideDeviceMenu();
+	loginController.hideDeviceMenu(true);
     }
     /**
      * Closes all databases and prepares this gui to be closed.

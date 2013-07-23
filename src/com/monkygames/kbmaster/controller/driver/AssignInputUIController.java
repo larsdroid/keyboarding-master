@@ -128,6 +128,7 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	    selectionID = 0;
 	}else if(currentOutput instanceof OutputMouse){
 	    currentParent = mouseButtonParent;
+	    System.out.println("[AssignUICtrl:setAssignedConfig] keycode = "+currentOutput.getKeycode());
 	    mouseButtonController.setSelectedMouse(currentOutput.getKeycode());
 	    selectionID = 1;
 	}else if(currentOutput instanceof OutputKeymapSwitch){

@@ -6,7 +6,7 @@ package com.monkygames.kbmaster.input;
 /**
  * A Button from the device.
  * Buttons 01 - 14 are the keypad.
- * Button 15 is labled and is the thumb button.
+ * Button 15 is labeled and is the thumb button.
  * Button 16 is the button just above the d-pad.
  * The d-pad is 17 - 20.
  * @version 1.0
