@@ -24,7 +24,7 @@
     <Button layoutX="176.0" layoutY="67.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="14.0" prefWidth="14.0" styleClass="zUpWheel" text="2" />
     <Button layoutX="444.0" layoutY="109.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="14.0" prefWidth="14.0" styleClass="zUpWheel" text="3" />
     <Button layoutX="415.0" layoutY="102.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="14.0" prefWidth="14.0" styleClass="zUpWheel" text="4" />
-    <Button layoutX="340.0" layoutY="295.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" styleClass="zUpWheel" text="3" />
+    <Button layoutX="340.0" layoutY="295.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="14.0" prefWidth="14.0" styleClass="zUpWheel" text="3" />
     <Button layoutX="377.0" layoutY="288.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="14.0" prefWidth="14.0" styleClass="zUpWheel" text="4" />
   </children>
   <stylesheets>

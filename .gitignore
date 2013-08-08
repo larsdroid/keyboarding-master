@@ -9,3 +9,4 @@ profiles/*
 licenses/*
 global_account.db4o
 dist/*
+*.swp
