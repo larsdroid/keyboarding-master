@@ -13,7 +13,7 @@ import com.monkygames.kbmaster.input.OutputDisabled;
 import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputKeymapSwitch;
 import com.monkygames.kbmaster.input.OutputMouse;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.io.ProfileManager;
 import java.io.IOException;
 import java.net.URL;

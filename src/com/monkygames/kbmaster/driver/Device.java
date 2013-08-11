@@ -4,7 +4,7 @@
 package com.monkygames.kbmaster.driver;
 
 // === kbmaster imports === //
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 
 /**
  * Contains device information and device driver implementation.

@@ -5,21 +5,17 @@ package com.monkygames.kbmaster.controller;
 
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.Device;
-import com.monkygames.kbmaster.input.App;
-import com.monkygames.kbmaster.input.AppType;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.App;
+import com.monkygames.kbmaster.profiles.AppType;
+import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 // === java imports === //
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -157,12 +153,12 @@ public class SelectProfileUIController implements Initializable, ChangeListener<
 	ObservableList<App> apps;
 	ObservableList<Profile> profiles = null;
 	if(type == AppType.APPLICATION){
-	    apps = FXCollections.observableArrayList(profileManager.getApplications());
+	    apps = FXCollections.observableArrayList(profileManager.getAppsRoot().getList());
 	}else{
-	    apps = FXCollections.observableArrayList(profileManager.getGames());
+	    apps = FXCollections.observableArrayList(profileManager.getGamesRoot().getList());
 	}
 	if(apps.size() > 0 && apps.get(0) != null){
-	    profiles = FXCollections.observableArrayList(profileManager.getProfile(apps.get(0)));
+	    profiles = FXCollections.observableArrayList(apps.get(0).getProfiles());
 	}
 
 	appCB.valueProperty().removeListener(this);
@@ -203,7 +199,7 @@ public class SelectProfileUIController implements Initializable, ChangeListener<
 	}
 	updateAppUIInfo(app);
 
-	profiles = FXCollections.observableArrayList(profileManager.getProfile(app));
+	profiles = FXCollections.observableArrayList(app.getProfiles());
 	profileCB.setItems(profiles);
 	profileCB.getSelectionModel().selectFirst();
 	currentProfile = profiles.get(0);

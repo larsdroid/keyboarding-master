@@ -4,7 +4,7 @@
 package com.monkygames.kbmaster.util;
 
 import com.monkygames.kbmaster.driver.Device;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;

@@ -6,7 +6,7 @@ package com.monkygames.kbmaster.util;
 import com.monkygames.kbmaster.controller.DriverUIController;
 import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;

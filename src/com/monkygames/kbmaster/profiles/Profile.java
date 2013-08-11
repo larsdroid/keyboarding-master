@@ -1,9 +1,12 @@
 /* 
  * See COPYING in top-level directory.
  */
-package com.monkygames.kbmaster.input;
+package com.monkygames.kbmaster.profiles;
 
 // === jnostromo imports === //
+
+import com.monkygames.kbmaster.input.Keymap;
+
 //import com.monkygames.jnostromo.io.Mapper;
 
 /**
@@ -133,6 +136,13 @@ public class Profile{
 	    newProfile.setKeymap(i, (Keymap)keymaps[i].clone());
 	}
 	return newProfile;
+    }
+
+    /**
+     * Removes references to data structures for a clean gc removal.
+     */
+    public void unlink(){
+	app = null;
     }
 
     public void printString(){

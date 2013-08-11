@@ -8,7 +8,7 @@ import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.engine.HardwareManager;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.RepeatManager;

@@ -7,7 +7,7 @@ package com.monkygames.kbmaster.io;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Output;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.input.WheelMapping;
 // === java imports === //
 import java.awt.image.BufferedImage;

@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 // === javafx imports === //
 // === kbmaster imports === //
 import com.monkygames.kbmaster.controller.PopupController;
-import com.monkygames.kbmaster.input.App;
-import com.monkygames.kbmaster.input.AppType;
+import com.monkygames.kbmaster.profiles.App;
+import com.monkygames.kbmaster.profiles.AppType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
@@ -73,10 +73,10 @@ public class NewProgramUIController extends PopupController{
 	List <App> programs;
 	if(typeCB.getSelectionModel().getSelectedIndex() == 0){
 	    type = AppType.GAME;
-	    programs = profileManager.getGames();
+	    programs = profileManager.getGamesRoot().getList();
 	}else{
 	    type = AppType.APPLICATION;
-	    programs = profileManager.getApplications();
+	    programs = profileManager.getAppsRoot().getList();
 	}
 	String appName = programTF.getText();
 	// check for a valid program name

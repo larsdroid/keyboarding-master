@@ -3,8 +3,8 @@
  */
 package com.monkygames.kbmaster.io;
 
-import com.monkygames.kbmaster.input.App;
-import com.monkygames.kbmaster.input.AppType;
+import com.monkygames.kbmaster.profiles.App;
+import com.monkygames.kbmaster.profiles.AppType;
 import java.util.ArrayList;
 
 /**

@@ -4,7 +4,7 @@
 package com.monkygames.kbmaster.util;
 
 // === kbmaster imports === //
-import com.monkygames.kbmaster.input.AppType;
+import com.monkygames.kbmaster.profiles.AppType;
 
 /**
  * [about]

@@ -8,8 +8,8 @@ import com.monkygames.kbmaster.controller.profile.CloneProfileUIController;
 import com.monkygames.kbmaster.controller.profile.DeleteProfileUIController;
 import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
 import com.monkygames.kbmaster.driver.Device;
-import com.monkygames.kbmaster.input.App;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.App;
+import com.monkygames.kbmaster.profiles.Profile;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,9 +26,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tooltip;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.io.ProfileManager;
-import com.monkygames.kbmaster.input.AppType;
+import com.monkygames.kbmaster.profiles.AppType;
 import com.monkygames.kbmaster.io.BindingPDFWriter;
 import com.monkygames.kbmaster.io.GenerateBindingsImage;
+import com.monkygames.kbmaster.profiles.Root;
 import com.monkygames.kbmaster.util.KeymapUIManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
@@ -175,11 +176,14 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	keymapUIManager.addSaveNotification(this);
 
 	//device.getProfile()
+	/*
 	if(device.getProfile() != null){
 	    setComboBoxesOnProfile(device.getProfile());
 	}else{
 	    updateComboBoxes();
 	}
+	*/
+	updateComboBoxes();
     }
     /**
      * Set the description label for keymaps.
@@ -199,15 +203,17 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	updateAppUIInfo(app);
 
-	profiles = FXCollections.observableArrayList(profileManager.getProfile(app));
+	profiles = FXCollections.observableArrayList(app.getProfiles());
 	profileCB.setItems(profiles);
 	profileCB.getSelectionModel().selectFirst();
-	currentProfile = profiles.get(0);
-	updateProfileUIInfo(currentProfile);
+	if(profiles.size() > 0){
+	    currentProfile = profiles.get(0);
+	    updateProfileUIInfo(currentProfile);
 
-	keymapUIManager.setProfile(currentProfile);
-	device.setProfile(currentProfile);
-	deviceMenuController.setActiveProfile(device, currentProfile);
+	    keymapUIManager.setProfile(currentProfile);
+	    device.setProfile(currentProfile);
+	    deviceMenuController.setActiveProfile(device, currentProfile);
+	}
     }
     /**
      * The profiles combo box selected a new profile.
@@ -291,6 +297,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * Sets the combo boxes based on the specified profile.
      * @param profile the profile used to set the combo boxes.
      */
+    /*
     private void setComboBoxesOnProfile(Profile profile){
 	ObservableList<App> apps;
 	ObservableList<Profile> profiles = null;
@@ -324,7 +331,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	//deviceMenuController.setActiveProfile(device, currentProfile);
 	//device.setProfile(currentProfile);
 	updateProfileUIInfo(currentProfile);
-    }
+    }*/
     /**
      * Updates the combo box by type and always selects the first program
      * to populate the profiles list.
@@ -333,13 +340,18 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private void updateComboBoxesOnType(AppType type){
 	ObservableList<App> apps;
 	ObservableList<Profile> profiles = null;
-	if(type == AppType.APPLICATION){
-	    apps = FXCollections.observableArrayList(profileManager.getApplications());
-	}else{
-	    apps = FXCollections.observableArrayList(profileManager.getGames());
+	Root root = profileManager.getRoot(type);
+	if(root.getList().size() == 0){
+	    // clear the apps combo box
+	    appsCB.valueProperty().removeListener(appChangeListener);
+	    appsCB.setItems(FXCollections.observableArrayList());
+	    profileCB.setItems(FXCollections.observableArrayList());
+	    appsCB.valueProperty().addListener(appChangeListener);
+	    return;
 	}
+	apps = FXCollections.observableArrayList(root.getList());
 	if(apps.size() > 0 && apps.get(0) != null){
-	    profiles = FXCollections.observableArrayList(profileManager.getProfile(apps.get(0)));
+	    profiles = FXCollections.observableArrayList(apps.get(0).getProfiles());
 	}
 
 	appsCB.valueProperty().removeListener(appChangeListener);
@@ -465,16 +477,18 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @param app the app to be updated.
      */
     private void updateAppUIInfo(App app){
-	appInfoTA.setText(app.getInfo());
-	if(app.getAppLogo() == null){
-	    appLogoIV.setImage(defaultAppLogoImage);
-	}else{
-	    appLogoIV.setImage(app.getAppLogo());
-	}
-	if(app.getDevLogo() == null){
-	    devLogoIV.setImage(defaultDevLogoImage);
-	}else{
-	    devLogoIV.setImage(app.getDevLogo());
+	if(app != null){
+	    appInfoTA.setText(app.getInfo());
+	    if(app.getAppLogo() == null){
+		appLogoIV.setImage(defaultAppLogoImage);
+	    }else{
+		appLogoIV.setImage(app.getAppLogo());
+	    }
+	    if(app.getDevLogo() == null){
+		devLogoIV.setImage(defaultDevLogoImage);
+	    }else{
+		devLogoIV.setImage(app.getDevLogo());
+	    }
 	}
     }
     /**

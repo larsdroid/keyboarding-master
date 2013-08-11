@@ -4,7 +4,7 @@
 package com.monkygames.kbmaster.controller.profile;
 
 import com.monkygames.kbmaster.controller.PopupController;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
@@ -43,7 +43,8 @@ public class DeleteProfileUIController extends PopupController {
     public void okEventFired(ActionEvent evt){
 	try{
 	    if(profile != null){
-		profileManager.removeProfile(profile);
+		System.out.println("To Be Deleted "+profile);
+		profileManager.removeProfile(profile.getApp(),profile);
 		notifyOK(profile.getProfileName());
 	    }else{
 		PopupManager.getPopupManager().showError("Invalid Profile");

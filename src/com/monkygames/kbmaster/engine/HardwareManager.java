@@ -6,7 +6,7 @@ package com.monkygames.kbmaster.engine;
 // === imports === //
 import com.monkygames.kbmaster.controller.DeviceMenuUIController;
 import com.monkygames.kbmaster.driver.Device;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import java.util.HashMap;
 
 /**

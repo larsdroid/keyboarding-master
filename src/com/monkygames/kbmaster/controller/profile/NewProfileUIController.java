@@ -7,9 +7,9 @@ package com.monkygames.kbmaster.controller.profile;
 import com.monkygames.kbmaster.controller.PopupController;
 import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
-import com.monkygames.kbmaster.input.App;
-import com.monkygames.kbmaster.input.Profile;
-import com.monkygames.kbmaster.input.AppType;
+import com.monkygames.kbmaster.profiles.App;
+import com.monkygames.kbmaster.profiles.Profile;
+import com.monkygames.kbmaster.profiles.AppType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
@@ -115,7 +115,7 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	    Profile profile = new Profile(app,profileName,author,info,time);
 	    device.setDefaultKeymaps(profile);
 	    // save the profile
-	    profileManager.addProfile(profile);
+	    profileManager.addProfile(app,profile);
 	    notifyOK(profileName);
 	} finally{
 	    reset();
@@ -160,7 +160,7 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     }
     private void updateComboBoxesOnType(AppType type){
 	ObservableList<App> apps;
-	appsList = profileManager.getAvailableApps(type);
+	appsList = profileManager.getRoot(type).getList();
 	apps = FXCollections.observableArrayList(appsList);
 	apps.add(0, new App("",null,null,"New",AppType.APPLICATION));
 	programCB.setItems(apps);

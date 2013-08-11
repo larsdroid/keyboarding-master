@@ -1,13 +1,15 @@
 /* 
  * See COPYING in top-level directory.
  */
-package com.monkygames.kbmaster.input;
+package com.monkygames.kbmaster.profiles;
 
+import com.monkygames.kbmaster.profiles.Profile;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
@@ -42,6 +44,10 @@ public class App{
      * The type of App.
      */
     private AppType appType;
+    /**
+     * A list of profiles.
+     */
+    private ArrayList<Profile> profiles;
 	    
     
 // ============= Constructors ============== //
@@ -51,6 +57,7 @@ public class App{
 	setDevLogoPath(devLogoPath);
 	this.name = name;
 	this.appType = appType;
+	profiles = new ArrayList<>();
     }
 // ============= Public Methods ============== //
 
@@ -122,6 +129,15 @@ public class App{
 
     public void setAppType(AppType appType) {
 	this.appType = appType;
+    }
+    public void addProfile(Profile profile){
+	profiles.add(profile);
+    }
+    public void removeProfile(Profile profile){
+	profiles.remove(profile);
+    }
+    public ArrayList<Profile> getProfiles(){
+	return profiles;
     }
     /**
      * True if the apps match and false otherwise.

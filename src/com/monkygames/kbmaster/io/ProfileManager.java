@@ -11,16 +11,17 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 // === kbmaster imports === //
 import com.db4o.config.EmbeddedConfiguration;
-import com.monkygames.kbmaster.input.App;
+import com.monkygames.kbmaster.profiles.App;
 import com.monkygames.kbmaster.input.Button;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Output;
-import com.monkygames.kbmaster.input.Profile;
-import com.monkygames.kbmaster.input.AppType;
+import com.monkygames.kbmaster.profiles.Profile;
+import com.monkygames.kbmaster.profiles.AppType;
 import com.monkygames.kbmaster.input.Wheel;
 import com.monkygames.kbmaster.input.WheelMapping;
+import com.monkygames.kbmaster.profiles.Root;
 import java.util.ArrayList;
 
 /**
@@ -31,8 +32,10 @@ public class ProfileManager{
 
 // ============= Class variables ============== //
     private ObjectContainer db;
-    private List<Profile> profiles;
-    private AppListManager appListManager;
+    //private List<Profile> profiles;
+    //private AppListManager appListManager;
+    private Root appsRoot;
+    private Root gamesRoot;
 // ============= Constructors ============== //
     /**
      * Create a new profile manager where the specified string is the location
@@ -43,6 +46,8 @@ public class ProfileManager{
 	// accessDb4o
 	EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
 	// make sure that when a profile is updated so are all the data members
+	config.common().objectClass(Root.class).cascadeOnUpdate(true);
+	config.common().objectClass(App.class).cascadeOnUpdate(true);
 	config.common().objectClass(Profile.class).cascadeOnUpdate(true);
 	config.common().objectClass(Keymap.class).cascadeOnUpdate(true);
 	config.common().objectClass(Mapping.class).cascadeOnUpdate(true);
@@ -53,6 +58,8 @@ public class ProfileManager{
 	config.common().objectClass(Output.class).cascadeOnUpdate(true);
 	config.common().objectClass(AppListManager.class).cascadeOnUpdate(true);
 	// make sure keymap objects are removed when a profile is deleted
+	config.common().objectClass(Root.class).cascadeOnDelete(true);
+	config.common().objectClass(App.class).cascadeOnDelete(true);
 	config.common().objectClass(Profile.class).cascadeOnDelete(true);
 	config.common().objectClass(Keymap.class).cascadeOnDelete(true);
 	config.common().objectClass(Mapping.class).cascadeOnDelete(true);
@@ -65,8 +72,9 @@ public class ProfileManager{
 
 	db = Db4oEmbedded.openFile(config, databaseFilename);
 
-	loadProfiles();
-	loadProgramListManager();
+	loadRoots();
+	//loadProfiles();
+	//loadProgramListManager();
 	/*
 	// if no profiles exist, create a default
 	if(profiles.isEmpty()){
@@ -78,15 +86,18 @@ public class ProfileManager{
     public void close(){
 	db.close();
     }
+    /*
     public List<Profile> getProfiles(){
 	return profiles;
     }
+    */
     /**
      * Returns the profiles that have the specified type and program name.
      * @param type the type of profile.
      * @param programName the program name associated with this profile.
      * @return the list of profiles with the specified type and program name.
      */
+    /*
     public List<Profile> getProfile(App app){
 	List<Profile> sortedList = new ArrayList<>();
 	for(Profile profile: profiles){
@@ -97,40 +108,67 @@ public class ProfileManager{
 	}
 	return sortedList;
     }
+    */
     /**
      * Returns a list of apps that are available to use with profiles.
      * Note, this list can contain app names that are not associated with
      * profiles.
      * @param type the type of app.
      */
+    /*
     public List<App> getAvailableApps(AppType type){
 	return appListManager.getAvailableAppList(type);
     }
+    */
     /**
      * Adds an app to the list if it doesn't already exist.
      * @param app the app to add to the list.
      * @return true on success and false if the name already exists.
      */
     public boolean addApp(App app){
+	if(app.getAppType() == gamesRoot.getAppType()){
+	    gamesRoot.addApp(app);
+	    db.store(gamesRoot);
+	}else if(app.getAppType() == appsRoot.getAppType()){
+	    appsRoot.addApp(app);
+	    db.store(appsRoot);
+	}else{
+	    return false;
+	}
+	return true;
+
+	/*
 	if(appListManager.addApp(app)){
 	    // store the list
 	    db.store(appListManager);
 	    return true;
 	}
 	return false;
+	*/
+    }
+    /**
+     * Saves the current state of the tree.
+     */
+    public void updateRoots(){
+	db.store(gamesRoot);
+	db.store(appsRoot);
     }
     /**
      * Returns a list of applications that have profiles.
      */
+    /*
     public List<App> getApplications(){
 	return getAppTypeNames(AppType.APPLICATION);
     }
+    */
     /**
      * Returns a list of games that have profiles.
      */
+    /*
     public List<App> getGames(){
 	return getAppTypeNames(AppType.GAME);
     }
+    */
     /**
      * Returns true if the profile already exists and false otherwise.
      * @param type the type of profile.
@@ -139,7 +177,7 @@ public class ProfileManager{
      * @return true if profile exists and false if it does not exists.
      */
     public boolean doesProfileNameExists(App app, String profileName){
-	for(Profile profile: profiles){
+	for(Profile profile: app.getProfiles()){
 	    if(profile.getApp().getAppType() == app.getAppType() && 
 	       profile.getApp().getName().equals(app.getName()) && 
 	       profile.getProfileName().equals(profileName)){
@@ -152,6 +190,7 @@ public class ProfileManager{
      * Adds the profile to the database and then reloads from the database.
      * @param profile the profile to store.
      */
+    /*
     public void addProfile(Profile profile){
 	try{
 	    db.store(profile);
@@ -159,6 +198,24 @@ public class ProfileManager{
 	    // add the program to the list if its not already added
 	    addApp(profile.getApp());
 	}catch(Exception e){}
+    }
+    */
+    /**
+     * Adds the profile to the app and stores to the database.
+     * @param app the app to add the profile.
+     * @param profile the profile to be added.
+     */
+    public void addProfile(App app, Profile profile){
+	try{
+	    app.addProfile(profile);
+	    if(app.getAppType() == gamesRoot.getAppType()){
+		db.store(gamesRoot);
+	    }else if(app.getAppType() == appsRoot.getAppType()){
+		db.store(appsRoot);
+	    }
+	    //db.store(profile);
+	}catch(Exception e){}
+
     }
     
     /**
@@ -168,8 +225,8 @@ public class ProfileManager{
     public void updateProfile(Profile profile){
 	try{
 	    db.store(profile);
-	    loadProfiles();
-	    addApp(profile.getApp());
+	    //loadProfiles();
+	    //addApp(profile.getApp());
 
 	}catch(Exception e){}
     }
@@ -178,7 +235,46 @@ public class ProfileManager{
      * Removes the profile from the database and updates the list.
      * @param profile the profile to remove.
      */
-    public void removeProfile(Profile profile){
+    public void removeProfile(App app, Profile profile){
+	Root root;
+	if(app.getAppType() == gamesRoot.getAppType()){
+	    root = gamesRoot;
+	}else if(app.getAppType() == appsRoot.getAppType()){
+	    root = appsRoot;
+	}else{
+	    return;
+	}
+	app.removeProfile(profile);
+	profile.unlink();
+	db.delete(profile);
+	if(app.getProfiles().size() == 0){
+	    root.removeApp(app);
+	}
+	// reload profiles
+	loadRoots();
+	/*
+	for(App rootApp: root.getList()){
+	    if(app.equals(rootApp)){
+		for(Profile prof: rootApp.getProfiles()){
+		    if(prof.equals(profile)){
+			try{
+			    app.removeProfile(prof);
+			    prof.unlink();
+			    db.delete(prof);
+			    // remove the app if there are no profiles
+			    if(app.getProfiles().size() == 0){
+				root.removeApp(app);
+			    }
+			    // reload profiles
+			    loadRoots();
+			    break;
+			}catch(Exception e){}
+		    }
+		}
+	    }
+	}
+	*/
+	/*
 	try{
 	    for(Profile prof: profiles){
 		if(prof.getApp().getAppType() == profile.getApp().getAppType() && 
@@ -192,6 +288,7 @@ public class ProfileManager{
 	    db.delete(profile);
 	    loadProfiles();
 	}catch(Exception e){}
+	*/
     }
 
     /**
@@ -218,6 +315,7 @@ public class ProfileManager{
 	    ObjectContainer exportDB = Db4oEmbedded.openFile(config, file.getPath());
 	    //ObjectContainer exportDB = Db4oEmbedded.openFile(config, name);
 	    exportDB.store(profile);
+	    exportDB.store(profile.getApp());
 	    exportDB.close();
 	}catch(Exception e){
 	    return false;
@@ -247,41 +345,113 @@ public class ProfileManager{
 	    List<Profile> importProfiles = importDB.query(Profile.class);
 	    // first delete all profiles that match the profile to be imported
 	    for(Profile importProfile: importProfiles){
-		for(Profile profile: profiles){
-		    if(importProfile.getApp().getAppType() == profile.getApp().getAppType() && 
-			importProfile.getApp().getName().equals(profile.getApp().getName()) &&
-			importProfile.getProfileName().equals(profile.getProfileName())){
-			db.delete(profile);
-			break;
+		// find the root
+		Root root;
+		if(importProfile.getApp().getAppType() == gamesRoot.getAppType()){
+		    root = gamesRoot;
+		}else if(importProfile.getApp().getAppType() == appsRoot.getAppType()){
+		    root = appsRoot;
+		}else {
+		    return false;
+		}
+
+		// find the app
+		App existingApp = null;
+		for(App app: root.getList()){
+		    if(app.equals(importProfile.getApp())){
+			existingApp = app;
+
 		    }
 		}
+		if(existingApp == null){
+		    // add since the app doesn't exist in the user's db
+		    existingApp = importProfile.getApp();
+		    root.addApp(existingApp);
+		}else{
+		    // search for the prof, if found, delete it
+		    for(Profile prof: existingApp.getProfiles()){
+			if(prof.equals(importProfile)){
+			    existingApp.removeProfile(prof);
+			    prof.unlink();
+			    db.delete(prof);
+			}
+		    }
+		    // set the app and add the profile to this app
+		    importProfile.setApp(existingApp);
+		    existingApp.addProfile(importProfile);
+		}
+		// save the profile
+		db.store(root);
 	    }
-	    // import the profiles
-	    for(Profile importProfile: importProfiles){
-		db.store(importProfile);
-	    }
+	    importDB.close();
 	    // load profiles
-	    loadProfiles();
+	    this.loadRoots();
 	}catch(Exception e){ 
 	    return false;
 	}
 	return true;
     }
-
+    public Root getAppsRoot(){
+	return appsRoot;
+    }
+    public Root getGamesRoot(){
+	return gamesRoot;
+    }
+    /**
+     * Returns the root based on the app type.
+     * @return the apps or games type, and defaults to games.
+     */
+    public Root getRoot(AppType type){
+	if(type == appsRoot.getAppType()){
+	    return appsRoot;
+	}else if(type == gamesRoot.getAppType()){
+	    return gamesRoot;
+	}
+	return gamesRoot;
+    }
 
     /**
      * Prints the profiles out in a human readable way.
      */
     public void printProfilesFormatted(){
-	System.out.println("== Profiles ==");
-	for(Profile profile: profiles){
-	    profile.printString();
-	    System.out.println("== End of "+profile.getProfileName()+" ==");
+	System.out.println("=== Game Profiles ===");
+	for(App app: gamesRoot.getList()){
+	    for(Profile profile: app.getProfiles()){
+		profile.printString();
+		System.out.println("== End of "+profile.getProfileName()+" ==");
+	    }
+	}
+	System.out.println("=== Appp Profiles ===");
+	for(App app: appsRoot.getList()){
+	    for(Profile profile: app.getProfiles()){
+		profile.printString();
+		System.out.println("== End of "+profile.getProfileName()+" ==");
+	    }
 	}
 	System.out.println("== ======== ==");
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    private void loadRoots(){
+	try{
+	    List<Root> rootList = db.query(Root.class);
+	    if(!rootList.isEmpty()){
+		for(Root root: rootList){
+		    if(root.getAppType() == AppType.APPLICATION){
+			appsRoot = root;
+		    }else if(root.getAppType() == AppType.GAME){
+			gamesRoot = root;
+		    }
+		}
+	    }else{
+		appsRoot = new Root("Application",AppType.APPLICATION);
+		gamesRoot = new Root("Game",AppType.GAME);
+		db.store(appsRoot);
+		db.store(gamesRoot);
+	    }
+	}catch(Exception e){}
+    }
+    /*
     private void loadProfiles(){
 	try{
 	    profiles = db.query(Profile.class);
@@ -299,10 +469,17 @@ public class ProfileManager{
 	    }
 	}catch(Exception e){}
     }
+    */
     /**
      * Returns a list of applications that have profiles.
      */
     private List<App> getAppTypeNames(AppType type){
+	if(type == gamesRoot.getAppType()){
+	    return gamesRoot.getList();
+	}else{
+	    return appsRoot.getList();
+	}
+	/*
 	ArrayList<App> list = new ArrayList<>();
 	for(Profile profile: profiles){
 	    if(profile.getApp().getAppType() == type){
@@ -312,6 +489,7 @@ public class ProfileManager{
 	    }
 	}
 	return list;
+	*/
     }
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //

@@ -12,7 +12,7 @@ import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputKeymapSwitch;
 import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
-import com.monkygames.kbmaster.input.Profile;
+import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.input.WheelMapping;
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -322,7 +322,10 @@ public class HardwareEngine implements Runnable{
 		String name = component.getIdentifier().getName();
 
 		WheelMapping mapping = null;
-		if(component.getIdentifier() == Axis.Z && event.getValue() == 1){
+		if(component.getIdentifier() == Axis.X){
+		    //component.getPollData();
+		    //robot.mouseMove(x, y);
+		}else if(component.getIdentifier() == Axis.Z && event.getValue() == 1){
 		    mapping = keymap.getzUpWheelMapping();
 		    if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){
 			processOutput(name, mapping.getOutput(),1);
