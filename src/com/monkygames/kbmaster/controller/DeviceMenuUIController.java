@@ -350,33 +350,11 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	profileNameCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("profileName"));
 	isConnectedCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, String>("isConnected"));
 	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("enabled"));
-	/*
-	isEnabledCol.setCellValueFactory(new PropertyValueFactory<DeviceEntry, Boolean>("enabled"));
-	final Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>> defaultCellFactory = CheckBoxTableCell.forTableColumn(isEnabledCol);
-	// set the table cell to center for isEnabled
-	CheckboxCallback callback = new CheckboxCallback();
-	callback.setCheckboxHandler(this);
-	isEnabledCol.setCellFactory(callback);
-	*/
 
 	CheckboxCallback callback = new CheckboxCallback();
 	callback.setCheckboxHandler(this);
 	isEnabledCol.setCellFactory(callback);
-
-	/*
-	final Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>> defaultCellFactory = CheckBoxTableCell.forTableColumn(isEnabledCol);
-	isEnabledCol.setCellFactory(new Callback<TableColumn<DeviceEntry, Boolean>, TableCell<DeviceEntry, Boolean>>() {
-	    @Override
-	    public TableCell<DeviceEntry, Boolean> call(TableColumn<DeviceEntry, Boolean> col) {
-		TableCell<DeviceEntry, Boolean> cell = defaultCellFactory.call(col);
-		cell.getStyleClass().add("table-cell-center");
-		return cell;
-	    }
-	});
-	*/
 	isEnabledCol.setEditable(true);
-
-
 
 	// set the table cell to center for isConnected
 	isConnectedCol.setCellFactory(new Callback<TableColumn<DeviceEntry, String>, TableCell<DeviceEntry, String>>() {
@@ -399,11 +377,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 
 
 	deviceTV.setEditable(true);
-
-	// initialize Global Acount first since getDeviceList uses it
-	// to populate the list.
-	//globalAccount = new GlobalAccount();
-	//deviceTV.getItems().setAll(getDeviceEntryList());
 
 	// add the system tray
 	systemTray = new KBMSystemTray(this);
@@ -495,36 +468,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    //deviceEntry.setEnabled(false);
 	    hardwareManager.disableDevice(device);
 	}
-
-
-	/*
-	// traverse through scene graph to get device entry.
-	TableRowSkin skin = (TableRowSkin)cell.getParent();
-	TableRow row = (TableRow)skin.getParent();
-	DeviceEntry deviceEntry = (DeviceEntry)row.getItem();
-	Device device = deviceEntry.getDevice();
-	// traverse through scene graph to get checkbox.
-	TableCellSkin skin2 = (TableCellSkin)cell.getChildrenUnmodifiable().get(0);
-	CheckBox checkBox = (CheckBox)skin2.getChildren().get(0);
-	if(device.getProfile() == null){
-	    // pop an error 
-	    PopupManager.getPopupManager().showError("No profile selected, not enabled");
-	    // not, cannot enable
-	    device.setIsEnabled(false);
-	    checkBox.selectedProperty().set(false);
-
-	    hardwareManager.stopPollingDevice(device);
-	    device.setIsEnabled(false);
-	    return;
-	}
-	if(!device.isEnabled()){
-	    device.setIsEnabled(true);
-	    hardwareManager.startPollingDevice(device, device.getProfile());
-	}else{
-	    hardwareManager.stopPollingDevice(device);
-	    device.setIsEnabled(false);
-	}
-	*/
     }
 // ============= Internal Classes ============== //
     public class CheckboxCallback implements Callback<TableColumn<DeviceEntry,Boolean>, TableCell<DeviceEntry,Boolean>> {
@@ -532,15 +475,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 
 	@Override
 	public TableCell call(TableColumn<DeviceEntry, Boolean> param) {
-	    /*
-	    CheckboxValueCallback callbackProperty = new CheckboxValueCallback();
-	    callbackProperty.setTableColumn(param);
-
-	    CheckBoxTableCell cell = new CheckBoxTableCell(callbackProperty){
-		public CheckBox checkBox;
-	    };
-	    */
-	    
 	    CheckBoxTableCell cell = new CheckBoxTableCell(){
 		public CheckBox checkBox;
 	    };

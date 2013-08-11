@@ -22,7 +22,6 @@ import com.monkygames.kbmaster.profiles.AppType;
 import com.monkygames.kbmaster.input.Wheel;
 import com.monkygames.kbmaster.input.WheelMapping;
 import com.monkygames.kbmaster.profiles.Root;
-import java.util.ArrayList;
 
 /**
  * Manages saving and loading profiles.
@@ -73,53 +72,11 @@ public class ProfileManager{
 	db = Db4oEmbedded.openFile(config, databaseFilename);
 
 	loadRoots();
-	//loadProfiles();
-	//loadProgramListManager();
-	/*
-	// if no profiles exist, create a default
-	if(profiles.isEmpty()){
-	    addProfile(new Profile());
-	}
-	*/
     }
 // ============= Public Methods ============== //
     public void close(){
 	db.close();
     }
-    /*
-    public List<Profile> getProfiles(){
-	return profiles;
-    }
-    */
-    /**
-     * Returns the profiles that have the specified type and program name.
-     * @param type the type of profile.
-     * @param programName the program name associated with this profile.
-     * @return the list of profiles with the specified type and program name.
-     */
-    /*
-    public List<Profile> getProfile(App app){
-	List<Profile> sortedList = new ArrayList<>();
-	for(Profile profile: profiles){
-	    if(profile.getApp().getAppType() == app.getAppType() &&
-		profile.getApp().getName().equals(app.getName())){
-		sortedList.add(profile);
-	    }
-	}
-	return sortedList;
-    }
-    */
-    /**
-     * Returns a list of apps that are available to use with profiles.
-     * Note, this list can contain app names that are not associated with
-     * profiles.
-     * @param type the type of app.
-     */
-    /*
-    public List<App> getAvailableApps(AppType type){
-	return appListManager.getAvailableAppList(type);
-    }
-    */
     /**
      * Adds an app to the list if it doesn't already exist.
      * @param app the app to add to the list.
@@ -136,15 +93,6 @@ public class ProfileManager{
 	    return false;
 	}
 	return true;
-
-	/*
-	if(appListManager.addApp(app)){
-	    // store the list
-	    db.store(appListManager);
-	    return true;
-	}
-	return false;
-	*/
     }
     /**
      * Saves the current state of the tree.
@@ -153,22 +101,6 @@ public class ProfileManager{
 	db.store(gamesRoot);
 	db.store(appsRoot);
     }
-    /**
-     * Returns a list of applications that have profiles.
-     */
-    /*
-    public List<App> getApplications(){
-	return getAppTypeNames(AppType.APPLICATION);
-    }
-    */
-    /**
-     * Returns a list of games that have profiles.
-     */
-    /*
-    public List<App> getGames(){
-	return getAppTypeNames(AppType.GAME);
-    }
-    */
     /**
      * Returns true if the profile already exists and false otherwise.
      * @param type the type of profile.
@@ -186,20 +118,6 @@ public class ProfileManager{
 	}
 	return false;
     }
-    /**
-     * Adds the profile to the database and then reloads from the database.
-     * @param profile the profile to store.
-     */
-    /*
-    public void addProfile(Profile profile){
-	try{
-	    db.store(profile);
-	    loadProfiles();
-	    // add the program to the list if its not already added
-	    addApp(profile.getApp());
-	}catch(Exception e){}
-    }
-    */
     /**
      * Adds the profile to the app and stores to the database.
      * @param app the app to add the profile.
@@ -252,43 +170,6 @@ public class ProfileManager{
 	}
 	// reload profiles
 	loadRoots();
-	/*
-	for(App rootApp: root.getList()){
-	    if(app.equals(rootApp)){
-		for(Profile prof: rootApp.getProfiles()){
-		    if(prof.equals(profile)){
-			try{
-			    app.removeProfile(prof);
-			    prof.unlink();
-			    db.delete(prof);
-			    // remove the app if there are no profiles
-			    if(app.getProfiles().size() == 0){
-				root.removeApp(app);
-			    }
-			    // reload profiles
-			    loadRoots();
-			    break;
-			}catch(Exception e){}
-		    }
-		}
-	    }
-	}
-	*/
-	/*
-	try{
-	    for(Profile prof: profiles){
-		if(prof.getApp().getAppType() == profile.getApp().getAppType() && 
-		    profile.getApp().getName().equals(profile.getApp().getName()) &&
-		    profile.getProfileName().equals(profile.getProfileName())){
-		    db.delete(prof);
-		    break;
-		}
-	    }
-
-	    db.delete(profile);
-	    loadProfiles();
-	}catch(Exception e){}
-	*/
     }
 
     /**
@@ -451,25 +332,6 @@ public class ProfileManager{
 	    }
 	}catch(Exception e){}
     }
-    /*
-    private void loadProfiles(){
-	try{
-	    profiles = db.query(Profile.class);
-	}catch(Exception e){}
-    }
-    private void loadProgramListManager(){
-	try{
-	    List<AppListManager> appListManagerList = db.query(AppListManager.class);
-	    if(!appListManagerList.isEmpty()){
-		appListManager = appListManagerList.get(0);
-	    }
-	    if(appListManager == null){
-		appListManager = new AppListManager();
-		db.store(appListManager);
-	    }
-	}catch(Exception e){}
-    }
-    */
     /**
      * Returns a list of applications that have profiles.
      */
@@ -479,17 +341,6 @@ public class ProfileManager{
 	}else{
 	    return appsRoot.getList();
 	}
-	/*
-	ArrayList<App> list = new ArrayList<>();
-	for(Profile profile: profiles){
-	    if(profile.getApp().getAppType() == type){
-		if(!list.contains(profile.getApp())){
-		    list.add(profile.getApp());
-		}
-	    }
-	}
-	return list;
-	*/
     }
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //
