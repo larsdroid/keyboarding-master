@@ -6,6 +6,7 @@ package com.monkygames.kbmaster.io;
 // === jnostromo imports === //
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Keymap;
+import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Output;
 import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.input.WheelMapping;
@@ -63,7 +64,8 @@ public class GenerateBindingsImage{
 		    writeKeyBinding(keymap,i);
 		}
 		writeWheelBinding(keymap.getzUpWheelMapping(),1);
-		writeWheelBinding(keymap.getMiddleWheelMapping(),2);
+		//writeWheelBinding(keymap.getMiddleWheelMapping(),2);
+		writeWheelBinding(keymap.getButtonMapping("Middle"),2);
 		writeWheelBinding(keymap.getzDownWheelMapping(),3);
 		images[j] = Toolkit.getDefaultToolkit().createImage(image.getSource());
 	    }
@@ -88,7 +90,7 @@ public class GenerateBindingsImage{
 		writeKeyBinding(keymap,i);
 	    }
 	    writeWheelBinding(keymap.getzUpWheelMapping(),1);
-	    writeWheelBinding(keymap.getMiddleWheelMapping(),2);
+		writeWheelBinding(keymap.getButtonMapping("Middle"),2);
 	    writeWheelBinding(keymap.getzDownWheelMapping(),3);
 	    return Toolkit.getDefaultToolkit().createImage(image.getSource());
 	}catch(Exception e){
@@ -104,7 +106,7 @@ public class GenerateBindingsImage{
 		writeKeyBinding(keymap,i);
 	    }
 	    writeWheelBinding(keymap.getzUpWheelMapping(),1);
-	    writeWheelBinding(keymap.getMiddleWheelMapping(),2);
+		writeWheelBinding(keymap.getButtonMapping("Middle"),2);
 	    writeWheelBinding(keymap.getzDownWheelMapping(),3);
 	    saveImage("test_image.png");
 	}catch(Exception e){
@@ -137,7 +139,8 @@ public class GenerateBindingsImage{
 	g2.drawString(output.getName(), pos[0],pos[1]);
 	writeDescription(g2, output, pos[0] - 8, pos[1] + 15);
     }
-    private void writeWheelBinding(WheelMapping mapping,int index){
+    //private void writeWheelBinding(WheelMapping mapping,int index){
+    private void writeWheelBinding(Mapping mapping,int index){
 	Output output = mapping.getOutput();
 	Graphics2D g2 = image.createGraphics();
 	g2.setColor(textColor);

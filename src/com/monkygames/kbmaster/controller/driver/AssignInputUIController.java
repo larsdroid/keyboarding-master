@@ -113,6 +113,7 @@ public class AssignInputUIController extends PopupController implements ChangeLi
      * @param buttonID the unique id of the button to be configured.
      */
     public void setAssignedConfig(int buttonID){
+	System.out.println("AssignInputUIController:setAssignedCOnfig] buttonID = "+buttonID);
 	currentMapping = device.getMapping(buttonID, keymap);
 	currentOutput = currentMapping.getOutput();
 

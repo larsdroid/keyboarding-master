@@ -124,6 +124,9 @@ public class ProfileManager{
      * @param profile the profile to be added.
      */
     public void addProfile(App app, Profile profile){
+	System.out.println("[ProfileManager:addProfile]");
+	app.printString();
+	profile.printString();
 	try{
 	    app.addProfile(profile);
 	    if(app.getAppType() == gamesRoot.getAppType()){
@@ -273,16 +276,18 @@ public class ProfileManager{
 	return true;
     }
     public Root getAppsRoot(){
-	return appsRoot;
+	return getRoot(AppType.APPLICATION);
     }
     public Root getGamesRoot(){
-	return gamesRoot;
+	return getRoot(AppType.GAME);
     }
     /**
      * Returns the root based on the app type.
      * @return the apps or games type, and defaults to games.
      */
     public Root getRoot(AppType type){
+	loadRoots();
+	printProfilesFormatted();
 	if(type == appsRoot.getAppType()){
 	    return appsRoot;
 	}else if(type == gamesRoot.getAppType()){

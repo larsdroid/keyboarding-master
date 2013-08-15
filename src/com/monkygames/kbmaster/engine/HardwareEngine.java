@@ -398,6 +398,8 @@ public class HardwareEngine implements Runnable{
 		}else if(component.getIdentifier() == Axis.Z && event.getValue() == -1){
 		    mapping = keymap.getzDownWheelMapping();
 		    isMouseEvent = true;
+		}
+		/*
 		}else{
 		    // must be middle mouse click
 		    mapping = keymap.getMiddleWheelMapping();
@@ -405,6 +407,7 @@ public class HardwareEngine implements Runnable{
 			isMouseEvent = true;
 		    }
 		}
+		*/
 		if(isMouseEvent){
 		    for(HardwareListener listener: this.hardwareListeners){
 			listener.eventIndexPerformed(mapping.getInputHardware().getID()+20);

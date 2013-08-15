@@ -153,6 +153,14 @@ public class App{
 	}
 	return false;
     }
+    public void printString(){
+	String ret = "App["+name+",";
+	for(Profile profile: profiles){
+	    ret += "\n"+profile;
+	}
+	ret += "]";
+	System.out.println(ret);
+    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //

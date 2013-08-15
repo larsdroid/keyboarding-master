@@ -33,7 +33,7 @@ public class Keymap{
     /**
      * The middle mouse wheel mapping.
      */
-    private WheelMapping middleWheelMapping;
+    //private WheelMapping middleWheelMapping;
     /**
      * Describes this keymap.
      */
@@ -49,20 +49,26 @@ public class Keymap{
 	buttonMappings.put(index, buttonMapping);
     }
     public ButtonMapping getButtonMapping(String index){
+	System.out.println("Keymap:getButtonMapping] index = "+index);
+	System.out.println("Keymap:getButtonMapping] buttonMappings = "+buttonMappings);
 	return buttonMappings.get(index);
     }
 
+    /*
     public WheelMapping getMiddleWheelMapping() {
 	return middleWheelMapping;
     }
+    */
 
     public String getDescription(){
 	return description;
     }
 
+    /*
     public void setMiddleWheelMapping(WheelMapping middleWheelMapping) {
 	this.middleWheelMapping = middleWheelMapping;
     }
+    */
 
     public WheelMapping getzDownWheelMapping() {
 	return zDownWheelMapping;
@@ -112,9 +118,11 @@ public class Keymap{
 	if(zDownWheelMapping != null){
 	    keymap.setzDownWheelMapping((WheelMapping)zDownWheelMapping.clone());
 	}
+	/*
 	if(middleWheelMapping != null){
 	    keymap.setMiddleWheelMapping((WheelMapping)middleWheelMapping.clone());
 	}
+	*/
 
 	return keymap;
     }
@@ -124,7 +132,7 @@ public class Keymap{
 	    out += buttonMapping+",";
 	}
 	out += zUpWheelMapping+",";
-	out += middleWheelMapping+",";
+	//out += middleWheelMapping+",";
 	out += zDownWheelMapping;
 
 	return out;
@@ -135,7 +143,7 @@ public class Keymap{
 	    out += "\t\t"+buttonMapping+"\n";
 	}
 	out += "\t\t"+zUpWheelMapping+"\n";
-	out += "\t\t"+middleWheelMapping+"\n";
+	//out += "\t\t"+middleWheelMapping+"\n";
 	out += "\t\t"+zDownWheelMapping;
 	out += "\t]\n";
 
