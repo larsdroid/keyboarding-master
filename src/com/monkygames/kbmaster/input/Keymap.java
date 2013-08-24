@@ -49,8 +49,6 @@ public class Keymap{
 	buttonMappings.put(index, buttonMapping);
     }
     public ButtonMapping getButtonMapping(String index){
-	System.out.println("Keymap:getButtonMapping] index = "+index);
-	System.out.println("Keymap:getButtonMapping] buttonMappings = "+buttonMappings);
 	return buttonMappings.get(index);
     }
 

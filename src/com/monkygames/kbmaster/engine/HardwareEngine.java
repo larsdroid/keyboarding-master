@@ -15,6 +15,8 @@ import com.monkygames.kbmaster.input.OutputMouse.MouseType;
 import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.input.WheelMapping;
 import java.awt.AWTException;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Robot;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -108,6 +110,11 @@ public class HardwareEngine implements Runnable{
      * True if the hardware should be "grabbed" or false otherwise.
      */
     private boolean isEnabled = false;
+    /**
+     * Mice are normally relative.
+     */
+    private boolean isMouseRelative = true;
+    private float unit_width, unit_height;
 // ============= Constructors ============== //
     public HardwareEngine(Device device){
 	this.device = device;
@@ -234,6 +241,15 @@ public class HardwareEngine implements Runnable{
 	    }else if(controller.getType() == Controller.Type.MOUSE && 
 	       controller.getName().equals(device.getDeviceInformation().getJinputName())){
 		mouse = (Mouse)controller;
+		if(mouse.getX() != null && !mouse.getX().isRelative()){
+		    isMouseRelative = false;
+		}else{
+		    isMouseRelative = true;
+		}
+		float width = MouseInfo.getPointerInfo().getDevice().getDisplayMode().getWidth();
+		float height = MouseInfo.getPointerInfo().getDevice().getDisplayMode().getHeight();
+		unit_width = 1f/width;
+		unit_height = 1f/height;
 		if(isEnabled){
 		    mouse.grab();
 		}
@@ -249,7 +265,6 @@ public class HardwareEngine implements Runnable{
      * Set if hardware has been disconnected.
      */
     private void hardwareDisconnected(Controller controller){
-	System.out.println("[HardwareEngine:hardwareDisconnected]");
 	boolean isHardware = false;
 	if(controller == keyboard){
 	    keyboard = null;
@@ -267,7 +282,6 @@ public class HardwareEngine implements Runnable{
 	}
     }
     private void hardwareConnected(){
-	System.out.println("[HardwareEngine:hardwareConnected]");
 	if(keyboard != null && mouse != null){
 	    doesHardwareExist = true;
 	    for(HardwareListener listener:hardwareListeners){
@@ -318,13 +332,48 @@ public class HardwareEngine implements Runnable{
 	    // handle mouse events
 	    queue = mouse.getEventQueue();
 	    while(queue.getNextEvent(event)){
+		//System.out.println("===== New Event Queue =====");
 		Component component = event.getComponent();
 		String name = component.getIdentifier().getName();
 
 		WheelMapping mapping = null;
 		if(component.getIdentifier() == Axis.X){
-		    //component.getPollData();
-		    //robot.mouseMove(x, y);
+		    Point point = MouseInfo.getPointerInfo().getLocation();
+		    float rel = component.getPollData();
+		    float x = point.x + rel;
+		    robot.mouseMove((int)x, point.y);
+		    //System.out.println("X: rel = "+rel);
+		    /*
+		    // note, have to modify the relative
+		    float pol_dat = component.getPollData();
+		    float rel = component.getPollData() * unit_width;
+		    // between (0, 1)
+		    if(rel > 0 && rel < 1){
+			rel = 1;
+		    // between (-1, 0)
+		    }else if(rel < 0 && rel > -1){
+			rel = -1;
+		    }
+		    float x = point.x + rel;
+		    robot.mouseMove((int)x, point.y);
+		    */
+		    //System.out.println("Mouse Move: [pol,rel,x_o,x_n,x_i] ["+pol_dat+","+rel+","+point.x+","+x+","+(int)x);
+		}else if(component.getIdentifier() == Axis.Y){
+		    Point point = MouseInfo.getPointerInfo().getLocation();
+		    float rel = component.getPollData();
+		    float y = point.y + rel;
+		    robot.mouseMove(point.x, (int)y);
+		    /*
+		    float rel = component.getPollData() * unit_height;
+		    if(rel > 0 && rel < 1){
+			rel = 1;
+		    // between (-1, 0)
+		    }else if(rel < 0 && rel > -1){
+			rel = -1;
+		    }
+		    float y = point.y + rel;
+		    robot.mouseMove(point.x, (int)y);
+		    */
 		}else if(component.getIdentifier() == Axis.Z && event.getValue() == 1){
 		    mapping = keymap.getzUpWheelMapping();
 		    if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){

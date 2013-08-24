@@ -37,6 +37,7 @@ import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -364,6 +365,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    resetAppUIInfo();
 	}
 	if(profiles == null){
+	    //profileCB.valueProperty().removeListener(profileChangeListener);
 	    profileCB.setItems(FXCollections.observableArrayList());
 	    // reset
 	    resetProfileUIInfo();

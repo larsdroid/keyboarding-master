@@ -66,6 +66,7 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	this.globalAccount = globalAccount;
     }
     public void cancelEventFired(ActionEvent evt){
+	reset();
 	stage.hide();
     }
     public void addEventFired(ActionEvent evt){
@@ -87,6 +88,7 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	}
 	//notify main gui that a device should be added 
 	deviceMenuUIController.addDevice(device);
+	reset();
 	stage.hide();
     }
     public void setDeviceMenuUIController(DeviceMenuUIController deviceMenuUIController){
@@ -94,23 +96,65 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    private void resetDeviceInformation(){
+	iconImageHBox.getChildren().clear();
+	deviceDescriptionTA.setText("");
+	driverVersionL.setText("");
+
+    }
+    private void reset(){
+	deviceTypeCB.valueProperty().removeListener(this);
+	deviceMakeCB.valueProperty().removeListener(this);
+	deviceNameCB.valueProperty().removeListener(this);
+
+	ObservableList<String> typesList = FXCollections.observableArrayList("Keyboard","Mouse");
+	deviceTypeCB.setItems(typesList);
+	deviceMakeCB.setItems(FXCollections.observableArrayList());
+	deviceNameCB.setItems(FXCollections.observableArrayList());
+
+	resetDeviceInformation();
+
+	deviceTypeCB.valueProperty().addListener(this);
+	deviceMakeCB.valueProperty().addListener(this);
+	deviceNameCB.valueProperty().addListener(this);
+    }
     /**
      * Removes all items from the make combo box and populates with new list.
      * Also removes all items form the deviceName list.
      * @param list the new list of items to populate the combo box list.
      */
     private void setMakeComboBox(List<String> list){
+	deviceTypeCB.valueProperty().removeListener(this);
+	deviceMakeCB.valueProperty().removeListener(this);
+	deviceNameCB.valueProperty().removeListener(this);
+
 	deviceMakeCB.getItems().removeAll();
 	deviceNameCB.getItems().removeAll();
 	deviceNameCB.setItems(FXCollections.observableArrayList());
 	ObservableList<String> observableList = FXCollections.observableArrayList(list);
 	deviceMakeCB.setItems(observableList);
+
+	resetDeviceInformation();
+
+	deviceTypeCB.valueProperty().addListener(this);
+	deviceMakeCB.valueProperty().addListener(this);
+	deviceNameCB.valueProperty().addListener(this);
     }
     private void setModelComboBox(DeviceType type, String make){
+	deviceTypeCB.valueProperty().removeListener(this);
+	deviceMakeCB.valueProperty().removeListener(this);
+	deviceNameCB.valueProperty().removeListener(this);
+
 	deviceTypeCB.getItems().removeAll();
 	List<String> list = globalAccount.getDriverManager().getDevicesByMake(type, make);
 	ObservableList<String> modelsList = FXCollections.observableArrayList(list);
 	deviceNameCB.setItems(modelsList);
+
+	resetDeviceInformation();
+
+	deviceTypeCB.valueProperty().addListener(this);
+	deviceMakeCB.valueProperty().addListener(this);
+	deviceNameCB.valueProperty().addListener(this);
     }
     /**
      * Set the device information in the gui from the specified information.
@@ -125,13 +169,12 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	    PopupManager.getPopupManager().showError("Unable to find device");
 	    return;
 	}
-	iconImageHBox.getChildren().removeAll();
+	iconImageHBox.getChildren().clear();
 	ImageView imageView = new ImageView(new Image(device.getDeviceInformation().getDeviceIcon()));
 	iconImageHBox.getChildren().add(imageView);
 
 	deviceDescriptionTA.setText(device.getDeviceInformation().getDeviceDescription());
 	driverVersionL.setText(device.getDeviceInformation().getVersion());
-	//driverStatusL.setText();
     }
 // ============= Implemented Methods ============== //
     @Override

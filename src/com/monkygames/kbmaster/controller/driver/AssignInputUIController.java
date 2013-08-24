@@ -4,7 +4,6 @@
 package com.monkygames.kbmaster.controller.driver;
 
 import com.monkygames.kbmaster.controller.PopupController;
-import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
@@ -113,7 +112,6 @@ public class AssignInputUIController extends PopupController implements ChangeLi
      * @param buttonID the unique id of the button to be configured.
      */
     public void setAssignedConfig(int buttonID){
-	System.out.println("AssignInputUIController:setAssignedCOnfig] buttonID = "+buttonID);
 	currentMapping = device.getMapping(buttonID, keymap);
 	currentOutput = currentMapping.getOutput();
 
@@ -129,7 +127,6 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	    selectionID = 0;
 	}else if(currentOutput instanceof OutputMouse){
 	    currentParent = mouseButtonParent;
-	    System.out.println("[AssignUICtrl:setAssignedConfig] keycode = "+currentOutput.getKeycode());
 	    mouseButtonController.setSelectedMouse(currentOutput.getKeycode());
 	    selectionID = 1;
 	}else if(currentOutput instanceof OutputKeymapSwitch){

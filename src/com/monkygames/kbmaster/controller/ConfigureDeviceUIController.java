@@ -54,8 +54,6 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
     @FXML
     private Button displayKeymapB;
     @FXML
-    private Button editModeB;
-    @FXML
     private Button cancelB;
     @FXML
     private Button hideB;

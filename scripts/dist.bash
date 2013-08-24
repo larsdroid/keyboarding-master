@@ -15,8 +15,8 @@ mkdir dist/kbmaster/jre
 cp $DIST_DIR/KeyboardingMaster.jar dist/kbmaster/.
 cp -r $DIST_DIR/lib $DEST_DIR/.
 cp -r libs/native $DEST_DIR/lib/.
-cp -r libs/jre/jre1.7.0_21-linux-x64/java-linux-x64 $DEST_DIR/jre/.
-cp -r libs/jre/jre1.7.0_21-linux/java-linux $DEST_DIR/jre/.
+cp -r libs/jre/jre1.7.0_25-linux-x64/java-linux-x64 $DEST_DIR/jre/.
+cp -r libs/jre/jre1.7.0_25-linux/java-linux $DEST_DIR/jre/.
 cp scripts/run.bash $DEST_DIR/.
 cp COPYING $DEST_DIR/.
 cp docs/readme.txt $DEST_DIR/.

@@ -11,6 +11,7 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 // === kbmaster imports === //
 import com.db4o.config.EmbeddedConfiguration;
+import com.db4o.ta.TransparentActivationSupport;
 import com.monkygames.kbmaster.profiles.App;
 import com.monkygames.kbmaster.input.Button;
 import com.monkygames.kbmaster.input.ButtonMapping;
@@ -44,6 +45,9 @@ public class ProfileManager{
     public ProfileManager(String databaseFilename){
 	// accessDb4o
 	EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+	// turn on transparent activation
+	config.common().add(new TransparentActivationSupport());
+
 	// make sure that when a profile is updated so are all the data members
 	config.common().objectClass(Root.class).cascadeOnUpdate(true);
 	config.common().objectClass(App.class).cascadeOnUpdate(true);
@@ -83,13 +87,22 @@ public class ProfileManager{
      * @return true on success and false if the name already exists.
      */
     public boolean addApp(App app){
+	Root root = null;
 	if(app.getAppType() == gamesRoot.getAppType()){
-	    gamesRoot.addApp(app);
-	    db.store(gamesRoot);
+	    root = gamesRoot;
 	}else if(app.getAppType() == appsRoot.getAppType()){
-	    appsRoot.addApp(app);
-	    db.store(appsRoot);
+	    root = appsRoot;
 	}else{
+	    return false;
+	}
+	root.addApp(app);
+	// note, the app should be implicietly stored
+	// however, for sake of clarity, its explicitly stored
+	try{
+	    // store the app and the root
+	    db.store(app);
+	    db.store(root);
+	}catch(Exception e){
 	    return false;
 	}
 	return true;
@@ -98,8 +111,10 @@ public class ProfileManager{
      * Saves the current state of the tree.
      */
     public void updateRoots(){
-	db.store(gamesRoot);
-	db.store(appsRoot);
+	try{
+	    db.store(gamesRoot);
+	    db.store(appsRoot);
+	}catch(Exception e){}
     }
     /**
      * Returns true if the profile already exists and false otherwise.
@@ -124,17 +139,18 @@ public class ProfileManager{
      * @param profile the profile to be added.
      */
     public void addProfile(App app, Profile profile){
-	System.out.println("[ProfileManager:addProfile]");
-	app.printString();
-	profile.printString();
+	Root root = null;
+	app.addProfile(profile);
+	if(app.getAppType() == gamesRoot.getAppType()){
+	    root = gamesRoot;
+	}else if(app.getAppType() == appsRoot.getAppType()){
+	    root = appsRoot;
+	}
 	try{
-	    app.addProfile(profile);
-	    if(app.getAppType() == gamesRoot.getAppType()){
-		db.store(gamesRoot);
-	    }else if(app.getAppType() == appsRoot.getAppType()){
-		db.store(appsRoot);
-	    }
-	    //db.store(profile);
+	    // explicitly store the profile, app, and root.
+	    db.store(profile);
+	    db.store(app);
+	    db.store(root);
 	}catch(Exception e){}
 
     }
@@ -287,7 +303,6 @@ public class ProfileManager{
      */
     public Root getRoot(AppType type){
 	loadRoots();
-	printProfilesFormatted();
 	if(type == appsRoot.getAppType()){
 	    return appsRoot;
 	}else if(type == gamesRoot.getAppType()){
