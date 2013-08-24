@@ -33,7 +33,7 @@ public class Output{
 	this.name = name;
 	this.keycode = keycode;
 	this.modifier = modifier;
-	this.description = name;
+	this.description = "";
     }
 // ============= Public Methods ============== //
     public int getKeycode() {

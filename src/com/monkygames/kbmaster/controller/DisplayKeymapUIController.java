@@ -46,7 +46,7 @@ public class DisplayKeymapUIController implements Initializable{
      * Open the window.
      */
     public void displayKeymap(Keymap keymap){
-	Image image = imageGenerator.generateImage(keymap, true);
+	Image image = imageGenerator.generateImage(keymap);
 	BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
 	bufferedImage.getGraphics().drawImage(image, 0, 0, null);
 	WritableImage writableImage = SwingFXUtils.toFXImage(bufferedImage, null);

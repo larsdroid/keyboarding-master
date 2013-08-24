@@ -9,7 +9,6 @@ import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.input.Output;
 import com.monkygames.kbmaster.profiles.Profile;
-import com.monkygames.kbmaster.input.WheelMapping;
 // === java imports === //
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,6 +18,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.File;
 
@@ -30,7 +30,6 @@ public class GenerateBindingsImage{
 
 // ============= Class variables ============== //
     private URL templateURL;
-    private URL templatePrintableURL;
     private Color textColor;
     private Color textColor2;
     private BufferedImage image;
@@ -49,25 +48,18 @@ public class GenerateBindingsImage{
 	//120, 75
     }
 // ============= Public Methods ============== //
+    /**
+     * Generates 1 image per keymap for the profile.
+     * @param profile contains the keymaps to generate the images.
+     * @return 1 image per keymap with the output and descriptions.
+     */
     public Image[] generateImages(Profile profile){
-	return generateImages(profile,false);
-    }
-    public Image[] generateImages(Profile profile, boolean isPrintable){
 	URL url = templateURL;
 	Image[] images = new Image[8];
 	try{
 	    for(int j = 0; j < 8; j++){
-		image = ImageIO.read(url);
 		Keymap keymap = profile.getKeymap(j);
-		this.writeTitle(keymap);
-		for(int i = 1; i <= 20; i++){
-		    writeKeyBinding(keymap,i);
-		}
-		writeWheelBinding(keymap.getzUpWheelMapping(),1);
-		//writeWheelBinding(keymap.getMiddleWheelMapping(),2);
-		writeWheelBinding(keymap.getButtonMapping("Middle"),2);
-		writeWheelBinding(keymap.getzDownWheelMapping(),3);
-		images[j] = Toolkit.getDefaultToolkit().createImage(image.getSource());
+		images[j] = Toolkit.getDefaultToolkit().createImage(generateImage(keymap).getSource());
 	    }
 	}catch(Exception e){
 	    e.printStackTrace();
@@ -78,42 +70,24 @@ public class GenerateBindingsImage{
     /**
      * Generates a single image from the specified keymap.
      * @param keymap the image is based on this keymap.
-     * @param isPrintable true if printable and false otherwise.
      * @return the image of the descriptions and null on failure.
      */
-    public Image generateImage(Keymap keymap, boolean isPrintable){
+    public Image generateImage(Keymap keymap){
 	try{
 	    URL url = templateURL;
 	    image = ImageIO.read(url);
 	    this.writeTitle(keymap);
-	    for(int i = 1; i <= 20; i++){
-		writeKeyBinding(keymap,i);
+
+	    // write the mappings to the imaage
+	    for(Mapping mapping: keymap.getMappings()){
+		writeBinding(mapping);
 	    }
-	    writeWheelBinding(keymap.getzUpWheelMapping(),1);
-		writeWheelBinding(keymap.getButtonMapping("Middle"),2);
-	    writeWheelBinding(keymap.getzDownWheelMapping(),3);
+
 	    return Toolkit.getDefaultToolkit().createImage(image.getSource());
 	}catch(Exception e){
 	    e.printStackTrace();
 	    return null;
 	}
-    }
-    public boolean generateAndSaveImage(Profile profile, String imagePath){
-	try{
-	    image = ImageIO.read(templateURL);
-	    Keymap keymap = profile.getKeymap(0);
-	    for(int i = 1; i <= 20; i++){
-		writeKeyBinding(keymap,i);
-	    }
-	    writeWheelBinding(keymap.getzUpWheelMapping(),1);
-		writeWheelBinding(keymap.getButtonMapping("Middle"),2);
-	    writeWheelBinding(keymap.getzDownWheelMapping(),3);
-	    saveImage("test_image.png");
-	}catch(Exception e){
-	    e.printStackTrace();
-	    return false;
-	}
-	return true;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
@@ -131,121 +105,13 @@ public class GenerateBindingsImage{
 
 	}
     }
-    private void writeKeyBinding(Keymap keymap,int buttonID){
-	Output output = device.getButtonMapping(buttonID, keymap).getOutput();
-	Graphics2D g2 = image.createGraphics();
-	g2.setColor(textColor);
-	int[] pos = getBindingPosition(buttonID);
-	g2.drawString(output.getName(), pos[0],pos[1]);
-	writeDescription(g2, output, pos[0] - 8, pos[1] + 15);
-    }
-    //private void writeWheelBinding(WheelMapping mapping,int index){
-    private void writeWheelBinding(Mapping mapping,int index){
+    private void writeBinding(Mapping mapping){
+	Rectangle rect = device.getBindingOutputAndDescriptionLocation(mapping);
 	Output output = mapping.getOutput();
 	Graphics2D g2 = image.createGraphics();
 	g2.setColor(textColor);
-	//g2.setFont(font);
-	int[] pos = getBindingPosition(index + 20);
-	g2.drawString(output.getName(), pos[0],pos[1]);
-	writeDescription(g2, output, pos[0] - 8, pos[1] + 15);
-    }
-    private int[] getBindingPosition(int buttonID){
-	int pos[] = new int[2];
-	switch(buttonID){
-	    case 1:
-		pos[0] = 85;
-		pos[1] = 120;
-		break;
-	    case 2:
-		pos[0] = 190;
-		pos[1] = 90;
-		break;
-	    case 3:
-		pos[0] = 300;
-		pos[1] = 90;
-		break;
-	    case 4:
-		pos[0] = 410;
-		pos[1] = 90;
-		break;
-	    case 5:
-		pos[0] = 520;
-		pos[1] = 90;
-		break;
-	    case 6:
-		pos[0] = 85;
-		pos[1] = 230;
-		break;
-	    case 7:
-		pos[0] = 190;
-		pos[1] = 200;
-		break;
-	    case 8:
-		pos[0] = 300;
-		pos[1] = 200;
-		break;
-	    case 9:
-		pos[0] = 410;
-		pos[1] = 200;
-		break;
-	    case 10:
-		pos[0] = 520;
-		pos[1] = 200;
-		break;
-	    case 11:
-		pos[0] = 85;
-		pos[1] = 336;
-		break;
-	    case 12:
-		pos[0] = 190;
-		pos[1] = 305;
-		break;
-	    case 13:
-		pos[0] = 300;
-		pos[1] = 305;
-		break;
-	    case 14:
-		pos[0] = 410;
-		pos[1] = 305;
-		break;
-	    case 15:
-		pos[0] = 515;
-		pos[1] = 480;
-		break;
-	    case 16:
-		pos[0] = 655;
-		pos[1] = 235;
-		break;
-	    case 17:
-		pos[0] = 665;
-		pos[1] = 310;
-		break;
-	    case 18:
-		pos[0] = 695;
-		pos[1] = 350;
-		break;
-	    case 19:
-		pos[0] = 665;
-		pos[1] = 400;
-		break;
-	    case 20:
-		pos[0] = 625;
-		pos[1] = 350;
-		break;
-	    case 21:
-		pos[0] = 530;
-		pos[1] = 285;
-		break;
-	    case 22:
-		pos[0] = 530;
-		pos[1] = 340;
-		break;
-	    case 23:
-		pos[0] = 530;
-		pos[1] = 390;
-		break;
-	}
-	return pos;
+	g2.drawString(output.getName(),rect.x,rect.y);
+	writeDescription(g2, output, rect.width, rect.height);
     }
     /**
      * Writes the description of the output.

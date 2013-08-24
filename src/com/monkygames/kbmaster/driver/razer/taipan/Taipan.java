@@ -16,6 +16,7 @@ import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
 import com.monkygames.kbmaster.input.Wheel;
 import com.monkygames.kbmaster.input.WheelMapping;
+import java.awt.Rectangle;
 
 /**
  * Contains information about a specific device.
@@ -108,8 +109,13 @@ public class Taipan extends Device{
 	return 1;
     }
 // ============= Extended Methods ============== //
+    @Override
+    public Rectangle getBindingOutputAndDescriptionLocation(Mapping mapping) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
+
 
 }
 /*

@@ -4,7 +4,9 @@
 package com.monkygames.kbmaster.driver;
 
 // === kbmaster imports === //
+import com.monkygames.kbmaster.input.Mapping;
 import com.monkygames.kbmaster.profiles.Profile;
+import java.awt.Rectangle;
 
 /**
  * Contains device information and device driver implementation.
@@ -100,6 +102,16 @@ public abstract class Device implements Mapper{
     public void setIsEnabled(boolean isEnabled) {
 	this.isEnabled = isEnabled;
     }
+    /**
+     * Returns the x,y pixel location to write the output and
+     * the x,y pixel location to write the description for the 
+     * specified binding.
+     * @param mapping gets the pixel location for this mapping.
+     * @return Rectangle.x and Rectangle.y are the x,y pixel coordinates to
+     * write the output and Rectangle.width and Rectangle.height contain
+     * the x,y pixel coordinates to write the description.
+     */
+    public abstract Rectangle getBindingOutputAndDescriptionLocation(Mapping mapping);
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //

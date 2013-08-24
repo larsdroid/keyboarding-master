@@ -19,6 +19,7 @@ import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
 import com.monkygames.kbmaster.input.Wheel;
 import com.monkygames.kbmaster.input.WheelMapping;
+import java.awt.Rectangle;
 
 /**
  * Contains information about a specific device.
@@ -40,6 +41,104 @@ public class RazerNostromoDevice extends Device{
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
+    private int[] getBindingPosition(int buttonID){
+	int pos[] = new int[2];
+	switch(buttonID){
+	    case 1:
+		pos[0] = 85;
+		pos[1] = 120;
+		break;
+	    case 2:
+		pos[0] = 190;
+		pos[1] = 90;
+		break;
+	    case 3:
+		pos[0] = 300;
+		pos[1] = 90;
+		break;
+	    case 4:
+		pos[0] = 410;
+		pos[1] = 90;
+		break;
+	    case 5:
+		pos[0] = 520;
+		pos[1] = 90;
+		break;
+	    case 6:
+		pos[0] = 85;
+		pos[1] = 230;
+		break;
+	    case 7:
+		pos[0] = 190;
+		pos[1] = 200;
+		break;
+	    case 8:
+		pos[0] = 300;
+		pos[1] = 200;
+		break;
+	    case 9:
+		pos[0] = 410;
+		pos[1] = 200;
+		break;
+	    case 10:
+		pos[0] = 520;
+		pos[1] = 200;
+		break;
+	    case 11:
+		pos[0] = 85;
+		pos[1] = 336;
+		break;
+	    case 12:
+		pos[0] = 190;
+		pos[1] = 305;
+		break;
+	    case 13:
+		pos[0] = 300;
+		pos[1] = 305;
+		break;
+	    case 14:
+		pos[0] = 410;
+		pos[1] = 305;
+		break;
+	    case 15:
+		pos[0] = 515;
+		pos[1] = 480;
+		break;
+	    case 16:
+		pos[0] = 655;
+		pos[1] = 235;
+		break;
+	    case 17:
+		pos[0] = 665;
+		pos[1] = 310;
+		break;
+	    case 18:
+		pos[0] = 695;
+		pos[1] = 350;
+		break;
+	    case 19:
+		pos[0] = 665;
+		pos[1] = 400;
+		break;
+	    case 20:
+		pos[0] = 625;
+		pos[1] = 350;
+		break;
+	    case 21:
+		pos[0] = 530;
+		pos[1] = 285;
+		break;
+	    case 22:
+		pos[0] = 530;
+		pos[1] = 390;
+		break;
+	    case 23:
+		pos[0] = 530;
+		pos[1] = 340;
+		break;
+	}
+	return pos;
+    }
 // ============= Implemented Methods ============== //
 
     @Override
@@ -190,8 +289,20 @@ public class RazerNostromoDevice extends Device{
 	return 1;
     }
 // ============= Extended Methods ============== //
+    @Override
+    public Rectangle getBindingOutputAndDescriptionLocation(Mapping mapping) {
+	Rectangle rect = new Rectangle();
+	int[] pos = getBindingPosition(mapping.getInputHardware().getID());
+	rect.x = pos[0];
+	rect.y = pos[1];
+	rect.width = pos[0] - 8;
+	rect.height = pos[1] + 15;
+
+	return rect;
+    }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
+
 
 }
 /*

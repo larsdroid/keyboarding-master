@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.input;
 
 // === java imports === //
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -93,6 +94,20 @@ public class Keymap{
     }
     public void setID(int id){
 	this.id = id;
+    }
+    /**
+     * Returns a list of all the mappings.
+     * @return a list of all the mappings.
+     */
+    public ArrayList<Mapping> getMappings(){
+	ArrayList<Mapping> list = new ArrayList<Mapping>(buttonMappings.values());
+	if(zUpWheelMapping != null){
+	    list.add(zUpWheelMapping);
+	}
+	if(zDownWheelMapping != null){
+	    list.add(zDownWheelMapping);
+	}
+	return list;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
