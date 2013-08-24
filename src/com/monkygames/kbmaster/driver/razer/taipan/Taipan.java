@@ -30,10 +30,11 @@ public class Taipan extends Device{
     public Taipan(){
 	super("Razer","Taipan","Razer Razer Taipan", DeviceType.MOUSE,
 		"/com/monkygames/kbmaster/driver/razer/taipan/resources/TaipanIcon.png",
-		"device information","1.0",
+		"device information",
+		"1.0",
 		"com.monkygames.kbmaster.driver.razer.taipan.Taipan",
 		"/com/monkygames/kbmaster/driver/razer/taipan/Taipan.fxml",
-		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
+		"/com/monkygames/kbmaster/driver/razer/taipan/resources/taipan_printable.png");
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
@@ -111,7 +112,59 @@ public class Taipan extends Device{
 // ============= Extended Methods ============== //
     @Override
     public Rectangle getBindingOutputAndDescriptionLocation(Mapping mapping) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	Rectangle rect = new Rectangle();
+	switch(mapping.getInputHardware().getID()){
+	    // left
+	    case 1:
+		rect.x = 188;
+		rect.y = 119;
+		rect.width = 174;
+		rect.height = 134;
+		break;
+	    // right
+	    case 2:
+		rect.x = 278;
+		rect.y = 119;
+		rect.width = 290;
+		rect.height = 134;
+		break;
+	    // extra
+	    case 3:
+		rect.x = 460;
+		rect.y = 369;
+		rect.width = 445;
+		rect.height = 384;
+		break;
+	    // side
+	    case 4:
+		rect.x = 507;
+		rect.y = 325;
+		rect.width = 491;
+		rect.height = 340;
+		break;
+	    // zup
+	    case 5:
+		rect.x = 83;
+		rect.y = 76;
+		rect.width = 83;
+		rect.height = 95;
+		break;
+	    // zdwn
+	    case 6:
+		rect.x = 83;
+		rect.y = 187;
+		rect.width = 83;
+		rect.height = 206;
+		break;
+	    // zmid
+	    case 7:
+		rect.x = 83;
+		rect.y = 134;
+		rect.width = 83;
+		rect.height = 153;
+		break;
+	}
+	return rect;
     }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //

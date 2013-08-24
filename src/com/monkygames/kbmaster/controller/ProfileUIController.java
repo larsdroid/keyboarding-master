@@ -262,7 +262,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @param keymapID from 0 to 7.
      */ 
     public void openDisplayKeymapPopup(int keymapID){
-	if(!checkDevice()) return;
+	if(!checkDevice() || currentProfile == null) return;
 	try{
 	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/DisplayKeymapUI.fxml");
 	    FXMLLoader fxmlLoader = new FXMLLoader();
