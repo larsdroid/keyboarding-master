@@ -33,7 +33,17 @@ public class RazerNostromoDevice extends Device{
     public RazerNostromoDevice(){
 	super("Razer","Nostromo","Razer Razer Nostromo", DeviceType.KEYBOARD,
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png",
-		"device information","1.0",
+		// === Description === //
+		"* Ergonomic form factor and tournament-grade layout\n"
+		+ "* 16 fully programmable Hyperesponse keys\n"
+		+ "* Programmable 8-way directional thumb pad and scroll wheel\n"
+		+ "* Instantaneous switching between 8 key maps\n"
+		+ "* Adjustable soft-touch wrist pad for exceptional comfort\n"
+		+ "* Backlit keypad and scroll wheel for total control even in dark conditions\n"
+		+ "* Approximate Size : 183 mm (Width) x 159 mm (Height) x 59 mm (Depth)\n"
+		+ "* Approximate Weight: 297 g\n",
+		// === =========== === //
+		"1.0",
 		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/RazerNostromo.fxml",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
