@@ -49,7 +49,7 @@
             <Image url="@resources/icons/InstallBuilder.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <ImageView id="kryonetLogo" fx:id="kryonetIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="kryonetLogo" fx:id="kryonetIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@resources/icons/Kryonet.png" preserveRatio="false" smooth="false" />
           </image>
@@ -92,7 +92,7 @@
     <VBox layoutX="711.0" layoutY="96.0" prefHeight="232.0" prefWidth="107.0" spacing="8.0">
       <children>
         <Button fx:id="addDeviceB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="107.0" text="Add" />
-        <Button mnemonicParsing="false" prefWidth="106.0" text="Remove" />
+        <Button mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Remove" />
         <Button fx:id="configureB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="105.00009999999747" text="Configure" />
         <Button fx:id="detailsB" disable="true" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Details" />
         <Button fx:id="setProfileB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Set Profile" />

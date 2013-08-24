@@ -74,6 +74,19 @@ public class HardwareManager implements HardwareListener{
 	}
     }
     /**
+     * Disables and removes the device from this list.
+     * @param device the device to be disabled and removed.
+     * @return true if disables and removes and false otherwise.
+     */
+    public boolean removeDevice(Device device){
+	disableDevice(device);
+	HardwareEngine engine = engines.remove(device.getDeviceInformation().getJinputName());
+	if(engine != null){
+	    return true;
+	}
+	return false;
+    }
+    /**
      * The currently active profile has been removed and
      * a new profile has not been selected.
      */

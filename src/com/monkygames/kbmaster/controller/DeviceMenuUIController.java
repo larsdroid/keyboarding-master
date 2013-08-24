@@ -72,7 +72,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     // buttons
     @FXML
     private Button addDeviceB, configureB, detailsB, exitB, logoutB, 
-	    setProfileB, hideB;
+	    setProfileB, hideB, removeDeviceB;
     @FXML
     private CheckBox keysRepeatCB;
     @FXML
@@ -102,6 +102,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     private SelectProfileUIController selectProfileController;
     /**
+     * A popup for deleting the device.
+     */
+    private DeleteDeviceUIController deleteDeviceController;
+    /**
      * Used for managing engines (which do the work of remapping outputs).
      */
     private HardwareManager hardwareManager;
@@ -124,6 +128,21 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    PopupManager.getPopupManager().showError("Unable to add device.  Is it already added?");
 	    return;
 	}
+	// Update device table!
+	deviceTV.getItems().setAll(getDeviceEntryList(true));
+    }
+    /**
+     * Removes the device and updates the table.
+     */
+    public void removeDevice(Device device){
+	if(!globalAccount.removeDownloadedDevice(device)){
+	    PopupManager.getPopupManager().showError("Unable to remove device.");
+	    return;
+	}
+
+	//remove device from hardware manager!!!!!!
+	hardwareManager.removeDevice(device);
+
 	// Update device table!
 	deviceTV.getItems().setAll(getDeviceEntryList(true));
     }
@@ -198,6 +217,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	Object src = evt.getSource();
 	if(src == addDeviceB){
 	    openNewDeviceUI();
+	}else if(src == removeDeviceB){
+	    openRemoveDeviceUI();
 	}else if(src == configureB){
 	    openConfigureDeviceUI();
 	}else if(src == keysRepeatCB){
@@ -285,6 +306,37 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    }
 	}
 	newDeviceStage.show();
+    }
+    /**
+     * Opens a UI for removing the device.
+     */
+    private void openRemoveDeviceUI(){
+	// check if there a device selected!
+	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
+	if(deviceEntry == null) {
+	    // pop error
+	    PopupManager.getPopupManager().showError("No device selected");
+	    return;
+	}
+	if(newDeviceStage == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/DeleteDeviceUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		deleteDeviceController = (DeleteDeviceUIController) fxmlLoader.getController();
+		Scene scene = new Scene(root);
+		Stage stage = WindowUtil.createStage(root);
+		deleteDeviceController.setStage(stage);
+		deleteDeviceController.setController(this);
+	    } catch (IOException ex) {
+		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+	
+	deleteDeviceController.setDevice(deviceEntry.getDevice());
     }
     private void openConfigureDeviceUI(){
 	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();

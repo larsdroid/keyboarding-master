@@ -112,7 +112,7 @@ public class GlobalAccount{
 		return true;
 	    }
 	});
-	System.out.println("queck query");
+	System.out.println("quick query");
 	for(Object obj: localDevicesFromDB.toArray()){
 	    System.out.println(obj);
 	}
@@ -136,6 +136,18 @@ public class GlobalAccount{
      */
     public boolean upgradeDownloadedDevice(String deviceName){
 	return false;
+    }
+    /**
+     * Removes the device from the local device list and stores to the database.
+     * @device the device to remove.
+     * @return true if the device was successfully removed and false otherwise.
+     */
+    public boolean removeDownloadedDevice(Device device){
+	if(localDevices.remove(device.getDeviceInformation().getName()) == null){
+	    return false;
+	}
+	db.store(localDevices);
+	return true;
     }
     /**
      * Returns a list of locally installed devices.

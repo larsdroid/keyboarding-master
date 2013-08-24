@@ -63,7 +63,6 @@ public class DriverUIController implements Initializable{
 // ============= Private Methods ============== //
     @FXML
     private void handleButtonAction(ActionEvent evt){
-	System.out.println("button action "+evt);
 	Object obj = evt.getSource();
 	if(obj instanceof Button){
 	    Button button = (Button)obj;
