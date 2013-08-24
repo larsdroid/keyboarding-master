@@ -30,7 +30,16 @@ public class Taipan extends Device{
     public Taipan(){
 	super("Razer","Taipan","Razer Razer Taipan", DeviceType.MOUSE,
 		"/com/monkygames/kbmaster/driver/razer/taipan/resources/TaipanIcon.png",
-		"device information",
+		// === description === //
+		"* 4G Dual Sensor System - 8200dpi\n"
+		+ "* Ambidextrous form factor\n"
+		+ "* Razer Synapse 2.0 enabled\n"
+		+ "* 9 programmable Hyperesponse buttons\n"
+		+ "* 1000Hz Ultrapolling / 1ms response time\n"
+		+ "* Up to 200 inches per second / 50g acceleration\n"
+		+ "* Approximate size: 124 mm (Length) x 63 mm (Width) x 36 mm (Height)\n"
+		+ "* Approximate Weight: 95g without cable, 132g with cable\n",
+		// ===  
 		"1.0",
 		"com.monkygames.kbmaster.driver.razer.taipan.Taipan",
 		"/com/monkygames/kbmaster/driver/razer/taipan/Taipan.fxml",
@@ -131,16 +140,16 @@ public class Taipan extends Device{
 	    // extra
 	    case 3:
 		rect.x = 460;
-		rect.y = 369;
+		rect.y = 374;
 		rect.width = 445;
-		rect.height = 384;
+		rect.height = 389;
 		break;
 	    // side
 	    case 4:
 		rect.x = 507;
-		rect.y = 325;
+		rect.y = 330;
 		rect.width = 491;
-		rect.height = 340;
+		rect.height = 345;
 		break;
 	    // zup
 	    case 5:
