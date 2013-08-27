@@ -32,6 +32,7 @@ public class DriverManager{
 	mouseMakes = new ArrayList<>();
 	// initialize all drivers by make
 	createRazerDrivers();
+	createBelkinDrivers();
 
     }
 // ============= Public Methods ============== //
@@ -99,10 +100,17 @@ public class DriverManager{
     }
     /**
      * Handles creating all Razer drivers.
+     * Includes mice and keyboards.
      */
     private void createRazerDrivers(){
 	addDevice(new RazerNostromoDevice());
 	addDevice(new com.monkygames.kbmaster.driver.razer.taipan.Taipan());
+    }
+    /**
+     * Creates all Belkin devices.
+     */
+    private void createBelkinDrivers(){
+	addDevice(new com.monkygames.kbmaster.driver.belkin.n52te.N52TE());
     }
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //

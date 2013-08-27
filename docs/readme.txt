@@ -18,6 +18,19 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.4]
+* Added Razer Taipan Support (note, mouse integration is not yet ready; the
+x-axis and y-axis is not handled correctly)
+* Added device information for the Razer Nostromo & Razer Taipan
+* Implemented device remove button by removing the device
+* Changed the internal data structures for the profiles
+* Bug Fix - if no profile was selected and the display keymap description 
+            button was pressed, the program would become unresponsive
+* Bug Fix - the device information would not reset properly in the
+            add device UI
+* Updated to jre 1.7.0-25
+
+
 [0.1.3]
 * Added System Tray support
 
