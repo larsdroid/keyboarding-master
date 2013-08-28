@@ -184,9 +184,26 @@ public class ProfileManager{
 	app.removeProfile(profile);
 	profile.unlink();
 	db.delete(profile);
-	if(app.getProfiles().size() == 0){
-	    root.removeApp(app);
+	db.store(app);
+	// reload profiles
+	loadRoots();
+	printProfilesFormatted();
+    }
+    /**
+     * Removes the app from the list.
+     * Note, if there are any profiles in this app, those profiles
+     * will also be removed.
+     */
+    public void removeApp(App app){
+	Root root;
+	if(app.getAppType() == gamesRoot.getAppType()){
+	    root = gamesRoot;
+	}else if(app.getAppType() == appsRoot.getAppType()){
+	    root = appsRoot;
+	}else{
+	    return;
 	}
+	root.removeApp(app);
 	// reload profiles
 	loadRoots();
     }
@@ -308,6 +325,7 @@ public class ProfileManager{
 	}else if(type == gamesRoot.getAppType()){
 	    return gamesRoot;
 	}
+	printProfilesFormatted();
 	return gamesRoot;
     }
 
