@@ -12,12 +12,12 @@
 
 <AnchorPane id="AnchorPane" prefHeight="535.0" prefWidth="350.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.ProfileUIController">
   <children>
-    <Label layoutX="14.0" layoutY="14.0" text="Profiles">
+    <Label layoutX="3.0" layoutY="0.0" text="Profiles">
       <font>
         <Font size="18.0" />
       </font>
     </Label>
-    <GridPane layoutX="15.0" layoutY="44.0" prefHeight="99.0" prefWidth="335.0">
+    <GridPane layoutX="15.0" layoutY="21.0" prefHeight="129.0" prefWidth="335.0">
       <children>
         <Label text="Type: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <ComboBox fx:id="typeCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -29,7 +29,7 @@
             </FXCollections>
           </items>
         </ComboBox>
-        <Label text="App:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label text="App: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <ComboBox id="programCB" fx:id="appsCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
           <items>
             <FXCollections fx:factory="observableArrayList">
@@ -39,8 +39,8 @@
             </FXCollections>
           </items>
         </ComboBox>
-        <Label text="Profile: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <ComboBox fx:id="profileCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Label text="Profile: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <ComboBox fx:id="profileCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Item 1" />
@@ -49,12 +49,25 @@
             </FXCollections>
           </items>
         </ComboBox>
+        <Button fx:id="newAppB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="newProfile" text="New App" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <HBox alignment="TOP_RIGHT" minHeight="22.0" prefHeight="22.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+          <children>
+            <Button fx:id="newProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="newProfile" text="New Profile" />
+            <Button fx:id="cloneProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="cloneProfile" text="Clone Profile" />
+            <Button fx:id="importProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="importProfile" text="Import Profile" />
+            <Button fx:id="exportProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="exportProfile" text="Export Profile" />
+            <Button id="pdfProfileB" fx:id="printPDFB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="pdfProfile" text="Print to PDF" />
+            <Button fx:id="deleteProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="deleteProfile" text="Delete Profile" />
+          </children>
+        </HBox>
       </children>
       <columnConstraints>
         <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" prefWidth="80.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
       <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -64,16 +77,6 @@
       <children>
         <Label text="Info: " />
         <TextArea id="infoA" fx:id="infoTA" prefHeight="239.0" prefWidth="247.0" wrapText="true" />
-      </children>
-    </HBox>
-    <HBox alignment="TOP_RIGHT" layoutX="186.0" layoutY="499.0" minHeight="22.0" prefHeight="22.0" prefWidth="154.0">
-      <children>
-        <Button fx:id="newProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="newProfile" text="New Profile" />
-        <Button fx:id="cloneProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="cloneProfile" text="Clone Profile" />
-        <Button fx:id="importProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="importProfile" text="Import Profile" />
-        <Button fx:id="exportProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="exportProfile" text="Export Profile" />
-        <Button id="pdfProfileB" fx:id="printPDFB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="pdfProfile" text="Print to PDF" />
-        <Button fx:id="deleteProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="deleteProfile" text="Delete Profile" />
       </children>
     </HBox>
     <GridPane hgap="5.0" layoutX="10.0" layoutY="402.0" prefHeight="33.0" prefWidth="335.0">
@@ -92,7 +95,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
-    <HBox layoutX="10.0" layoutY="435.0" prefHeight="48.0" prefWidth="343.0" spacing="5.0">
+    <HBox layoutX="10.0" layoutY="435.0" prefHeight="48.0" prefWidth="162.0" spacing="5.0">
       <children>
         <Label text="App Details: " />
         <ImageView fx:id="appLogoIV" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
@@ -100,7 +103,6 @@
             <Image url="@resources/profile/app_logo.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
-        <TextArea fx:id="appInfoTA" prefHeight="48.0" prefWidth="188.0" wrapText="true" />
       </children>
     </HBox>
     <HBox layoutX="10.0" layoutY="486.0" prefHeight="48.0" prefWidth="176.0">
@@ -113,6 +115,7 @@
         </ImageView>
       </children>
     </HBox>
+    <TextArea fx:id="appInfoTA" layoutX="180.0" layoutY="435.0" prefHeight="99.0" prefWidth="156.0" wrapText="true" />
   </children>
   <stylesheets>
     <URL value="@master.css" />

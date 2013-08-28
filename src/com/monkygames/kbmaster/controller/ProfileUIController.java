@@ -7,6 +7,7 @@ package com.monkygames.kbmaster.controller;
 import com.monkygames.kbmaster.controller.profile.CloneProfileUIController;
 import com.monkygames.kbmaster.controller.profile.DeleteProfileUIController;
 import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
+import com.monkygames.kbmaster.controller.profile.NewProgramUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.profiles.App;
 import com.monkygames.kbmaster.profiles.Profile;
@@ -63,6 +64,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @FXML
     private ComboBox profileCB;
     @FXML
+    private Button newAppB;
+    @FXML
     private Button newProfileB;
     @FXML
     private Button cloneProfileB;
@@ -87,6 +90,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @FXML
     private Label updatedL;
     private ProfileManager profileManager;
+    private NewProgramUIController newProgramUIController;
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
     private DeleteProfileUIController deleteProfileUIController;
@@ -130,6 +134,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	Object src = evt.getSource();
 	if(src == newProfileB){
 	    openNewProfilePopup();
+	}else if(src == newAppB){
+	    openNewProgramPopup();
 	}else if(src == cloneProfileB){
 	    openCloneProfilePopup();
 	}else if(src == importProfileB){
@@ -390,8 +396,41 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	tooltip.setText(toolString);
 	button.setTooltip(tooltip);
     }
+    /**
+     * Opens the new Program Popup UI.
+     */
+    private void openNewProgramPopup(){
+	if(!checkDevice()) return;
+	if(newProgramUIController == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/NewProgramUI.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		newProgramUIController = (NewProgramUIController) fxmlLoader.getController();
+		Stage stage = WindowUtil.createStage(root);
+		newProgramUIController.setStage(stage);
+		newProgramUIController.setProfileManager(profileManager);
+		newProgramUIController.addNotification(this);
+	    } catch (IOException ex) {
+		return;
+	    }
+	}
+	newProgramUIController.showStage();
+
+    }
+    /**
+     * Opens a new profile popup.
+     */
     private void openNewProfilePopup(){
 	if(!checkDevice()) return;
+	// check if an app is selected
+	if(appsCB.getSelectionModel().getSelectedItem() == null){
+	    PopupManager.getPopupManager().showError("No App selected.\nMaybe create a new App?");
+	    return;
+	}
 	if(newProfileUIController == null){
 	    newProfileUIController = (NewProfileUIController)openPopup("/com/monkygames/kbmaster/fxml/popup/NewProfileUI.fxml");
 	    if(newProfileUIController == null) return;
@@ -574,6 +613,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    profileDir.mkdir();
 	}
 	
+	setButtonToolTip(newAppB, "New Program");
 	setButtonToolTip(newProfileB, "New Profile");
 	setButtonToolTip(cloneProfileB, "Clone Profile");
 	setButtonToolTip(importProfileB, "Import Profile");
@@ -618,6 +658,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    deviceMenuController.setActiveProfile(device, null);
 	    updateComboBoxes();
 	}else{
+	    // includes a notification from New Porgram UI Controller
 	    updateComboBoxes();
 	}
     }

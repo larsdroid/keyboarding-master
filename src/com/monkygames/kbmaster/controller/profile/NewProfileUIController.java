@@ -5,7 +5,6 @@ package com.monkygames.kbmaster.controller.profile;
 
 // === kbmaster imports === //
 import com.monkygames.kbmaster.controller.PopupController;
-import com.monkygames.kbmaster.controller.PopupNotifyInterface;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.profiles.App;
 import com.monkygames.kbmaster.profiles.Profile;
@@ -13,15 +12,11 @@ import com.monkygames.kbmaster.profiles.AppType;
 import com.monkygames.kbmaster.io.ProfileManager;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.ProfileTypeNames;
-import com.monkygames.kbmaster.util.WindowUtil;
 // === java imports === //
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 // === javafx imports === //
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,18 +26,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 
 /**
  * A controller for the New Profile UI.
  * @version 1.0
  */
-public class NewProfileUIController extends PopupController implements ChangeListener<String>, PopupNotifyInterface{
+public class NewProfileUIController extends PopupController implements ChangeListener<String>{
 
 // ============= Class variables ============== //
     @FXML
@@ -60,7 +51,6 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     @FXML
     private TextArea infoTA;
     private ProfileManager profileManager;
-    private NewProgramUIController newProgramUIController;
     private Device device;
     private List<App> appsList;
 // ============= Constructors ============== //
@@ -79,10 +69,6 @@ public class NewProfileUIController extends PopupController implements ChangeLis
     }
     public void okEventFired(ActionEvent evt){
 	try{
-	    if(programCB.getSelectionModel().getSelectedIndex() == 0){
-		openNewProgramPopup();
-		return;
-	    }
 	    App app = (App)programCB.getSelectionModel().getSelectedItem();
 	    String profileName = profileTF.getText();
 	    // check for a valid program name
@@ -124,28 +110,6 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	notifyCancel(null);
     }
 // ============= Private Methods ============== //
-    private void openNewProgramPopup(){
-	if(newProgramUIController == null){
-	    try {
-		// pop open add new device
-		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/NewProgramUI.fxml");
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(location);
-		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-		Parent root = (Parent)fxmlLoader.load(location.openStream());
-		newProgramUIController = (NewProgramUIController) fxmlLoader.getController();
-		Stage stage = WindowUtil.createStage(root);
-		newProgramUIController.setStage(stage);
-		newProgramUIController.setProfileManager(profileManager);
-		newProgramUIController.addNotification(this);
-		//newProgramUIController.setNewProfileController(this);
-	    } catch (IOException ex) {
-		Logger.getLogger(NewProfileUIController.class.getName()).log(Level.SEVERE, null, ex);
-		return;
-	    }
-	}
-	newProgramUIController.showStage();
-    }
     /**
      * Reset to the defaults.
      */
@@ -153,14 +117,13 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	profileTF.setText("");
 	authorTF.setText("");
 	infoTA.setText("");
-	programCB.getSelectionModel().selectFirst();
+	//programCB.getSelectionModel().selectFirst();
 	hideStage();
     }
     private void updateComboBoxesOnType(AppType type){
 	ObservableList<App> apps;
 	appsList = profileManager.getRoot(type).getList();
 	apps = FXCollections.observableArrayList(appsList);
-	apps.add(0, new App("",null,null,"New",AppType.APPLICATION));
 	programCB.setItems(apps);
     }
     /**
@@ -189,22 +152,6 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	if(ov == typeCB.valueProperty()){
 	    updateComboBoxesOnType(getProfileType());
 	}
-    }
-    @Override
-    public void onOK(Object src, String message) {
-	this.showStage();
-	if(message != null || !message.equals("")){
-	    for(App app: appsList){
-		if(app != null && app.getName().equals(message)){
-		    programCB.getSelectionModel().select(app);
-		    break;
-		}
-	    }
-	}
-    }
-    @Override
-    public void onCancel(Object src, String message) {
-	// do nothing
     }
 // ============= Extended Methods ============== //
     @Override
