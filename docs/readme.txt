@@ -18,6 +18,16 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.5]
+* Added a new Device: Belkin n52te
+* Added a button on the profile UI for creating an App
+* Removed "New" in the pulldown for creating profiles
+* Changed activation of entering text in the description box for mappings
+  from mouse hover to mouse click and keyboard enter key
+* Implemented the device remove/delete feature from the device menu
+* Fixed a bug in the device ui where device icons stacks instead of replace
+* Fixed a bug that caused an empty program to be added when a profile was deleted
+
 [0.1.4]
 * Added Razer Taipan Support (note, mouse integration is not yet ready; the
 x-axis and y-axis is not handled correctly)

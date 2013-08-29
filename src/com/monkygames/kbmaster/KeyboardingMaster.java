@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class KeyboardingMaster extends Application {
 
     private LoginUIController controller;
-    public static final String VERSION = "0.1.4";
+    public static final String VERSION = "0.1.5";
     
     @Override
     public void start(Stage stage) {
