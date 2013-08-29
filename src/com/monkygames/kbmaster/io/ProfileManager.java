@@ -187,7 +187,6 @@ public class ProfileManager{
 	db.store(app);
 	// reload profiles
 	loadRoots();
-	printProfilesFormatted();
     }
     /**
      * Removes the app from the list.
@@ -325,7 +324,6 @@ public class ProfileManager{
 	}else if(type == gamesRoot.getAppType()){
 	    return gamesRoot;
 	}
-	printProfilesFormatted();
 	return gamesRoot;
     }
 

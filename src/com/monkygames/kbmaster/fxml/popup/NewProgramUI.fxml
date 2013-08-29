@@ -43,7 +43,7 @@
     <Button fx:id="cancelB" layoutX="312.0" layoutY="342.0" mnemonicParsing="false" onAction="#cancelEventFired" prefWidth="89.0" text="Cancel" />
     <Button fx:id="okB" layoutX="208.0" layoutY="342.0" mnemonicParsing="false" onAction="#okEventFired" prefWidth="89.0" text="Ok" />
     <Button fx:id="appLogoB" layoutX="18.0" layoutY="219.0" mnemonicParsing="false" onAction="#addAppLogoEventFired" text="Add App Logo" />
-    <ImageView fx:id="appIV" fitHeight="48.0" fitWidth="48.0" layoutX="145.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="appIV" fitHeight="48.0" fitWidth="48.0" layoutX="160.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
       <image>
         <Image url="@../resources/profile/app_logo.png" preserveRatio="false" smooth="false" />
       </image>
@@ -54,7 +54,7 @@
       </image>
     </ImageView>
     <Button fx:id="devLogoB" layoutX="18.0" layoutY="282.0" mnemonicParsing="false" onAction="#addDevLogoEventFired" text="Add Dev Logo" />
-    <TextArea id="appInfo" fx:id="appInfoTA" layoutX="198.0" layoutY="212.0" prefHeight="48.0" prefWidth="188.0" wrapText="true" />
+    <TextArea id="appInfo" fx:id="appInfoTA" layoutX="245.0" layoutY="212.0" prefHeight="104.0" prefWidth="145.0" wrapText="true" />
   </children>
   <stylesheets>
     <URL value="@../master.css" />

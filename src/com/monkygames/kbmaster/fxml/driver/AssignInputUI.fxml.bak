@@ -20,7 +20,7 @@
     <GridPane layoutX="90.0" layoutY="59.0" prefWidth="470.0">
       <children>
         <Label text="Mapping: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <ComboBox fx:id="mappingCB" prefWidth="370.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <ComboBox fx:id="mappingCB" focusTraversable="false" prefWidth="370.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="Item 1" />
@@ -30,7 +30,7 @@
           </items>
         </ComboBox>
         <Label text="Description: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="descriptionTF" disable="false" onMouseEntered="#handleMouseEntered" onMouseExited="#handleMouseExited" prefWidth="279.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="descriptionTF" disable="false" onAction="#handleDescriptionEvent" onMouseClicked="#handleDescriptionClicked" onMouseEntered="#handleMouseEntered" onMouseExited="#handleMouseExited" prefWidth="279.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       </children>
       <columnConstraints>
         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />

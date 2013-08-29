@@ -345,13 +345,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @param type the type of profile to sort on.
      */
     private void updateComboBoxesOnType(AppType type){
-	System.out.println("UPdate Combo Boxes On Type");
 	ObservableList<App> apps;
 	ObservableList<Profile> profiles = null;
 	Root root = profileManager.getRoot(type);
-	System.out.println("Root = "+root);
 	if(root.getList().size() == 0){
-	    System.out.println("CLEAR THE APPS COMBO BOX");
 	    // clear the apps combo box
 	    appsCB.valueProperty().removeListener(appChangeListener);
 	    appsCB.setItems(FXCollections.observableArrayList());
@@ -360,7 +357,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    return;
 	}
 	apps = FXCollections.observableArrayList(root.getList());
-	System.out.println("APPS = "+apps);
 	if(apps.size() > 0 && apps.get(0) != null){
 	    profiles = FXCollections.observableArrayList(apps.get(0).getProfiles());
 	}
@@ -372,7 +368,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    // set app ui
 	    updateAppUIInfo((App)appsCB.getSelectionModel().getSelectedItem());
 	}else{
-	    System.out.println("RESET THE WORLD");
 	    resetAppUIInfo();
 	    resetProfileUIInfo();
 	}

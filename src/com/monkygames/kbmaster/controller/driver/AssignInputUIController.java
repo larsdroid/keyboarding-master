@@ -30,6 +30,10 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -124,6 +128,7 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	if(currentOutput instanceof OutputKey){
 	    currentParent = singleKeyParent;
 	    singleKeyController.setConfiguredOutput(currentOutput);
+	    singleKeyController.setEnabled(true);
 	    selectionID = 0;
 	}else if(currentOutput instanceof OutputMouse){
 	    currentParent = mouseButtonParent;
@@ -202,6 +207,9 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	} catch (IOException ex) {
 	    Logger.getLogger(AssignInputUIController.class.getName()).log(Level.SEVERE, null, ex);
 	}
+	Tooltip tooltip = new Tooltip();
+	tooltip.setText("Mouse Click to type text & Type Enter to exit typing mode");
+	descriptionTF.setTooltip(tooltip);
     }
     @Override
     public void changed(ObservableValue<? extends String> ov, String oldValue, String newValue) {
@@ -223,14 +231,30 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     }
     public void handleMouseEntered(Event event){
 	// the text field is disabled until the user mouses over it.	
-	descriptionTF.setEditable(true);
+	//descriptionTF.setEditable(true);
 	// disable the single key controller
-	singleKeyController.setEnabled(false);
+	//singleKeyController.setEnabled(false);
 
     }
     public void handleMouseExited(Event event){
-	descriptionTF.setEditable(false);
-	singleKeyController.setEnabled(true);
+	//descriptionTF.setEditable(false);
+	//singleKeyController.setEnabled(true);
+    }
+    /**
+     * Allows the user to edit the description field.
+     */
+    public void handleDescriptionClicked(MouseEvent event) {
+	descriptionTF.setEditable(true);
+	singleKeyController.setEnabled(false);
+    }
+    /**
+     * Allows the user to exit the description field.
+     */
+    public void handleDescriptionEntered(KeyEvent event){
+	if(event.getCode().equals(KeyCode.ENTER)){
+	    descriptionTF.setEditable(false);
+	    singleKeyController.setEnabled(true);
+	}
     }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
