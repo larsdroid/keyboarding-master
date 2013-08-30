@@ -36,6 +36,7 @@ public class ProfileManager{
     //private AppListManager appListManager;
     private Root appsRoot;
     private Root gamesRoot;
+    private String databaseFilename;
 // ============= Constructors ============== //
     /**
      * Create a new profile manager where the specified string is the location
@@ -43,6 +44,7 @@ public class ProfileManager{
      * @param databaseFilename the location of the database db4o file.
      */
     public ProfileManager(String databaseFilename){
+	this.databaseFilename = databaseFilename;
 	// accessDb4o
 	EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
 	// turn on transparent activation
@@ -346,6 +348,12 @@ public class ProfileManager{
 	    }
 	}
 	System.out.println("== ======== ==");
+    }
+    /**
+     * Returns the path to the database file.
+     */
+    public String getDatabaseFilename(){
+	return this.databaseFilename;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

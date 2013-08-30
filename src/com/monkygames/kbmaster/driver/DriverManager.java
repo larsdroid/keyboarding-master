@@ -110,6 +110,7 @@ public class DriverManager{
      * Creates all Belkin devices.
      */
     private void createBelkinDrivers(){
+	addDevice(new com.monkygames.kbmaster.driver.belkin.n52.N52());
 	addDevice(new com.monkygames.kbmaster.driver.belkin.n52te.N52TE());
     }
 // ============= Implemented Methods ============== //
