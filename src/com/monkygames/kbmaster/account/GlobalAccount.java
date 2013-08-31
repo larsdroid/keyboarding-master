@@ -93,7 +93,6 @@ public class GlobalAccount{
 	DevicePackage devicePackage = localDevices.get(deviceName);
 	if(devicePackage == null){
 	    Device device = instantiate(deviceInformation.getPackageName(),Device.class);
-	    //Device device = loadDriver(deviceInformation.getPackageName());
 	    if(device == null){
 		return false;
 	    }
@@ -101,10 +100,6 @@ public class GlobalAccount{
 	    devicePackage.setIsDownloaded(true);
 	    localDevices.put(deviceName, devicePackage);
 	    db.store(localDevices);
-	    System.out.println("===Download Device===");
-	    for(DevicePackage packages: localDevices.values()){
-		System.out.println(packages);
-	    }
 
 	List<HashMap<String,DevicePackage>> localDevicesFromDB = db.query(new Predicate<HashMap<String,DevicePackage>>(){
 	    @Override
@@ -112,10 +107,6 @@ public class GlobalAccount{
 		return true;
 	    }
 	});
-	System.out.println("quick query");
-	for(Object obj: localDevicesFromDB.toArray()){
-	    System.out.println(obj);
-	}
 
 
 	}else if(devicePackage.isIsDownloaded()){
@@ -227,43 +218,14 @@ public class GlobalAccount{
 	}else{
 	    localDevices = localDevicesFromDB.get(0);
 	}
-	System.out.println("==== supported devices ====");
-	for(Object obj: supportedDevices.values()){
-	    System.out.println(obj);
-	}
-	System.out.println("==== local devices ====");
-	for(Object obj: localDevices.values()){
-	    System.out.print(obj);
-	}
-    }
-    private Device loadDriver(String packageName){
-	try {
-		return (Device)Class.forName(packageName).newInstance();
-	    } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
-	    Logger.getLogger(GlobalAccount.class.getName()).log(Level.SEVERE, null, ex);
-	}
-
-	/*
-	ClassLoader classLoader = GlobalAccount.class.getClassLoader();
-	try {
-	    Class aClass = classLoader.loadClass(packageName);
-	    System.out.println("aClass.getName() = " + aClass.getName());
-	    return (Device)aClass.newInstance();
-	} catch (InstantiationException | IllegalAccessException ex) {
-	    Logger.getLogger(GlobalAccount.class.getName()).log(Level.SEVERE, null, ex);
-	} catch (ClassNotFoundException e) {
-	    e.printStackTrace();
-	}
-	*/
-	return null;
     }
     private <T> T instantiate(final String className, final Class<T> type){
-    try{
-        return type.cast(Class.forName(className).newInstance());
-    } catch(final InstantiationException | IllegalAccessException | ClassNotFoundException e){
-        throw new IllegalStateException(e);
+	try{
+	    return type.cast(Class.forName(className).newInstance());
+	} catch(final InstantiationException | IllegalAccessException | ClassNotFoundException e){
+	    throw new IllegalStateException(e);
+	}
     }
-}
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //

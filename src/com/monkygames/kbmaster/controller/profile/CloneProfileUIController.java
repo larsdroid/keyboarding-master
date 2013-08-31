@@ -172,7 +172,6 @@ public class CloneProfileUIController extends PopupController implements ChangeL
 	    this.showStage();
 	    if(message != null || !message.equals("")){
 		programCB.getSelectionModel().select(message);
-		System.out.println(""+programCB.getSelectionModel().getSelectedIndex());
 	    }
 	}
     }

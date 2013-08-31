@@ -38,7 +38,6 @@ import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -170,13 +169,10 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	appsCB.valueProperty().addListener(appChangeListener);
 	profileCB.valueProperty().addListener(profileChangeListener);
 
-	System.out.println("[ProfileUIController:setDevice]");
 	this.device = device;
 	isNewDevice = true;
 	String deviceName = device.getDeviceInformation().getProfileName();
 	if(profileManager != null){
-	    System.out.println("Before changing profile managers\n"
-		    + "ProfileManager: "+profileManager.getDatabaseFilename());
 	    profileManager.close();
 	}
 
@@ -189,9 +185,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	if(newProgramUIController != null){
 	    newProgramUIController.setProfileManager(profileManager);
 	}
-
-	System.out.println("After changing profile managers\n"
-		+ "ProfileManager: "+profileManager.getDatabaseFilename());
 
 	typeCB.valueProperty().removeListener(this);
 	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(AppType.GAME),
@@ -221,7 +214,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	App app;
 	ObservableList<Profile> profiles = null;
 	app = (App)appsCB.getSelectionModel().getSelectedItem();
-	System.out.println("updateProfilesComboBox: "+app);
 	if(app == null){
 	    return;
 	}
@@ -237,7 +229,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 
 	    keymapUIManager.setProfile(currentProfile);
 	    device.setProfile(currentProfile);
-	    System.out.println("[ProfileUICOntroller: updateProfilesComboBox] setActiveProfile");
 	    deviceMenuController.setActiveProfile(device, currentProfile);
 	}
 	profileCB.valueProperty().addListener(profileChangeListener);
@@ -257,7 +248,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    currentProfile = selectedProfile;
 	    //set the profile to the keymap controller
 	    keymapUIManager.setProfile(currentProfile);
-	    System.out.println("[ProfileUICOntroller: profileSelected] setActiveProfile");
 	    device.setProfile(currentProfile);
 	    deviceMenuController.setActiveProfile(device, currentProfile);
 	    updateProfileUIInfo(currentProfile);
@@ -322,45 +312,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     /**
-     * Sets the combo boxes based on the specified profile.
-     * @param profile the profile used to set the combo boxes.
-     */
-    /*
-    private void setComboBoxesOnProfile(Profile profile){
-	ObservableList<App> apps;
-	ObservableList<Profile> profiles = null;
-	// set the type combo box
-	typeCB.valueProperty().removeListener(this);
-	if(profile.getApp().getAppType() == AppType.APPLICATION){
-	    typeCB.getSelectionModel().selectLast();
-	    apps = FXCollections.observableArrayList(profileManager.getApplications());
-	}else{
-	    typeCB.getSelectionModel().selectFirst();
-	    apps = FXCollections.observableArrayList(profileManager.getGames());
-	}
-	typeCB.valueProperty().addListener(this);
-
-	// set the app combo box
-	appsCB.valueProperty().removeListener(appChangeListener);
-	appsCB.setItems(apps);
-	appsCB.getSelectionModel().select(profile.getApp());
-	appsCB.valueProperty().addListener(appChangeListener);
-	updateAppUIInfo(profile.getApp());
-
-	// set the profile combo box
-	profiles = FXCollections.observableArrayList(profileManager.getProfile(profile.getApp()));
-	profileCB.setItems(profiles);
-	profileCB.getSelectionModel().select(profile);
-	// TODO need to add a change listener for the profileCB!!!!
-
-	currentProfile = profile;
-	//set the profile to the keymap controller
-	keymapUIManager.setProfile(currentProfile);
-	//deviceMenuController.setActiveProfile(device, currentProfile);
-	//device.setProfile(currentProfile);
-	updateProfileUIInfo(currentProfile);
-    }*/
-    /**
      * Updates the combo box by type and always selects the first program
      * to populate the profiles list.
      * @param type the type of profile to sort on.
@@ -369,8 +320,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	ObservableList<App> apps;
 	ObservableList<Profile> profiles = null;
 	Root root = profileManager.getRoot(type);
-	System.out.println("[ProfileUIController:updateComboBoxesOnType]");
-	System.out.println("root size = "+root.getList().size());
 	if(root.getList().isEmpty()){
 	    // clear the apps combo box
 	    appsCB.valueProperty().removeListener(appChangeListener);
@@ -575,7 +524,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @param profile the information to update the UI with.
      */
     private void updateProfileUIInfo(Profile profile){
-	System.out.println("updateProfileUIInfo: App Name: "+profile.getApp().getName()); 
 	infoTA.setText(profile.getInfo());
 	authorL.setText(profile.getAuthor());
 	Calendar cal = Calendar.getInstance();
@@ -694,7 +642,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}else if(src instanceof DeleteProfileUIController && message != null){
 	    currentProfile = null;
 	    // update device manager
-	    System.out.println("[ProfileUICOntroller: onOK] setActiveProfile");
 	    deviceMenuController.setActiveProfile(device, null);
 	    updateComboBoxes();
 	}else{

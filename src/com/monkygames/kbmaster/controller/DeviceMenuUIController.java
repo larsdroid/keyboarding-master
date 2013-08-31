@@ -123,7 +123,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * @param device the device to be added.
      */
     public void addDevice(Device device){
-	System.out.println("[DeviceMenuUICtrl:addDevice]");
 	// update global account
 	if(!globalAccount.downloadDevice(device.getDeviceInformation().getName())){
 	    PopupManager.getPopupManager().showError("Unable to add device.  Is it already added?");
@@ -136,7 +135,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Removes the device and updates the table.
      */
     public void removeDevice(Device device){
-	System.out.println("[DeviceMenuUICtrl:removeDevice]");
 	if(!globalAccount.removeDownloadedDevice(device)){
 	    PopupManager.getPopupManager().showError("Unable to remove device.");
 	    return;
@@ -152,7 +150,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Sets the active profile for the specified device.
      */
     public void setActiveProfile(Device device, Profile profile){
-	System.out.println("[DeviceMenuUICtrl:setActiveProfile]");
 	if(profile == null){
 	    hardwareManager.deviceProfileRemoved(device);
 	    updateDevices();
@@ -191,7 +188,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * to pass references around.
      */
     public void updateDevices(){
-	System.out.println("[DeviceMenuUICtrl:updateDevices]");
 	// update device list
 	deviceTV.getItems().setAll(getDeviceEntryList(false));
 	// update config ui if its open!
@@ -319,7 +315,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Opens a UI for removing the device.
      */
     private void openRemoveDeviceUI(){
-	System.out.println("[DeviceMenuUICtrl:openRemoveDeviceUI]");
 	// check if there a device selected!
 	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
 	if(deviceEntry == null) {
@@ -348,7 +343,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	deleteDeviceController.setDevice(deviceEntry.getDevice());
     }
     private void openConfigureDeviceUI(){
-	System.out.println("[DeviceMenuUICtrl:openConfigureDeviceUI]");
 	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
 	if(deviceEntry == null) {
 	    // pop error
@@ -377,7 +371,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 
     }
     private void openSelectProfileUI(){
-	System.out.println("[DeviceMenuUICtrl:openSelectProfileUI]");
 	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
 	if(deviceEntry == null) {
 	    // pop error
@@ -439,7 +432,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	});
 
 
-	System.out.println("[DeviceMenuUICtrl:] set editable");
 	deviceTV.setEditable(true);
 
 	// add the system tray

@@ -101,7 +101,6 @@ public class HardwareManager implements HardwareListener{
      * @return false if the device doesn't exist and true otherwise.
      */
     public boolean startPollingDevice(Device device,Profile profile){
-	System.out.println("[HardwareManager:startPolling]");
 	HardwareEngine engine = engines.get(device.getDeviceInformation().getJinputName());
 	if(engine == null){
 	    return false;
@@ -145,7 +144,6 @@ public class HardwareManager implements HardwareListener{
 
     @Override
     public void hardwareStatusChange(boolean hasConnected, String deviceName) {
-	System.out.println("device status changed isConnected["+hasConnected+"] - "+deviceName);
 	// update device connection status
 	HardwareEngine engine = engines.get(deviceName);
 	engine.getDevice().setIsConnected(hasConnected);

@@ -131,14 +131,6 @@ public class SingleKeyController implements Initializable, EventHandler{
 	outputKey.setModifier(awtModifier);
 
 	singleKeyTF.setText(code.getName());
-
-	/* eventually remove once we are certain everything works here
-	System.out.println(type+" Pressed");
-	System.out.println("key: "+key+" Code: "+keyEvent.getCode()+" Text: "+keyEvent.getText());
-	System.out.println("OutputKey = "+code.getName()+","+awtCode+","+awtModifier);
-	System.out.println("ALT = "+java.awt.event.KeyEvent.VK_ALT+" CTRL = "+java.awt.event.KeyEvent.VK_CONTROL+
-		"SHIFT = "+java.awt.event.KeyEvent.VK_SHIFT);
-	*/
     }
 // ============= Implemented Methods ============== //
     @Override
@@ -147,20 +139,15 @@ public class SingleKeyController implements Initializable, EventHandler{
     }
     @Override
     public void handle(Event event) {
-	System.out.println("Handle - "+event);
 	if(KeyEvent.KEY_TYPED.equals(event.getEventType())){
 	    KeyEvent keyEvent = (KeyEvent)event;
-	    System.out.println("KEY TYPED");
 	    String key = keyEvent.getCharacter();
 	    singleKeyTF.setText(key);
 	} else if(KeyEvent.KEY_PRESSED.equals(event.getEventType())){
 	    KeyEvent keyEvent = (KeyEvent)event;
-	    System.out.println("KEY Pressed");
 	    String key = keyEvent.getCharacter();
-	    System.out.println("key: "+key);
 	} else if(KeyEvent.KEY_RELEASED.equals(event.getEventType())){
 	    KeyEvent keyEvent = (KeyEvent)event;
-	    System.out.println(keyEvent);
 
 	    if (keyEvent.getCode() == KeyCode.CONTROL && !ignoreModifierRelease) {
 		setKeyPressed(keyEvent, "KEY");
