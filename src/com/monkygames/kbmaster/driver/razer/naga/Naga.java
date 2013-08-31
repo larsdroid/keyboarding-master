@@ -163,14 +163,10 @@ public class Naga extends Device{
 	return 1;
     }
     private int[] getButtonLocation(int id){
-	System.out.println("getButtonLocation");
-	System.out.println("id = "+id);
-	System.out.println("id - 1 / 3 = "+((id-1)/3));
 	int ret[] = new int[2];
 	// calculate x coordinate
 	ret[0] = 495 + 43 * ((id-1)%3);
 	ret[1] = 225 + 43 * ((id-1)/3);
-	System.out.println(ret[0]+" "+ret[1]);
 	return ret;
     }
     private int[] getDescriptionLocation(int id){
