@@ -160,12 +160,19 @@ public class ProfileUIController implements Initializable, ChangeListener<String
      * @param device the device to be set.
      */
     public void setDevice(Device device){
+	// first clear everything
+	resetAppUIInfo();
+	resetProfileUIInfo();
+	appsCB.valueProperty().removeListener(appChangeListener);
+	appsCB.setItems(FXCollections.observableArrayList());
+	profileCB.valueProperty().removeListener(profileChangeListener);
+	profileCB.setItems(FXCollections.observableArrayList());
+	appsCB.valueProperty().addListener(appChangeListener);
+	profileCB.valueProperty().addListener(profileChangeListener);
+
 	System.out.println("[ProfileUIController:setDevice]");
 	this.device = device;
 	isNewDevice = true;
-	if(newProfileUIController != null){
-	    newProfileUIController.setDevice(device);
-	}
 	String deviceName = device.getDeviceInformation().getProfileName();
 	if(profileManager != null){
 	    System.out.println("Before changing profile managers\n"
@@ -175,9 +182,16 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 
 	profileManager = new ProfileManager(profileDir+File.separator+deviceName);
 
+	if(newProfileUIController != null){
+	    newProfileUIController.setProfileManager(profileManager);
+	    newProfileUIController.setDevice(device);
+	}
+	if(newProgramUIController != null){
+	    newProgramUIController.setProfileManager(profileManager);
+	}
+
 	System.out.println("After changing profile managers\n"
 		+ "ProfileManager: "+profileManager.getDatabaseFilename());
-	profileManager.printProfilesFormatted();
 
 	typeCB.valueProperty().removeListener(this);
 	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(AppType.GAME),
@@ -357,7 +371,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	Root root = profileManager.getRoot(type);
 	System.out.println("[ProfileUIController:updateComboBoxesOnType]");
 	System.out.println("root size = "+root.getList().size());
-	if(root.getList().size() == 0){
+	if(root.getList().isEmpty()){
 	    // clear the apps combo box
 	    appsCB.valueProperty().removeListener(appChangeListener);
 	    appsCB.setItems(FXCollections.observableArrayList());
