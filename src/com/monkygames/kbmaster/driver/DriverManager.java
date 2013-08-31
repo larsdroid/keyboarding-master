@@ -104,6 +104,7 @@ public class DriverManager{
      */
     private void createRazerDrivers(){
 	addDevice(new RazerNostromoDevice());
+	addDevice(new com.monkygames.kbmaster.driver.razer.naga.Naga());
 	addDevice(new com.monkygames.kbmaster.driver.razer.taipan.Taipan());
     }
     /**

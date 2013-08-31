@@ -1,0 +1,46 @@
+/* 
+    Document   : taipan
+    Created on : 7/07/2013, 4:26:18 PM
+    Author     : mspeth
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.mouseButton {
+    -fx-background-image: url("resources/button.png");
+}
+.b01 {
+    -fx-background-image: url("resources/SideView/B01.png");
+}
+.b02 {
+    -fx-background-image: url("resources/SideView/B02.png");
+}
+.b03 {
+    -fx-background-image: url("resources/SideView/B03.png");
+}
+.b04 {
+    -fx-background-image: url("resources/SideView/B04.png");
+}
+.b05 {
+    -fx-background-image: url("resources/SideView/B05.png");
+}
+.b06 {
+    -fx-background-image: url("resources/SideView/B06.png");
+}
+.b07 {
+    -fx-background-image: url("resources/SideView/B07.png");
+}
+.b08 {
+    -fx-background-image: url("resources/SideView/B08.png");
+}
+.b09 {
+    -fx-background-image: url("resources/SideView/B09.png");
+}
+.b10 {
+    -fx-background-image: url("resources/SideView/B10.png");
+}
+.b11 {
+    -fx-background-image: url("resources/SideView/B11.png");
+}
+.b12 {
+    -fx-background-image: url("resources/SideView/B12.png");
+}
