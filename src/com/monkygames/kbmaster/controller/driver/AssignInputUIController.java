@@ -12,8 +12,7 @@ import com.monkygames.kbmaster.input.OutputDisabled;
 import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputKeymapSwitch;
 import com.monkygames.kbmaster.input.OutputMouse;
-import com.monkygames.kbmaster.profiles.Profile;
-import com.monkygames.kbmaster.io.ProfileManager;
+import com.monkygames.kbmaster.util.PopupManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,17 +49,12 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     private TextField descriptionTF;
     @FXML
     private Pane settingsPane;
-    private ProfileManager profileManager;
     private Device device;
     private SingleKeyController singleKeyController;
     private MouseButtonController mouseButtonController;
     private KeymapController keymapController;
     private Parent singleKeyParent, mouseButtonParent, keymapParent, disabledParent;
     private Parent currentParent;
-    /**
-     * Used for getting and setting the configuration.
-     */
-    private Profile profile;
     /**
      * The selected keymap.
      */
@@ -114,8 +108,14 @@ public class AssignInputUIController extends PopupController implements ChangeLi
     /**
      * Set the configuration for the specified button id.
      * @param buttonID the unique id of the button to be configured.
+     * @return true if its a success and false otherwise.
      */
-    public void setAssignedConfig(int buttonID){
+    public boolean setAssignedConfig(int buttonID){
+	// pop a message asking to create a profile
+	if(device.getProfile() == null){
+	    PopupManager.getPopupManager().showError("No profile selected.\nPlease select or create a profile.");
+	    return false;
+	}
 	currentMapping = device.getMapping(buttonID, keymap);
 	currentOutput = currentMapping.getOutput();
 
@@ -154,6 +154,7 @@ public class AssignInputUIController extends PopupController implements ChangeLi
 	}
 	// update the description
 	descriptionTF.setText(currentOutput.getDescription());
+	return true;
     }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //

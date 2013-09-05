@@ -76,8 +76,9 @@ public class DriverUIController implements Initializable{
      */
     private void openAssignInputPopup(int buttonID){
 	// set the configuration for this button
-	assignInputUIController.setAssignedConfig(buttonID);
-	assignInputUIController.showStage();
+	if(assignInputUIController.setAssignedConfig(buttonID)){
+	    assignInputUIController.showStage();
+	}
     }
 // ============= Implemented Methods ============== //
     @Override
