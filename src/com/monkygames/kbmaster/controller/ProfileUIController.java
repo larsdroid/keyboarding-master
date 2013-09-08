@@ -6,6 +6,7 @@ package com.monkygames.kbmaster.controller;
 // === java imports === //
 import com.monkygames.kbmaster.controller.profile.CloneProfileUIController;
 import com.monkygames.kbmaster.controller.profile.DeleteProfileUIController;
+import com.monkygames.kbmaster.controller.profile.DeleteProgramUIController;
 import com.monkygames.kbmaster.controller.profile.NewProfileUIController;
 import com.monkygames.kbmaster.controller.profile.NewProgramUIController;
 import com.monkygames.kbmaster.driver.Device;
@@ -77,6 +78,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     @FXML
     private Button deleteProfileB;
     @FXML
+    private Button deleteProgramB;
+    @FXML
     private TextArea infoTA;
     @FXML
     private TextArea appInfoTA;
@@ -93,6 +96,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private NewProfileUIController newProfileUIController;
     private CloneProfileUIController cloneProfileUIController;
     private DeleteProfileUIController deleteProfileUIController;
+    private DeleteProgramUIController deleteProgramUIController;
     private DisplayKeymapUIController displayKeymapUIController;
     private File profileDir;
     private Device device;
@@ -146,6 +150,8 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	    openPDFPopup();
 	}else if(src == deleteProfileB){
 	    openDeleteProfilePopup();
+	}else if(src == deleteProgramB){
+	    openDeleteProgramPopup();
 	}
 	
     }
@@ -181,9 +187,6 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	if(newProfileUIController != null){
 	    newProfileUIController.setProfileManager(profileManager);
 	    newProfileUIController.setDevice(device);
-	}
-	if(newProgramUIController != null){
-	    newProgramUIController.setProfileManager(profileManager);
 	}
 
 	typeCB.valueProperty().removeListener(this);
@@ -391,12 +394,12 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 		newProgramUIController = (NewProgramUIController) fxmlLoader.getController();
 		Stage stage = WindowUtil.createStage(root);
 		newProgramUIController.setStage(stage);
-		newProgramUIController.setProfileManager(profileManager);
 		newProgramUIController.addNotification(this);
 	    } catch (IOException ex) {
 		return;
 	    }
 	}
+	newProgramUIController.setProfileManager(profileManager);
 	newProgramUIController.showStage();
 
     }
@@ -412,10 +415,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	if(newProfileUIController == null){
 	    newProfileUIController = (NewProfileUIController)openPopup("/com/monkygames/kbmaster/fxml/popup/NewProfileUI.fxml");
-	    if(newProfileUIController == null) return;
-	    newProfileUIController.setProfileManager(profileManager);
-	    newProfileUIController.setDevice(device);
 	}
+	newProfileUIController.setDevice(device);
+	newProfileUIController.setProfileManager(profileManager);
 	newProfileUIController.showStage();
     }
     private void openCloneProfilePopup(){
@@ -428,10 +430,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	if(cloneProfileUIController == null){
 	    cloneProfileUIController = (CloneProfileUIController) openPopup("/com/monkygames/kbmaster/fxml/popup/CloneProfileUI.fxml");
-	    if(cloneProfileUIController == null) return;
-	    cloneProfileUIController.setProfileManager(profileManager);
-	    cloneProfileUIController.setDevice(device);
 	}
+	cloneProfileUIController.setDevice(device);
+	cloneProfileUIController.setProfileManager(profileManager);
 	cloneProfileUIController.showStage();
     }
     private void openPDFPopup(){
@@ -464,11 +465,24 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}
 	if(deleteProfileUIController == null){
 	    deleteProfileUIController = (DeleteProfileUIController)openPopup("/com/monkygames/kbmaster/fxml/popup/DeleteProfileUI.fxml");
-	    if(deleteProfileUIController == null)return;
-	    deleteProfileUIController.setProfileManager(profileManager);
 	}
 	deleteProfileUIController.setProfile(profile);
+	deleteProfileUIController.setProfileManager(profileManager);
 	deleteProfileUIController.showStage();
+    }
+    private void openDeleteProgramPopup(){
+	if(!checkDevice()) return;
+	App app = (App)appsCB.getSelectionModel().getSelectedItem();
+	if(app == null){
+	    PopupManager.getPopupManager().showError("No App selected");
+	    return; 
+	}
+	if(deleteProgramUIController == null){
+	    deleteProgramUIController = (DeleteProgramUIController)openPopup("/com/monkygames/kbmaster/fxml/popup/DeleteProgramUI.fxml");
+	}
+	deleteProgramUIController.setProfileManager(profileManager);
+	deleteProgramUIController.setApp(app);
+	deleteProgramUIController.showStage();
     }
     /**
      * Opens a popup specified by the url.
@@ -607,6 +621,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	setButtonToolTip(exportProfileB, "Export Profile");
 	setButtonToolTip(printPDFB, "Print PDF");
 	setButtonToolTip(deleteProfileB, "Delete Profile");
+	setButtonToolTip(deleteProgramB, "Delete App");
 
 	pdfChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
@@ -639,7 +654,9 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	if(message != null && message.equals("Save")){
 	    // save the profile
 	    profileManager.updateProfile(currentProfile);
-	}else if(src instanceof DeleteProfileUIController && message != null){
+	}else if( (src instanceof DeleteProfileUIController || 
+		    src instanceof DeleteProgramUIController) 
+		    && message != null){
 	    currentProfile = null;
 	    // update device manager
 	    deviceMenuController.setActiveProfile(device, null);

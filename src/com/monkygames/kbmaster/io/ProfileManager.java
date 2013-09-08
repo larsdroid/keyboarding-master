@@ -205,6 +205,13 @@ public class ProfileManager{
 	    return;
 	}
 	root.removeApp(app);
+	// delete all profiles from database
+	for(Profile profile: app.getProfiles()){
+	    db.delete(profile);
+	}
+	// delete app from database
+	db.delete(app);
+	db.store(root);
 	// reload profiles
 	loadRoots();
     }
