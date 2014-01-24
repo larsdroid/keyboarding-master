@@ -97,6 +97,12 @@ public class ProfileManager{
 	}else{
 	    return false;
 	}
+	// check if there already exists an app!
+	for(App testApp: root.getList()){
+	    if(testApp.getName().equals(app.getName())){
+		return false;
+	    }
+	}
 	root.addApp(app);
 	// note, the app should be implicietly stored
 	// however, for sake of clarity, its explicitly stored

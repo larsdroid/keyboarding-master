@@ -18,6 +18,18 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.7]
+* Fixed unresponsive configuration for the Belkin n52.
+
+[0.1.6]
+* Added a new Keyboard Device: Belkin n52
+* Added a new Mouse Device: Razer Naga
+* Added a delete button on the profile UI for removing an app
+* Fixed bugs relating to deleting apps and profiles
+* Fixed a bug where multiple profiles were not selected in an app
+* Fixed a bug where only the first profile can be selected in an app
+* Fixed a bug where a new app could be added without a name or with the same name as an existing app
+
 [0.1.5]
 * Added a new Device: Belkin n52te
 * Added a button on the profile UI for creating an App

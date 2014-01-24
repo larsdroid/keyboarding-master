@@ -120,7 +120,7 @@
         </ImageView>
       </children>
     </HBox>
-    <TextArea fx:id="appInfoTA" layoutX="174.0" layoutY="435.0" prefHeight="100.0" prefWidth="176.0" wrapText="true" />
+    <TextArea fx:id="appInfoTA" layoutX="195.0" layoutY="435.0" prefHeight="100.0" prefWidth="155.0" wrapText="true" />
   </children>
   <stylesheets>
     <URL value="@master.css" />
