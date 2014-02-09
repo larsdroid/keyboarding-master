@@ -174,6 +174,7 @@ public class HardwareEngine implements Runnable{
      * Note, null can be passed in as long as its not enabled!
      */
     public void startPolling(Profile profile){
+System.out.println("Profiling with "+profile);
 	this.profile = profile;
 	this.profileSwitch = profile;
 	if(profile != null){
@@ -325,6 +326,7 @@ public class HardwareEngine implements Runnable{
 	    EventQueue queue = keyboard.getEventQueue();
 	    while(queue.getNextEvent(event)){
 		Component component = event.getComponent();
+		System.out.println("component = "+component);
 		String name = component.getIdentifier().getName();
 		ButtonMapping mapping = keymap.getButtonMapping(name);
 		processOutput(name, mapping.getOutput(), event.getValue());

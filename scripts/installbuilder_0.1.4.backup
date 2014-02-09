@@ -1,7 +1,7 @@
 <project>
     <shortName>kbmaster</shortName>
     <fullName>Keyboarding Master</fullName>
-    <version>0.1.8</version>
+    <version>0.1.6</version>
     <readmeFile>../docs/readme.txt</readmeFile>
     <licenseFile>../COPYING</licenseFile>
     <leftImage>../art_assets/installer/side_image.png</leftImage>
@@ -81,7 +81,7 @@
                     <platforms>linux</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../libs/jre/jre1.7.0_51-linux/java-linux</origin>
+                            <origin>../libs/jre/jre1.7.0_25-linux/java-linux</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -92,7 +92,7 @@
                     <platforms>linux-x64</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../libs/jre/jre1.7.0_51-linux-x64/java-linux-x64</origin>
+                            <origin>../libs/jre/jre1.7.0_25-linux-x64/java-linux-x64</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -118,12 +118,10 @@
             <path>/etc/udev/rules.d/input.rules</path>
             <progressText>creating udev rules</progressText>
             <text>KERNEL=="uinput", MODE="0664", GROUP="games"
-KERNEL=="event[0-9]*", SUBSYSTEM=="input", GROUP="games", MODE="0664"
-KERNEL=="mouse[0-9]*", SUBSYSTEM=="input", GROUP="games", MODE="0664"</text>
+KERNEL=="event[0-9]*", GROUP="games", MODE="0664"</text>
         </writeFile>
         <runProgram>
-            <abortOnError>0</abortOnError>
-            <explanation>Restart udev for rules to take effect</explanation>
+            <explanation>Need to restart udev to persist changes</explanation>
             <program>/etc/init.d/udev</program>
             <programArguments>restart</programArguments>
             <progressText>restarting udev</progressText>

@@ -3,7 +3,7 @@ echo "Prepares the distribution"
 
 
 # The directory used by netbeans to create the jar
-DIST_DIR=/home/mspeth/IDE/netbeans-projects/KeyboardingMaster/dist
+DIST_DIR=/storage/home/mspeth/IDE/netbeans-projects/KeyboardingMaster/dist
 DEST_DIR=dist/kbmaster
 
 mkdir dist

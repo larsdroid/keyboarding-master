@@ -118,7 +118,11 @@ public class ScanHardware implements Runnable{
 		EventQueue queue = controller.getEventQueue();
 		while(queue.getNextEvent(event)){
 		    Component component = event.getComponent();
-		    data += "\n"+(out + getComponentDetails(component));
+		    if(component == null){
+			data += "\n"+(out + "null");
+		    }else{
+			data += "\n"+(out + getComponentDetails(component));
+		    }
 		}
 		if(data != null){
 		    System.out.print(out+data);

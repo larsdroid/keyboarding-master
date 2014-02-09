@@ -18,6 +18,11 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.8]
+* Updated java version to 1.7.0_51
+* Updated udev rules
+* Updated Side Image for installer
+
 [0.1.7]
 * Fixed unresponsive configuration for the Belkin n52.
 
