@@ -41,6 +41,8 @@ public class HardwareEngine implements Runnable{
     private Device device;
     private Keyboard keyboard;
     private Mouse mouse;
+    private PollEventQueue keyboardEventQueue;
+    private PollEventQueue mouseEventQueue;
     /**
      * True if polling and false otherwise.
      */
@@ -174,7 +176,7 @@ public class HardwareEngine implements Runnable{
      * Note, null can be passed in as long as its not enabled!
      */
     public void startPolling(Profile profile){
-System.out.println("Profiling with "+profile);
+	//System.out.println("Profiling with "+profile);
 	this.profile = profile;
 	this.profileSwitch = profile;
 	if(profile != null){
@@ -238,6 +240,8 @@ System.out.println("Profiling with "+profile);
 		if(isEnabled){
 		    keyboard.grab();
 		}
+		// create a new event queue
+		keyboardEventQueue = new PollEventQueue(keyboard.getComponents());
 		    
 	    }else if(controller.getType() == Controller.Type.MOUSE && 
 	       controller.getName().equals(device.getDeviceInformation().getJinputName())){
@@ -254,6 +258,7 @@ System.out.println("Profiling with "+profile);
 		if(isEnabled){
 		    mouse.grab();
 		}
+		mouseEventQueue = new PollEventQueue(mouse.getComponents());
 	    }
 	}	
 
@@ -323,6 +328,14 @@ System.out.println("Profiling with "+profile);
 	    }
 
 	    // handle keyboard events
+	    for(Event event: keyboardEventQueue.getEvents()){
+		Component component = event.getComponent();
+		//System.out.println("component = "+component);
+		String name = component.getIdentifier().getName();
+		ButtonMapping mapping = keymap.getButtonMapping(name);
+		processOutput(name, mapping.getOutput(), event.getValue());
+	    }
+	    /*
 	    EventQueue queue = keyboard.getEventQueue();
 	    while(queue.getNextEvent(event)){
 		Component component = event.getComponent();
@@ -331,9 +344,11 @@ System.out.println("Profiling with "+profile);
 		ButtonMapping mapping = keymap.getButtonMapping(name);
 		processOutput(name, mapping.getOutput(), event.getValue());
 	    }
+	    */
 	    // handle mouse events
-	    queue = mouse.getEventQueue();
-	    while(queue.getNextEvent(event)){
+	    for(Event event: mouseEventQueue.getEvents()){
+	    //queue = mouse.getEventQueue();
+	    //while(queue.getNextEvent(event)){
 		//System.out.println("===== New Event Queue =====");
 		Component component = event.getComponent();
 		String name = component.getIdentifier().getName();

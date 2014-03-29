@@ -123,11 +123,19 @@ KERNEL=="mouse[0-9]*", SUBSYSTEM=="input", GROUP="games", MODE="0664"</text>
         </writeFile>
         <runProgram>
             <abortOnError>0</abortOnError>
-            <explanation>Need to restart udev to persist changes</explanation>
+            <explanation>Restart udev for rules to take effect</explanation>
             <program>/etc/init.d/udev</program>
             <programArguments>restart</programArguments>
             <progressText>restarting udev</progressText>
-            <runAs>${system_username}</runAs>
+            <run>0</run>
+            <show>0</show>
+        </runProgram>
+        <runProgram>
+            <abortOnError>0</abortOnError>
+            <explanation>restarting udevRestart udev for rules to take effect</explanation>
+            <program>/usr/sbin/service</program>
+            <programArguments>udev restart</programArguments>
+            <progressText>restarting udev</progressText>
         </runProgram>
         <changeOwnerAndGroup>
             <explanation>Currently, root has ownership so need to change ownership to user</explanation>

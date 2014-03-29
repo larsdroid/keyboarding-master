@@ -1,7 +1,7 @@
 <project>
     <shortName>kbmaster</shortName>
     <fullName>Keyboarding Master</fullName>
-    <version>0.1.8</version>
+    <version>0.1.9</version>
     <readmeFile>../docs/readme.txt</readmeFile>
     <licenseFile>../COPYING</licenseFile>
     <leftImage>../art_assets/installer/side_image.png</leftImage>
@@ -126,6 +126,15 @@ KERNEL=="mouse[0-9]*", SUBSYSTEM=="input", GROUP="games", MODE="0664"</text>
             <explanation>Restart udev for rules to take effect</explanation>
             <program>/etc/init.d/udev</program>
             <programArguments>restart</programArguments>
+            <progressText>restarting udev</progressText>
+            <run>0</run>
+            <show>0</show>
+        </runProgram>
+        <runProgram>
+            <abortOnError>0</abortOnError>
+            <explanation>restarting udevRestart udev for rules to take effect</explanation>
+            <program>/usr/sbin/service</program>
+            <programArguments>udev restart</programArguments>
             <progressText>restarting udev</progressText>
         </runProgram>
         <changeOwnerAndGroup>

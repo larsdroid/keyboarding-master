@@ -18,6 +18,10 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.9]
+* Moved from using the linux Event Queue to managing events within Keyboarding Master
+* Now works with Ubuntu 13.10.
+
 [0.1.8]
 * Updated java version to 1.7.0_51
 * Updated udev rules
