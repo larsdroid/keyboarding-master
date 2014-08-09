@@ -18,6 +18,9 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.10]
+* Fixed a bug that was introduced in 0.1.9 with using the scroll wheel on the Nostromo and N52.
+
 [0.1.9]
 * Moved from using the linux Event Queue to managing events within Keyboarding Master
 * Now works with Ubuntu 13.10.

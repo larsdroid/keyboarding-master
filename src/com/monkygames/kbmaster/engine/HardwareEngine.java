@@ -351,6 +351,7 @@ public class HardwareEngine implements Runnable{
 	    //while(queue.getNextEvent(event)){
 		//System.out.println("===== New Event Queue =====");
 		Component component = event.getComponent();
+		//System.out.println("component = "+component);
 		String name = component.getIdentifier().getName();
 
 		WheelMapping mapping = null;
@@ -409,6 +410,8 @@ public class HardwareEngine implements Runnable{
 		    }else{
 			processOutput(name, mapping.getOutput(),event.getValue());
 		    }
+		}else if(component.getIdentifier() == Axis.Z && event.getValue() == 0){
+		    // on release, don't do anything
 		}else{
 		    ButtonMapping bMapping = keymap.getButtonMapping(name);
 		    processOutput(name, bMapping.getOutput(),event.getValue());
