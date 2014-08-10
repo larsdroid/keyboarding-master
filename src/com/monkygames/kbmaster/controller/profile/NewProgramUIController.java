@@ -82,6 +82,9 @@ public class NewProgramUIController extends PopupController{
 	// check for a valid program name
 	if(appName == null || appName.equals("")){
 	    PopupManager.getPopupManager().showError("Invalid App Name");
+	    reset();
+	    notifyCancel(null);
+	    return;
 	}
 	if(!profileManager.addApp(new App(appInfoTA.getText(),
 					  appLogoPath,

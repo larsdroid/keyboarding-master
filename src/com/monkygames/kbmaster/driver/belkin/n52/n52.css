@@ -40,9 +40,6 @@
 .b14 {
     -fx-background-image: url("resources/FrontView/B14.png"); 
 }
-.b15 {
-    -fx-background-image: url("resources/FrontView/B15.png"); 
-}
 .zUpWheel {
     -fx-background-image: url("resources/FrontView/mouse_scroll_up.png");
 }

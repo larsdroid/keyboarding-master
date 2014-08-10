@@ -49,7 +49,6 @@
             </FXCollections>
           </items>
         </ComboBox>
-        <Button fx:id="newAppB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="newProfile" text="New App" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <HBox alignment="TOP_RIGHT" minHeight="22.0" prefHeight="22.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
           <children>
             <Button fx:id="newProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="newProfile" text="New Profile" />
@@ -58,6 +57,12 @@
             <Button fx:id="exportProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="exportProfile" text="Export Profile" />
             <Button id="pdfProfileB" fx:id="printPDFB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="pdfProfile" text="Print to PDF" />
             <Button fx:id="deleteProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="deleteProfile" text="Delete Profile" />
+          </children>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+          <children>
+            <Button fx:id="newAppB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="newProfile" text="New App" />
+            <Button id="deleteProfileB" fx:id="deleteProgramB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="deleteProfile" text="Delete Program" />
           </children>
         </HBox>
       </children>
