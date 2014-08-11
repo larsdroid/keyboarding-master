@@ -78,9 +78,11 @@
     -fx-text-fill: white;
     -fx-background-color: #090a0c;
 }
+
 .choice-box .label {
     -fx-background-color: #666666;
 }
+
 .choice-box .context-menu {
     -fx-border-color: white;
     -fx-border-width: 2px;
@@ -100,6 +102,14 @@
     -fx-text-fill: white;
     -fx-padding: 10 10 10 10;
 
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: #666666;
+}
+
+.choice-box .menu-item {
+    -fx-background-color: black;
 }
 
 .check-box {

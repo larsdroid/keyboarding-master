@@ -18,6 +18,18 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.1.10]
+* Fixed a bug that was introduced in 0.1.9 with using the scroll wheel on the Nostromo and N52.
+
+[0.1.9]
+* Moved from using the linux Event Queue to managing events within Keyboarding Master
+* Now works with Ubuntu 13.10.
+
+[0.1.8]
+* Updated java version to 1.7.0_51
+* Updated udev rules
+* Updated Side Image for installer
+
 [0.1.7]
 * Fixed unresponsive configuration for the Belkin n52.
 

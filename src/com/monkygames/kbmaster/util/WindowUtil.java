@@ -3,8 +3,8 @@
  */
 package com.monkygames.kbmaster.util;
 
-import insidefx.undecorator.Undecorator;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -68,21 +68,23 @@ public class WindowUtil{
      * @return the configured stage.
      */
     public static Stage configureStage(double width, double height, Parent root, Stage stage){
-	Undecorator undecorator = new Undecorator(stage, (Region) root, 
-						  null, StageStyle.UNDECORATED);
-	Scene scene = new Scene(undecorator);
+	Group root2 = new Group();
+	root2.getChildren().add(root);
+	Scene scene = new Scene(root2);
 	// Transparent scene and configureDeviceStage
 	scene.setFill(Color.TRANSPARENT);
+	scene.getStylesheets().add("path/stylesheet.css");
 	stage.initStyle(StageStyle.TRANSPARENT);
 	// accomodate undecorator style
-	width += 25*2;
-	height += 25*2;	
+	//width += 25*2;
+	//height += 25*2;	
+	width += 100;
+	height += 100;	
 	stage.setMinWidth(width);
 	stage.setMinHeight(height);
 	stage.setMaxWidth(width);
 	stage.setMaxHeight(height);
 	stage.setResizable(false);
-	undecorator.setCenter();
 	stage.setScene(scene);
 	return stage;
     }

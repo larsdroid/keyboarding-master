@@ -41,6 +41,8 @@ public class HardwareEngine implements Runnable{
     private Device device;
     private Keyboard keyboard;
     private Mouse mouse;
+    private PollEventQueue keyboardEventQueue;
+    private PollEventQueue mouseEventQueue;
     /**
      * True if polling and false otherwise.
      */
@@ -174,6 +176,7 @@ public class HardwareEngine implements Runnable{
      * Note, null can be passed in as long as its not enabled!
      */
     public void startPolling(Profile profile){
+	//System.out.println("Profiling with "+profile);
 	this.profile = profile;
 	this.profileSwitch = profile;
 	if(profile != null){
@@ -237,6 +240,8 @@ public class HardwareEngine implements Runnable{
 		if(isEnabled){
 		    keyboard.grab();
 		}
+		// create a new event queue
+		keyboardEventQueue = new PollEventQueue(keyboard.getComponents());
 		    
 	    }else if(controller.getType() == Controller.Type.MOUSE && 
 	       controller.getName().equals(device.getDeviceInformation().getJinputName())){
@@ -253,6 +258,7 @@ public class HardwareEngine implements Runnable{
 		if(isEnabled){
 		    mouse.grab();
 		}
+		mouseEventQueue = new PollEventQueue(mouse.getComponents());
 	    }
 	}	
 
@@ -322,18 +328,30 @@ public class HardwareEngine implements Runnable{
 	    }
 
 	    // handle keyboard events
-	    EventQueue queue = keyboard.getEventQueue();
-	    while(queue.getNextEvent(event)){
+	    for(Event event: keyboardEventQueue.getEvents()){
 		Component component = event.getComponent();
+		//System.out.println("component = "+component);
 		String name = component.getIdentifier().getName();
 		ButtonMapping mapping = keymap.getButtonMapping(name);
 		processOutput(name, mapping.getOutput(), event.getValue());
 	    }
-	    // handle mouse events
-	    queue = mouse.getEventQueue();
+	    /*
+	    EventQueue queue = keyboard.getEventQueue();
 	    while(queue.getNextEvent(event)){
+		Component component = event.getComponent();
+		System.out.println("component = "+component);
+		String name = component.getIdentifier().getName();
+		ButtonMapping mapping = keymap.getButtonMapping(name);
+		processOutput(name, mapping.getOutput(), event.getValue());
+	    }
+	    */
+	    // handle mouse events
+	    for(Event event: mouseEventQueue.getEvents()){
+	    //queue = mouse.getEventQueue();
+	    //while(queue.getNextEvent(event)){
 		//System.out.println("===== New Event Queue =====");
 		Component component = event.getComponent();
+		//System.out.println("component = "+component);
 		String name = component.getIdentifier().getName();
 
 		WheelMapping mapping = null;
@@ -392,6 +410,8 @@ public class HardwareEngine implements Runnable{
 		    }else{
 			processOutput(name, mapping.getOutput(),event.getValue());
 		    }
+		}else if(component.getIdentifier() == Axis.Z && event.getValue() == 0){
+		    // on release, don't do anything
 		}else{
 		    ButtonMapping bMapping = keymap.getButtonMapping(name);
 		    processOutput(name, bMapping.getOutput(),event.getValue());

@@ -44,9 +44,12 @@ public class ScanHardware implements Runnable{
     private Controller[] scanHardware(String deviceName){
 	ArrayList<Controller> returnControllers = new ArrayList<>();
 	Controller[] controllers = LinuxEnvironmentPlugin.getDefaultEnvironment().getControllers();
+	System.out.println("Device Name == "+deviceName);
 	for(Controller controller: controllers){
 	    // Check if this controller should be returned for polling.
+	    System.out.println("Controller.getName == "+controller.getName());
 	    if(deviceName != null && controller.getName().equals(deviceName)){
+		System.out.println("adding controller == "+controller.getName());
 		returnControllers.add(controller);
 	    }
 	    // if no device was specified, than print the controller.
@@ -110,18 +113,29 @@ public class ScanHardware implements Runnable{
     @Override
     public void run(){
 	Event event = new Event();
+	System.out.println("Number of controllers to poll = "+pollControllers.length);
 	while(true){
 	    for(Controller controller: pollControllers){
 		controller.poll();
 		String out = "["+controller.getName()+":"+controller.getType()+"] ";
 		String data = null;
+
 		EventQueue queue = controller.getEventQueue();
 		while(queue.getNextEvent(event)){
 		    Component component = event.getComponent();
-		    data += "\n"+(out + getComponentDetails(component));
+		    if(component == null){
+			data += "\n"+(out + "null");
+		    }else{
+			data += "\n"+(out + getComponentDetails(component));
+		    }
 		}
 		if(data != null){
 		    System.out.print(out+data);
+		}
+		for(Component component: controller.getComponents()){
+		    if(component.getIdentifier().getName().equals("A")){
+			System.out.println(component.getIdentifier()+" data = "+component.getPollData());
+		    }
 		}
 	    }
 	    try {
