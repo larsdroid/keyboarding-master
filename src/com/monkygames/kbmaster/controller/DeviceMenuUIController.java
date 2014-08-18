@@ -322,7 +322,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    PopupManager.getPopupManager().showError("No device selected");
 	    return;
 	}
-	if(newDeviceStage == null){
+	if(deleteDeviceController == null){
 	    try {
 		// pop open add new device
 		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/DeleteDeviceUI.fxml");
@@ -340,7 +340,9 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    }
 	}
 	
-	deleteDeviceController.setDevice(deviceEntry.getDevice());
+	if(deviceEntry.getDevice() != null){
+	    deleteDeviceController.setDevice(deviceEntry.getDevice());
+	}
     }
     private void openConfigureDeviceUI(){
 	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
