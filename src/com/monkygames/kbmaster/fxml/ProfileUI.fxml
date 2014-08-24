@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="535.0" prefWidth="350.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.ProfileUIController">
+<AnchorPane id="AnchorPane" prefHeight="535.0" prefWidth="350.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkygames.kbmaster.controller.ProfileUIController">
   <children>
     <Label layoutX="12.0" layoutY="2.0" text="Profiles">
       <font>
         <Font size="18.0" />
       </font>
     </Label>
-    <GridPane layoutX="15.0" layoutY="21.0" prefHeight="129.0" prefWidth="335.0">
+    <GridPane layoutX="15.0" layoutY="21.0" prefHeight="160.0" prefWidth="335.0">
       <children>
         <Label text="Type: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <ComboBox fx:id="typeCB" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -49,7 +49,7 @@
             </FXCollections>
           </items>
         </ComboBox>
-        <HBox alignment="TOP_RIGHT" minHeight="22.0" prefHeight="22.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <HBox alignment="TOP_RIGHT" minHeight="17.0" prefHeight="17.0" prefWidth="255.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
           <children>
             <Button fx:id="newProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="newProfile" text="New Profile" />
             <Button fx:id="cloneProfileB" contentDisplay="GRAPHIC_ONLY" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#profileEventFired" prefHeight="24.0" prefWidth="24.0" styleClass="cloneProfile" text="Clone Profile" />
@@ -78,10 +78,10 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
-    <HBox alignment="TOP_RIGHT" layoutX="45.0" layoutY="150.0" prefHeight="244.0" prefWidth="305.0">
+    <HBox alignment="TOP_RIGHT" layoutX="44.0" layoutY="186.0" prefHeight="199.0" prefWidth="305.0">
       <children>
         <Label text="Info:   " />
-        <TextArea id="infoA" fx:id="infoTA" prefHeight="239.0" prefWidth="247.0" wrapText="true" />
+        <TextArea id="infoA" fx:id="infoTA" prefHeight="197.0" prefWidth="247.0" wrapText="true" />
       </children>
     </HBox>
     <GridPane hgap="5.0" layoutX="10.0" layoutY="402.0" prefHeight="33.0" prefWidth="335.0">
@@ -105,7 +105,7 @@
         <Label text="App Details: " />
         <ImageView fx:id="appLogoIV" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
           <image>
-            <Image url="@resources/profile/app_logo.png" preserveRatio="false" smooth="false" />
+            <Image preserveRatio="false" smooth="false" url="@resources/profile/app_logo.png" />
           </image>
         </ImageView>
       </children>
@@ -115,7 +115,7 @@
         <Label text="Developer: " />
         <ImageView id="developerIV" fx:id="devLogoIV" blendMode="SRC_OVER" disable="false" fitHeight="48.0" fitWidth="100.0" focusTraversable="false" pickOnBounds="true" preserveRatio="true" smooth="true" visible="true" HBox.hgrow="NEVER">
           <image>
-            <Image url="@resources/profile/dev_logo.png" preserveRatio="false" smooth="false" />
+            <Image preserveRatio="false" smooth="false" url="@resources/profile/dev_logo.png" />
           </image>
         </ImageView>
       </children>

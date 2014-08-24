@@ -351,7 +351,9 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    }
 	}
 	
-	deleteDeviceController.setDevice(deviceEntry.getDevice());
+	if(deviceEntry.getDevice() != null){
+	    deleteDeviceController.setDevice(deviceEntry.getDevice());
+	}
     }
     private void openConfigureDeviceUI(){
 	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();

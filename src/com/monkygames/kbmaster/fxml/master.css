@@ -74,21 +74,15 @@
     -fx-background-color: black;
 }
 
+/** Choice Box **/
 .choice-box {
     -fx-text-fill: white;
-    -fx-background-color: #090a0c;
 }
 
 .choice-box .label {
     -fx-background-color: #666666;
 }
 
-.choice-box .context-menu {
-    -fx-border-color: white;
-    -fx-border-width: 2px;
-    -fx-text-fill: white;
-    -fx-background-color: #090a0c;
-}
 
 .choice-box .open-button {
     -fx-text-fill: white;
@@ -107,10 +101,14 @@
 .choice-box .menu-item:focused {
     -fx-background-color: #666666;
 }
+.choice-box .menu-item .label {
+    -fx-background-color: transparent;
+}
 
 .choice-box .menu-item {
     -fx-background-color: black;
 }
+/** ******************** **/
 
 .check-box {
     -fx-text-fill: white;
