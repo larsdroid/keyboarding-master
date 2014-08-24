@@ -10,9 +10,9 @@ import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.engine.HardwareManager;
 import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
+import com.monkygames.kbmaster.util.KBMSystemTray;
 import com.monkygames.kbmaster.util.PopupManager;
 import com.monkygames.kbmaster.util.RepeatManager;
-import com.monkygames.kbmaster.util.KBMSystemTray;
 import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -69,6 +71,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private TableColumn<DeviceEntry, String> isConnectedCol;
     @FXML
     private TableColumn<DeviceEntry, Boolean> isEnabledCol;
+    //Field in controller
+    private ObservableList deviceList;
     // buttons
     @FXML
     private Button addDeviceB, configureB, detailsB, exitB, logoutB, 
@@ -129,7 +133,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    return;
 	}
 	// Update device table!
-	deviceTV.getItems().setAll(getDeviceEntryList(true));
+	//deviceTV.getItems().setAll(getDeviceEntryList(true));
+	updateDeviceEntryList(true);
     }
     /**
      * Removes the device and updates the table.
@@ -144,7 +149,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	hardwareManager.removeDevice(device);
 
 	// Update device table!
-	deviceTV.getItems().setAll(getDeviceEntryList(true));
+	//deviceTV.getItems().setAll(getDeviceEntryList(true));
+	updateDeviceEntryList(true);
     }
     /**
      * Sets the active profile for the specified device.
@@ -167,7 +173,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    }
 	}
 	// repopulate -
-	deviceTV.getItems().setAll(getDeviceEntryList(false));
+	//deviceTV.getItems().setAll(getDeviceEntryList(false));
+	updateDeviceEntryList(false);
     }
     /**
      * Prepares the gui and databases to populate device list.
@@ -176,8 +183,11 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	// initialize Global Acount first since getDeviceList uses it
 	// to populate the list.
 	globalAccount = new GlobalAccount();
-	List<DeviceEntry> deviceEntries = getDeviceEntryList(true);
-	deviceTV.getItems().setAll(deviceEntries);
+        deviceList = FXCollections.observableArrayList();
+	updateDeviceEntryList(true);
+	deviceTV.setItems(deviceList);
+	//TODO
+	//deviceTV.getItems().setAll(deviceEntries);
     }
     /**
      * One or more devices has changed status and the UI
@@ -189,7 +199,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     public void updateDevices(){
 	// update device list
-	deviceTV.getItems().setAll(getDeviceEntryList(false));
+	//deviceTV.getItems().setAll(getDeviceEntryList(false));
+	updateDeviceEntryList(false);
 	// update config ui if its open!
 	if(configureDeviceController != null){
 	    configureDeviceController.updateDeviceDetails();
@@ -322,7 +333,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    PopupManager.getPopupManager().showError("No device selected");
 	    return;
 	}
-	if(newDeviceStage == null){
+	if(deleteDeviceController == null){
 	    try {
 		// pop open add new device
 		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/DeleteDeviceUI.fxml");
@@ -441,6 +452,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     /**
      * Returns a list of device entries available from the Global Account. 
      */
+    /*
     private List<DeviceEntry> getDeviceEntryList(boolean pollDeviceState) {
 	List<DeviceEntry> list = new ArrayList<>();
 	// parse and construct User datamodel list by looping your ResultSet rs
@@ -462,6 +474,31 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    list.add(new DeviceEntry(device));
 	}
 	return list;
+    }
+    */
+    /**
+     * Returns a list of device entries available from the Global Account. 
+     */
+    private void updateDeviceEntryList(boolean pollDeviceState) {
+	deviceList.clear();
+	// parse and construct User datamodel deviceList by looping your ResultSet rs
+	// and return the deviceList   
+	for (Device device : globalAccount.getInstalledDevices()) {
+	    // initialize devices if not already initialized
+	    if(pollDeviceState){
+		if(!hardwareManager.isDeviceManaged(device)){
+		    hardwareManager.addManagedDevice(device);
+		}
+		hardwareManager.updateConnectionState(device);
+		// check if this device needs to be enabled
+		if(device.isEnabled()){
+		    hardwareManager.startPollingDevice(device, device.getProfile());
+		}else{
+		    hardwareManager.startPollingDevice(device, null);
+		}
+	    }
+	    deviceList.add(new DeviceEntry(device));
+	}
     }
     /**
      * Logs out of this device menu.
