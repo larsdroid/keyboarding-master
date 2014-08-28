@@ -43,7 +43,7 @@ public class HardwareManager implements HardwareListener{
     }
     /**
      * Checks if this device is already managed.
-     * @param the device to be checked.
+     * @param device to be checked.
      * @return true if already managed and false otherwise.
      */
     public boolean isDeviceManaged(Device device){

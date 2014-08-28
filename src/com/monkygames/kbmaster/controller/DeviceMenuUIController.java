@@ -523,23 +523,18 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	CheckBoxTableCell cell = (CheckBoxTableCell)t.getSource();
 	Parent parent = cell.getParent();
 	Parent parent2 = parent.getParent();
-	if(!(parent2 instanceof TableRow)){
+	if(!(parent instanceof TableRow)){
 	    return;
 	}
-	TableRow row = (TableRow)parent2;
+	TableRow row = (TableRow)parent;
 	DeviceEntry deviceEntry = (DeviceEntry)row.getItem();
 	Device device = deviceEntry.getDevice();
 	// traverse through scene graph to get checkbox.
 	Node node = cell.getChildrenUnmodifiable().get(0);
-	if(node == null && !(node instanceof Parent)){
+	if(node == null && !(node instanceof CheckBox)){
 	    return;
 	}
-	Parent parent3 = (Parent)node;
-	Node node2 = parent3.getChildrenUnmodifiable().get(0);
-	if(node2 != null && !(node2 instanceof CheckBox)){
-	    return;
-	}
-	CheckBox checkBox = (CheckBox)node2;
+	CheckBox checkBox = (CheckBox)node;
 	if(device.getProfile() == null){
 	    // pop an error 
 	    PopupManager.getPopupManager().showError("No profile selected, not enabled");

@@ -176,7 +176,6 @@ public class HardwareEngine implements Runnable{
      * Note, null can be passed in as long as its not enabled!
      */
     public void startPolling(Profile profile){
-	//System.out.println("Profiling with "+profile);
 	this.profile = profile;
 	this.profileSwitch = profile;
 	if(profile != null){
@@ -324,6 +323,7 @@ public class HardwareEngine implements Runnable{
 
 	    // handles just detecting if a device is connected or not.
 	    if(!isEnabled){
+		//System.out.println("[HardwareEngine:pollNormalMode] not enabled");
 		continue;
 	    }
 
