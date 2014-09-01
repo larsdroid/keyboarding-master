@@ -10,3 +10,4 @@ licenses/*
 global_account.db4o
 dist/*
 *.swp
+src/com/monkygames/kbmaster/account/DropBoxApp.java
