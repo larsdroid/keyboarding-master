@@ -1,6 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * See COPYING in top-level directory.
  */
 package com.monkygames.kbmaster.controller.login;
 
@@ -25,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -43,6 +43,8 @@ public class LoginUIController implements Initializable {
     public Button close;
     @FXML
     public Pane loginPane;
+	@FXML
+	public CheckBox rememberEmailCB;
 
     /**
      * Used for setting animation effects.
@@ -109,23 +111,7 @@ public class LoginUIController implements Initializable {
 		switch(accessCB.getSelectionModel().getSelectedIndex()){
 			// local
 			case 0:
-				// create main gui
-				if(deviceMenuController == null){
-					try {
-						URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/DeviceMenuUI.fxml");
-						FXMLLoader fxmlLoader = new FXMLLoader();
-						fxmlLoader.setLocation(location);
-						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-						root = (Parent)fxmlLoader.load(location.openStream());
-						deviceMenuController = (DeviceMenuUIController) fxmlLoader.getController();
-						deviceMenuStage = WindowUtil.createStage(root);
-						deviceMenuController.setLoginController(this);
-					} catch (IOException ex) {
-						Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
-					}
-				}
-				deviceMenuController.initResources();
-				deviceMenuStage.show();
+				showDeviceMenuFromLogin(null);
 				break;
 			// dropbox
 			case 1:
@@ -139,7 +125,7 @@ public class LoginUIController implements Initializable {
 						Parent dropBoxRoot = (Parent)fxmlLoader.load(location.openStream());
 						dropBoxController = (DropBoxUIController) fxmlLoader.getController();
 						dropBoxStage = WindowUtil.createStage(dropBoxRoot);
-						//dropBoxController.setLoginController(this);
+						dropBoxController.setLoginController(this);
 					} catch (IOException ex) {
 						Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
 					}
@@ -147,9 +133,6 @@ public class LoginUIController implements Initializable {
 				dropBoxStage.show();
 				break;
 		}
-
-
-
     }
 
     /**
@@ -200,4 +183,31 @@ public class LoginUIController implements Initializable {
 	    });
 	}
     }
+
+	/**
+	 * Open the device menu from the login page (either this page or network pages).
+	 * @param cloudAccount the cloud account used to login
+	 */
+	public void showDeviceMenuFromLogin(CloudAccount cloudAccount){
+		// check if remember has been selected
+		if(rememberEmailCB.isSelected()){
+			// save the state and also save the cloud account
+		}
+		if(deviceMenuController == null){
+			try {
+				URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/DeviceMenuUI.fxml");
+				FXMLLoader fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+				root = (Parent)fxmlLoader.load(location.openStream());
+				deviceMenuController = (DeviceMenuUIController) fxmlLoader.getController();
+				deviceMenuStage = WindowUtil.createStage(root);
+				deviceMenuController.setLoginController(this);
+			} catch (IOException ex) {
+				Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+		deviceMenuController.initResources();
+		deviceMenuStage.show();
+	}
 }

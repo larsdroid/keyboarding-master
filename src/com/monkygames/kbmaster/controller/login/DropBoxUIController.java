@@ -1,6 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * See COPYING in top-level directory.
  */
 package com.monkygames.kbmaster.controller.login;
 
@@ -36,6 +35,12 @@ public class DropBoxUIController implements Initializable {
 	 */
 	private DropBoxAccount cloudAccount;
 
+	/**
+	 * The login controller.
+	 */
+	private LoginUIController loginController;
+
+
     /**
      * Initializes the controller class.
      */
@@ -49,6 +54,11 @@ public class DropBoxUIController implements Initializable {
 		// so that stages can hide without being terminated.
 		//Platform.setImplicitExit(false);
     }
+	@FXML
+	public void cancelEventFire(ActionEvent evt){
+		
+	}
+
     @FXML
     public void acceptEventFired(ActionEvent evt){
 		NodeList nodeList = web.getEngine().getDocument().getChildNodes();
@@ -72,12 +82,19 @@ public class DropBoxUIController implements Initializable {
 								String content = node3.getTextContent();
 								// parse content
 								int index = content.indexOf("process.");
-								System.out.println(content.substring(index+8));
+								String code = content.substring(index+8);
+								System.out.println(code);
+								cloudAccount.setAuthorizeCode(code);
+								//loginController.
 							}
 						}
 					}
 				}
 			}
 		}
+	}
+
+	public void setLoginController(LoginUIController loginController){
+		this.loginController = loginController;
 	}
 }
