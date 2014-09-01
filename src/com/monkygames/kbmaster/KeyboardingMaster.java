@@ -4,13 +4,14 @@
  */
 package com.monkygames.kbmaster;
 
-import com.monkygames.kbmaster.controller.LoginUIController;
+import com.monkygames.kbmaster.controller.login.LoginUIController;
 import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -24,12 +25,22 @@ public class KeyboardingMaster extends Application {
 
     private LoginUIController controller;
     public static final String VERSION = "0.1.10";
+	private static KeyboardingMaster _instance;
+
+	/**
+	 * Opens the default web browser.
+	 * @url the url to open.
+	 */
+	public static void gotoWeb(String url){
+		_instance.getHostServices().showDocument(url);
+	}
     
     @Override
     public void start(Stage stage) {
 	Parent root;
+	KeyboardingMaster._instance = this;
 	try {
-	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/LoginUI.fxml");
+	    URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/login/LoginUI.fxml");
 	    FXMLLoader fxmlLoader = new FXMLLoader();
 	    fxmlLoader.setLocation(location);
 	    fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
@@ -63,6 +74,6 @@ public class KeyboardingMaster extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-	launch(args);
+		launch(args);
     }
 }

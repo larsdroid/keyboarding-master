@@ -10,16 +10,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" minWidth="570.0" prefHeight="306.798828125" prefWidth="592.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.LoginUIController">
+<AnchorPane id="AnchorPane" minWidth="570.0" prefHeight="306.798828125" prefWidth="592.0" styleClass="mainFxmlClass, popupWindow" stylesheets="@../master.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.monkygames.kbmaster.controller.login.LoginUIController">
   <children>
     <ImageView id="logo_100x100" fx:id="logo" layoutX="14.0" layoutY="14.0" pickOnBounds="true">
       <image>
-        <Image url="@resources/logo_100x100.png" preserveRatio="true" smooth="true" />
+        <Image url="@../resources/logo_100x100.png" />
       </image>
     </ImageView>
     <ImageView id="project_text" fx:id="heading" layoutX="154.0" layoutY="35.0" pickOnBounds="true">
       <image>
-        <Image url="@resources/project_text.png" preserveRatio="true" smooth="true" />
+        <Image url="@../resources/project_text.png" />
       </image>
     </ImageView>
     <Button fx:id="close" contentDisplay="CENTER" layoutX="553.0" layoutY="14.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#closeEventFired" prefHeight="25.0" prefWidth="25.0" styleClass="button_control" text="X" textAlignment="CENTER" textOverrun="ELLIPSIS" wrapText="false">
@@ -45,7 +45,4 @@
     <Button fx:id="loginB" alignment="CENTER" contentDisplay="TOP" layoutX="332.0" layoutY="251.0" minHeight="23.0" mnemonicParsing="false" onAction="#loginEventFired" prefHeight="34.0" prefWidth="128.0" text="Login" textAlignment="LEFT" textOverrun="ELLIPSIS" wrapText="false" />
     <Button fx:id="createAccountB" disable="true" layoutX="189.0" layoutY="251.0" mnemonicParsing="false" prefWidth="128.0" text="Create Account" />
   </children>
-  <stylesheets>
-    <URL value="@master.css" />
-  </stylesheets>
 </AnchorPane>
