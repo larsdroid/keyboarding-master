@@ -30,6 +30,15 @@ public class DropBoxAccount implements CloudAccount{
             "kbmaster/"+KeyboardingMaster.VERSION, Locale.getDefault().toString());
         webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 	}
+	public DropBoxAccount(String accessToken){
+		this();
+		this.accessToken = accessToken;
+	}
+
+	@Override
+	public String getAccessToken(){
+		return accessToken;
+	}
 
 	/**
 	 * Returns the authorization URL.

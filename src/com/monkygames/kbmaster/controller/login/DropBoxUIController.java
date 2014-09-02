@@ -56,7 +56,7 @@ public class DropBoxUIController implements Initializable {
     }
 	@FXML
 	public void cancelEventFire(ActionEvent evt){
-		
+		loginController.showStage();
 	}
 
     @FXML
@@ -85,7 +85,7 @@ public class DropBoxUIController implements Initializable {
 								String code = content.substring(index+8);
 								System.out.println(code);
 								cloudAccount.setAuthorizeCode(code);
-								//loginController.
+								loginController.showDeviceMenuFromLogin(cloudAccount, true);
 							}
 						}
 					}

@@ -3,8 +3,10 @@
  */
 package com.monkygames.kbmaster.controller.login;
 
+import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.CloudAccount;
 import com.monkygames.kbmaster.account.DropBoxAccount;
+import com.monkygames.kbmaster.account.UserSettings;
 import com.monkygames.kbmaster.controller.ButtonController;
 import com.monkygames.kbmaster.controller.DeviceMenuUIController;
 import com.monkygames.kbmaster.util.WindowUtil;
@@ -45,6 +47,9 @@ public class LoginUIController implements Initializable {
     public Pane loginPane;
 	@FXML
 	public CheckBox rememberEmailCB;
+
+	public static final int LOGIN_LOCAL = 0;
+	public static final int LOGIN_DROPBOX = 1;
 
     /**
      * Used for setting animation effects.
@@ -110,11 +115,11 @@ public class LoginUIController implements Initializable {
 		// TODO check if local or network and take apropriate action
 		switch(accessCB.getSelectionModel().getSelectedIndex()){
 			// local
-			case 0:
-				showDeviceMenuFromLogin(null);
+			case LOGIN_LOCAL:
+				showDeviceMenuFromLogin(null,true);
 				break;
 			// dropbox
-			case 1:
+			case LOGIN_DROPBOX:
 				// create main gui
 				if(dropBoxController == null){
 					try{
@@ -144,8 +149,15 @@ public class LoginUIController implements Initializable {
     }
 
     public void setStage(Stage loginStage){
-	this.loginStage = loginStage;
+		this.loginStage = loginStage;
     }
+
+	/**
+	 * Show the login.
+	 */
+	public void showStage(){
+		loginStage.show();
+	}
 
     /**
      * The device controller has called to be hiden.
@@ -188,11 +200,27 @@ public class LoginUIController implements Initializable {
 	 * Open the device menu from the login page (either this page or network pages).
 	 * @param cloudAccount the cloud account used to login
 	 */
-	public void showDeviceMenuFromLogin(CloudAccount cloudAccount){
+	public void showDeviceMenuFromLogin(CloudAccount cloudAccount, boolean checkRemember){
 		// check if remember has been selected
-		if(rememberEmailCB.isSelected()){
-			// save the state and also save the cloud account
+		if(checkRemember){
+			UserSettings userSettings = KeyboardingMaster.getUserSettings();
+			if(rememberEmailCB.isSelected()){
+				// save the state and also save the cloud account
+				userSettings.isRemember = true;
+				userSettings.loginMethod = accessCB.getSelectionModel().getSelectedIndex();
+				if(cloudAccount != null){
+					userSettings.accessToken = cloudAccount.getAccessToken();
+				}
+			}else{ 
+				// reset the settings
+				userSettings.isRemember = false;
+				userSettings.accessToken = "";
+				userSettings.loginMethod = LOGIN_LOCAL;
+			}
+			// save the settings
+			KeyboardingMaster.saveUserSettings();
 		}
+			
 		if(deviceMenuController == null){
 			try {
 				URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/DeviceMenuUI.fxml");

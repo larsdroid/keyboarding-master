@@ -15,4 +15,9 @@ public interface CloudAccount {
 	 * Syncs the specified directory with the cloud.
 	 */
 	public boolean syncProfiles(String directory);
+
+	/**
+	 * Returns the access token for the web account.
+	 */
+	public String getAccessToken();
 }
