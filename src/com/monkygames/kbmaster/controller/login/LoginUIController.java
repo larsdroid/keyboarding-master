@@ -123,18 +123,30 @@ public class LoginUIController implements Initializable {
 				// create main gui
 				if(dropBoxController == null){
 					try{
+						System.out.println("1");
 						URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/login/DropBoxUI.fxml");
+						System.out.println("2");
 						FXMLLoader fxmlLoader = new FXMLLoader();
+						System.out.println("3");
 						fxmlLoader.setLocation(location);
+						System.out.println("4");
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+						System.out.println("5");
 						Parent dropBoxRoot = (Parent)fxmlLoader.load(location.openStream());
+						System.out.println("6");
 						dropBoxController = (DropBoxUIController) fxmlLoader.getController();
+						System.out.println("7");
 						dropBoxStage = WindowUtil.createStage(dropBoxRoot);
+						System.out.println("8");
+						dropBoxController.setStage(dropBoxStage);
+						System.out.println("9");
 						dropBoxController.setLoginController(this);
 					} catch (IOException ex) {
 						Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
+						System.out.println("FAILED");
 					}
 				}
+				System.out.println(dropBoxStage);
 				dropBoxStage.show();
 				break;
 		}
@@ -202,20 +214,20 @@ public class LoginUIController implements Initializable {
 	 */
 	public void showDeviceMenuFromLogin(CloudAccount cloudAccount, boolean checkRemember){
 		// check if remember has been selected
+		UserSettings userSettings = KeyboardingMaster.getUserSettings();
 		if(checkRemember){
-			UserSettings userSettings = KeyboardingMaster.getUserSettings();
+			// get the user settings
+			userSettings.loginMethod = accessCB.getSelectionModel().getSelectedIndex();
+			if(cloudAccount != null){
+				userSettings.accessToken = cloudAccount.getAccessToken();
+			}
+
 			if(rememberEmailCB.isSelected()){
 				// save the state and also save the cloud account
 				userSettings.isRemember = true;
-				userSettings.loginMethod = accessCB.getSelectionModel().getSelectedIndex();
-				if(cloudAccount != null){
-					userSettings.accessToken = cloudAccount.getAccessToken();
-				}
 			}else{ 
 				// reset the settings
 				userSettings.isRemember = false;
-				userSettings.accessToken = "";
-				userSettings.loginMethod = LOGIN_LOCAL;
 			}
 			// save the settings
 			KeyboardingMaster.saveUserSettings();
@@ -236,6 +248,7 @@ public class LoginUIController implements Initializable {
 			}
 		}
 		deviceMenuController.initResources();
+		deviceMenuController.setSettings(userSettings);
 		deviceMenuStage.show();
 	}
 }

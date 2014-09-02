@@ -7,15 +7,17 @@ import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.DropBoxAccount;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.html.HTMLHtmlElement;
 
 /**
  * FXML Controller class
@@ -40,6 +42,11 @@ public class DropBoxUIController implements Initializable {
 	 */
 	private LoginUIController loginController;
 
+	/**
+	 * The stage for this controller.
+	 */
+	private Stage stage;
+
 
     /**
      * Initializes the controller class.
@@ -48,6 +55,17 @@ public class DropBoxUIController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 		// setup dropbox
 		cloudAccount = new DropBoxAccount();
+	   // hide webview scrollbars whenever they appear.
+		final WebView webb = web;
+		webb.getChildrenUnmodifiable().addListener(new ListChangeListener<javafx.scene.Node>() {
+		  @Override public void onChanged(Change<? extends javafx.scene.Node> change) {
+			Set<javafx.scene.Node> deadSeaScrolls = webb.lookupAll(".scroll-bar");
+			for (javafx.scene.Node scroll : deadSeaScrolls) {
+			  scroll.setVisible(false);
+			}
+		  }
+		});
+
 		web.getEngine().load(cloudAccount.getAuthorizeURL());
 		// open for testing html to parse it
 		KeyboardingMaster.gotoWeb(cloudAccount.getAuthorizeURL());
@@ -55,7 +73,8 @@ public class DropBoxUIController implements Initializable {
 		//Platform.setImplicitExit(false);
     }
 	@FXML
-	public void cancelEventFire(ActionEvent evt){
+	public void cancelEventFired(ActionEvent evt){
+		stage.hide();
 		loginController.showStage();
 	}
 
@@ -85,7 +104,9 @@ public class DropBoxUIController implements Initializable {
 								String code = content.substring(index+8);
 								System.out.println(code);
 								cloudAccount.setAuthorizeCode(code);
+								stage.hide();
 								loginController.showDeviceMenuFromLogin(cloudAccount, true);
+								// if not found, show pop error
 							}
 						}
 					}
@@ -96,5 +117,9 @@ public class DropBoxUIController implements Initializable {
 
 	public void setLoginController(LoginUIController loginController){
 		this.loginController = loginController;
+	}
+
+	public void setStage(Stage stage){
+		this.stage = stage;
 	}
 }

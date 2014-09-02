@@ -4,9 +4,10 @@
 package com.monkygames.kbmaster.controller;
 
 // === javafx imports === //
-import com.monkygames.kbmaster.controller.login.LoginUIController;
 import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.GlobalAccount;
+import com.monkygames.kbmaster.account.UserSettings;
+import com.monkygames.kbmaster.controller.login.LoginUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.engine.HardwareManager;
 import com.monkygames.kbmaster.profiles.Profile;
@@ -17,8 +18,6 @@ import com.monkygames.kbmaster.util.RepeatManager;
 import com.monkygames.kbmaster.util.WindowUtil;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,12 +37,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -85,6 +86,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     @FXML
     private ImageView kbmIV, linuxGamerIV, javaIV, javafxIV, jinputIV, 
 			db4oIV, installBuilderIV, kryonetIV;
+    @FXML
+    private ProgressIndicator progressI;
+    @FXML
+    private ImageView accountIcon;
     /**
      * Used for displaying a new device popup.
      */
@@ -120,6 +125,19 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    public void setSettings(UserSettings userSettings){
+	Image image;
+	switch(userSettings.loginMethod){
+	    case LoginUIController.LOGIN_LOCAL:
+		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/hdd.png");
+		accountIcon.setImage(image);
+		break;
+	    case LoginUIController.LOGIN_DROPBOX:
+		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/dropbox.png");
+		accountIcon.setImage(image);
+		break;
+	}
+    }
     public void setLoginController(LoginUIController loginController){
 	this.loginController = loginController;
     }
