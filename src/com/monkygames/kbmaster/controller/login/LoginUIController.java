@@ -247,8 +247,7 @@ public class LoginUIController implements Initializable {
 				Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
-		deviceMenuController.initResources();
-		deviceMenuController.setSettings(userSettings);
+		deviceMenuController.initResources(userSettings,cloudAccount);
 		deviceMenuStage.show();
 	}
 }

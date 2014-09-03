@@ -68,7 +68,7 @@ public class DropBoxUIController implements Initializable {
 
 		web.getEngine().load(cloudAccount.getAuthorizeURL());
 		// open for testing html to parse it
-		KeyboardingMaster.gotoWeb(cloudAccount.getAuthorizeURL());
+		//KeyboardingMaster.gotoWeb(cloudAccount.getAuthorizeURL());
 		// so that stages can hide without being terminated.
 		//Platform.setImplicitExit(false);
     }
@@ -82,10 +82,8 @@ public class DropBoxUIController implements Initializable {
     public void acceptEventFired(ActionEvent evt){
 		NodeList nodeList = web.getEngine().getDocument().getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++){
-			//System.out.println(nodeList.item(i));
 			NodeList nodeList2 = nodeList.item(i).getChildNodes();
 			for(int j = 0; j < nodeList2.getLength(); j++){
-				//System.out.println("\t"+nodeList2.item(j));
 				NodeList nodeList3 = nodeList2.item(j).getChildNodes();
 				for(int k = 0; k < nodeList3.getLength(); k++){
 					Node node3 = nodeList3.item(k);
@@ -95,18 +93,14 @@ public class DropBoxUIController implements Initializable {
 						if(node4 != null){
 							String id = node4.getTextContent();
 							if(id != null && id.equals("auth")){
-								//System.out.println("node4 = "+node4);
-								//System.out.println("node4.getTextContent() = "+node4.getTextContent());
-								//System.out.println("\t\t"+nodeList3.item(k)+" "+node3.getTextContent());
 								String content = node3.getTextContent();
 								// parse content
 								int index = content.indexOf("process.");
 								String code = content.substring(index+8);
-								System.out.println(code);
 								cloudAccount.setAuthorizeCode(code);
 								stage.hide();
 								loginController.showDeviceMenuFromLogin(cloudAccount, true);
-								// if not found, show pop error
+								// TODO if not found, show pop error
 							}
 						}
 					}

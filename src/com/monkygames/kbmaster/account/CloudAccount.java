@@ -12,9 +12,9 @@ package com.monkygames.kbmaster.account;
 public interface CloudAccount {
 
 	/**
-	 * Syncs the specified directory with the cloud.
+	 * Syncs the devices and profiles with the cloud.
 	 */
-	public boolean syncProfiles(String directory);
+	public boolean sync();
 
 	/**
 	 * Returns the access token for the web account.

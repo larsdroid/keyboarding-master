@@ -5,6 +5,8 @@ package com.monkygames.kbmaster.controller;
 
 // === javafx imports === //
 import com.monkygames.kbmaster.KeyboardingMaster;
+import com.monkygames.kbmaster.account.CloudAccount;
+import com.monkygames.kbmaster.account.DropBoxAccount;
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.account.UserSettings;
 import com.monkygames.kbmaster.controller.login.LoginUIController;
@@ -125,19 +127,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
-    public void setSettings(UserSettings userSettings){
-	Image image;
-	switch(userSettings.loginMethod){
-	    case LoginUIController.LOGIN_LOCAL:
-		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/hdd.png");
-		accountIcon.setImage(image);
-		break;
-	    case LoginUIController.LOGIN_DROPBOX:
-		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/dropbox.png");
-		accountIcon.setImage(image);
-		break;
-	}
-    }
     public void setLoginController(LoginUIController loginController){
 	this.loginController = loginController;
     }
@@ -197,9 +186,27 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     }
     /**
      * Prepares the gui and databases to populate device list.
+     * @param userSettings the settings for this menu
      */
-    public void initResources(){
-	// initialize Global Acount first since getDeviceList uses it
+    public void initResources(UserSettings userSettings,CloudAccount cloudAccount){
+
+	Image image;
+	// manage the icons
+	switch(userSettings.loginMethod){
+	    case LoginUIController.LOGIN_LOCAL:
+		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/hdd.png");
+		accountIcon.setImage(image);
+		break;
+	    case LoginUIController.LOGIN_DROPBOX:
+		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/dropbox.png");
+		accountIcon.setImage(image);
+		// start syncronizing profiles and devices
+		cloudAccount.sync();
+		break;
+	}
+
+
+	// initialize Global Account first since getDeviceList uses it
 	// to populate the list.
 	globalAccount = new GlobalAccount();
         deviceList = FXCollections.observableArrayList();
@@ -208,6 +215,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	//TODO
 	//deviceTV.getItems().setAll(deviceEntries);
     }
+
     /**
      * One or more devices has changed status and the UI
      * will be updated to reflect these changes.

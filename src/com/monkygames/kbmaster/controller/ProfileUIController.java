@@ -99,6 +99,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
     private DeleteProgramUIController deleteProgramUIController;
     private DisplayKeymapUIController displayKeymapUIController;
     private File profileDir;
+    public static final String profileDirS = "profiles";
     private Device device;
     /**
      * Used for selecting a file to write a pdf binding.
@@ -609,7 +610,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	appsCB.setItems(FXCollections.observableArrayList());
 	createChangeListeners();
 
-	profileDir = new File("profiles");
+	profileDir = new File(profileDirS);
 	if(!profileDir.exists()){
 	    profileDir.mkdir();
 	}
