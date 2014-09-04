@@ -38,7 +38,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -87,8 +86,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     @FXML
     private ImageView kbmIV, linuxGamerIV, javaIV, javafxIV, jinputIV, 
 			db4oIV, installBuilderIV, kryonetIV;
-    @FXML
-    private ProgressIndicator progressI;
     @FXML
     private ImageView accountIcon;
     /**
@@ -139,9 +136,12 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    PopupManager.getPopupManager().showError("Unable to add device.  Is it already added?");
 	    return;
 	}
+
 	// Update device table!
 	//deviceTV.getItems().setAll(getDeviceEntryList(true));
 	updateDeviceEntryList(true);
+
+	// TODO sync with DropBox
     }
     /**
      * Removes the device and updates the table.
@@ -158,6 +158,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	// Update device table!
 	//deviceTV.getItems().setAll(getDeviceEntryList(true));
 	updateDeviceEntryList(true);
+
+	// TODO sync with DropBox
     }
     /**
      * Sets the active profile for the specified device.
@@ -199,15 +201,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    case LoginUIController.LOGIN_DROPBOX:
 		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/dropbox.png");
 		accountIcon.setImage(image);
-		// start syncronizing profiles and devices
-		progressI.setVisible(true);
-		// note, syncing should happen in another thread
-		// it also should happen most likely in another Window!
-		cloudAccount.sync();
-		progressI.setVisible(false);
 		break;
 	}
-
 
 	// initialize Global Account first since getDeviceList uses it
 	// to populate the list.

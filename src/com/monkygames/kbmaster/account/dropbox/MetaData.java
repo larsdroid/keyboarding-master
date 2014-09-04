@@ -29,4 +29,9 @@ public class MetaData {
 		this.rev = metaData.rev;
 		this.lastModified = metaData.lastModified;
 	}
+
+	@Override
+	public String toString(){
+		return "MetaData["+rev+","+lastModified+"]";
+	}
 }

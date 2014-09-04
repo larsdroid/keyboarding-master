@@ -5,6 +5,7 @@ package com.monkygames.kbmaster.controller.login;
 
 import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.DropBoxAccount;
+import com.monkygames.kbmaster.util.thread.DropboxSyncTask;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -99,7 +100,11 @@ public class DropBoxUIController implements Initializable {
 								String code = content.substring(index+8);
 								cloudAccount.setAuthorizeCode(code);
 								stage.hide();
-								loginController.showDeviceMenuFromLogin(cloudAccount, true);
+								// create a task
+								KeyboardingMaster kbmaster = KeyboardingMaster.getInstance();
+								kbmaster.startDropboxSync(cloudAccount,true);
+								//loginController.showDeviceMenuFromLogin(cloudAccount, true);
+
 								// TODO if not found, show pop error
 							}
 						}

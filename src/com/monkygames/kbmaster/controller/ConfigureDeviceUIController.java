@@ -155,6 +155,7 @@ public class ConfigureDeviceUIController implements Initializable, PopupNotifyIn
 	    // cleanup profile 
 	    profileUIController.closeProfileManager();
 	    stage.hide();
+	    // TODO sync with cloud
 	}
     }
 

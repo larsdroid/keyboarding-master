@@ -123,23 +123,14 @@ public class LoginUIController implements Initializable {
 				// create main gui
 				if(dropBoxController == null){
 					try{
-						System.out.println("1");
 						URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/login/DropBoxUI.fxml");
-						System.out.println("2");
 						FXMLLoader fxmlLoader = new FXMLLoader();
-						System.out.println("3");
 						fxmlLoader.setLocation(location);
-						System.out.println("4");
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-						System.out.println("5");
 						Parent dropBoxRoot = (Parent)fxmlLoader.load(location.openStream());
-						System.out.println("6");
 						dropBoxController = (DropBoxUIController) fxmlLoader.getController();
-						System.out.println("7");
 						dropBoxStage = WindowUtil.createStage(dropBoxRoot);
-						System.out.println("8");
 						dropBoxController.setStage(dropBoxStage);
-						System.out.println("9");
 						dropBoxController.setLoginController(this);
 					} catch (IOException ex) {
 						Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,6 +238,7 @@ public class LoginUIController implements Initializable {
 				Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
+		// check if the cloud account -- if so, pop sync display plus thread
 		deviceMenuController.initResources(userSettings,cloudAccount);
 		deviceMenuStage.show();
 	}

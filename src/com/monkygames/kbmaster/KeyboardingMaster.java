@@ -10,6 +10,8 @@ import com.monkygames.kbmaster.account.DropBoxAccount;
 import com.monkygames.kbmaster.account.UserSettings;
 import com.monkygames.kbmaster.controller.login.LoginUIController;
 import com.monkygames.kbmaster.util.WindowUtil;
+import com.monkygames.kbmaster.util.thread.DropboxSyncTask;
+import com.monkygames.kbmaster.util.thread.SyncEventHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
@@ -45,6 +48,11 @@ public class KeyboardingMaster extends Application {
 	 * The user's settings.
 	 */
 	private UserSettings userSettings;
+
+	/**
+	 * The stage for the dropbox sync UI.
+	 */
+	private Stage dropboxSyncStage;
 
 	/**
 	 * Opens the default web browser.
@@ -118,6 +126,17 @@ public class KeyboardingMaster extends Application {
 		} catch (IOException ex) {
 			Logger.getLogger(KeyboardingMaster.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		// initialize the dropbox sync ui
+		try {
+			URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/DropboxSync.fxml");
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			fxmlLoader.setLocation(location);
+			fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+			root = (Parent)fxmlLoader.load(location.openStream());
+			dropboxSyncStage = WindowUtil.createStage(root);
+		} catch (IOException ex) {
+			Logger.getLogger(KeyboardingMaster.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
 		// test user settings
 		if(userSettings.isRemember){
@@ -128,7 +147,8 @@ public class KeyboardingMaster extends Application {
 				case LoginUIController.LOGIN_DROPBOX:
 					// get accesstoken
 					if(userSettings.accessToken != null && !userSettings.accessToken.equals("")){
-						controller.showDeviceMenuFromLogin(new DropBoxAccount(userSettings.accessToken),false);
+						// 
+						startDropboxSync(new DropBoxAccount(userSettings.accessToken),false);
 					}else{
 						controller.showDeviceMenuFromLogin(null,false);
 					}
@@ -138,6 +158,30 @@ public class KeyboardingMaster extends Application {
 			controller.showStage();
 		}
     }
+
+	/**
+	 * Opens the dropbox sync UI and created a thread to start syncing.
+	 * @param dropBoxAccount the dropbox account to sync.
+	 * @param checkRemember true if the settings should be saved and false otherwise.
+	 */
+	public void startDropboxSync(DropBoxAccount dropBoxAccount, boolean checkRemember){
+		// show the sync 
+		dropboxSyncStage.show();
+		System.out.println("Creating handler");
+		SyncEventHandler handler = new SyncEventHandler (dropBoxAccount, checkRemember, controller, dropboxSyncStage);
+		System.out.println("Creating task");
+		DropboxSyncTask syncTask = new DropboxSyncTask(dropBoxAccount);
+		System.out.println("setting handler 1");
+		syncTask.setOnSucceeded(handler);
+		System.out.println("setting handler 2");
+		syncTask.setOnFailed(handler);
+		System.out.println("starting thread");
+		new Thread(syncTask).start();
+	}
+
+	public static KeyboardingMaster getInstance(){
+		return _instance;
+	}
 
     @Override
     public void stop(){

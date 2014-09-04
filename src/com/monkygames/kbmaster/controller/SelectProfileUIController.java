@@ -202,8 +202,10 @@ public class SelectProfileUIController implements Initializable, ChangeListener<
 	profiles = FXCollections.observableArrayList(app.getProfiles());
 	profileCB.setItems(profiles);
 	profileCB.getSelectionModel().selectFirst();
-	currentProfile = profiles.get(0);
-	updateProfileUIInfo(currentProfile);
+	if(profiles.size() > 0 ){
+	    currentProfile = profiles.get(0);
+	    updateProfileUIInfo(currentProfile);
+	}
 	//device.setProfile(currentProfile);
     }
     /**
