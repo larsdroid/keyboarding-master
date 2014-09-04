@@ -8,7 +8,6 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.query.Predicate;
-import com.monkygames.kbmaster.account.dropbox.Revision;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.driver.DeviceInformation;
 import com.monkygames.kbmaster.driver.DriverManager;
@@ -41,7 +40,6 @@ public class GlobalAccount{
      * The file that manages the devices.
      */
     public static final String dbFileName = "global_account.db4o";
-    private Revision dropboxRev;
 // ============= Constructors ============== //
     public GlobalAccount(){
 	driverManager = new DriverManager();
@@ -164,13 +162,6 @@ public class GlobalAccount{
 	db.commit();
 	db.close();
     }
-    /**
-     * Returns the revision and null if it doesn't exist.
-     * @return the revision for the file.
-     */
-    public Revision getDropboxRevision(){
-	return dropboxRev;
-    }
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     /**
@@ -189,13 +180,6 @@ public class GlobalAccount{
      * If no lists exists, empty lists are created and stored in the database.
      */
     private void loadLists(){
-
-	// get the dropbox revision if it exists
-	List<Revision> revisionList = db.query(Revision.class);
-	if(!revisionList.isEmpty()){
-	    dropboxRev = revisionList.get(0);
-	}
-
 	List<HashMap<String,DeviceInformation>> supportedDevicesFromDB = db.query(new Predicate<HashMap<String,DeviceInformation>>(){
 	    @Override
 	    public boolean match(HashMap<String, DeviceInformation> testList){

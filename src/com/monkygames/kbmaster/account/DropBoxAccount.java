@@ -3,6 +3,9 @@
  */
 package com.monkygames.kbmaster.account;
 
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import com.db4o.config.EmbeddedConfiguration;
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
 import com.dropbox.core.DbxClient;
@@ -10,11 +13,15 @@ import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.DbxWriteMode;
 import com.monkygames.kbmaster.KeyboardingMaster;
+import com.monkygames.kbmaster.account.dropbox.MetaData;
 import com.monkygames.kbmaster.controller.ProfileUIController;
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,33 +84,55 @@ public class DropBoxAccount implements CloudAccount{
 	public boolean sync() {
 
 		// sync globalaccount
-		try {
-			// TODO
-			// 1. Open Global Account (DB) to check revision (if it exists)
-			// 2. Check if file exists on dropbox
-			//    1. If it doesn't exist 
-			//	     * create revision
-			//		 * upload to dropbox
-			//		 * done
-			// 3. Get compare rev of local vs dropbox
-			//    1. If local is < dropbox (or doesn't exist)
-			//       * download dropbox file to local (replace)
-			//    2. If local is > dropbox
-			//       * upload to dropbox
-
-
-			DbxEntry entry = client.getMetadata(GlobalAccount.dbFileName);
-
-			FileOutputStream outputStream = null;
-    		outputStream = new FileOutputStream("magnum-opus.txt");
-			DbxEntry.File downloadedFile = client.getFile("/magnum-opus.txt", null, outputStream);
-			System.out.println("Metadata: " + downloadedFile.toString());
-
-		}catch (Exception ex) {
-			Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
-			return false;
+		boolean retVal = syncFile(GlobalAccount.dbFileName);
+		if(retVal){
+			System.out.println("["+GlobalAccount.dbFileName+"] Syned Success");
+		}else{
+			System.out.println("["+GlobalAccount.dbFileName+"] Syned failure");
 		}
-		return true;
+
+		// make sure local profiles dir exists
+		String profileDir = ProfileUIController.profileDirS;
+		File localProfileDir = new File(profileDir);
+		if(!localProfileDir.exists()){
+			localProfileDir.mkdir();
+		}
+
+		try {
+
+			// sync profiles
+			DbxEntry.WithChildren listing = client.getMetadataWithChildren("/"+profileDir);
+			if(listing == null){
+				// need to create the directory
+				DbxEntry entry =  client.createFolder("/"+profileDir);
+				if(entry == null){
+					return false;
+				}
+				// upload all files from profiles directory
+				for(File file: localProfileDir.listFiles()){
+					syncFile("profileDir/"+file.getName());
+				}
+			}else {
+				// need to iterate through all and compare individual files
+				for (DbxEntry child : listing.children) {
+					// first investigate files stored on the cloud
+					syncFile("profileDir/"+child.name);
+					System.out.println("	" + child.name + ": " + child.toString());
+				}
+				// now iterate through all children
+				for(File file: localProfileDir.listFiles()){
+					syncFile("profileDir/"+file.getName());
+				}
+			}
+
+		} catch (DbxException ex) {
+			Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		System.out.println("Files in the root path:");
+
+		// sync profiles
+
+		return retVal;
 	}
 
 	private void setupClient(){
@@ -113,5 +142,205 @@ public class DropBoxAccount implements CloudAccount{
 		} catch (DbxException ex) {
 			Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	}
+
+	private boolean syncFile(String filename){
+		MetaData localMetaData = getLocalDropboxMetaData(filename);
+		MetaData cloudMetaData = getCloudDropboxMetaData(filename);
+
+		// note, the conditionals below could be reduced;
+		// however, for code readabilty, i have elected to
+		// break it out
+
+		// both local and cloud doesn't exist
+		// OR local only exists
+		if( (localMetaData == null && cloudMetaData == null) ||
+			(localMetaData != null && cloudMetaData == null) ){
+			return uploadAndUpdateLocalFile(filename);
+		}
+
+		// cloud only exists
+		if(localMetaData == null && cloudMetaData != null){
+			return downloadAndUpdateLocalFile(filename);
+		}
+
+		// both metadata exist
+		if(localMetaData.rev.equals(cloudMetaData.rev)){
+			// the same, do not do anything
+		}else{
+			// different, select which one
+			if(localMetaData.lastModified > cloudMetaData.lastModified){
+				// local data is newer
+				return uploadAndUpdateLocalFile(filename);
+			}else{
+				// the cloud is newer
+				return downloadAndUpdateLocalFile(filename);
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Return the drobox metadata from the cloud.
+	 * @param filename the name of the file to get the rev number
+	 * @return the metadata and -1 if it doesn't exist
+	 */
+	private MetaData getCloudDropboxMetaData(String filename){
+		DbxEntry.File entry;
+		try {
+
+			entry = (DbxEntry.File)client.getMetadata(filename);
+			if(entry != null){
+				MetaData metaData = new MetaData(entry.rev, entry.lastModified.getTime());
+				return metaData;
+			}else{
+				// doens't exist
+				return null;
+			}
+
+		} catch (DbxException ex) {
+			Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
+		}
+	}
+
+	/**
+	 * Return the dropbox meta data
+	 * @param the filename on the local filesystem.
+	 * @return the meta data and null if it doesn't exist.
+	 */
+	private MetaData getLocalDropboxMetaData(String filename){
+		try{
+			MetaData retVal = null;
+			EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+			ObjectContainer db = Db4oEmbedded.openFile(config, filename);
+
+			List<MetaData> revList = db.query(MetaData.class);
+			if(revList.isEmpty()){
+				retVal = null;
+			}else{
+				retVal = revList.get(0);
+			}
+			db.close();
+			return retVal;
+		}catch (Exception e){
+			e.printStackTrace();
+			System.out.println("Error in opening: "+filename);
+			return null;
+		}
+	}
+
+	/**
+	 * Uploads a file to the cloud.
+	 * @param filename the file to upload to the cloud.
+	 * @return the metadata for the uploaded file (on success) 
+	 * and null on failure.
+	 */ 
+	private MetaData uploadFile(String filename){
+		FileInputStream inputStream = null;
+		try {
+			File inputFile = new File(filename);
+			inputStream = new FileInputStream(inputFile);
+
+    		DbxEntry.File uploadedFile = client.uploadFile("/"+filename,
+        	DbxWriteMode.add(), inputFile.length(), inputStream);
+
+	    	System.out.println("Uploaded: " + uploadedFile.toString());
+
+			MetaData metaData = new MetaData(uploadedFile.rev,uploadedFile.lastModified.getTime());
+
+			return metaData;
+		}catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			if(inputStream != null){
+				try {
+					inputStream.close();
+				} catch (IOException ex) {
+					Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Download the file from the cloud.
+	 * @return the metadata for the downloaded file (on success) 
+	 * and null on failure.
+	 */
+	private MetaData downloadFile(String filename){
+		FileOutputStream outputStream = null;
+		try {
+			outputStream = new FileOutputStream(filename);
+    		DbxEntry.File downloadedFile = client.getFile("/"+filename, null, outputStream);
+    		System.out.println("Metadata: " + downloadedFile.toString());
+			MetaData metaData = new MetaData(downloadedFile.rev, downloadedFile.lastModified.getTime());
+			return metaData;
+		}catch (Exception e){
+			
+		} finally {
+			if(outputStream != null){
+				try {
+						outputStream.close();
+				} catch (IOException ex) {
+					Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
+		}
+		return null;
+	}
+
+	private boolean updateLocalFileMetaData(String filename, MetaData metaData){
+		try{
+			EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+			ObjectContainer db = Db4oEmbedded.openFile(config, filename);
+
+			List<MetaData> revList = db.query(MetaData.class);
+			if(revList.isEmpty()){
+				db.store(metaData);
+				db.commit();
+			}else{
+				MetaData storedMetaData = revList.get(0);
+				storedMetaData.update(metaData);
+				db.store(storedMetaData);
+				db.commit();
+			}
+			db.close();
+			return true;
+		}catch (Exception e){
+			e.printStackTrace();
+			System.out.println("Error in updating metadata: "+filename);
+			return false;
+		}
+	}
+
+	/**
+	 * Uploads the file to the cloud and updates the local file's meta data.
+	 * @param filename the filename to upload and update.
+	 * @return true on success and false otherwise.
+	 */
+	private boolean uploadAndUpdateLocalFile(String filename){
+		MetaData metaData = uploadFile(filename);
+		if(metaData != null){
+			// update local file's metadata
+			return updateLocalFileMetaData(filename, metaData);
+		}
+		return false;
+	}
+
+	/**
+	 * Downloads the file to the cloud and updates the local file's meta data.
+	 * @param filename the filename to download and update.
+	 * @return true on success and false otherwise.
+	 */
+	private boolean downloadAndUpdateLocalFile(String filename){
+		// download file
+		MetaData metaData = downloadFile(filename);
+		if(metaData != null){
+			// update local file's metadata
+			return updateLocalFileMetaData(filename, metaData);
+		}
+		return false;
 	}
 }

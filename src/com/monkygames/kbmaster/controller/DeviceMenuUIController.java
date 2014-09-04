@@ -6,7 +6,6 @@ package com.monkygames.kbmaster.controller;
 // === javafx imports === //
 import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.CloudAccount;
-import com.monkygames.kbmaster.account.DropBoxAccount;
 import com.monkygames.kbmaster.account.GlobalAccount;
 import com.monkygames.kbmaster.account.UserSettings;
 import com.monkygames.kbmaster.controller.login.LoginUIController;
@@ -188,7 +187,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * Prepares the gui and databases to populate device list.
      * @param userSettings the settings for this menu
      */
-    public void initResources(UserSettings userSettings,CloudAccount cloudAccount){
+    public void initResources(UserSettings userSettings, CloudAccount cloudAccount){
 
 	Image image;
 	// manage the icons
@@ -201,7 +200,11 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 		image = new Image("/com/monkygames/kbmaster/fxml/resources/icons/dropbox.png");
 		accountIcon.setImage(image);
 		// start syncronizing profiles and devices
+		progressI.setVisible(true);
+		// note, syncing should happen in another thread
+		// it also should happen most likely in another Window!
 		cloudAccount.sync();
+		progressI.setVisible(false);
 		break;
 	}
 

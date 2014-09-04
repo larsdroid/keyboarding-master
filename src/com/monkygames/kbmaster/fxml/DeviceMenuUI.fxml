@@ -76,7 +76,7 @@
     </VBox>
     <HBox alignment="CENTER_RIGHT" layoutX="564.0" layoutY="70.0" prefHeight="22.0" prefWidth="254.0" spacing="2.0">
       <children>
-            <ProgressIndicator fx:id="progressI" progress="0.0" visible="false" />
+            <ProgressIndicator fx:id="progressI" visible="false" />
             <ImageView fx:id="accountIcon" fitHeight="16.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@resources/icons/hdd.png" />
