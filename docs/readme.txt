@@ -18,6 +18,13 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.2.0]
+* [KMB-1] Added Dropbox Integration
+* [KBM-2] Migrated to Java 8
+* [KBM-8] Hide Login Box Option (auto-login)
+* [KBM-10] Add user settings (to assist with auto-login)
+* [KMB-11] Add syncing with dropbox on exit of program
+
 [0.1.10]
 * Fixed a bug that was introduced in 0.1.9 with using the scroll wheel on the Nostromo and N52.
 
