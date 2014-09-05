@@ -541,6 +541,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private void cleanUp(){
 	hardwareManager.stopPollingAllDevices();
 	globalAccount.close();
+
+	// TODO 
+	// pop cloud sync UI
+	// cloud sync on exit here
     }
 // ============= Extended Methods ============== //
     @Override

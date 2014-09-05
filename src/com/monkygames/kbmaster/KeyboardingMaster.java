@@ -147,7 +147,6 @@ public class KeyboardingMaster extends Application {
 				case LoginUIController.LOGIN_DROPBOX:
 					// get accesstoken
 					if(userSettings.accessToken != null && !userSettings.accessToken.equals("")){
-						// 
 						startDropboxSync(new DropBoxAccount(userSettings.accessToken),false);
 					}else{
 						controller.showDeviceMenuFromLogin(null,false);
@@ -167,15 +166,10 @@ public class KeyboardingMaster extends Application {
 	public void startDropboxSync(DropBoxAccount dropBoxAccount, boolean checkRemember){
 		// show the sync 
 		dropboxSyncStage.show();
-		System.out.println("Creating handler");
 		SyncEventHandler handler = new SyncEventHandler (dropBoxAccount, checkRemember, controller, dropboxSyncStage);
-		System.out.println("Creating task");
 		DropboxSyncTask syncTask = new DropboxSyncTask(dropBoxAccount);
-		System.out.println("setting handler 1");
 		syncTask.setOnSucceeded(handler);
-		System.out.println("setting handler 2");
 		syncTask.setOnFailed(handler);
-		System.out.println("starting thread");
 		new Thread(syncTask).start();
 	}
 
