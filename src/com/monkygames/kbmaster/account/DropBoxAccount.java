@@ -82,13 +82,12 @@ public class DropBoxAccount implements CloudAccount{
 
 	@Override
 	public boolean sync() {
-		System.out.println("[DropBoxAccount:sync]");
 
 		// sync globalaccount
 		if(syncFile(GlobalAccount.dbFileName)){
-			System.out.println("[DropBoxAccount:sync] "+GlobalAccount.dbFileName+" sync success");
+			//System.out.println("[DropBoxAccount:sync] "+GlobalAccount.dbFileName+" sync success");
 		}else{
-			System.out.println("[DropBoxAcount:sync] "+GlobalAccount.dbFileName+" sync failure");
+			//System.out.println("[DropBoxAcount:sync] "+GlobalAccount.dbFileName+" sync failure");
 			return false;
 		}
 
@@ -107,13 +106,11 @@ public class DropBoxAccount implements CloudAccount{
 				// need to create the directory
 				DbxEntry entry =  client.createFolder("/"+profileDir);
 				if(entry == null){
-					System.out.println("can't create directory on dropbox");
 					return false;
 				}
 				// upload all files from profiles directory
 				for(File file: localProfileDir.listFiles()){
 					if(!syncFile(profileDir+"/"+file.getName())){
-						System.out.println("["+file.getName()+"] sync failure");
 						return false;
 					}
 				}
@@ -122,15 +119,12 @@ public class DropBoxAccount implements CloudAccount{
 				for (DbxEntry child : listing.children) {
 					// first investigate files stored on the cloud
 					if(!syncFile(profileDir+"/"+child.name)){
-						System.out.println("["+child.name+"] sync failure");
 						return false;
 					}
-					System.out.println("	" + child.name + ": " + child.toString());
 				}
 				// now iterate through all children
 				for(File file: localProfileDir.listFiles()){
 					if(!syncFile(profileDir+"/"+file.getName())){
-						System.out.println("["+file.getName()+"] sync failure");
 						return false;
 					}
 				}
@@ -145,20 +139,12 @@ public class DropBoxAccount implements CloudAccount{
 	}
 
 	private void setupClient(){
-		System.out.println("[DropBoxAccount:setupClient]");
 		client = new DbxClient(config, accessToken);
-		try {
-			System.out.println("Linked account: " + client.getAccountInfo().displayName);
-		} catch (DbxException ex) {
-			Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
-		}
 	}
 
 	private boolean syncFile(String filename){
-		System.out.println("[DropBoxAccount:syncFile]");
 		MetaData localMetaData = getLocalDropboxMetaData(filename);
 		MetaData cloudMetaData = getCloudDropboxMetaData(filename);
-		System.out.println("[DropBoxAccount:syncFile] "+localMetaData+" "+cloudMetaData);
 
 		// note, the conditionals below could be reduced;
 		// however, for code readabilty, i have elected to
@@ -168,29 +154,24 @@ public class DropBoxAccount implements CloudAccount{
 		// OR local only exists
 		if( (localMetaData == null && cloudMetaData == null) ||
 			(localMetaData != null && cloudMetaData == null) ){
-			System.out.println("[DropBoxAccount:syncFile] State-None");
 			return uploadAndUpdateLocalFile(filename);
 		}
 
 		// cloud only exists
 		if(localMetaData == null && cloudMetaData != null){
-			System.out.println("[DropBoxAccount:syncFile] State-cloud_only");
 			return downloadAndUpdateLocalFile(filename);
 		}
 
 		// both metadata exist
 		if(localMetaData.rev.equals(cloudMetaData.rev)){
-			System.out.println("[DropBoxAccount:syncFile] State-synced");
 			return true;
 		}else{
 			// different, select which one
 			if(localMetaData.lastModified > cloudMetaData.lastModified){
-			System.out.println("[DropBoxAccount:syncFile] State-local_newer");
 				// local data is newer
 				return uploadAndUpdateLocalFile(filename);
 			}else{
 				// the cloud is newer
-			System.out.println("[DropBoxAccount:syncFile] State-cloud_newer");
 				return downloadAndUpdateLocalFile(filename);
 			}
 		}
@@ -202,20 +183,14 @@ public class DropBoxAccount implements CloudAccount{
 	 * @return the metadata and -1 if it doesn't exist
 	 */
 	private MetaData getCloudDropboxMetaData(String filename){
-		System.out.println("[DropBoxAccount:getCloudDropboxMetaData] "+filename);
 		DbxEntry.File entry;
 		try {
-
-			System.out.println("[DropBoxAccount:getCloudDropboxMetaData] before entry");
 			entry = (DbxEntry.File)client.getMetadata("/"+filename);
-			System.out.println("[DropBoxAccount:getCloudDropboxMetaData] "+entry);
 			if(entry != null){
 				MetaData metaData = new MetaData(entry.rev, entry.lastModified.getTime());
-				System.out.println("[DropBoxAccount:getCloudDropboxMetaData] "+metaData);
 				return metaData;
 			}else{
 				// doens't exist
-				System.out.println("[DropBoxAccount:getCloudDropboxMetaData] doesn't exist");
 				return null;
 			}
 
@@ -231,7 +206,6 @@ public class DropBoxAccount implements CloudAccount{
 	 * @return the meta data and null if it doesn't exist.
 	 */
 	private MetaData getLocalDropboxMetaData(String filename){
-		System.out.println("[DropBoxAccount:getLocalDropboxMetaData] "+filename);
 		try{
 			MetaData retVal = null;
 			EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
@@ -244,7 +218,6 @@ public class DropBoxAccount implements CloudAccount{
 				retVal = revList.get(0);
 			}
 			db.close();
-			System.out.println("[DropBoxAccount:getLocalDropboxMetaData] "+retVal);
 			return retVal;
 		}catch (Exception e){
 			e.printStackTrace();
@@ -267,8 +240,6 @@ public class DropBoxAccount implements CloudAccount{
 
     		DbxEntry.File uploadedFile = client.uploadFile("/"+filename,
         	DbxWriteMode.add(), inputFile.length(), inputStream);
-
-	    	System.out.println("Uploaded: " + uploadedFile.toString());
 
 			MetaData metaData = new MetaData(uploadedFile.rev,uploadedFile.lastModified.getTime());
 
@@ -297,7 +268,6 @@ public class DropBoxAccount implements CloudAccount{
 		try {
 			outputStream = new FileOutputStream(filename);
     		DbxEntry.File downloadedFile = client.getFile("/"+filename, null, outputStream);
-    		System.out.println("Metadata: " + downloadedFile.toString());
 			MetaData metaData = new MetaData(downloadedFile.rev, downloadedFile.lastModified.getTime());
 			return metaData;
 		}catch (Exception e){
