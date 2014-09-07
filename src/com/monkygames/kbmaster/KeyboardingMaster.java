@@ -6,12 +6,15 @@ package com.monkygames.kbmaster;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
+import com.monkygames.kbmaster.account.CloudAccount;
 import com.monkygames.kbmaster.account.DropBoxAccount;
 import com.monkygames.kbmaster.account.UserSettings;
 import com.monkygames.kbmaster.controller.login.LoginUIController;
 import com.monkygames.kbmaster.util.WindowUtil;
 import com.monkygames.kbmaster.util.thread.DropboxSyncTask;
 import com.monkygames.kbmaster.util.thread.SyncEventHandler;
+import com.monkygames.kbmaster.util.thread.SyncEventOnExitHandler;
+import com.monkygames.kbmaster.util.thread.SyncEventOnLogoutHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -163,7 +166,7 @@ public class KeyboardingMaster extends Application {
 	 * @param dropBoxAccount the dropbox account to sync.
 	 * @param checkRemember true if the settings should be saved and false otherwise.
 	 */
-	public void startDropboxSync(DropBoxAccount dropBoxAccount, boolean checkRemember){
+	public void startDropboxSync(CloudAccount dropBoxAccount, boolean checkRemember){
 		// show the sync 
 		dropboxSyncStage.show();
 		SyncEventHandler handler = new SyncEventHandler (dropBoxAccount, checkRemember, controller, dropboxSyncStage);
@@ -171,6 +174,30 @@ public class KeyboardingMaster extends Application {
 		syncTask.setOnSucceeded(handler);
 		syncTask.setOnFailed(handler);
 		new Thread(syncTask).start();
+	}
+
+	/**
+	 * Initiates a dropbox sync on logout or exit.
+	 * @param isOnLogout true if after the dropbox sync, return to the login screen
+	 * @param cloudAccount the account used to connect to dropbox.
+	 * else exit the program.
+	 */
+	public void endDropboxSync(boolean isOnLogout, CloudAccount cloudAccount){
+		dropboxSyncStage.show();
+		if(isOnLogout){
+			SyncEventOnLogoutHandler handler = new SyncEventOnLogoutHandler (dropboxSyncStage);
+			DropboxSyncTask syncTask = new DropboxSyncTask(cloudAccount);
+			syncTask.setOnSucceeded(handler);
+			syncTask.setOnFailed(handler);
+			new Thread(syncTask).start();
+
+		}else{
+			SyncEventOnExitHandler handler = new SyncEventOnExitHandler (dropboxSyncStage);
+			DropboxSyncTask syncTask = new DropboxSyncTask(cloudAccount);
+			syncTask.setOnSucceeded(handler);
+			syncTask.setOnFailed(handler);
+			new Thread(syncTask).start();
+		}
 	}
 
 	public static KeyboardingMaster getInstance(){
@@ -181,6 +208,17 @@ public class KeyboardingMaster extends Application {
     public void stop(){
 		db.close();
     }
+
+	/**
+	 * Exit the program.
+	 */
+	public void exit(){
+		stop();
+		System.exit(1);
+	}
+	public void logout(){
+		controller.showStage();
+	}
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.

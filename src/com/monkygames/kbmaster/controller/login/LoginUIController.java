@@ -138,6 +138,7 @@ public class LoginUIController implements Initializable {
 					}
 				}
 				System.out.println(dropBoxStage);
+				dropBoxController.initializeWeb();
 				dropBoxStage.show();
 				break;
 		}

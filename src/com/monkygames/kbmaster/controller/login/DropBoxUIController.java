@@ -54,6 +54,13 @@ public class DropBoxUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+		// open for testing html to parse it
+		//KeyboardingMaster.gotoWeb(cloudAccount.getAuthorizeURL());
+		// so that stages can hide without being terminated.
+		//Platform.setImplicitExit(false);
+    }
+
+	public void initializeWeb(){
 		// setup dropbox
 		cloudAccount = new DropBoxAccount();
 	   // hide webview scrollbars whenever they appear.
@@ -68,11 +75,8 @@ public class DropBoxUIController implements Initializable {
 		});
 
 		web.getEngine().load(cloudAccount.getAuthorizeURL());
-		// open for testing html to parse it
-		//KeyboardingMaster.gotoWeb(cloudAccount.getAuthorizeURL());
-		// so that stages can hide without being terminated.
-		//Platform.setImplicitExit(false);
-    }
+
+	}
 	@FXML
 	public void cancelEventFired(ActionEvent evt){
 		stage.hide();

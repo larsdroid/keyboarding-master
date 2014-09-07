@@ -120,6 +120,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private LoginUIController loginController;
     private AboutUIController aboutController;
     private KBMSystemTray systemTray;
+    private UserSettings userSettings;
+    private CloudAccount cloudAccount;
 
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
@@ -190,6 +192,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * @param userSettings the settings for this menu
      */
     public void initResources(UserSettings userSettings, CloudAccount cloudAccount){
+	this.userSettings = userSettings;
+	this.cloudAccount = cloudAccount;
 
 	Image image;
 	// manage the icons
@@ -236,7 +240,13 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     public void exitApplication(){
 	cleanUp();
-	System.exit(1);
+	if(cloudAccount != null){
+	    loginController.hideDeviceMenu(false);
+	    // pop cloud sync UI
+	    KeyboardingMaster.getInstance().endDropboxSync(false, cloudAccount);
+	}else {
+	    KeyboardingMaster.getInstance().exit();
+	}
     }
     public void showKBMAboutFromNonJavaFXThread(){
 	Platform.runLater(new Runnable() {
@@ -533,7 +543,16 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     private void logout(){
 	cleanUp();
-	loginController.hideDeviceMenu(true);
+	// check if cloud sync should be popped
+
+	if(cloudAccount != null){
+	    loginController.hideDeviceMenu(false);
+	    KeyboardingMaster.getInstance().endDropboxSync(true, cloudAccount);
+	    // pop cloud sync
+	}else{
+	    loginController.hideDeviceMenu(true);
+	}
+
     }
     /**
      * Closes all databases and prepares this gui to be closed.
@@ -541,10 +560,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private void cleanUp(){
 	hardwareManager.stopPollingAllDevices();
 	globalAccount.close();
-
-	// TODO 
-	// pop cloud sync UI
-	// cloud sync on exit here
     }
 // ============= Extended Methods ============== //
     @Override

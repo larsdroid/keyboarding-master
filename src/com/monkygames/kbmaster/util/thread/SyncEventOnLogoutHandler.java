@@ -9,10 +9,10 @@ import javafx.stage.Stage;
  * Handles the response from the SyncTask for syncing on exit.
  * @author spethm
  */
-public class SyncEventOnExitHandler implements EventHandler<WorkerStateEvent>{
+public class SyncEventOnLogoutHandler implements EventHandler<WorkerStateEvent>{
 	private Stage dropboxSyncStage;
 
-	public SyncEventOnExitHandler(Stage dropboxSyncStage){
+	public SyncEventOnLogoutHandler(Stage dropboxSyncStage){
 		this.dropboxSyncStage = dropboxSyncStage;
 	}
 
@@ -28,7 +28,7 @@ public class SyncEventOnExitHandler implements EventHandler<WorkerStateEvent>{
 			// pop errro
 
 		}
-		KeyboardingMaster.getInstance().exit();
+		KeyboardingMaster.getInstance().logout();
 	}
 	
 }

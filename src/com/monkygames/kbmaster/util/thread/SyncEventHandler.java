@@ -1,5 +1,6 @@
 package com.monkygames.kbmaster.util.thread;
 
+import com.monkygames.kbmaster.account.CloudAccount;
 import com.monkygames.kbmaster.account.DropBoxAccount;
 import com.monkygames.kbmaster.controller.login.LoginUIController;
 import javafx.concurrent.WorkerStateEvent;
@@ -13,11 +14,11 @@ import javafx.stage.Stage;
 public class SyncEventHandler implements EventHandler<WorkerStateEvent>{
 	private LoginUIController loginController;
 	private Stage dropboxSyncStage;
-	private DropBoxAccount dropBoxAccount;
+	private CloudAccount cloudAccount;
 	private boolean checkRemember;
 
-	public SyncEventHandler(DropBoxAccount dropBoxAccount, boolean checkRemember, LoginUIController loginController, Stage dropboxSyncStage){
-		this.dropBoxAccount = dropBoxAccount;
+	public SyncEventHandler(CloudAccount cloudAccount, boolean checkRemember, LoginUIController loginController, Stage dropboxSyncStage){
+		this.cloudAccount = cloudAccount;
 		this.loginController = loginController;
 		this.dropboxSyncStage = dropboxSyncStage;
 		this.checkRemember = checkRemember;
@@ -30,10 +31,10 @@ public class SyncEventHandler implements EventHandler<WorkerStateEvent>{
 
 		if(event.getEventType() == WorkerStateEvent.WORKER_STATE_SUCCEEDED){
 			// use login to show device menu
-			loginController.showDeviceMenuFromLogin(dropBoxAccount, checkRemember);
+			loginController.showDeviceMenuFromLogin(cloudAccount, checkRemember);
 
 		}else if(event.getEventType() == WorkerStateEvent.WORKER_STATE_FAILED){
-			// pop errro
+			// TODO pop errro
 
 			// backout to login page
 			loginController.showStage();
