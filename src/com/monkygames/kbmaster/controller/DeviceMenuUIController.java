@@ -214,7 +214,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
         deviceList = FXCollections.observableArrayList();
 	updateDeviceEntryList(true);
 	deviceTV.setItems(deviceList);
-	//TODO
+	//TODO Activate default profiles if they exist!
 	//deviceTV.getItems().setAll(deviceEntries);
     }
 

@@ -11,6 +11,17 @@ import com.db4o.query.Predicate;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.driver.DeviceInformation;
 import com.monkygames.kbmaster.driver.DriverManager;
+import com.monkygames.kbmaster.input.Button;
+import com.monkygames.kbmaster.input.ButtonMapping;
+import com.monkygames.kbmaster.input.Keymap;
+import com.monkygames.kbmaster.input.Mapping;
+import com.monkygames.kbmaster.input.Output;
+import com.monkygames.kbmaster.input.Wheel;
+import com.monkygames.kbmaster.input.WheelMapping;
+import com.monkygames.kbmaster.io.AppListManager;
+import com.monkygames.kbmaster.profiles.App;
+import com.monkygames.kbmaster.profiles.Profile;
+import com.monkygames.kbmaster.profiles.Root;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -173,6 +184,27 @@ public class GlobalAccount{
 	config.common().objectClass(DeviceInformation.class).cascadeOnUpdate(true);
 	config.common().objectClass(DevicePackage.class).cascadeOnUpdate(true);
 	config.common().objectClass(Device.class).cascadeOnUpdate(true);
+	// make sure that when a profile is updated so are all the data members
+	config.common().objectClass(Profile.class).cascadeOnUpdate(true);
+	config.common().objectClass(Keymap.class).cascadeOnUpdate(true);
+	config.common().objectClass(Mapping.class).cascadeOnUpdate(true);
+	config.common().objectClass(ButtonMapping.class).cascadeOnUpdate(true);
+	config.common().objectClass(WheelMapping.class).cascadeOnUpdate(true);
+	config.common().objectClass(Button.class).cascadeOnUpdate(true);
+	config.common().objectClass(Wheel.class).cascadeOnUpdate(true);
+	config.common().objectClass(Output.class).cascadeOnUpdate(true);
+	// make sure keymap objects are removed when a profile is deleted
+	config.common().objectClass(DeviceInformation.class).cascadeOnDelete(true);
+	config.common().objectClass(DevicePackage.class).cascadeOnDelete(true);
+	config.common().objectClass(Device.class).cascadeOnDelete(true);
+	config.common().objectClass(Profile.class).cascadeOnDelete(true);
+	config.common().objectClass(Keymap.class).cascadeOnDelete(true);
+	config.common().objectClass(Mapping.class).cascadeOnDelete(true);
+	config.common().objectClass(ButtonMapping.class).cascadeOnDelete(true);
+	config.common().objectClass(WheelMapping.class).cascadeOnDelete(true);
+	config.common().objectClass(Button.class).cascadeOnDelete(true);
+	config.common().objectClass(Wheel.class).cascadeOnDelete(true);
+	config.common().objectClass(Output.class).cascadeOnDelete(true);
 	db = Db4oEmbedded.openFile(config, dbFileName);
     }
     /**

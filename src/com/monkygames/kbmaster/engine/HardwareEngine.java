@@ -392,7 +392,7 @@ public class HardwareEngine implements Runnable{
 		    float y = point.y + rel;
 		    robot.mouseMove(point.x, (int)y);
 		    */
-		}else if(component.getIdentifier() == Axis.Z && event.getValue() == 1){
+		}else if(component.getIdentifier() == Axis.Z && event.getValue() >= 1){
 		    mapping = keymap.getzUpWheelMapping();
 		    if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){
 			processOutput(name, mapping.getOutput(),1);
@@ -401,7 +401,7 @@ public class HardwareEngine implements Runnable{
 		    }else{
 			processOutput(name, mapping.getOutput(),event.getValue());
 		    }
-		}else if(component.getIdentifier() == Axis.Z && event.getValue() == -1){
+		}else if(component.getIdentifier() == Axis.Z && event.getValue() <= -1){
 		    mapping = keymap.getzDownWheelMapping();
 		    if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){
 			processOutput(name, mapping.getOutput(),1);
