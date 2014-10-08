@@ -33,7 +33,7 @@ import javafx.stage.Stage;
 public class KeyboardingMaster extends Application {
 
     private LoginUIController controller;
-    public static final String VERSION = "0.2.0";
+    public static final String VERSION = "0.2.1";
 
 	/**
 	 * Reference to this object.
