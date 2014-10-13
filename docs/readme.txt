@@ -18,6 +18,9 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.2.1]
+* [KBM-13] Fixed bug where scroll wheel causes application to crash
+
 [0.2.0]
 * [KMB-1] Added Dropbox Integration
 * [KBM-2] Migrated to Java 8

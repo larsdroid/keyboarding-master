@@ -81,7 +81,7 @@
                     <platforms>linux</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../libs/jre/jre1.7.0_51-linux/java-linux</origin>
+                            <origin>../libs/jre/jre1.8.0_20-linux/java-linux</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -92,7 +92,7 @@
                     <platforms>linux-x64</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../libs/jre/jre1.7.0_51-linux-x64/java-linux-x64</origin>
+                            <origin>../libs/jre/jre1.8.0_20-linux-x64/java-linux-x64</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
