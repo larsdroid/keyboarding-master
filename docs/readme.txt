@@ -18,6 +18,9 @@ sudo ./uninstall
 
 == Versions ===
 
+[0.2.2]
+* Removed usage of IOUtils and instead using java.nio.file.Files 
+
 [0.2.1]
 * [KBM-13] Fixed bug where scroll wheel causes application to crash
 

@@ -3,17 +3,15 @@
  */
 package com.monkygames.kbmaster.profiles;
 
-import com.monkygames.kbmaster.profiles.Profile;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
-import sun.misc.IOUtils;
 
 /**
  * Contains information about an App.
@@ -74,8 +72,7 @@ public class App{
 	    return;
 	}
 	try {
-	    FileInputStream fis = new FileInputStream(new File(appLogoPath));
-	    appLogoByteArray = IOUtils.readFully(fis, -1, true);
+	    appLogoByteArray = Files.readAllBytes(new File(appLogoPath).toPath());
 	} catch (FileNotFoundException ex) {
 	    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
 	} catch (IOException ex) {
@@ -97,8 +94,7 @@ public class App{
 	    return;
 	}
 	try {
-	    FileInputStream fis = new FileInputStream(new File(devLogoPath));
-	    devLogoByteArray = IOUtils.readFully(fis, -1, true);
+	    devLogoByteArray = Files.readAllBytes(new File(devLogoPath).toPath());
 	} catch (FileNotFoundException ex) {
 	    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
 	} catch (IOException ex) {

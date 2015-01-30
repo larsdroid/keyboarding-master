@@ -89,7 +89,7 @@ public class CloneProfileUIController extends PopupController implements ChangeL
 	    }
 	    Profile profile = new Profile(app,newProfileName);
 	    device.setDefaultKeymaps(profile);
-	    profileManager.addProfile(app, profile);
+	    profileManager.addProfile(profile);
 	    notifyOK(newProfileName);
 
 	}finally{

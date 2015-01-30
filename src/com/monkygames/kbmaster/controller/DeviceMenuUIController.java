@@ -170,6 +170,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	if(profile == null){
 	    hardwareManager.deviceProfileRemoved(device);
 	    updateDevices();
+	    globalAccount.save();
 	    return;
 	}
 	for(DeviceEntry deviceEntry: deviceTV.getItems()){
@@ -186,6 +187,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	// repopulate -
 	//deviceTV.getItems().setAll(getDeviceEntryList(false));
 	updateDeviceEntryList(false);
+	globalAccount.save();
     }
     /**
      * Prepares the gui and databases to populate device list.
@@ -240,6 +242,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     public void exitApplication(){
 	cleanUp();
+
+	// save devices
+	globalAccount.save();
+
 	if(cloudAccount != null){
 	    loginController.hideDeviceMenu(false);
 	    // pop cloud sync UI
@@ -559,7 +565,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     private void cleanUp(){
 	hardwareManager.stopPollingAllDevices();
-	globalAccount.close();
     }
 // ============= Extended Methods ============== //
     @Override

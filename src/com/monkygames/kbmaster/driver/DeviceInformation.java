@@ -158,7 +158,8 @@ public class DeviceInformation {
      * @return the name of the profile file.
      */
     public String getProfileName(){
-	return make+"_"+model+".prof";
+	//return make+"_"+model+".prof";
+	return make+"_"+model+".xml";
     }
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //

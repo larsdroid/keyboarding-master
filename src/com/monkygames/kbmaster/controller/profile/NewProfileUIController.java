@@ -99,7 +99,7 @@ public class NewProfileUIController extends PopupController implements ChangeLis
 	    Profile profile = new Profile(app,profileName,author,info,time);
 	    device.setDefaultKeymaps(profile);
 	    // save the profile
-	    profileManager.addProfile(app,profile);
+	    profileManager.addProfile(profile);
 	    notifyOK(profileName);
 	} finally{
 	    reset();

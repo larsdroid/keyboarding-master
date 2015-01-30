@@ -43,7 +43,7 @@ public class DeleteProfileUIController extends PopupController {
     public void okEventFired(ActionEvent evt){
 	try{
 	    if(profile != null){
-		profileManager.removeProfile(profile.getApp(),profile);
+		profileManager.removeProfile(profile);
 		notifyOK(profile.getProfileName());
 	    }else{
 		PopupManager.getPopupManager().showError("Invalid Profile");
