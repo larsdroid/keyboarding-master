@@ -20,6 +20,8 @@ sudo ./uninstall
 
 [0.2.2]
 * Removed usage of IOUtils and instead using java.nio.file.Files 
+* [KBM-15] Replaced DB4O with XStreamer so now uses XML format for saving all configuration
+* [KBM-15] Also added a command line tool for converting db4o profiles into XStreamer based xml files.
 
 [0.2.1]
 * [KBM-13] Fixed bug where scroll wheel causes application to crash

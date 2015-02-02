@@ -4,15 +4,7 @@
 package com.monkygames.kbmaster.controller;
 
 // === java imports === //
-import com.monkygames.kbmaster.util.about.AboutDB4O;
-import com.monkygames.kbmaster.util.about.AboutInstallBuilder;
-import com.monkygames.kbmaster.util.about.AboutJInput;
-import com.monkygames.kbmaster.util.about.AboutJava;
-import com.monkygames.kbmaster.util.about.AboutJavaFX;
-import com.monkygames.kbmaster.util.about.AboutKBM;
-import com.monkygames.kbmaster.util.about.AboutKryonet;
-import com.monkygames.kbmaster.util.about.AboutLinuxGamer;
-import com.monkygames.kbmaster.util.about.AboutProgram;
+import com.monkygames.kbmaster.util.about.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 // === javafx imports === //
@@ -52,10 +44,10 @@ public class AboutUIController implements Initializable{
      * Used for selecting the product to display.
      */
     public enum AboutType {DB4O, INSTALLBUILDER, JAVA,
-			    JAVAFX, JINPUT, KBM, KRYONET, LINUXGAMER}
+			    JAVAFX, JINPUT, KBM, XSTREAM, LINUXGAMER}
 
     private AboutProgram aboutDB4O, aboutInstallBuilder, aboutJInput,
-			aboutJava, aboutJavaFX, aboutKBM, aboutKryonet, 
+			aboutJava, aboutJavaFX, aboutKBM, aboutXStream, 
 			aboutLinuxGamer;
 
 // ============= Class variables ============== //
@@ -89,8 +81,8 @@ public class AboutUIController implements Initializable{
 	    case KBM:
 		aboutProgram = aboutKBM;
 		break;
-	    case KRYONET:
-		aboutProgram = aboutKryonet;
+	    case XSTREAM:
+		aboutProgram = aboutXStream;
 		break;
 	    case LINUXGAMER:
 	    default:
@@ -124,7 +116,7 @@ public class AboutUIController implements Initializable{
 	aboutJava = new AboutJava();
 	aboutJavaFX = new AboutJavaFX();
 	aboutKBM = new AboutKBM();
-	aboutKryonet = new AboutKryonet();
+	aboutXStream = new AboutXStream();
 	aboutLinuxGamer = new AboutLinuxGamer();
     }
 // ============= Extended Methods ============== //
