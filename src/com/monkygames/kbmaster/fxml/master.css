@@ -243,3 +243,13 @@ scroll-bar:vertical .thumb {
     -fx-text-fill: white;
     -fx-background-insets:0;
 }
+.text-area .content{
+    -fx-text-fill: white;
+    -fx-background-color: black;
+}
+.text-area .scroll-pane {
+    -fx-text-fill: white;
+}
+.textareaLabel {
+    -fx-text-fill: white;
+}

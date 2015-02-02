@@ -11,11 +11,11 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" minHeight="245.798828125" prefHeight="496.798828125" prefWidth="386.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.profile.NewProfileUIController">
+<AnchorPane id="AnchorPane" minHeight="245.798828125" prefHeight="496.798828125" prefWidth="386.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.monkygames.kbmaster.controller.profile.NewProfileUIController">
   <children>
     <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
       <image>
-        <Image url="@../resources/profile/new.png" preserveRatio="false" smooth="false" />
+        <Image preserveRatio="false" smooth="false" url="@../resources/profile/new.png" />
       </image>
     </ImageView>
     <Label layoutX="98.0" layoutY="25.0" text="Create New Profile">
@@ -64,7 +64,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
-    <TextArea fx:id="infoTA" layoutX="115.0" layoutY="190.0" prefHeight="239.0" prefWidth="247.0" wrapText="true" />
+    <TextArea fx:id="infoTA" layoutX="115.0" layoutY="190.0" prefHeight="239.0" prefWidth="247.0" styleClass="textareaLabel" wrapText="true" />
     <Label layoutX="81.0" layoutY="190.0" text="Info: " />
   </children>
   <stylesheets>

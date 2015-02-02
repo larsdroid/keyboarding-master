@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" minHeight="625.0" prefHeight="634.0000999999975" prefWidth="402.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml" fx:controller="com.monkygames.kbmaster.controller.SelectProfileUIController">
+<AnchorPane id="AnchorPane" minHeight="625.0" prefHeight="634.0000999999975" prefWidth="402.0" styleClass="mainFxmlClass, popupWindow" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.monkygames.kbmaster.controller.SelectProfileUIController">
   <children>
     <GridPane layoutX="38.0" layoutY="83.0" prefHeight="99.0" prefWidth="335.0">
       <children>
@@ -59,7 +59,7 @@
     <HBox layoutX="82.0" layoutY="190.0" prefHeight="244.0" prefWidth="291.0">
       <children>
         <Label text="Info: " />
-        <TextArea id="infoA" fx:id="infoTA" prefHeight="239.0" prefWidth="247.0" wrapText="true" />
+        <TextArea id="infoA" fx:id="infoTA" prefHeight="239.0" prefWidth="247.0" styleClass="textareaLabel" wrapText="true" />
       </children>
     </HBox>
     <GridPane hgap="5.0" layoutX="32.0" layoutY="449.0" prefHeight="33.0" prefWidth="335.0">
@@ -83,10 +83,10 @@
         <Label text="App Details: " />
         <ImageView fx:id="appLogoIV" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
           <image>
-            <Image url="@resources/profile/app_logo.png" preserveRatio="false" smooth="false" />
+            <Image preserveRatio="false" smooth="false" url="@resources/profile/app_logo.png" />
           </image>
         </ImageView>
-        <TextArea fx:id="appInfoTA" prefHeight="48.0" prefWidth="188.0" wrapText="true" />
+        <TextArea fx:id="appInfoTA" prefHeight="48.0" prefWidth="188.0" styleClass="textareaLabel" wrapText="true" />
       </children>
     </HBox>
     <HBox layoutX="36.0" layoutY="530.0" prefHeight="48.0" prefWidth="176.0">
@@ -94,7 +94,7 @@
         <Label text="Developer: " />
         <ImageView fx:id="developerIV" blendMode="SRC_OVER" disable="false" fitHeight="48.0" fitWidth="100.0" focusTraversable="false" pickOnBounds="true" preserveRatio="true" smooth="true" visible="true" HBox.hgrow="NEVER">
           <image>
-            <Image url="@resources/profile/dev_logo.png" preserveRatio="false" smooth="false" />
+            <Image preserveRatio="false" smooth="false" url="@resources/profile/dev_logo.png" />
           </image>
         </ImageView>
       </children>
