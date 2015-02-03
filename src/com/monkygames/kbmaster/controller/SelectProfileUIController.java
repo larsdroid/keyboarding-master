@@ -118,7 +118,7 @@ public class SelectProfileUIController implements Initializable, ChangeListener<
 	typeCB.valueProperty().removeListener(this);
 	typeCB.setItems(FXCollections.observableArrayList(ProfileTypeNames.getProfileTypeName(AppType.GAME),
 							  ProfileTypeNames.getProfileTypeName(AppType.APPLICATION)));
-	//typeCB.getSelectionModel().selectFirst();
+	typeCB.getSelectionModel().clearSelection();
 	typeCB.valueProperty().addListener(this);
 	// remove all from appCB
 	appCB.valueProperty().removeListener(this);
