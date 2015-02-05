@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.profiles;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * The root of the data structure.
@@ -51,6 +52,8 @@ public class Root{
     }
 
     public ArrayList<App> getList(){
+	// always sort
+	Collections.sort(apps);
 	return apps;
     }
     public void addApp(App app){

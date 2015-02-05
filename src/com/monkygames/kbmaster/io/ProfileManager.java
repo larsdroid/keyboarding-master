@@ -52,8 +52,7 @@ public class ProfileManager{
 
     /**
      * Returns true if the profile already exists and false otherwise.
-     * @param type the type of profile.
-     * @param programName the name of the program.
+     * @param app
      * @param profileName the name of the profile.
      * @return true if profile exists and false if it does not exists.
      */

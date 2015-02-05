@@ -19,7 +19,7 @@ import javafx.scene.image.Image;
  * All profiles are children of an App.
  * @version 1.0
  */
-public class App{
+public class App implements Comparable{
 
 // ============= Class variables ============== //
     /**
@@ -49,7 +49,16 @@ public class App{
 	    
     
 // ============= Constructors ============== //
-    public App(String info, String appLogoPath, String devLogoPath, String name, AppType appType) {
+
+    /**
+     *
+     * @param info
+     * @param appLogoPath
+     * @param devLogoPath
+     * @param name
+     * @param appType
+     */
+    public App(String info, String appLogoPath, String devLogoPath, String name, AppType appType){
 	this.info = info;
 	setAppLogoPath(appLogoPath);
 	setDevLogoPath(devLogoPath);
@@ -160,6 +169,14 @@ public class App{
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
 // ============= Implemented Methods ============== //
+    @Override
+    public int compareTo(Object obj) {
+	if(obj instanceof App){
+	    App app = (App)obj;
+	    return name.compareToIgnoreCase(app.getName());
+	}
+	return -1;
+    }
 // ============= Extended Methods ============== //
     @Override
     public String toString(){
@@ -167,6 +184,7 @@ public class App{
     }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //
+
 }
 /*
  * Local variables:
