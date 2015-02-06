@@ -29,7 +29,7 @@ public class ProfileFileFilter extends FileFilter{
         }
 
 	String extension = getExtension(f);
-	if(extension != null && extension.equals("prof")){
+	if(extension != null && extension.equals("xml")){
 	    return true;
 	}
 	return false;
