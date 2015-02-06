@@ -53,6 +53,9 @@
                         <distributionFile>
                             <origin>../dist/kbmaster/run.bash</origin>
                         </distributionFile>
+                        <distributionFile>
+                            <origin>../dist/kbmaster/convert_db.bash</origin>
+                        </distributionFile>
                         <distributionDirectory>
                             <origin>../dist/kbmaster/lib</origin>
                         </distributionDirectory>
@@ -81,7 +84,7 @@
                     <platforms>linux</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../libs/jre/jre1.8.0_20-linux/java-linux</origin>
+                            <origin>../libs/jre/jre1.8.0_31-linux/java-linux</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -92,13 +95,22 @@
                     <platforms>linux-x64</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../libs/jre/jre1.8.0_20-linux-x64/java-linux-x64</origin>
+                            <origin>../libs/jre/jre1.8.0_31-linux-x64/java-linux-x64</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
             </folderList>
         </component>
     </componentList>
+
+    <finalPageActionList>
+        <launchBrowser>
+            <run>0</run>
+            <url>https://kbmaster.atlassian.net/wiki/display/KBM/Version+${project.version}+Release+Notes</url>
+            <progressText>View release notes</progressText>
+        </launchBrowser>
+    </finalPageActionList>
+
     <postInstallationActionList>
         <addGroup>
             <explanation>games group required to access nostromo controller</explanation>
@@ -139,7 +151,7 @@ KERNEL=="mouse[0-9]*", SUBSYSTEM=="input", GROUP="games", MODE="0664"</text>
         </runProgram>
         <changeOwnerAndGroup>
             <explanation>Currently, root has ownership so need to change ownership to user</explanation>
-            <files>${installdir};${installdir}/*;${installdir}/lib/*;/home/${env(SUDO_USER)}/Desktop/jnostromo.desktop</files>
+            <files>${installdir};${installdir}/*;${installdir}/lib/*;/home/${env(SUDO_USER)}/Desktop/kbmaster.desktop</files>
             <group>${env(SUDO_USER)}</group>
             <owner>${env(SUDO_USER)}</owner>
             <progressText>Changing ownership to user</progressText>
@@ -166,4 +178,3 @@ KERNEL=="mouse[0-9]*", SUBSYSTEM=="input", GROUP="games", MODE="0664"</text>
         </directoryParameter>
     </parameterList>
 </project>
-

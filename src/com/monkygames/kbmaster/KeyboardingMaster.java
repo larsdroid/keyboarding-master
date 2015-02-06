@@ -193,4 +193,10 @@ public class KeyboardingMaster extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    /**
+     * Print the version to be consumed by the installer.
+     */
+    public static void printVersion(){
+        System.out.println(VERSION);
+    }
 }

@@ -3,6 +3,7 @@ package com.monkygames.kbmaster.io;
 import com.monkygames.kbmaster.account.DeviceList;
 import com.monkygames.kbmaster.account.DevicePackage;
 import com.monkygames.kbmaster.account.UserSettings;
+import com.monkygames.kbmaster.account.dropbox.MetaData;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.driver.DeviceInformation;
 import com.monkygames.kbmaster.input.Button;
@@ -46,14 +47,9 @@ public class XStreamManager {
     private XStream userSettingsStream;
 
     /**
-     * For saving the Global Account.
+     * For saving the Global Account and profiles.
      */
-    private XStream globalAccountStream;
-
-    /**
-     * For saving roots for entire profiles.
-     */
-    private XStream rootStream;
+    private XStream globalStream;
 
     /**
      * The user settings file.
@@ -75,53 +71,32 @@ public class XStreamManager {
         settingsFile = new File(settingsFileName);
 
         // global account
-        globalAccountStream = new XStream(new DomDriver());
-        globalAccountStream.alias("RootManager",RootManager.class);
-        globalAccountStream.alias("Root",Root.class);
-        globalAccountStream.alias("AppType",AppType.class);
-        globalAccountStream.alias("ArrayList",ArrayList.class);
-        globalAccountStream.alias("Profile",Profile.class);
-        globalAccountStream.alias("App",App.class);
-        globalAccountStream.alias("Keymap",Keymap.class);
-        globalAccountStream.alias("HashMap",HashMap.class);
-        globalAccountStream.alias("ButtonMapping",ButtonMapping.class);
-        globalAccountStream.alias("Button",Button.class);
-        globalAccountStream.alias("Output",Output.class);
-        globalAccountStream.alias("WheelMapping",WheelMapping.class);
-        globalAccountStream.alias("Wheel",Wheel.class);
-        globalAccountStream.alias("Mapping",Mapping.class);
-        globalAccountStream.alias("Hardware",Hardware.class);
-        globalAccountStream.alias("OutputDisabled",OutputDisabled.class);
-        globalAccountStream.alias("OutputKey",OutputKey.class);
-        globalAccountStream.alias("OutputKeymapSwitch",OutputKeymapSwitch.class);
-        globalAccountStream.alias("OutputMouse",OutputMouse.class);
-        globalAccountStream.alias("DeviceList",DeviceList.class);
-        globalAccountStream.alias("DevicePackage",DevicePackage.class);
-        globalAccountStream.alias("Device",Device.class);
-        globalAccountStream.alias("DeviceInformation",DeviceInformation.class);
+        globalStream = new XStream(new DomDriver());
+        globalStream.alias("RootManager",RootManager.class);
+        globalStream.alias("Root",Root.class);
+        globalStream.alias("AppType",AppType.class);
+        globalStream.alias("ArrayList",ArrayList.class);
+        globalStream.alias("Profile",Profile.class);
+        globalStream.alias("App",App.class);
+        globalStream.alias("Keymap",Keymap.class);
+        globalStream.alias("HashMap",HashMap.class);
+        globalStream.alias("ButtonMapping",ButtonMapping.class);
+        globalStream.alias("Button",Button.class);
+        globalStream.alias("Output",Output.class);
+        globalStream.alias("WheelMapping",WheelMapping.class);
+        globalStream.alias("Wheel",Wheel.class);
+        globalStream.alias("Mapping",Mapping.class);
+        globalStream.alias("Hardware",Hardware.class);
+        globalStream.alias("OutputDisabled",OutputDisabled.class);
+        globalStream.alias("OutputKey",OutputKey.class);
+        globalStream.alias("OutputKeymapSwitch",OutputKeymapSwitch.class);
+        globalStream.alias("OutputMouse",OutputMouse.class);
+        globalStream.alias("DeviceList",DeviceList.class);
+        globalStream.alias("DevicePackage",DevicePackage.class);
+        globalStream.alias("Device",Device.class);
+        globalStream.alias("DeviceInformation",DeviceInformation.class);
+        globalStream.alias("MetaData",MetaData.class);
         globalAccountFile = new File(globalAccountFileName);
-
-        // root stream
-        rootStream = new XStream(new DomDriver());
-        rootStream.alias("RootManager",RootManager.class);
-        rootStream.alias("Root",Root.class);
-        rootStream.alias("AppType",AppType.class);
-        rootStream.alias("ArrayList",ArrayList.class);
-        rootStream.alias("Profile",Profile.class);
-        rootStream.alias("App",App.class);
-        rootStream.alias("Keymap",Keymap.class);
-        rootStream.alias("HashMap",HashMap.class);
-        rootStream.alias("ButtonMapping",ButtonMapping.class);
-        rootStream.alias("Button",Button.class);
-        rootStream.alias("Output",Output.class);
-        rootStream.alias("WheelMapping",WheelMapping.class);
-        rootStream.alias("Wheel",Wheel.class);
-        rootStream.alias("Mapping",Mapping.class);
-        rootStream.alias("Hardware",Hardware.class);
-        rootStream.alias("OutputDisabled",OutputDisabled.class);
-        rootStream.alias("OutputKey",OutputKey.class);
-        rootStream.alias("OutputKeymapSwitch",OutputKeymapSwitch.class);
-        rootStream.alias("OutputMouse",OutputMouse.class);
     }
 
     // === Public Methods === //
@@ -152,7 +127,7 @@ public class XStreamManager {
      * @return true on success and false otherwise.
      */
     public boolean writeRootManager(String filename, RootManager rootManager){
-        return write(rootStream,filename,rootManager);
+        return write(globalStream,filename,rootManager);
     }
 
     /**
@@ -162,7 +137,7 @@ public class XStreamManager {
      * @return the root manager or null on error.
      */
     public RootManager readRootManager(String filename){
-        RootManager rootManager = (RootManager)read(rootStream,filename);
+        RootManager rootManager = (RootManager)read(globalStream,filename);
         if(rootManager == null){
             return new RootManager();
         }
@@ -174,7 +149,7 @@ public class XStreamManager {
      * @return true on success and false otherwise.
      */
     public boolean writeProfile(String filename, Profile profile){
-        return write(rootStream,filename,profile);
+        return write(globalStream,filename,profile);
     }
 
     /**
@@ -184,7 +159,7 @@ public class XStreamManager {
      * @return the Profile or null on error.
      */
     public Profile readProfile(String filename){
-        return (Profile)read(rootStream,filename);
+        return (Profile)read(globalStream,filename);
     }
 
     /**
@@ -192,7 +167,7 @@ public class XStreamManager {
      * @return true on success and false otherwise.
      */
     public boolean writeGlobalAccount(DeviceList deviceList){
-        return write(globalAccountStream,globalAccountFile.getAbsolutePath(),deviceList);
+        return write(globalStream,globalAccountFile.getAbsolutePath(),deviceList);
     }
 
     /**
@@ -201,11 +176,27 @@ public class XStreamManager {
      * @return the root manager or null on error.
      */
     public DeviceList readGlobalAccount(){
-        DeviceList deviceList = (DeviceList)read(this.globalAccountStream,globalAccountFile.getAbsolutePath());
+        DeviceList deviceList = (DeviceList)read(this.globalStream,globalAccountFile.getAbsolutePath());
         if(deviceList == null){
             return new DeviceList();
         }
         return deviceList;
+    }
+
+    /**
+     * Reads a file using the global stream.
+     * @param filename the path to the file to read.
+     * @return the object read from file and null otherwise.
+     */
+    public Object readFile(String filename){
+        return read(globalStream,filename);
+    }
+
+    /**
+     * Writes using the global stream.
+     */
+    public boolean writeFile(String filename, Object obj){
+        return write(globalStream, filename, obj);
     }
 
     // === Private Methods === //

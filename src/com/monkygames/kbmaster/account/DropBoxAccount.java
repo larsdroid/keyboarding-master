@@ -3,9 +3,6 @@
  */
 package com.monkygames.kbmaster.account;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
-import com.db4o.config.EmbeddedConfiguration;
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
 import com.dropbox.core.DbxClient;
@@ -16,13 +13,15 @@ import com.dropbox.core.DbxWebAuthNoRedirect;
 import com.dropbox.core.DbxWriteMode;
 import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.dropbox.MetaData;
+import com.monkygames.kbmaster.account.dropbox.SyncMetaData;
 import com.monkygames.kbmaster.controller.ProfileUIController;
 import com.monkygames.kbmaster.io.XStreamManager;
+import com.monkygames.kbmaster.profiles.RootManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.Files;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -107,24 +106,31 @@ public class DropBoxAccount implements CloudAccount{
                 if(entry == null){
                     return false;
                 }
-                // upload all files from profiles directory
+                // upload only xml files from profiles directory
                 for(File file: localProfileDir.listFiles()){
-                    if(!syncFile(profileDir+"/"+file.getName())){
-                        return false;
+
+                    if(isValidFile(file.getName())){
+                        if(!syncFile(profileDir+"/"+file.getName())){
+                            return false;
+                        }
                     }
                 }
             }else {
                 // need to iterate through all and compare individual files
                 for (DbxEntry child : listing.children) {
-                    // first investigate files stored on the cloud
-                    if(!syncFile(profileDir+"/"+child.name)){
-                        return false;
+                    if(isValidFile(child.name)){
+                        // first investigate files stored on the cloud
+                        if(!syncFile(profileDir+"/"+child.name)){
+                            return false;
+                        }
                     }
                 }
                 // now iterate through all children
                 for(File file: localProfileDir.listFiles()){
-                    if(!syncFile(profileDir+"/"+file.getName())){
-                        return false;
+                    if(isValidFile(file.getName())){
+                        if(!syncFile(profileDir+"/"+file.getName())){
+                            return false;
+                        }
                     }
                 }
             }
@@ -203,24 +209,16 @@ public class DropBoxAccount implements CloudAccount{
      * @return the meta data and null if it doesn't exist.
      */
     private MetaData getLocalDropboxMetaData(String filename){
-        try{
-            MetaData retVal = null;
-            EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-            ObjectContainer db = Db4oEmbedded.openFile(config, filename);
-
-            List<MetaData> revList = db.query(MetaData.class);
-            if(revList.isEmpty()){
-                retVal = null;
-            }else{
-                retVal = revList.get(0);
-            }
-            db.close();
-            return retVal;
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Error in opening: "+filename);
+        Object obj = XStreamManager.getStreamManager().readFile(filename);
+        if(obj == null){
             return null;
         }
+        if (obj instanceof DeviceList){
+            return ((DeviceList)obj).getMetaData();
+        }else if(obj instanceof RootManager){
+            return ((RootManager)obj).getMetaData();
+        }
+        return null;
     }
 
     /**
@@ -279,21 +277,28 @@ public class DropBoxAccount implements CloudAccount{
 
     private boolean updateLocalFileMetaData(String filename, MetaData metaData){
         try{
-            EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-            ObjectContainer db = Db4oEmbedded.openFile(config, filename);
 
-            List<MetaData> revList = db.query(MetaData.class);
-            if(revList.isEmpty()){
-                db.store(metaData);
-                db.commit();
-            }else{
-                MetaData storedMetaData = revList.get(0);
-                storedMetaData.update(metaData);
-                db.store(storedMetaData);
-                db.commit();
+            Object obj = XStreamManager.getStreamManager().readFile(filename);
+            if(obj == null){
+                // problems
+                System.out.println("Error in updating metadata: "+filename);
+                return false;
             }
-            db.close();
-            return true;
+
+            SyncMetaData syncMD = null;
+             
+            if (obj instanceof DeviceList){
+                syncMD = (DeviceList)obj;
+            }else if(obj instanceof RootManager){
+                syncMD =  (RootManager)obj;
+            }else {
+                // failed
+                return false;
+            }
+
+            syncMD.setMetaData(metaData);
+            // write file
+            return XStreamManager.getStreamManager().writeFile(filename, syncMD);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("Error in updating metadata: "+filename);
@@ -326,6 +331,26 @@ public class DropBoxAccount implements CloudAccount{
         if(metaData != null){
             // update local file's metadata
             return updateLocalFileMetaData(filename, metaData);
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if this is a valid file to upload to dropbox.
+     * Only xml files are valid.
+     * @param filename the file to check.
+     */
+    private boolean isValidFile(String filename){
+        String ext = "";
+        int i = filename.lastIndexOf('.');
+        if (i > 0) {
+           ext = filename.substring(i + 1);
+        }
+        if(ext == null){
+            return false;
+        }
+        if(ext.equals("xml")){
+            return true;
         }
         return false;
     }
