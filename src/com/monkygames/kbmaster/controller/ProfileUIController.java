@@ -631,7 +631,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	keymapUIManager = new KeymapUIManager();
 
 	kmpFileChooser = new FileChooser();
-	FileChooser.ExtensionFilter kmpExtFilter = new FileChooser.ExtensionFilter("kbmaster profiles (*.kmp)","*.kmp");
+	FileChooser.ExtensionFilter kmpExtFilter = new FileChooser.ExtensionFilter("kbmaster profiles (*.xml)","*.xml");
 	kmpFileChooser.getExtensionFilters().add(kmpExtFilter);
     }
 
