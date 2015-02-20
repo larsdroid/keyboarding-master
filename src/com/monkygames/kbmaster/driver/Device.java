@@ -4,9 +4,12 @@
 package com.monkygames.kbmaster.driver;
 
 // === kbmaster imports === //
-import com.monkygames.kbmaster.input.Mapping;
+import com.monkygames.kbmaster.input.*;
 import com.monkygames.kbmaster.profiles.Profile;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import net.java.games.input.Component.Identifier.Key;
 
 /**
  * Contains device information and device driver implementation.
@@ -19,18 +22,11 @@ public abstract class Device implements Mapper{
      * The device information.
      */
     private DeviceInformation deviceInformation;
+    private DeviceState deviceState;
     /**
-     * The default profile.
+     * Stores the inputs used to identify the input.
      */
-    private Profile profile;
-    /**
-     * The current status of the device.
-     */
-    private boolean isConnected;
-    /**
-     * The state in which this driver is being used or not.
-     */
-    private boolean isEnabled;
+    protected HashMap<Integer,InputMap> inputMaps;
 
 // ============= Constructors ============== //
     /**
@@ -39,6 +35,8 @@ public abstract class Device implements Mapper{
      */
     public Device(DeviceInformation deviceInformation){
 	this.deviceInformation = deviceInformation;
+	deviceState = new DeviceState(null,false,false,deviceInformation.getPackageName());
+	inputMaps = new HashMap<>();
     }
     /**
      * Creates a device and initializes the DeviceInformation
@@ -59,11 +57,11 @@ public abstract class Device implements Mapper{
 		   String deviceDescription, String version,
 		   String packageName, String uiFXMLURL, 
 		   String imageBindingsTemplate){
-	deviceInformation = new DeviceInformation(make,model,jinputName,
+	this(new DeviceInformation(make,model,jinputName,
 						  deviceType, deviceIcon,
 						  deviceDescription, version,
 						  packageName, uiFXMLURL,
-						  imageBindingsTemplate);
+						  imageBindingsTemplate));
     }
 // ============= Public Methods ============== //
     public DeviceInformation getDeviceInformation(){
@@ -79,29 +77,55 @@ public abstract class Device implements Mapper{
 	}
     }
     public Profile getProfile() {
-	return profile;
+	return deviceState.getProfile();
     }
 
     public void setProfile(Profile profile) {
-	this.profile = profile;
+	deviceState.setProfile(profile);
     }
 
     public boolean isConnected() {
-	return isConnected;
+	return deviceState.isIsConnected();
     }
 
     public void setIsConnected(boolean isConnected) {
-	this.isConnected = isConnected;
+	deviceState.setIsConnected(isConnected);
     }
 
 
     public boolean isEnabled() {
-	return isEnabled;
+	return deviceState.isIsEnabled();
     }
 
     public void setIsEnabled(boolean isEnabled) {
-	this.isEnabled = isEnabled;
+	deviceState.setIsEnabled(isEnabled);
     }
+
+    public void setDeviceState(DeviceState deviceState){
+	this.deviceState = deviceState;
+    }
+
+    /**
+     * Add a new button mapping to the keymap.
+     * @param keymap they keymap to add the button mapping.
+     * @param inputMap the input map of the input to add.
+     * @param keyEvent the id of the key (java.awt) to add
+     */
+    protected void addButtonMapping(Keymap keymap, InputMap inputMap, int keyEvent){
+	keymap.addButtonMapping(inputMap.getName(), 
+	    new ButtonMapping(new Button(inputMap.getId(), inputMap.getName()),
+	    new OutputKey(KeyEvent.getKeyText(keyEvent),keyEvent,0)));
+    }
+
+    @Override
+    public String getId(int index){
+	InputMap inputMap = inputMaps.get(index);
+	if(inputMap == null){
+	    return Key.TAB.getName();
+	}
+	return inputMap.getName();
+    }
+
     /**
      * Returns the x,y pixel location to write the output and
      * the x,y pixel location to write the description for the 

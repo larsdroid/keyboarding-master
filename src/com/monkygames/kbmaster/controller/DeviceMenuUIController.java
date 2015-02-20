@@ -134,7 +134,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      */
     public void addDevice(Device device){
 	// update global account
-	if(!globalAccount.downloadDevice(device.getDeviceInformation().getName())){
+	if(!globalAccount.downloadDevice(device.getDeviceInformation().getPackageName())){
 	    PopupManager.getPopupManager().showError("Unable to add device.  Is it already added?");
 	    return;
 	}

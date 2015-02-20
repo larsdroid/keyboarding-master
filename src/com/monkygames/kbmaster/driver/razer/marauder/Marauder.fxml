@@ -16,7 +16,11 @@
             <Image url="@marauder.png" />
          </image>
       </ImageView>
-    <Button id="B01" contentDisplay="GRAPHIC_ONLY" defaultButton="false" layoutX="24.0" layoutY="121.0" minWidth="31.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" styleClass="b01" text="1" textAlignment="CENTER" textOverrun="CLIP" visible="true" />
+    <Button id="B01" contentDisplay="GRAPHIC_ONLY" defaultButton="false" layoutX="29.0" layoutY="127.0" minWidth="28.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="30.0" styleClass="b01" text="1" textAlignment="CENTER" textOverrun="CLIP" visible="true" />
+      <Button id="B01" contentDisplay="GRAPHIC_ONLY" defaultButton="false" layoutX="83.0" layoutY="128.0" minWidth="27.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="27.0" styleClass="b01" text="2" textAlignment="CENTER" textOverrun="CLIP" visible="true" />
+      <Button id="B01" contentDisplay="GRAPHIC_ONLY" defaultButton="false" layoutX="109.0" layoutY="126.0" minWidth="27.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="27.0" styleClass="b01" text="3" textAlignment="CENTER" textOverrun="CLIP" visible="true" />
+      <Button id="B01" contentDisplay="GRAPHIC_ONLY" defaultButton="false" layoutX="136.0" layoutY="127.0" minWidth="27.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="27.0" styleClass="b01" text="4" textAlignment="CENTER" textOverrun="CLIP" visible="true" />
+      <Button id="B01" contentDisplay="GRAPHIC_ONLY" defaultButton="false" layoutX="163.0" layoutY="126.0" minWidth="27.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="27.0" styleClass="b01" text="5" textAlignment="CENTER" textOverrun="CLIP" visible="true" />
   </children>
   <stylesheets>
     <URL value="@../../driver.css" />

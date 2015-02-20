@@ -3,6 +3,7 @@
  */
 package com.monkygames.kbmaster.util;
 
+import com.monkygames.kbmaster.engine.PollEventQueue;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,6 +76,9 @@ public class ScanHardware implements Runnable{
      * @return the details of the component.
      */
     private String getComponentDetails(Component component){
+		//String name = component.getIdentifier().getName();
+		//ButtonMapping mapping = keymap.getButtonMapping(name);
+		//processOutput(name, mapping.getOutput(), event.getValue());
 	String data = "Name["+component.getName()+
 		      "] Identifier["+component.getIdentifier().getName();
 	if(component.isAnalog()){
@@ -112,31 +116,35 @@ public class ScanHardware implements Runnable{
 // ============= Implemented Methods ============== //
     @Override
     public void run(){
-	Event event = new Event();
 	System.out.println("Number of controllers to poll = "+pollControllers.length);
-	while(true){
-	    for(Controller controller: pollControllers){
-		controller.poll();
-		String out = "["+controller.getName()+":"+controller.getType()+"] ";
-		String data = null;
+	ArrayList <EventMapping> eventQueues = new ArrayList<>();
 
-		EventQueue queue = controller.getEventQueue();
-		while(queue.getNextEvent(event)){
+	for(Controller controller: pollControllers){
+	    eventQueues.add(new EventMapping(new PollEventQueue(controller.getComponents()),
+	    "["+controller.getName()+":"+controller.getType()+"] ",
+	    controller));
+	}
+
+	while(true){
+	    //for(Event event: keyboardEventQueue.getEvents()){
+	    for(EventMapping eventMapping: eventQueues){
+		eventMapping.controller.poll();
+		String out = eventMapping.deviceInfo;
+
+		for(Event event: eventMapping.eventQueue.getEvents()){
 		    Component component = event.getComponent();
-		    if(component == null){
-			data += "\n"+(out + "null");
-		    }else{
-			data += "\n"+(out + getComponentDetails(component));
+		    //String name = component.getIdentifier().getName();
+		    if(component != null){
+			System.out.println(out + getComponentDetails(component));
 		    }
 		}
-		if(data != null){
-		    System.out.print(out+data);
-		}
+		/*
 		for(Component component: controller.getComponents()){
 		    if(component.getIdentifier().getName().equals("A")){
 			System.out.println(component.getIdentifier()+" data = "+component.getPollData());
 		    }
 		}
+		*/
 	    }
 	    try {
 		// print out every 0.1 seconds
@@ -148,6 +156,16 @@ public class ScanHardware implements Runnable{
     }
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //
+    class EventMapping {
+	public PollEventQueue eventQueue;
+	public String deviceInfo;
+	public Controller controller;
+	public EventMapping(PollEventQueue eventQueue, String deviceInfo, Controller controller){
+	    this.eventQueue = eventQueue;
+	    this.deviceInfo = deviceInfo;
+	    this.controller = controller;
+	}
+    }
 // ============= Static Methods ============== //
     public static void main(String[] args){
 	boolean doPoll = true;

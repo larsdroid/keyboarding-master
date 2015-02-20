@@ -49,10 +49,6 @@ public interface Mapper{
      * @return the string id used for getting a Button mapping.
      */
     public String getId(int index);
-    /**
-     * Returns the index associated with the id.
-     */
-    public int getIndex(String id);
 }
 /*
  * Local variables:

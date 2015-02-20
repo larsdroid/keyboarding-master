@@ -5,6 +5,7 @@ package com.monkygames.kbmaster.account;
 
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.driver.DeviceState;
 
 /**
  * The package a device driver and its relationship to the 
@@ -18,7 +19,7 @@ public class DevicePackage{
     /**
      * The device information represented by this class.
      */
-    private Device device;
+    private DeviceState deviceState;
     /**
      * True if this device has been downloaded and available locally or false
      * otherwise.
@@ -33,17 +34,17 @@ public class DevicePackage{
 // ============= Static Methods ============== //
 
     // ============= Constructors ============== //
-    public DevicePackage(Device device){
-	this.device = device;
+    public DevicePackage(DeviceState deviceState){
+	this.deviceState = deviceState;
 	isDownloaded = false;
     }
     // ============= Public Methods ============== //
-    public Device getDevice(){
-	return device;
+    public DeviceState getDeviceState(){
+	return deviceState;
     }
 
-    public void setDevice(Device device) {
-	this.device = device;
+    public void setDeviceState(DeviceState deviceState) {
+	this.deviceState = deviceState;
     }
 
     public boolean isIsDownloaded() {

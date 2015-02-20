@@ -103,21 +103,6 @@ public class Taipan extends Device{
 	}
 	return net.java.games.input.Component.Identifier.Button.LEFT.getName();
     }
-    @Override
-    public int getIndex(String id){
-	if(id.equals(net.java.games.input.Component.Identifier.Button.LEFT.getName())){
-	    return 1;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.RIGHT.getName())){
-	    return 2;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.MIDDLE.getName())){
-	    return 7;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.EXTRA.getName())){
-	    return 3;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.SIDE.getName())){
-	    return 4;
-	}
-	return 1;
-    }
 // ============= Extended Methods ============== //
     @Override
     public Rectangle getBindingOutputAndDescriptionLocation(Mapping mapping) {

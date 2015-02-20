@@ -2,6 +2,7 @@ build/*
 docs/figs/*.png
 docs/art/*
 docs/fonts/*
+docs/*
 *.pdf
 local/*
 profiles/*
@@ -11,3 +12,11 @@ global_account.db4o
 dist/*
 *.swp
 src/com/monkygames/kbmaster/account/DropBoxApp.java
+libs/*
+*.class
+test.xml
+test2.xml
+settings.db4o
+settings.xml
+global_account.xml
+art_assets/*

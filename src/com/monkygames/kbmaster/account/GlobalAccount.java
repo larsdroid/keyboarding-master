@@ -5,6 +5,7 @@ package com.monkygames.kbmaster.account;
 
 // === java imports === //
 import com.monkygames.kbmaster.driver.Device;
+import com.monkygames.kbmaster.driver.DeviceState;
 import com.monkygames.kbmaster.driver.DriverManager;
 import com.monkygames.kbmaster.io.XStreamManager;
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class GlobalAccount{
     private DeviceList deviceList;
 
     /**
+     * The installed devices.
+     */
+    private ArrayList<Device> installedDevices;
+
+    /**
      * Contains all drivers available.
      */
     private DriverManager driverManager;
@@ -34,6 +40,17 @@ public class GlobalAccount{
 
 	// populate supported devices
 	deviceList = XStreamManager.getStreamManager().readGlobalAccount();
+
+	installedDevices = new ArrayList<>();
+	
+	// instantiate devices
+	for(DevicePackage devicePackage: deviceList.getList()){
+	    Device device = driverManager.getDeviceByPackageName(devicePackage.getDeviceState().getPackageName());
+	    if(device != null){
+		device.setDeviceState(devicePackage.getDeviceState());
+		installedDevices.add(device);
+	    }
+	}
     }
 
     // ============= Public Methods ============== //
@@ -49,20 +66,19 @@ public class GlobalAccount{
     }
     
     /**
-     * Downloads the device specified by the name which is the concat
-     * of make:model.
+     * Downloads the device specified by the package name
      * Note, right now this method expects the driver to be already
      * packaged in the jar; however, the future development of this
      * method should get the driver from outside the jar.
-     * @param deviceName the make:model
+     * @param devicePackageName the java package.
      * @return true on success and false otherwise (if the device is already 
      * downloaded than returns false).
      */
-    public boolean downloadDevice(String deviceName){
+    public boolean downloadDevice(String devicePackageName){
 	// first check if the device is already added 
 
 	for(DevicePackage devicePackage: deviceList.getList()){
-	    if(devicePackage.getDevice().getDeviceInformation().getName().equals(deviceName)){
+	    if(devicePackage.getDeviceState().getPackageName().equals(devicePackageName)){
 		// already added
 		return false;
 	    }
@@ -70,12 +86,17 @@ public class GlobalAccount{
 
 	// get all devices 
 	for(Device device: driverManager.getDevices()){
-	    if(device.getDeviceInformation().getName().equals(deviceName)){
+	    if(device.getDeviceInformation().getPackageName().equals(devicePackageName)){
 		Device newDevice = instantiate(device.getDeviceInformation().getPackageName(),Device.class);
 		if(device == null){
 		    return false;
 		}
-		DevicePackage devicePackage = new DevicePackage(device);
+		DeviceState deviceState = new DeviceState(device.getProfile(),
+		    device.isConnected(),
+		    device.isEnabled(),
+		    device.getDeviceInformation().getPackageName());
+
+		DevicePackage devicePackage = new DevicePackage(deviceState);
 		devicePackage.setIsDownloaded(true);
 		deviceList.getList().add(devicePackage);
 	    }
@@ -86,13 +107,14 @@ public class GlobalAccount{
 
     /**
      * Removes the device from the local device list and stores to the database.
+     * @param device the device to remove.
      * @device the device to remove.
      * @return true if the device was successfully removed and false otherwise.
      */
     public boolean removeDownloadedDevice(Device device){
-	String deviceName = device.getDeviceInformation().getName();
+	String devicePackageName = device.getDeviceInformation().getPackageName();
 	for(DevicePackage devicePackage: deviceList.getList()){
-	    if(devicePackage.getDevice().getDeviceInformation().getName().equals(deviceName)){
+	    if(devicePackage.getDeviceState().getPackageName().equals(devicePackageName)){
 		deviceList.getList().remove(devicePackage);
 		// save
 		XStreamManager.getStreamManager().writeGlobalAccount(deviceList);
@@ -111,7 +133,7 @@ public class GlobalAccount{
 
 	for(DevicePackage devicePackage: deviceList.getList()){
 	    if(devicePackage.isIsDownloaded()){
-		devices.add(devicePackage.getDevice());
+		devices.add(driverManager.getDeviceByPackageName(devicePackage.getDeviceState().getPackageName()));
 	    }
 	}
 	return devices;

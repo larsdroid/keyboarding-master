@@ -47,6 +47,30 @@ public class RazerNostromoDevice extends Device{
 		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/RazerNostromo.fxml",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
+
+	// setup input bindings
+	int i = 1;
+	inputMaps.put(i,new InputMap(i++,Key.TAB.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.Q.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.W.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.E.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.R.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.CAPITAL.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.A.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.S.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.D.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.F.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.LSHIFT.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.Z.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.X.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.C.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.SPACE.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.LALT.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.UP.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.RIGHT.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.DOWN.getName()));
+	inputMaps.put(i,new InputMap(i++,Key.LEFT.getName()));
+	inputMaps.put(23,new InputMap(23,net.java.games.input.Component.Identifier.Button.MIDDLE.getName()));
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
@@ -154,6 +178,36 @@ public class RazerNostromoDevice extends Device{
     @Override
     public Keymap generateDefaultKeymap(int id){
 	Keymap keymap = new Keymap(id+1);
+	int i = 1;
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_TAB);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_Q);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_W);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_E);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_R);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_CAPS_LOCK);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_A);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_S);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_D);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_F);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_SHIFT);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_Z);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_X);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_C);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_SPACE);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_ALT);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_UP);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_RIGHT);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_DOWN);
+	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_LEFT);
+
+	// wheel 
+	net.java.games.input.Component.Identifier.Button jinputB;
+	jinputB = net.java.games.input.Component.Identifier.Button.MIDDLE;
+	keymap.addButtonMapping(jinputB.getName(), new ButtonMapping(new Button(23,jinputB.getName()),new OutputMouse(jinputB.getName(),InputEvent.BUTTON2_MASK,MouseType.MouseClick)));
+	keymap.setzUpWheelMapping(new WheelMapping(new Wheel(21),new OutputMouse("Scroll Up",-1,MouseType.MouseWheel)));
+	keymap.setzDownWheelMapping(new WheelMapping(new Wheel(22),new OutputMouse("Scroll Down",1,MouseType.MouseWheel)));
+
+	/*
 	// add 01 - 20
 	keymap.addButtonMapping(Key.TAB.getName(), new ButtonMapping(new Button(1,Key.TAB.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_TAB),KeyEvent.VK_TAB,0)));
 	keymap.addButtonMapping(Key.Q.getName(), new ButtonMapping(new Button(2,Key.Q.getName()),new OutputKey("Q",KeyEvent.VK_Q,0)));
@@ -183,6 +237,7 @@ public class RazerNostromoDevice extends Device{
 	keymap.setzUpWheelMapping(new WheelMapping(new Wheel(21),new OutputMouse("Scroll Up",-1,MouseType.MouseWheel)));
 	keymap.setzDownWheelMapping(new WheelMapping(new Wheel(22),new OutputMouse("Scroll Down",1,MouseType.MouseWheel)));
 	//keymap.setMiddleWheelMapping(new WheelMapping(new Wheel(23),new OutputMouse("Middle-Click",InputEvent.BUTTON2_MASK,MouseType.MouseClick)));
+	*/
 	return keymap;
     }
     @Override
@@ -203,6 +258,7 @@ public class RazerNostromoDevice extends Device{
 	}
 
     }
+    /*
     @Override
     public String getId(int index){
 	switch(index){
@@ -251,53 +307,7 @@ public class RazerNostromoDevice extends Device{
 	}
 	return Key.TAB.getName();
     }
-    @Override
-    public int getIndex(String id){
-	if(id.equals(Key.TAB.getName())){
-	    return 1;
-	}else if(id.equals(Key.Q.getName())){
-	    return 2;
-	}else if(id.equals(Key.W.getName())){
-	    return 3;
-	}else if(id.equals(Key.E.getName())){
-	    return 4;
-	}else if(id.equals(Key.R.getName())){
-	    return 5;
-	}else if(id.equals(Key.CAPITAL.getName())){
-	    return 6;
-	}else if(id.equals(Key.A.getName())){
-	    return 7;
-	}else if(id.equals(Key.S.getName())){
-	    return 8;
-	}else if(id.equals(Key.D.getName())){
-	    return 9;
-	}else if(id.equals(Key.F.getName())){
-	    return 10;
-	}else if(id.equals(Key.LSHIFT.getName())){
-	    return 11;
-	}else if(id.equals(Key.Z.getName())){
-	    return 12;
-	}else if(id.equals(Key.X.getName())){
-	    return 13;
-	}else if(id.equals(Key.C.getName())){
-	    return 14;
-	}else if(id.equals(Key.SPACE.getName())){
-	    return 15;
-	}else if(id.equals(Key.LALT.getName())){
-	    return 16;
-	}else if(id.equals(Key.UP.getName())){
-	    return 17;
-	}else if(id.equals(Key.RIGHT.getName())){
-	    return 18;
-	}else if(id.equals(Key.DOWN.getName())){
-	    return 19;
-	}else if(id.equals(Key.LEFT.getName())){
-	    return 20;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.MIDDLE.getName())){
-	    return 23;
-	}
-	return 1;
-    }
+    */
 // ============= Extended Methods ============== //
     @Override
     public Rectangle getBindingOutputAndDescriptionLocation(Mapping mapping) {

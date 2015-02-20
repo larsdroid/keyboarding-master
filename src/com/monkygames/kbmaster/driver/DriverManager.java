@@ -64,6 +64,20 @@ public class DriverManager{
 	}
 	return list;
     }
+
+    /**
+     * Returns the device based on the package name.
+     * @param packageName the name of the package of the device to retrive.
+     * @return the device and null if not found.
+     */
+    public Device getDeviceByPackageName(String packageName){
+	for(Device device: devices){
+	    if(device.getDeviceInformation().getPackageName().equals(packageName)){
+		return device;
+	    }
+	}
+	return null;
+    }
     /**
      * Returns the device based on the specified information and null if
      * not found.

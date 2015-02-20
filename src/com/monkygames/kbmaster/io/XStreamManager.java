@@ -6,6 +6,7 @@ import com.monkygames.kbmaster.account.UserSettings;
 import com.monkygames.kbmaster.account.dropbox.MetaData;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.driver.DeviceInformation;
+import com.monkygames.kbmaster.driver.DeviceState;
 import com.monkygames.kbmaster.input.Button;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Hardware;
@@ -96,6 +97,7 @@ public class XStreamManager {
         globalStream.alias("Device",Device.class);
         globalStream.alias("DeviceInformation",DeviceInformation.class);
         globalStream.alias("MetaData",MetaData.class);
+        globalStream.alias("DeviceState",DeviceState.class);
         globalAccountFile = new File(globalAccountFileName);
     }
 
@@ -164,6 +166,7 @@ public class XStreamManager {
 
     /**
      * Writes the specified root manager to file.
+     * @param deviceList list of device packages.
      * @return true on success and false otherwise.
      */
     public boolean writeGlobalAccount(DeviceList deviceList){

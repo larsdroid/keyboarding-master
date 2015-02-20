@@ -127,41 +127,6 @@ public class Naga extends Device{
 	}
 	return net.java.games.input.Component.Identifier.Button.LEFT.getName();
     }
-    @Override
-    public int getIndex(String id){
-	if(id.equals(net.java.games.input.Component.Identifier.Key._1.getName())){
-	    return 1;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._2.getName())){
-	    return 2;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._3.getName())){
-	    return 3;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._4.getName())){
-	    return 4;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._5.getName())){
-	    return 5;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._6.getName())){
-	    return 6;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._7.getName())){
-	    return 7;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._8.getName())){
-	    return 8;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._9.getName())){
-	    return 9;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key._0.getName())){
-	    return 10;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key.MINUS.getName())){
-	    return 11;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Key.EQUALS.getName())){
-	    return 12;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.LEFT.getName())){
-	    return 13;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.RIGHT.getName())){
-	    return 14;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.MIDDLE.getName())){
-	    return 17;
-	}
-	return 1;
-    }
     private int[] getButtonLocation(int id){
 	int ret[] = new int[2];
 	// calculate x coordinate

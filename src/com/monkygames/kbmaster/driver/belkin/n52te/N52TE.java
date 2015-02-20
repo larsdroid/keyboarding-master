@@ -250,53 +250,6 @@ public class N52TE extends Device{
 	}
 	return Key.TAB.getName();
     }
-    @Override
-    public int getIndex(String id){
-	if(id.equals(Key.TAB.getName())){
-	    return 1;
-	}else if(id.equals(Key.Q.getName())){
-	    return 2;
-	}else if(id.equals(Key.W.getName())){
-	    return 3;
-	}else if(id.equals(Key.E.getName())){
-	    return 4;
-	}else if(id.equals(Key.R.getName())){
-	    return 5;
-	}else if(id.equals(Key.CAPITAL.getName())){
-	    return 6;
-	}else if(id.equals(Key.A.getName())){
-	    return 7;
-	}else if(id.equals(Key.S.getName())){
-	    return 8;
-	}else if(id.equals(Key.D.getName())){
-	    return 9;
-	}else if(id.equals(Key.F.getName())){
-	    return 10;
-	}else if(id.equals(Key.LSHIFT.getName())){
-	    return 11;
-	}else if(id.equals(Key.Z.getName())){
-	    return 12;
-	}else if(id.equals(Key.X.getName())){
-	    return 13;
-	}else if(id.equals(Key.C.getName())){
-	    return 14;
-	}else if(id.equals(Key.SPACE.getName())){
-	    return 15;
-	}else if(id.equals(Key.LALT.getName())){
-	    return 16;
-	}else if(id.equals(Key.UP.getName())){
-	    return 17;
-	}else if(id.equals(Key.RIGHT.getName())){
-	    return 18;
-	}else if(id.equals(Key.DOWN.getName())){
-	    return 19;
-	}else if(id.equals(Key.LEFT.getName())){
-	    return 20;
-	}else if(id.equals(net.java.games.input.Component.Identifier.Button.MIDDLE.getName())){
-	    return 23;
-	}
-	return 1;
-    }
 // ============= Extended Methods ============== //
     @Override
     public Rectangle getBindingOutputAndDescriptionLocation(Mapping mapping) {
