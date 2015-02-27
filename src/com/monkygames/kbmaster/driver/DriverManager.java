@@ -3,7 +3,7 @@
  */
 package com.monkygames.kbmaster.driver;
 
-import com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice;
+import com.monkygames.kbmaster.driver.razer.nostromo.Nostromo;
 import java.util.ArrayList;
 
 /**
@@ -117,7 +117,7 @@ public class DriverManager{
      * Includes mice and keyboards.
      */
     private void createRazerDrivers(){
-	addDevice(new RazerNostromoDevice());
+	addDevice(new Nostromo());
 	addDevice(new com.monkygames.kbmaster.driver.razer.naga.Naga());
 	addDevice(new com.monkygames.kbmaster.driver.razer.taipan.Taipan());
     }

@@ -25,29 +25,18 @@ import java.awt.Rectangle;
  * Contains information about a specific device.
  * @version 1.0
  */
-public class RazerNostromoDevice extends Device{
+public class Nostromo extends Device{
 
 // ============= Class variables ============== //
 
 // ============= Constructors ============== //
-    public RazerNostromoDevice(){
-	super("Razer","Nostromo","Razer Razer Nostromo", DeviceType.KEYBOARD,
-		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png",
-		// === Description === //
-		"* Ergonomic form factor and tournament-grade layout\n"
-		+ "* 16 fully programmable Hyperesponse keys\n"
-		+ "* Programmable 8-way directional thumb pad and scroll wheel\n"
-		+ "* Instantaneous switching between 8 key maps\n"
-		+ "* Adjustable soft-touch wrist pad for exceptional comfort\n"
-		+ "* Backlit keypad and scroll wheel for total control even in dark conditions\n"
-		+ "* Approximate Size : 183 mm (Width) x 159 mm (Height) x 59 mm (Depth)\n"
-		+ "* Approximate Weight: 297 g\n",
-		// === =========== === //
-		"1.0",
-		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
-		"/com/monkygames/kbmaster/driver/razer/nostromo/RazerNostromo.fxml",
-		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
-
+    public Nostromo(String make, String model, String jinputName, 
+		   DeviceType deviceType, String deviceIcon,
+		   String deviceDescription, String version,
+		   String packageName, String uiFXMLURL, 
+		   String imageBindingsTemplate){
+	super(make,model,jinputName,deviceType,deviceIcon,deviceDescription,
+	    version,packageName,uiFXMLURL,imageBindingsTemplate);
 	// setup input bindings
 	int i = 1;
 	inputMaps.put(i,new InputMap(i++,Key.TAB.getName()));
@@ -71,6 +60,26 @@ public class RazerNostromoDevice extends Device{
 	inputMaps.put(i,new InputMap(i++,Key.DOWN.getName()));
 	inputMaps.put(i,new InputMap(i++,Key.LEFT.getName()));
 	inputMaps.put(23,new InputMap(23,net.java.games.input.Component.Identifier.Button.MIDDLE.getName()));
+
+    }
+    public Nostromo(){
+	this("Razer","Nostromo","Razer Razer Nostromo", DeviceType.KEYBOARD,
+		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png",
+		// === Description === //
+		"* Ergonomic form factor and tournament-grade layout\n"
+		+ "* 16 fully programmable Hyperesponse keys\n"
+		+ "* Programmable 8-way directional thumb pad and scroll wheel\n"
+		+ "* Instantaneous switching between 8 key maps\n"
+		+ "* Adjustable soft-touch wrist pad for exceptional comfort\n"
+		+ "* Backlit keypad and scroll wheel for total control even in dark conditions\n"
+		+ "* Approximate Size : 183 mm (Width) x 159 mm (Height) x 59 mm (Depth)\n"
+		+ "* Approximate Weight: 297 g\n",
+		// === =========== === //
+		"1.0",
+		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
+		"/com/monkygames/kbmaster/driver/razer/nostromo/RazerNostromo.fxml",
+		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
+
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
