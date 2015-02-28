@@ -11,9 +11,11 @@ public class InputMap {
      */
     private final int id;
     private final String name;
-    public InputMap(int id, String name){
+    private final int keyEvent;
+    public InputMap(int id, String name, int keyEvent){
         this.id = id;
         this.name = name;
+        this.keyEvent = keyEvent;
     }
     public int getId() {
         return id;
@@ -21,5 +23,8 @@ public class InputMap {
 
     public String getName() {
         return name;
+    }
+    public int getKeyEvent(){
+        return keyEvent;
     }
 }

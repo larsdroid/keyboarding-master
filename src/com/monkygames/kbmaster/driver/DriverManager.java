@@ -41,18 +41,23 @@ public class DriverManager{
     }
     /**
      * Returns a list of device makes.
+     * @return returns a list of string indicating keyboard makes.
      */
     public ArrayList<String> getKeyboardMakes(){
 	return keyboardMakes;
     }
     /**
      * Returns a list of device makes.
+     * @return a list of strings indicating mouse makes.
      */
     public ArrayList<String> getMouseMakes(){
 	return mouseMakes;
     }
     /**
      * Returns the list of device model names specified by the make and the type.
+     * @param type the type of device.
+     * @param make the string of the make (ie Razer).
+     * @return returns a list of model names.
      */
     public ArrayList<String> getDevicesByMake(DeviceType type, String make){
 	ArrayList<String> list = new ArrayList<>();
@@ -120,6 +125,7 @@ public class DriverManager{
 	addDevice(new Nostromo());
 	addDevice(new com.monkygames.kbmaster.driver.razer.naga.Naga());
 	addDevice(new com.monkygames.kbmaster.driver.razer.taipan.Taipan());
+	addDevice(new com.monkygames.kbmaster.driver.razer.marauder.Marauder());
     }
     /**
      * Creates all Belkin devices.

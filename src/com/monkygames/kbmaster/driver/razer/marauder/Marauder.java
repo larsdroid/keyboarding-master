@@ -4,23 +4,16 @@
 package com.monkygames.kbmaster.driver.razer.marauder;
 
 // === java imports === //
-import com.monkygames.kbmaster.driver.razer.marauder.*;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 // === jinput imports === //
 import net.java.games.input.Component.Identifier.Key;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.*;
-import com.monkygames.kbmaster.input.Button;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
-import com.monkygames.kbmaster.input.OutputKey;
-import com.monkygames.kbmaster.input.OutputMouse;
-import com.monkygames.kbmaster.input.OutputMouse.MouseType;
-import com.monkygames.kbmaster.input.Wheel;
-import com.monkygames.kbmaster.input.WheelMapping;
 import java.awt.Rectangle;
+import javafx.scene.input.KeyCode;
 
 /**
  * Contains information about a specific device.
@@ -32,7 +25,7 @@ public class Marauder extends Device{
 
 // ============= Constructors ============== //
     public Marauder(){
-	super("Razer","Maurader","Razer Marauder", DeviceType.KEYBOARD,
+	super("Razer","Maurader","Razer Marauder Razer Marauder", DeviceType.KEYBOARD,
 		"/com/monkygames/kbmaster/driver/razer/marauder/resources/icon.png",
 		// === Description === //
 		"Designed exclusively for StarCraft II: Wings of Liberty, the Razer Marauder StarCraft II gaming keyboard is a full-featured, tournament ready keyboard with an extremely compact design." +
@@ -47,105 +40,223 @@ public class Marauder extends Device{
 		"com.monkygames.kbmaster.driver.razer.marauder.Marauder",
 		"/com/monkygames/kbmaster/driver/razer/marauder/Marauder.fxml",
 		"/com/monkygames/kbmaster/driver/razer/marauder/resources/printable.png");
+	int i = 1;
+	inputMaps.put(i,new InputMap(i++,Key.ESCAPE.getName(),	KeyEvent.VK_ESCAPE));
+	inputMaps.put(i,new InputMap(i++,Key.F1.getName(),	KeyEvent.VK_F1));
+	inputMaps.put(i,new InputMap(i++,Key.F2.getName(),	KeyEvent.VK_F2));
+	inputMaps.put(i,new InputMap(i++,Key.F3.getName(),	KeyEvent.VK_F3));
+	inputMaps.put(i,new InputMap(i++,Key.F4.getName(),	KeyEvent.VK_F4));
+	inputMaps.put(i,new InputMap(i++,Key.F5.getName(),	KeyEvent.VK_F5));
+	inputMaps.put(i,new InputMap(i++,Key.F6.getName(),	KeyEvent.VK_F6));
+	inputMaps.put(i,new InputMap(i++,Key.F7.getName(),	KeyEvent.VK_F7));
+	inputMaps.put(i,new InputMap(i++,Key.F8.getName(),	KeyEvent.VK_F8));
+	inputMaps.put(i,new InputMap(i++,Key.F9.getName(),	KeyEvent.VK_F9));
+	inputMaps.put(i,new InputMap(i++,Key.F10.getName(),	KeyEvent.VK_F10));
+	inputMaps.put(i,new InputMap(i++,Key.F11.getName(),	KeyEvent.VK_F11));
+	inputMaps.put(i,new InputMap(i++,Key.F12.getName(),	KeyEvent.VK_F12));
+	inputMaps.put(i,new InputMap(i++,Key.NUMLOCK.getName(),	KeyEvent.VK_NUM_LOCK));
+	inputMaps.put(i,new InputMap(i++,Key.SYSRQ.getName(),	KeyEvent.VK_PRINTSCREEN));
+	inputMaps.put(i,new InputMap(i++,Key.SCROLL.getName(),	KeyEvent.VK_SCROLL_LOCK));
+	inputMaps.put(i,new InputMap(i++,Key.PAUSE.getName(),	KeyEvent.VK_PAUSE));
+	inputMaps.put(i,new InputMap(i++,Key.GRAVE.getName(),	KeyEvent.VK_BACK_QUOTE));
+	inputMaps.put(i,new InputMap(i++,Key._1.getName(),	KeyEvent.VK_1));
+	inputMaps.put(i,new InputMap(i++,Key._2.getName(),	KeyEvent.VK_2));
+	inputMaps.put(i,new InputMap(i++,Key._3.getName(),	KeyEvent.VK_3));
+	inputMaps.put(i,new InputMap(i++,Key._4.getName(),	KeyEvent.VK_4));
+	inputMaps.put(i,new InputMap(i++,Key._5.getName(),	KeyEvent.VK_5));
+	inputMaps.put(i,new InputMap(i++,Key._6.getName(),	KeyEvent.VK_6));
+	inputMaps.put(i,new InputMap(i++,Key._7.getName(),	KeyEvent.VK_7));
+	inputMaps.put(i,new InputMap(i++,Key._8.getName(),	KeyEvent.VK_8));
+	inputMaps.put(i,new InputMap(i++,Key._9.getName(),	KeyEvent.VK_9));
+	inputMaps.put(i,new InputMap(i++,Key._0.getName(),	KeyEvent.VK_0));
+	inputMaps.put(i,new InputMap(i++,Key.MINUS.getName(),	KeyEvent.VK_MINUS));
+	inputMaps.put(i,new InputMap(i++,Key.EQUALS.getName(),	KeyEvent.VK_EQUALS));
+	inputMaps.put(i,new InputMap(i++,Key.BACK.getName(),	KeyEvent.VK_BACK_SPACE));
+	inputMaps.put(i,new InputMap(i++,Key.TAB.getName(),	KeyEvent.VK_TAB));
+	inputMaps.put(i,new InputMap(i++,Key.Q.getName(),	KeyEvent.VK_Q));
+	inputMaps.put(i,new InputMap(i++,Key.W.getName(),	KeyEvent.VK_W));
+	inputMaps.put(i,new InputMap(i++,Key.E.getName(),	KeyEvent.VK_E));
+	inputMaps.put(i,new InputMap(i++,Key.R.getName(),	KeyEvent.VK_R));
+	inputMaps.put(i,new InputMap(i++,Key.T.getName(),	KeyEvent.VK_T));
+	inputMaps.put(i,new InputMap(i++,Key.Y.getName(),	KeyEvent.VK_Y));
+	inputMaps.put(i,new InputMap(i++,Key.U.getName(),	KeyEvent.VK_U));
+	inputMaps.put(i,new InputMap(i++,Key.I.getName(),	KeyEvent.VK_I));
+	inputMaps.put(i,new InputMap(i++,Key.O.getName(),	KeyEvent.VK_O));
+	inputMaps.put(i,new InputMap(i++,Key.P.getName(),	KeyEvent.VK_P));
+	inputMaps.put(i,new InputMap(i++,Key.LBRACKET.getName(),KeyEvent.VK_BRACELEFT));
+	inputMaps.put(i,new InputMap(i++,Key.RBRACKET.getName(),KeyEvent.VK_BRACERIGHT));
+	inputMaps.put(i,new InputMap(i++,Key.BACKSLASH.getName(),KeyEvent.VK_BACK_SLASH));
+	inputMaps.put(i,new InputMap(i++,Key.CAPITAL.getName(),	KeyEvent.VK_CAPS_LOCK));
+	inputMaps.put(i,new InputMap(i++,Key.A.getName(),	KeyEvent.VK_A));
+	inputMaps.put(i,new InputMap(i++,Key.S.getName(),	KeyEvent.VK_S));
+	inputMaps.put(i,new InputMap(i++,Key.D.getName(),	KeyEvent.VK_D));
+	inputMaps.put(i,new InputMap(i++,Key.F.getName(),	KeyEvent.VK_F));
+	inputMaps.put(i,new InputMap(i++,Key.G.getName(),	KeyEvent.VK_G));
+	inputMaps.put(i,new InputMap(i++,Key.H.getName(),	KeyEvent.VK_H));
+	inputMaps.put(i,new InputMap(i++,Key.J.getName(),	KeyEvent.VK_J));
+	inputMaps.put(i,new InputMap(i++,Key.K.getName(),	KeyEvent.VK_K));
+	inputMaps.put(i,new InputMap(i++,Key.L.getName(),	KeyEvent.VK_L));
+	inputMaps.put(i,new InputMap(i++,Key.SEMICOLON.getName(),KeyEvent.VK_SEMICOLON));
+	inputMaps.put(i,new InputMap(i++,Key.APOSTROPHE.getName(),KeyEvent.VK_QUOTE));
+	inputMaps.put(i,new InputMap(i++,Key.RETURN.getName(),	KeyEvent.VK_ENTER));
+	inputMaps.put(i,new InputMap(i++,Key.LSHIFT.getName(),	KeyEvent.VK_SHIFT));
+	inputMaps.put(i,new InputMap(i++,Key.Z.getName(),	KeyEvent.VK_Z));
+	inputMaps.put(i,new InputMap(i++,Key.X.getName(),	KeyEvent.VK_X));
+	inputMaps.put(i,new InputMap(i++,Key.C.getName(),	KeyEvent.VK_C));
+	inputMaps.put(i,new InputMap(i++,Key.V.getName(),	KeyEvent.VK_V));
+	inputMaps.put(i,new InputMap(i++,Key.B.getName(),	KeyEvent.VK_B));
+	inputMaps.put(i,new InputMap(i++,Key.N.getName(),	KeyEvent.VK_N));
+	inputMaps.put(i,new InputMap(i++,Key.M.getName(),	KeyEvent.VK_M));
+	inputMaps.put(i,new InputMap(i++,Key.COMMA.getName(),	KeyEvent.VK_COMMA));
+	inputMaps.put(i,new InputMap(i++,Key.PERIOD.getName(),	KeyEvent.VK_PERIOD));
+	inputMaps.put(i,new InputMap(i++,Key.SLASH.getName(),	KeyEvent.VK_SLASH));
+	inputMaps.put(i,new InputMap(i++,Key.RSHIFT.getName(),	KeyEvent.VK_SHIFT));
+	inputMaps.put(i,new InputMap(i++,Key.LCONTROL.getName(),KeyEvent.VK_CONTROL));
+	inputMaps.put(i,new InputMap(i++,Key.LWIN.getName(),	KeyEvent.VK_WINDOWS));
+	inputMaps.put(i,new InputMap(i++,Key.LALT.getName(),	KeyEvent.VK_ALT));
+	inputMaps.put(i,new InputMap(i++,Key.SPACE.getName(),	KeyEvent.VK_SPACE));
+	inputMaps.put(i,new InputMap(i++,Key.RALT.getName(),	KeyEvent.VK_ALT));
+	//inputMaps.put(i,new InputMap(i++,Key..getName())); Function -- doens't register
+	i++;
+	//inputMaps.put(i,new InputMap(i++,Key.APPS.getName())); -- doesn't register
+	i++;
+	inputMaps.put(i,new InputMap(i++,Key.RCONTROL.getName(),KeyEvent.VK_CONTROL));
+	inputMaps.put(i,new InputMap(i++,Key.INSERT.getName(),	KeyEvent.VK_INSERT));
+
+	// currently, numpad has some issues!
+	inputMaps.put(i,new InputMap(i++,Key.HOME.getName(),	KeyEvent.VK_HOME));
+	inputMaps.put(i,new InputMap(i++,Key.PAGEUP.getName(),	KeyEvent.VK_PAGE_UP));
+	inputMaps.put(i,new InputMap(i++,Key.SUBTRACT.getName(),KeyEvent.VK_SUBTRACT));
+	inputMaps.put(i,new InputMap(i++,Key.DELETE.getName(),	KeyEvent.VK_DELETE));
+	inputMaps.put(i,new InputMap(i++,Key.END.getName(),	KeyEvent.VK_END));
+	inputMaps.put(i,new InputMap(i++,Key.PAGEDOWN.getName(),KeyEvent.VK_PAGE_DOWN));
+
+	inputMaps.put(i,new InputMap(i++,Key.NUMPAD4.getName(),	KeyEvent.VK_NUMPAD4));
+	inputMaps.put(i,new InputMap(i++,Key.NUMPAD4.getName(),	KeyEvent.VK_NUMPAD4));
+	inputMaps.put(i,new InputMap(i++,Key.NUMPAD5.getName(), KeyEvent.VK_NUMPAD5));
+	inputMaps.put(i,new InputMap(i++,Key.NUMPAD6.getName(), KeyEvent.VK_NUMPAD6));
+	inputMaps.put(i,new InputMap(i++,Key.NUMPAD1.getName(), KeyEvent.VK_NUMPAD1));
+	inputMaps.put(i,new InputMap(i++,Key.UP.getName(),	KeyEvent.VK_UP));
+	inputMaps.put(i,new InputMap(i++,Key.NUMPAD3.getName(),	KeyEvent.VK_NUMPAD3));
+	inputMaps.put(i,new InputMap(i++,Key.LEFT.getName(),	KeyEvent.VK_LEFT));
+	inputMaps.put(i,new InputMap(i++,Key.DOWN.getName(),	KeyEvent.VK_DOWN));
+	inputMaps.put(i,new InputMap(i++,Key.RIGHT.getName(),	KeyEvent.VK_RIGHT));
+	inputMaps.put(i,new InputMap(i++,Key.ADD.getName(),	KeyEvent.VK_ADD));
+	inputMaps.put(i,new InputMap(i++,Key.NUMPADENTER.getName(),KeyEvent.VK_ENTER));
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
 // ============= Private Methods ============== //
     private int[] getBindingPosition(int buttonID){
+	int button_width = 37;
+	int x = 44;
+	int row1_y = 161;
+	int row2_y = 216;
+	int row3_y = 253;
+	int row4_y = 289;
+	int row5_y = 326;
+	int row6_y = 364;
+
 	int pos[] = new int[2];
-	switch(buttonID){
-	    case 1:
-		pos[0] = 85;
-		pos[1] = 120;
-		break;
-	    case 2:
-		pos[0] = 190;
-		pos[1] = 90;
-		break;
-	    case 3:
-		pos[0] = 300;
-		pos[1] = 90;
-		break;
-	    case 4:
-		pos[0] = 410;
-		pos[1] = 90;
-		break;
-	    case 5:
-		pos[0] = 520;
-		pos[1] = 90;
-		break;
-	    case 6:
-		pos[0] = 85;
-		pos[1] = 230;
-		break;
-	    case 7:
-		pos[0] = 190;
-		pos[1] = 200;
-		break;
-	    case 8:
-		pos[0] = 300;
-		pos[1] = 200;
-		break;
-	    case 9:
-		pos[0] = 410;
-		pos[1] = 200;
-		break;
-	    case 10:
-		pos[0] = 520;
-		pos[1] = 200;
-		break;
-	    case 11:
-		pos[0] = 85;
-		pos[1] = 336;
-		break;
-	    case 12:
-		pos[0] = 190;
-		pos[1] = 305;
-		break;
-	    case 13:
-		pos[0] = 300;
-		pos[1] = 305;
-		break;
-	    case 14:
-		pos[0] = 410;
-		pos[1] = 305;
-		break;
-	    case 15:
-		pos[0] = 515;
-		pos[1] = 480;
-		break;
-	    case 16:
-		pos[0] = 655;
-		pos[1] = 235;
-		break;
-	    case 17:
-		pos[0] = 665;
-		pos[1] = 310;
-		break;
-	    case 18:
-		pos[0] = 695;
-		pos[1] = 350;
-		break;
-	    case 19:
-		pos[0] = 665;
-		pos[1] = 400;
-		break;
-	    case 20:
-		pos[0] = 625;
-		pos[1] = 350;
-		break;
-	    case 21:
-		pos[0] = 530;
-		pos[1] = 285;
-		break;
-	    case 22:
-		pos[0] = 530;
-		pos[1] = 390;
-		break;
-	    case 23:
-		pos[0] = 530;
-		pos[1] = 340;
-		break;
+	if(buttonID == 1){
+	    pos[0] = x-3;
+	    pos[1] = row1_y;
+
+	// F1 --- F4
+	}else if(buttonID >= 2 && buttonID <= 5){
+	    pos[0] = 115+(buttonID-2)*button_width;
+	    pos[1] = row1_y;
+
+	// F5 --- F8
+	}else if(buttonID >= 6 && buttonID <= 9){
+	    pos[0] = 282+(buttonID-6)*button_width;
+	    pos[1] = row1_y;
+
+	// F9 --- F12
+	}else if(buttonID >= 10 && buttonID <= 13){
+	    pos[0] = 449+(buttonID-10)*button_width;
+	    pos[1] = row1_y;
+
+	// Num Mode --- Pause
+	}else if(buttonID >= 14 && buttonID <= 17){
+	    pos[0] = 614+(buttonID-14)*button_width;
+	    pos[1] = row1_y;
+
+	// ` --- Backspace
+	}else if(buttonID >= 18 && buttonID <= 31){
+	    pos[0] = x+(buttonID-18)*button_width;
+	    pos[1] = row2_y;
+
+	// tab
+	}else if(buttonID == 32){
+	    pos[0] = x;
+	    pos[1] = row3_y;
+
+	// Q --- \
+	}else if(buttonID >= 33 && buttonID <= 45){
+	    pos[0] = x+53+(buttonID-33)*button_width;
+	    pos[1] = row3_y;
+
+	// caps lock
+	}else if(buttonID == 46){
+	    pos[0] = x;
+	    pos[1] = row4_y;
+
+	// A --- Enter
+	}else if(buttonID >= 47 && buttonID <= 58){
+	    pos[0] = x+63+(buttonID-47)*button_width;
+	    pos[1] = row4_y;
+
+	// shift
+	}else if(buttonID == 59){
+	    pos[0] = x;
+	    pos[1] = row5_y;
+
+	// Z --- Shift
+	}else if(buttonID >= 60 && buttonID <= 70){
+	    pos[0] = x+79+(buttonID-60)*button_width;
+	    pos[1] = row5_y;
+
+	// lctrl
+	}else if(buttonID == 71){
+	    pos[0] = x;
+	    pos[1] = row6_y;
+
+	// win
+	}else if(buttonID == 72){
+	    pos[0] = x+51;
+	    pos[1] = row6_y;
+
+	// lalt
+	}else if(buttonID == 73){
+	    pos[0] = x+98;
+	    pos[1] = row6_y;
+
+	// space
+	}else if(buttonID == 74){
+	    pos[0] = x+144;
+	    pos[1] = row6_y;
+
+	// ralt
+	}else if(buttonID == 75){
+	    pos[0] = x+361;
+	    pos[1] = row6_y;
+
+	// function
+	}else if(buttonID == 76){
+	    pos[0] = x+361+43;
+	    pos[1] = row6_y;
+
+	// menu?
+	}else if(buttonID == 77){
+	    pos[0] = x+361+44*2;
+	    pos[1] = row6_y;
+
+	// rctrl
+	}else if(buttonID == 78){
+	    pos[0] = x+361+44*3;
+	    pos[1] = row6_y;
+
 	}
 	return pos;
     }
@@ -154,20 +265,9 @@ public class Marauder extends Device{
     @Override
     public Keymap generateDefaultKeymap(int id){
 	Keymap keymap = new Keymap(id+1);
-	keymap.addButtonMapping(Key.ESCAPE.getName(), new ButtonMapping(new Button(1,Key.ESCAPE.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_ESCAPE),KeyEvent.VK_ESCAPE,0)));
-	keymap.addButtonMapping(Key.F1.getName(), new ButtonMapping(new Button(2,Key.F1.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F1),KeyEvent.VK_F1,0)));
-	keymap.addButtonMapping(Key.F2.getName(), new ButtonMapping(new Button(3,Key.F2.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F2),KeyEvent.VK_F2,0)));
-	keymap.addButtonMapping(Key.F3.getName(), new ButtonMapping(new Button(4,Key.F3.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F3),KeyEvent.VK_F3,0)));
-	keymap.addButtonMapping(Key.F4.getName(), new ButtonMapping(new Button(5,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F5.getName(), new ButtonMapping(new Button(6,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F6.getName(), new ButtonMapping(new Button(7,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F7.getName(), new ButtonMapping(new Button(8,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F8.getName(), new ButtonMapping(new Button(9,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F9.getName(), new ButtonMapping(new Button(10,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F10.getName(), new ButtonMapping(new Button(11,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F11.getName(), new ButtonMapping(new Button(12,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	keymap.addButtonMapping(Key.F12.getName(), new ButtonMapping(new Button(13,Key.F4.getName()),new OutputKey(KeyEvent.getKeyText(KeyEvent.VK_F4),KeyEvent.VK_F4,0)));
-	//keymap.addButtonMapping(Key.Q.getName(), new ButtonMapping(new Button(2,Key.Q.getName()),new OutputKey("Q",KeyEvent.VK_Q,0)));
+	for(InputMap inputMap: inputMaps.values()){
+	    addButtonMapping(keymap,inputMap);
+	}
 	return keymap;
     }
     @Override
@@ -177,51 +277,7 @@ public class Marauder extends Device{
     @Override
     public Mapping getMapping(int index, Keymap keymap){
 	return keymap.getButtonMapping(getId(index));
-	    /*
-	switch(index){
-	    case 21:
-		return keymap.getzUpWheelMapping();
-	    case 22:
-		return keymap.getzDownWheelMapping();
-	    //case 23:
-		//return keymap.getMiddleWheelMapping();
-	    default:
-		return keymap.getButtonMapping(getId(index));
-	}
-	    */
 
-    }
-    @Override
-    public String getId(int index){
-	switch(index){
-	    case 1:
-		return Key.ESCAPE.getName();
-	    case 2:
-		return Key.F1.getName();
-	    case 3:
-		return Key.F2.getName();
-	    case 4:
-		return Key.F3.getName();
-	    case 5:
-		return Key.F4.getName();
-	    case 6:
-		return Key.F5.getName();
-	    case 7:
-		return Key.F6.getName();
-	    case 8:
-		return Key.F7.getName();
-	    case 9:
-		return Key.F8.getName();
-	    case 10:
-		return Key.F9.getName();
-	    case 11:
-		return Key.F10.getName();
-	    case 12:
-		return Key.F11.getName();
-	    case 13:
-		return Key.F12.getName();
-	}
-	return Key.TAB.getName();
     }
 // ============= Extended Methods ============== //
     @Override

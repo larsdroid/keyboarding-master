@@ -14,7 +14,6 @@ import com.monkygames.kbmaster.input.Button;
 import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
-import com.monkygames.kbmaster.input.OutputKey;
 import com.monkygames.kbmaster.input.OutputMouse;
 import com.monkygames.kbmaster.input.OutputMouse.MouseType;
 import com.monkygames.kbmaster.input.Wheel;
@@ -39,28 +38,29 @@ public class Nostromo extends Device{
 	    version,packageName,uiFXMLURL,imageBindingsTemplate);
 	// setup input bindings
 	int i = 1;
-	inputMaps.put(i,new InputMap(i++,Key.TAB.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.Q.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.W.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.E.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.R.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.CAPITAL.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.A.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.S.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.D.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.F.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.LSHIFT.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.Z.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.X.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.C.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.SPACE.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.LALT.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.UP.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.RIGHT.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.DOWN.getName()));
-	inputMaps.put(i,new InputMap(i++,Key.LEFT.getName()));
-	inputMaps.put(23,new InputMap(23,net.java.games.input.Component.Identifier.Button.MIDDLE.getName()));
-
+	inputMaps.put(i,new InputMap(i++,Key.TAB.getName(),    KeyEvent.VK_TAB));
+	inputMaps.put(i,new InputMap(i++,Key.Q.getName(),      KeyEvent.VK_Q));
+	inputMaps.put(i,new InputMap(i++,Key.W.getName(),      KeyEvent.VK_W));
+	inputMaps.put(i,new InputMap(i++,Key.E.getName(),      KeyEvent.VK_E));
+	inputMaps.put(i,new InputMap(i++,Key.R.getName(),      KeyEvent.VK_R));
+	inputMaps.put(i,new InputMap(i++,Key.CAPITAL.getName(),KeyEvent.VK_CAPS_LOCK));
+	inputMaps.put(i,new InputMap(i++,Key.A.getName(),      KeyEvent.VK_A));
+	inputMaps.put(i,new InputMap(i++,Key.S.getName(),      KeyEvent.VK_S));
+	inputMaps.put(i,new InputMap(i++,Key.D.getName(),      KeyEvent.VK_D));
+	inputMaps.put(i,new InputMap(i++,Key.F.getName(),      KeyEvent.VK_F));
+	inputMaps.put(i,new InputMap(i++,Key.LSHIFT.getName(), KeyEvent.VK_SHIFT));
+	inputMaps.put(i,new InputMap(i++,Key.Z.getName(),      KeyEvent.VK_Z));
+	inputMaps.put(i,new InputMap(i++,Key.X.getName(),      KeyEvent.VK_X));
+	inputMaps.put(i,new InputMap(i++,Key.C.getName(),      KeyEvent.VK_C));
+	inputMaps.put(i,new InputMap(i++,Key.SPACE.getName(),  KeyEvent.VK_SPACE));
+	inputMaps.put(i,new InputMap(i++,Key.LALT.getName(),   KeyEvent.VK_ALT));
+	inputMaps.put(i,new InputMap(i++,Key.UP.getName(),     KeyEvent.VK_UP));
+	inputMaps.put(i,new InputMap(i++,Key.RIGHT.getName(),  KeyEvent.VK_RIGHT));
+	inputMaps.put(i,new InputMap(i++,Key.DOWN.getName(),   KeyEvent.VK_DOWN));
+	inputMaps.put(i,new InputMap(i++,Key.LEFT.getName(),   KeyEvent.VK_LEFT));
+	inputMaps.put(23,new InputMap(23,
+	    net.java.games.input.Component.Identifier.Button.MIDDLE.getName(),
+	    InputEvent.BUTTON2_MASK));
     }
     public Nostromo(){
 	this("Razer","Nostromo","Razer Razer Nostromo", DeviceType.KEYBOARD,
@@ -188,26 +188,27 @@ public class Nostromo extends Device{
     public Keymap generateDefaultKeymap(int id){
 	Keymap keymap = new Keymap(id+1);
 	int i = 1;
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_TAB);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_Q);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_W);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_E);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_R);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_CAPS_LOCK);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_A);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_S);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_D);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_F);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_SHIFT);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_Z);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_X);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_C);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_SPACE);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_ALT);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_UP);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_RIGHT);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_DOWN);
-	addButtonMapping(keymap, inputMaps.get(i++), KeyEvent.VK_LEFT);
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+	addButtonMapping(keymap, inputMaps.get(i++));
+
 
 	// wheel 
 	net.java.games.input.Component.Identifier.Button jinputB;

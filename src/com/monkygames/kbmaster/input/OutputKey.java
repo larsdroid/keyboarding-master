@@ -14,7 +14,6 @@ public class OutputKey extends Output{
 // ============= Constructors ============== //
     public OutputKey(String name, int keycode, int modifier){
 	super(name,keycode,modifier);
-	setName(name);
     }
 // ============= Public Methods ============== //
     
@@ -27,10 +26,6 @@ public class OutputKey extends Output{
 	OutputKey output = new OutputKey(this.name,this.keycode,this.modifier);
 	output.setDescription(getDescription());
 	return output;
-    }
-    @Override
-    public void setName(String name) {
-	this.name = name.toUpperCase();
     }
 // ============= Internal Classes ============== //
 // ============= Static Methods ============== //

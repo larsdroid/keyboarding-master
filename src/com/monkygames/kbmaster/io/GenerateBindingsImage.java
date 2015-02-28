@@ -119,7 +119,7 @@ public class GenerateBindingsImage{
     private void writeDescription(Graphics2D g2, Output output, int posx, int posy){
 	if(!output.getName().equals(output.getDescription())){
 	    // write description
-	    Font font = new Font("Dialog",Font.ITALIC,10);
+	    Font font = new Font("Dialog",Font.ITALIC,9);
 	    g2.setFont(font);
 	    g2.setColor(textColor2);
 	    g2.drawString(output.getDescription(), posx,posy);
