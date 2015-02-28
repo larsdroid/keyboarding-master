@@ -64,7 +64,7 @@ public class Nostromo extends Device{
     }
     public Nostromo(){
 	this("Razer","Nostromo","Razer Razer Nostromo", DeviceType.KEYBOARD,
-		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/RazerNostromoIcon.png",
+		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/icon.png",
 		// === Description === //
 		"* Ergonomic form factor and tournament-grade layout\n"
 		+ "* 16 fully programmable Hyperesponse keys\n"
@@ -76,9 +76,9 @@ public class Nostromo extends Device{
 		+ "* Approximate Weight: 297 g\n",
 		// === =========== === //
 		"1.0",
-		"com.monkygames.kbmaster.driver.razer.nostromo.RazerNostromoDevice",
-		"/com/monkygames/kbmaster/driver/razer/nostromo/RazerNostromo.fxml",
-		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/nostromo_bindings_template_printable.png");
+		"com.monkygames.kbmaster.driver.razer.nostromo.Nostromo",
+		"/com/monkygames/kbmaster/driver/razer/nostromo/Nostromo.fxml",
+		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/printable.png");
 
     }
 // ============= Public Methods ============== //
