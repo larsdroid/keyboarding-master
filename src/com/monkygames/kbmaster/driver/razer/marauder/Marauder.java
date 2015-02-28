@@ -13,7 +13,6 @@ import com.monkygames.kbmaster.input.ButtonMapping;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.input.Mapping;
 import java.awt.Rectangle;
-import javafx.scene.input.KeyCode;
 
 /**
  * Contains information about a specific device.
@@ -131,7 +130,6 @@ public class Marauder extends Device{
 	inputMaps.put(i,new InputMap(i++,Key.END.getName(),	KeyEvent.VK_END));
 	inputMaps.put(i,new InputMap(i++,Key.PAGEDOWN.getName(),KeyEvent.VK_PAGE_DOWN));
 
-	inputMaps.put(i,new InputMap(i++,Key.NUMPAD4.getName(),	KeyEvent.VK_NUMPAD4));
 	inputMaps.put(i,new InputMap(i++,Key.NUMPAD4.getName(),	KeyEvent.VK_NUMPAD4));
 	inputMaps.put(i,new InputMap(i++,Key.NUMPAD5.getName(), KeyEvent.VK_NUMPAD5));
 	inputMaps.put(i,new InputMap(i++,Key.NUMPAD6.getName(), KeyEvent.VK_NUMPAD6));
@@ -257,6 +255,40 @@ public class Marauder extends Device{
 	    pos[0] = x+361+44*3;
 	    pos[1] = row6_y;
 
+	// Insert --- "-"
+	}else if(buttonID >= 79 && buttonID <= 82){
+	    pos[0] = x+571+(buttonID-79)*button_width;
+	    pos[1] = row2_y;
+
+	// Del --- PgDn
+	}else if(buttonID >= 83 && buttonID <= 85){
+	    pos[0] = x+571+(buttonID-83)*button_width;
+	    pos[1] = row3_y;
+
+	// num4 --- num6
+	}else if(buttonID >= 86 && buttonID <= 88){
+	    pos[0] = x+571+(buttonID-86)*button_width;
+	    pos[1] = row4_y;
+
+	// num1 --- num3
+	}else if(buttonID >= 89 && buttonID <= 91){
+	    pos[0] = x+571+(buttonID-89)*button_width;
+	    pos[1] = row5_y;
+
+	// left --- right
+	}else if(buttonID >= 92 && buttonID <= 94){
+	    pos[0] = x+571+(buttonID-92)*button_width;
+	    pos[1] = row6_y;
+
+	// num+
+	}else if(buttonID == 95){
+	    pos[0] = x+571+(3)*button_width;
+	    pos[1] = row3_y;
+
+	// num enter
+	}else if(buttonID == 96){
+	    pos[0] = x+571+(3)*button_width;
+	    pos[1] = row5_y;
 	}
 	return pos;
     }
