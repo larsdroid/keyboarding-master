@@ -3,7 +3,6 @@
  */
 package com.monkygames.kbmaster.controller;
 
-import com.monkygames.kbmaster.controller.PopupController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.util.PopupManager;
 import java.net.URL;

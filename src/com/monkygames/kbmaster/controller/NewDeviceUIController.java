@@ -112,6 +112,9 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	deviceMakeCB.setItems(FXCollections.observableArrayList());
 	deviceNameCB.setItems(FXCollections.observableArrayList());
 
+	// ensures that pulldown is not populated.
+	deviceTypeCB.getSelectionModel().clearSelection();
+
 	resetDeviceInformation();
 
 	deviceTypeCB.valueProperty().addListener(this);
