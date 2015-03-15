@@ -6,13 +6,13 @@ package com.monkygames.kbmaster.driver.belkin.n52te;
 // === java imports === //
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.*;
-import com.monkygames.kbmaster.driver.razer.nostromo.Nostromo;
+import com.monkygames.kbmaster.driver.razer.tartarus.Tartarus;
 
 /**
  * Contains information about a specific device.
  * @version 1.0
  */
-public class N52TE extends Nostromo{
+public class N52TE extends Tartarus{
 
 // ============= Class variables ============== //
 
