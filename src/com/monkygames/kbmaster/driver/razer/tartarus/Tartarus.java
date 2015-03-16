@@ -23,13 +23,27 @@ public class Tartarus extends Device{
 // ============= Class variables ============== //
 
 // ============= Constructors ============== //
-    public Tartarus(String make, String model, String jinputName, 
-		   DeviceType deviceType, String deviceIcon,
-		   String deviceDescription, String version,
-		   String packageName, String uiFXMLURL, 
-		   String imageBindingsTemplate){
-	super(make,model,jinputName,deviceType,deviceIcon,deviceDescription,
-	    version,packageName,uiFXMLURL,imageBindingsTemplate);
+    public Tartarus(){
+	super("Razer","Tartarus","Razer Razer Tartarus", DeviceType.KEYBOARD,
+		"/com/monkygames/kbmaster/driver/razer/tartarus/resources/icon.png",
+		// === Description === //
+		"* 25 Fully programmable keys including an 8-way thumb-pad\n"
+		+ "* Instantaneous switching between 8 key maps\n"
+		+ "* Improved ergonomic form factor\n"
+		+ "* Adjustable soft-touch wrist pad for remarkable comfort\n"
+		+ "* Full anti - ghosting\n"
+		+ "* Backlit keys for total control  even under dark conditions\n"
+		+ "* Braided fibre cable\n"
+		+ "* Approximate Size Width: 153mm / 6.03\n"
+		+ "* Height: 186mm / 7.32\n"
+		+ "* Depth: 54.8mm / 2.16\n"
+		+ "* Product weight: 370g / 0.66lbs",
+		// === =========== === //
+		"1.0",
+		"com.monkygames.kbmaster.driver.razer.tartarus.Tartarus",
+		"/com/monkygames/kbmaster/driver/razer/tartarus/Tartarus.fxml",
+		"/com/monkygames/kbmaster/driver/razer/tartarus/resources/printable.png",
+		"http://www.amazon.com/gp/product/B00EHBKUTE/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00EHBKUTE&linkCode=as2&tag=monkygamescom-20&linkId=BAIC34E3NQE62O44");
 	// setup input bindings
 	int i = 1;
 	inputMaps.put(i,new InputMap(i++,Key.TAB.getName(),    KeyEvent.VK_TAB));
@@ -53,27 +67,6 @@ public class Tartarus extends Device{
 	inputMaps.put(i,new InputMap(i++,Key.RIGHT.getName(),  KeyEvent.VK_RIGHT));
 	inputMaps.put(i,new InputMap(i++,Key.DOWN.getName(),   KeyEvent.VK_DOWN));
 	inputMaps.put(i,new InputMap(i++,Key.LEFT.getName(),   KeyEvent.VK_LEFT));
-    }
-    public Tartarus(){
-	this("Razer","Tartarus","Razer Razer Tartarus", DeviceType.KEYBOARD,
-		"/com/monkygames/kbmaster/driver/razer/tartarus/resources/icon.png",
-		// === Description === //
-		"* 25 Fully programmable keys including an 8-way thumb-pad\n"
-		+ "* Instantaneous switching between 8 key maps\n"
-		+ "* Improved ergonomic form factor\n"
-		+ "* Adjustable soft-touch wrist pad for remarkable comfort\n"
-		+ "* Full anti - ghosting\n"
-		+ "* Backlit keys for total control  even under dark conditions\n"
-		+ "* Braided fibre cable\n"
-		+ "* Approximate Size Width: 153mm / 6.03\n"
-		+ "* Height: 186mm / 7.32\n"
-		+ "* Depth: 54.8mm / 2.16\n"
-		+ "* Product weight: 370g / 0.66lbs",
-		// === =========== === //
-		"1.0",
-		"com.monkygames.kbmaster.driver.razer.tartarus.Tartarus",
-		"/com/monkygames/kbmaster/driver/razer/tartarus/Tartarus.fxml",
-		"/com/monkygames/kbmaster/driver/razer/tartarus/resources/printable.png");
 
     }
 // ============= Public Methods ============== //

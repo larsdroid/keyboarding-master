@@ -40,7 +40,8 @@ public class Naga extends Device{
 		"1.0",
 		"com.monkygames.kbmaster.driver.razer.naga.Naga",
 		"/com/monkygames/kbmaster/driver/razer/naga/Naga.fxml",
-		"/com/monkygames/kbmaster/driver/razer/naga/resources/printable.png");
+		"/com/monkygames/kbmaster/driver/razer/naga/resources/printable.png",
+		"http://www.amazon.com/gp/product/B00E8CF268/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00E8CF268&linkCode=as2&tag=monkygamescom-20&linkId=3UAZCMWKNC4LYCGG");
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

@@ -54,17 +54,20 @@ public abstract class Device implements Mapper{
      * @param packageName the name of the package for loading the driver.
      * @param uiFXMLURL the url to the package in order to load the driver.
      * @param imageBindingsTemplate used for exporting descriptions to an image.
+     * @param amazonLink the amazon link to product page include associate code and null if none.
      */
     public Device(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version,
 		   String packageName, String uiFXMLURL, 
-		   String imageBindingsTemplate){
+		   String imageBindingsTemplate,
+		   String amazonLink){
 	this(new DeviceInformation(make,model,jinputName,
 						  deviceType, deviceIcon,
 						  deviceDescription, version,
 						  packageName, uiFXMLURL,
-						  imageBindingsTemplate));
+						  imageBindingsTemplate,
+						  amazonLink));
     }
 // ============= Public Methods ============== //
     public DeviceInformation getDeviceInformation(){

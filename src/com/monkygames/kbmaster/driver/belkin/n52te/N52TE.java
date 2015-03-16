@@ -6,13 +6,13 @@ package com.monkygames.kbmaster.driver.belkin.n52te;
 // === java imports === //
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.*;
-import com.monkygames.kbmaster.driver.razer.tartarus.Tartarus;
+import com.monkygames.kbmaster.driver.razer.nostromo.Nostromo;
 
 /**
  * Contains information about a specific device.
  * @version 1.0
  */
-public class N52TE extends Tartarus{
+public class N52TE extends Nostromo{
 
 // ============= Class variables ============== //
 
@@ -29,10 +29,11 @@ public class N52TE extends Tartarus{
 		+"* Nonslip rubber pads grip in place for aggressive fragging\n"
 		+"\nImages courtesy of Nathan T under the CC BY-SA 3.0\n",
 		// === =========== === //
-		"1.0",
+		"2.0",
 		"com.monkygames.kbmaster.driver.belkin.n52te.N52TE",
 		"/com/monkygames/kbmaster/driver/belkin/n52te/N52TE.fxml",
-		"/com/monkygames/kbmaster/driver/belkin/n52te/resources/printable.png");
+		"/com/monkygames/kbmaster/driver/belkin/n52te/resources/printable.png",
+		null);
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

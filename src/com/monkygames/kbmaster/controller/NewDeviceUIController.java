@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.controller;
 
 // === java imports === //
+import com.monkygames.kbmaster.KeyboardingMaster;
 import java.net.URL;
 import java.util.ResourceBundle;
 // === javafx imports === //
@@ -21,7 +22,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.DepthTest;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -49,6 +52,8 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
     private Label driverVersionL;
     @FXML
     private Label driverStatusL;
+    @FXML
+    private Hyperlink amazonLink;
 
     private Stage stage;
     private GlobalAccount globalAccount;
@@ -100,6 +105,9 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	iconImageHBox.getChildren().clear();
 	deviceDescriptionTA.setText("");
 	driverVersionL.setText("");
+	amazonLink.setText("unavailable");
+	amazonLink.setDisable(true);
+	amazonLink.setVisited(false);
 
     }
     private void reset(){
@@ -114,6 +122,7 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 
 	// ensures that pulldown is not populated.
 	deviceTypeCB.getSelectionModel().clearSelection();
+	deviceMakeCB.getSelectionModel().clearSelection();
 
 	resetDeviceInformation();
 
@@ -136,6 +145,8 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	deviceNameCB.setItems(FXCollections.observableArrayList());
 	ObservableList<String> observableList = FXCollections.observableArrayList(list);
 	deviceMakeCB.setItems(observableList);
+
+	deviceMakeCB.getSelectionModel().clearSelection();
 
 	resetDeviceInformation();
 
@@ -164,8 +175,9 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
      * @param type the type of device.
      * @param make the make of the device.
      * @param model the model of the device.
+     * @param link the amazon associate link and null if doesn't exist
      */
-    private void setDeviceInformation(DeviceType type, String make, String model){
+    private void setDeviceInformation(DeviceType type, String make, String model, String link){
 	// find device
 	Device device = globalAccount.getDriverManager().getDevice(type, make, model);
 	if(device == null){
@@ -178,6 +190,16 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 
 	deviceDescriptionTA.setText(device.getDeviceInformation().getDeviceDescription());
 	driverVersionL.setText(device.getDeviceInformation().getVersion());
+	if(link == null){
+	    amazonLink.setText("unavailable");
+	    amazonLink.setDisable(true);
+	    amazonLink.setVisited(false);
+	}else{
+	    amazonLink.setText("buy");
+	    amazonLink.setUserData(link);
+	    amazonLink.setDisable(false);
+	    amazonLink.setVisited(false);
+	}
     }
 // ============= Implemented Methods ============== //
     @Override
@@ -231,15 +253,22 @@ public class NewDeviceUIController implements Initializable, ChangeListener<Stri
 	}else if(ov == deviceNameCB.valueProperty()){
 	    int index = deviceTypeCB.getSelectionModel().getSelectedIndex();
 	    String make = (String)deviceMakeCB.getSelectionModel().getSelectedItem();
+	    String link;
 	    switch(index){
 		case 1:
-		    setDeviceInformation(DeviceType.MOUSE,make,newValue);
+		    link = globalAccount.getDriverManager().getDevice(DeviceType.MOUSE, make, newValue).getDeviceInformation().getAmazonLink();
+		    setDeviceInformation(DeviceType.MOUSE,make,newValue,link);
 		    break;
 		case 0:
 		default:
-		    setDeviceInformation(DeviceType.KEYBOARD,make,newValue);
+		    link = globalAccount.getDriverManager().getDevice(DeviceType.MOUSE, make, newValue).getDeviceInformation().getAmazonLink();
+		    setDeviceInformation(DeviceType.KEYBOARD,make,newValue,link);
 	    }
 	}
+    }
+
+    public void handleAmazonLink(ActionEvent e) {
+	KeyboardingMaster.gotoWeb((String)amazonLink.getUserData());
     }
 
 // ============= Extended Methods ============== //

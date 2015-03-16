@@ -50,12 +50,16 @@ public class DeviceInformation {
      * An template image used for printing out configuration.
      */
     private String imageBindingsTemplate;
+    /**
+     * The link to the amazon product page with the associate code embedded.
+     */
+    private String amazonLink;
 
 // ============= Constructors ============== //
     public DeviceInformation(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version, String packageName,
-		   String uiFXMLURL, String imageBindingsTemplate){
+		   String uiFXMLURL, String imageBindingsTemplate, String amazonLink){
 	this.make = make;
 	this.model = model;
 	this.jinputName = jinputName;
@@ -66,6 +70,7 @@ public class DeviceInformation {
 	this.packageName = packageName;
 	this.uiFXMLURL = uiFXMLURL;
 	this.imageBindingsTemplate = imageBindingsTemplate;
+	this.amazonLink = amazonLink;
     }
     
 // ============= Protected Methods ============== //
@@ -108,6 +113,10 @@ public class DeviceInformation {
 
     public String getImageBindingsTemplate() {
 	return imageBindingsTemplate;
+    }
+
+    public String getAmazonLink(){
+	return amazonLink;
     }
     
 

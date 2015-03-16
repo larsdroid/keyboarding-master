@@ -121,6 +121,7 @@ public class DriverManager{
      * Includes mice and keyboards.
      */
     private void createRazerDrivers(){
+	addDevice(new com.monkygames.kbmaster.driver.razer.nostromo.Nostromo());
 	addDevice(new com.monkygames.kbmaster.driver.razer.tartarus.Tartarus());
 	addDevice(new com.monkygames.kbmaster.driver.razer.naga.Naga());
 	addDevice(new com.monkygames.kbmaster.driver.razer.taipan.Taipan());

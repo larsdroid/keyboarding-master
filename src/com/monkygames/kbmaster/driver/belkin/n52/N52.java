@@ -6,13 +6,13 @@ package com.monkygames.kbmaster.driver.belkin.n52;
 // === java imports === //
 // === kbmaster imports === //
 import com.monkygames.kbmaster.driver.*;
-import com.monkygames.kbmaster.driver.razer.tartarus.Tartarus;
+import com.monkygames.kbmaster.driver.razer.nostromo.Nostromo;
 
 /**
  * Contains information about a specific device.
  * @version 1.0
  */
-public class N52 extends Tartarus{
+public class N52 extends Nostromo{
 
 // ============= Class variables ============== //
 
@@ -28,10 +28,11 @@ public class N52 extends Tartarus{
 		+"* Nonslip rubber pads grip in place for aggressive fragging\n"
 		+"\nImages courtesy of Steve W\n",
 		// === =========== === //
-		"1.0",
+		"2.0",
 		"com.monkygames.kbmaster.driver.belkin.n52.N52",
 		"/com/monkygames/kbmaster/driver/belkin/n52/N52.fxml",
-		"/com/monkygames/kbmaster/driver/belkin/n52/resources/printable.png");
+		"/com/monkygames/kbmaster/driver/belkin/n52/resources/printable.png",
+		"http://www.amazon.com/gp/product/B0000DC643/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B0000DC643&linkCode=as2&tag=monkygamescom-20&linkId=EBBITLCCOAU4QXVX");
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

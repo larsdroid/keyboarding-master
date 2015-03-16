@@ -33,9 +33,10 @@ public class Nostromo extends Device{
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version,
 		   String packageName, String uiFXMLURL, 
-		   String imageBindingsTemplate){
+		   String imageBindingsTemplate,
+		   String amazonLink){
 	super(make,model,jinputName,deviceType,deviceIcon,deviceDescription,
-	    version,packageName,uiFXMLURL,imageBindingsTemplate);
+	    version,packageName,uiFXMLURL,imageBindingsTemplate, amazonLink);
 	// setup input bindings
 	int i = 1;
 	inputMaps.put(i,new InputMap(i++,Key.TAB.getName(),    KeyEvent.VK_TAB));
@@ -75,10 +76,11 @@ public class Nostromo extends Device{
 		+ "* Approximate Size : 183 mm (Width) x 159 mm (Height) x 59 mm (Depth)\n"
 		+ "* Approximate Weight: 297 g\n",
 		// === =========== === //
-		"1.0",
+		"2.0",
 		"com.monkygames.kbmaster.driver.razer.nostromo.Nostromo",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/Nostromo.fxml",
-		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/printable.png");
+		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/printable.png",
+		"http://www.amazon.com/gp/product/B004AM5RB6/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B004AM5RB6&linkCode=as2&tag=monkygamescom-20&linkId=5K2VJULJ4OXZWMRO");
 
     }
 // ============= Public Methods ============== //
