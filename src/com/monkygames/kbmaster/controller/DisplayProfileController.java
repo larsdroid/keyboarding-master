@@ -4,8 +4,11 @@
 package com.monkygames.kbmaster.controller;
 
 // === java imports === //
+import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.input.Keymap;
 import com.monkygames.kbmaster.io.GenerateBindingsImage;
+import com.monkygames.kbmaster.profiles.App;
+import com.monkygames.kbmaster.profiles.Profile;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -16,7 +19,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
@@ -26,7 +31,7 @@ import javafx.stage.Stage;
  * Note, both the setGenerateBindingsImage and setStage must be called before using.
  * @version 1.0
  */
-public class DisplayKeymapUIController implements Initializable{
+public class DisplayProfileController implements Initializable{
 
 // ============= Class variables ============== //
     @FXML
@@ -49,6 +54,21 @@ public class DisplayKeymapUIController implements Initializable{
     private ImageView keymap7;
     @FXML
     private ImageView keymap8;
+    @FXML
+    private Label profileNameL;
+    @FXML
+    private Label typeL;
+    @FXML
+    private Label appL;
+    @FXML
+    private ImageView deviceIV;
+    @FXML
+    private ImageView appIV;
+    @FXML
+    private ImageView devIV;
+    @FXML
+    private TextArea appInfoTA;
+
     private ImageView[] images;
     private Stage stage;
 
@@ -56,15 +76,57 @@ public class DisplayKeymapUIController implements Initializable{
      * Handles generating the image.
      */
     private GenerateBindingsImage imageGenerator;
+    /**
+     * The default image to be used if the app has not set a logo.
+     */
+    private javafx.scene.image.Image defaultAppLogoImage;
+    /**
+     * The default image to be used if the app has not set a logo.
+     */
+    private javafx.scene.image.Image defaultDevLogoImage;
 // ============= Constructors ============== //
 // ============= Public Methods ============== //
+    /**
+     * Display the device's information including profile and keymaps.
+     * @param device the device to display.
+     */
+    public void displayDevice(Device device){
+	Profile profile = device.getProfile();
+	displayKeymap(profile.getKeymaps(),0);
+	displayProfile(profile);
+	deviceIV.setImage(new javafx.scene.image.Image(device.getDeviceInformation().getDeviceIcon()));
+    }
+
+    /**
+     * Display profile information.
+     * @param profile the profile to display.
+     */
+    private void displayProfile(Profile profile){
+	App app = profile.getApp();
+	profileNameL.setText(profile.getProfileName());
+	typeL.setText(app.getAppType().name());
+	appL.setText(app.getName());
+	appInfoTA.setText(profile.getInfo());
+	if(app.getAppLogo() == null){
+	    appIV.setImage(defaultAppLogoImage);
+	}else{
+	    appIV.setImage(app.getAppLogo());
+	}
+	if(app.getDevLogo() == null){
+	    devIV.setImage(defaultDevLogoImage);
+	}else{
+	    devIV.setImage(app.getDevLogo());
+	}
+	
+	
+    }
     /**
      * Generates the descriptions and sets to the label.
      * Open the window.
      * @param keymaps an array of keymaps to display.
      * @param id the keymap to select.
      */
-    public void displayKeymap(Keymap[] keymaps, int id){
+    private void displayKeymap(Keymap[] keymaps, int id){
 	for(int i = 0; i < keymaps.length; i++){
 	    Image image = imageGenerator.generateImage(keymaps[i]);
 	    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
@@ -97,6 +159,8 @@ public class DisplayKeymapUIController implements Initializable{
 	// populate array with keymaps
 	images = new ImageView[] {keymap1, keymap2, keymap3, keymap4, 
 				  keymap5, keymap6, keymap7, keymap8};
+	defaultAppLogoImage = new javafx.scene.image.Image("/com/monkygames/kbmaster/fxml/resources/profile/app_logo.png");
+	defaultDevLogoImage = new javafx.scene.image.Image("/com/monkygames/kbmaster/fxml/resources/profile/dev_logo.png");
     }
 // ============= Extended Methods ============== //
 // ============= Internal Classes ============== //

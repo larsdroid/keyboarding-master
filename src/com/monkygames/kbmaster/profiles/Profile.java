@@ -95,6 +95,13 @@ public class Profile{
 	return keymaps[index];
     }
 
+    /**
+     * Returns all keymaps.
+     */
+    public Keymap[] getKeymaps(){
+	return keymaps;
+    }
+
     public void setKeymap(int index, Keymap keymap){
 	keymaps[index] = keymap;
     }

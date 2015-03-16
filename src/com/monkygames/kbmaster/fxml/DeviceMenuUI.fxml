@@ -97,7 +97,7 @@
         <Button fx:id="addDeviceB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="107.0" text="Add" />
         <Button fx:id="removeDeviceB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Remove" />
         <Button fx:id="configureB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="105.00009999999747" text="Configure" />
-        <Button fx:id="detailsB" disable="true" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Details" />
+        <Button fx:id="detailsB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Details" />
         <Button fx:id="setProfileB" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="106.0" text="Set Profile" />
       </children>
     </VBox>

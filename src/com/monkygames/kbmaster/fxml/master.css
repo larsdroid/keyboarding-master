@@ -116,7 +116,8 @@
 }
 
 .tab-pane *.tab-header-background {
-    -fx-background-color: black;
+    //-fx-background-color: black;
+    -fx-background-color: rgba(50, 50, 50, 50);
 }
 .tab-pane *.tab {
     -fx-text-fill: white;

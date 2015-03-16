@@ -11,6 +11,7 @@ import com.monkygames.kbmaster.account.UserSettings;
 import com.monkygames.kbmaster.controller.login.LoginUIController;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.engine.HardwareManager;
+import com.monkygames.kbmaster.io.GenerateBindingsImage;
 import com.monkygames.kbmaster.profiles.Profile;
 import com.monkygames.kbmaster.util.DeviceEntry;
 import com.monkygames.kbmaster.util.KBMSystemTray;
@@ -113,6 +114,10 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
      * A popup for deleting the device.
      */
     private DeleteDeviceUIController deleteDeviceController;
+    /**
+     * A popup for displaying device information
+     */
+    private DisplayProfileController displayProfileController;
     /**
      * Used for managing engines (which do the work of remapping outputs).
      */
@@ -283,6 +288,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    exitApplication();
 	}else if(src == setProfileB){
 	    openSelectProfileUI();
+	}else if(src == detailsB){
+	    openDetailsUI();
 	}else if(src == logoutB){
 	    logout();
 	}else if(src == hideB){
@@ -450,6 +457,33 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	}
 	selectProfileController.setDevice(deviceEntry.getDevice());
 	selectProfileController.show();
+    }
+    private void openDetailsUI(){
+	DeviceEntry deviceEntry = deviceTV.getSelectionModel().getSelectedItem();
+	if(deviceEntry == null) {
+	    // pop error
+	    PopupManager.getPopupManager().showError("No device selected");
+	    return;
+	}
+	if(displayProfileController == null){
+	    try {
+		// pop open add new device
+		URL location = getClass().getResource("/com/monkygames/kbmaster/fxml/popup/DisplayProfile.fxml");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(location);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		Parent root = (Parent)fxmlLoader.load(location.openStream());
+		displayProfileController = (DisplayProfileController) fxmlLoader.getController();
+		Stage stage = WindowUtil.createStage(root);
+		displayProfileController.setStage(stage);
+	    } catch (IOException ex) {
+		Logger.getLogger(ConfigureDeviceUIController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+	// get device
+	GenerateBindingsImage generator = new GenerateBindingsImage(deviceEntry.getDevice());
+	displayProfileController.setGenerateBindingsImage(generator);
+	displayProfileController.displayDevice(deviceEntry.getDevice());
     }
 // ============= Implemented Methods ============== //
     @Override

@@ -296,7 +296,7 @@ public class ProfileUIController implements Initializable, ChangeListener<String
 	}catch(IOException e){}
 	GenerateBindingsImage generator = new GenerateBindingsImage(device);
 	displayKeymapUIController.setGenerateBindingsImage(generator);
-	displayKeymapUIController.displayKeymap(currentProfile.getKeymap(keymapID));
+	displayKeymapUIController.displayKeymap(currentProfile.getKeymaps(),keymapID);
     }
     /**
      * Note, this needs to be called before other methods.
