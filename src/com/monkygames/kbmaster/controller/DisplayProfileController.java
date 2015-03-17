@@ -92,6 +92,9 @@ public class DisplayProfileController implements Initializable{
      */
     public void displayDevice(Device device){
 	Profile profile = device.getProfile();
+	if(profile == null){
+	    return;
+	}
 	displayKeymap(profile.getKeymaps(),0);
 	displayProfile(profile);
 	deviceIV.setImage(new javafx.scene.image.Image(device.getDeviceInformation().getDeviceIcon()));
