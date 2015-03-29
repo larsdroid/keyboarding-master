@@ -148,7 +148,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	//deviceTV.getItems().setAll(getDeviceEntryList(true));
 	updateDeviceEntryList(true);
 
-	// TODO sync with DropBox
+	// save
+	globalAccount.save();
     }
     /**
      * Removes the device and updates the table.
@@ -166,7 +167,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	//deviceTV.getItems().setAll(getDeviceEntryList(true));
 	updateDeviceEntryList(true);
 
-	// TODO sync with DropBox
+	// save
+	globalAccount.save();
     }
     /**
      * Sets the active profile for the specified device.
@@ -178,6 +180,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    globalAccount.save();
 	    return;
 	}
+
 	for(DeviceEntry deviceEntry: deviceTV.getItems()){
 	    if(deviceEntry.getDevice() == device){
 		// repopulate ---- NOOOOOOO
@@ -249,7 +252,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	cleanUp();
 
 	// save devices
-	globalAccount.save();
+	// only save when necessary
+	//globalAccount.save();
 
 	if(cloudAccount != null){
 	    loginController.hideDeviceMenu(false);
@@ -641,6 +645,8 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    //deviceEntry.setEnabled(false);
 	    hardwareManager.disableDevice(device);
 	}
+	// something has changed
+	globalAccount.save();
     }
 // ============= Internal Classes ============== //
     public class CheckboxCallback implements Callback<TableColumn<DeviceEntry,Boolean>, TableCell<DeviceEntry,Boolean>> {

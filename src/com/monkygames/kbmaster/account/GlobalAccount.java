@@ -4,6 +4,7 @@
 package com.monkygames.kbmaster.account;
 
 // === java imports === //
+import com.monkygames.kbmaster.account.dropbox.MetaData;
 import com.monkygames.kbmaster.driver.Device;
 import com.monkygames.kbmaster.driver.DeviceState;
 import com.monkygames.kbmaster.driver.DriverManager;
@@ -61,8 +62,12 @@ public class GlobalAccount{
     /**
      * Writes the list out to file.
      */
-    public void save(){
-	XStreamManager.getStreamManager().writeGlobalAccount(deviceList);
+    public boolean save(){
+        MetaData metaData = deviceList.getMetaData();
+        if(metaData != null){
+            metaData.rev = "update";
+        }
+	return XStreamManager.getStreamManager().writeGlobalAccount(deviceList);
     }
     
     /**
@@ -101,8 +106,7 @@ public class GlobalAccount{
 		deviceList.getList().add(devicePackage);
 	    }
 	}
-	// save 
-	return XStreamManager.getStreamManager().writeGlobalAccount(deviceList);
+	return save();
     }
 
     /**
@@ -117,8 +121,7 @@ public class GlobalAccount{
 	    if(devicePackage.getDeviceState().getPackageName().equals(devicePackageName)){
 		deviceList.getList().remove(devicePackage);
 		// save
-		XStreamManager.getStreamManager().writeGlobalAccount(deviceList);
-		return true;
+		return save();
 	    }
 	}
 	return false;

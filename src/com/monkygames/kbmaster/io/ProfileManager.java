@@ -5,8 +5,6 @@ package com.monkygames.kbmaster.io;
 
 // === java imports === //
 import java.io.File;
-// === db4o imports === //
-import com.db4o.ObjectContainer;
 // === kbmaster imports === //
 import com.monkygames.kbmaster.profiles.App;
 import com.monkygames.kbmaster.profiles.Profile;

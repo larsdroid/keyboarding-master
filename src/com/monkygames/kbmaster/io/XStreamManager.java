@@ -129,6 +129,11 @@ public class XStreamManager {
      * @return true on success and false otherwise.
      */
     public boolean writeRootManager(String filename, RootManager rootManager){
+        MetaData metaData = rootManager.getMetaData();
+        if(metaData != null){
+            metaData.rev = "update";
+        }
+        // metadata
         return write(globalStream,filename,rootManager);
     }
 
@@ -197,6 +202,9 @@ public class XStreamManager {
 
     /**
      * Writes using the global stream.
+     * @param filename
+     * @param obj
+     * @return 
      */
     public boolean writeFile(String filename, Object obj){
         return write(globalStream, filename, obj);
