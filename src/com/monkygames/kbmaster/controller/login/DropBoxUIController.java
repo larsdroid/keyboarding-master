@@ -6,9 +6,14 @@ package com.monkygames.kbmaster.controller.login;
 import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.DropBoxAccount;
 import com.monkygames.kbmaster.util.thread.DropboxSyncTask;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +21,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -85,44 +97,57 @@ public class DropBoxUIController implements Initializable {
 
     @FXML
     public void acceptEventFired(ActionEvent evt){
-		NodeList nodeList = web.getEngine().getDocument().getChildNodes();
-		for(int i = 0; i < nodeList.getLength(); i++){
-			NodeList nodeList2 = nodeList.item(i).getChildNodes();
-			for(int j = 0; j < nodeList2.getLength(); j++){
-				NodeList nodeList3 = nodeList2.item(j).getChildNodes();
-				for(int k = 0; k < nodeList3.getLength(); k++){
-					Node node3 = nodeList3.item(k);
-					NamedNodeMap map = node3.getAttributes();
-					if(map != null){
-						Node node4 = map.getNamedItem("id");
-						if(node4 != null){
-							String id = node4.getTextContent();
-							if(id != null && id.equals("auth")){
-								String content = node3.getTextContent();
-								// parse content
-								int index = content.indexOf("process.");
-								String code = content.substring(index+8);
-								cloudAccount.setAuthorizeCode(code);
-								stage.hide();
-								// create a task
-								KeyboardingMaster kbmaster = KeyboardingMaster.getInstance();
-								kbmaster.startDropboxSync(cloudAccount,true);
-								//loginController.showDeviceMenuFromLogin(cloudAccount, true);
+        Document doc = web.getEngine().getDocument();
+        /*
+        try {
+            printDocument(web.getEngine().getDocument(),System.out);
+        } catch (Exception ex) { }
+        */
+        NodeList nodeList = doc.getElementsByTagName("INPUT");
+        for(int i = 0; i < nodeList.getLength(); i++){
+            Node node = nodeList.item(i);
+            NamedNodeMap map = node.getAttributes();
+            Node node2 = map.getNamedItem("data-token");
+            if(node2 != null){
+                String code = node2.getNodeValue();
+                cloudAccount.setAuthorizeCode(code);
+                stage.hide();
+                // create a task
+                KeyboardingMaster kbmaster = KeyboardingMaster.getInstance();
+                kbmaster.startDropboxSync(cloudAccount,true);
+                //loginController.showDeviceMenuFromLogin(cloudAccount, true);
+                // TODO if not found, show pop error
+                break;
+            }
+        }
 
-								// TODO if not found, show pop error
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+    }
 
-	public void setLoginController(LoginUIController loginController){
-		this.loginController = loginController;
-	}
+    public void setLoginController(LoginUIController loginController){
+            this.loginController = loginController;
+    }
 
-	public void setStage(Stage stage){
-		this.stage = stage;
-	}
+    public void setStage(Stage stage){
+            this.stage = stage;
+    }
+
+    /**
+     * Prints a dom document to screen.
+     * @param doc
+     * @param out
+     * @throws IOException
+     * @throws TransformerException 
+     */
+    public static void printDocument(Document doc, OutputStream out) throws IOException, TransformerException {
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+        transformer.transform(new DOMSource(doc),
+            new StreamResult(new OutputStreamWriter(out, "UTF-8")));
+    }
 }
