@@ -21,12 +21,14 @@ fi
 
 USER=$1
 PASSWORD=$2
+UPLOAD_DIR=installer
+DIST_DIR=dist
 
 # get version
-VERSION=$(java -cp dist/kbmaster/KeyboardingMaster.jar:scripts GetVersion)
+VERSION=$(java -cp ${DIST_DIR}/KeyboardingMaster.jar:scripts GetVersion)
 echo "Building Keyboarding Master $VERSION"
 
-FILES=dist/kbmaster-$VERSION-*
+FILES=${UPLOAD_DIR}/kbmaster-$VERSION-*
 for f in $FILES
 do
     echo "Uploading $f ..."
