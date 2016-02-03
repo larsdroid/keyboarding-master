@@ -7,7 +7,6 @@ package com.monkygames.kbmaster.driver;
 import com.monkygames.kbmaster.input.*;
 import com.monkygames.kbmaster.profiles.Profile;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 import net.java.games.input.Component.Identifier.Key;

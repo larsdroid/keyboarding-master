@@ -20,3 +20,12 @@ settings.db4o
 settings.xml
 global_account.xml
 art_assets/*
+/nbproject/private/
+.gradle/
+build.xml
+cookies.txt
+dist_old/
+leds/
+manifest.mf
+nbproject/
+
