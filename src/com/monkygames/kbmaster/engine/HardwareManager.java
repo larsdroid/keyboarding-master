@@ -107,6 +107,8 @@ public class HardwareManager implements HardwareListener{
 	}
 	if(profile != null){
 	    engine.setEnabled(true);
+	}else{
+	    engine.setEnabled(false);
 	}
 	engine.startPolling(profile);
 	return true;

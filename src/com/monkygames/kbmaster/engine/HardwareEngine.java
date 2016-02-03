@@ -224,7 +224,11 @@ public class HardwareEngine implements Runnable{
      * @return true if the hardware has been found and false otherwise.
      */
     private boolean rescanHardware(){
-	return scanHardware(LinuxEnvironmentPlugin.getDefaultEnvironment().rescanControllers());
+	boolean ret = false;
+	try{
+	   ret = scanHardware(LinuxEnvironmentPlugin.getDefaultEnvironment().rescanControllers());
+	}catch(Exception e){}
+	return ret;
     }
     private boolean scanHardware(){
 	return scanHardware(LinuxEnvironmentPlugin.getDefaultEnvironment().getControllers());

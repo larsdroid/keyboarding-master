@@ -123,6 +123,7 @@ public class DriverManager{
     private void createRazerDrivers(){
 	addDevice(new com.monkygames.kbmaster.driver.razer.nostromo.Nostromo());
 	addDevice(new com.monkygames.kbmaster.driver.razer.tartarus.Tartarus());
+	addDevice(new com.monkygames.kbmaster.driver.razer.tartaruschroma.TartarusChroma());
 	addDevice(new com.monkygames.kbmaster.driver.razer.orbweaver.Orbweaver());
 	addDevice(new com.monkygames.kbmaster.driver.razer.orbweaverchroma.OrbweaverChroma());
 	addDevice(new com.monkygames.kbmaster.driver.razer.naga.Naga());
