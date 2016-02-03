@@ -39,25 +39,25 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../dist/kbmaster/COPYING</origin>
+                            <origin>../installer/kbmaster/COPYING</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../dist/kbmaster/desktop_icon.png</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../dist/kbmaster/KeyboardingMaster.jar</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../dist/kbmaster/readme.txt</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../dist/kbmaster/run.bash</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../dist/kbmaster/convert_db.bash</origin>
-                        </distributionFile>
-                        <distributionDirectory>
-                            <origin>../dist/kbmaster/lib</origin>
+-                            <origin>../installer/kbmaster/desktop_icon.png</origin>
+-                        </distributionFile>
+-                        <distributionFile>
+-                            <origin>../installer/kbmaster/KeyboardingMaster.jar</origin>
+-                        </distributionFile>
+-                        <distributionFile>
+-                            <origin>../installer/kbmaster/readme.txt</origin>
+-                        </distributionFile>
+-                        <distributionFile>
+-                            <origin>../installer/kbmaster/run.bash</origin>
+-                        </distributionFile>
+-                        <distributionFile>
+-                            <origin>../installer/kbmaster/convert_db.bash</origin>
+-                        </distributionFile>
+-                        <distributionDirectory>
+-                            <origin>../installer/kbmaster/lib</origin>
                         </distributionDirectory>
                     </distributionFileList>
                     <shortcutList>
