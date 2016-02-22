@@ -32,7 +32,7 @@ public class DriverManager{
 	// initialize all drivers by make
 	createRazerDrivers();
 	createBelkinDrivers();
-
+        createOtherDrivers();
     }
 // ============= Public Methods ============== //
     public ArrayList<Device> getDevices(){
@@ -136,6 +136,10 @@ public class DriverManager{
     private void createBelkinDrivers(){
 	addDevice(new com.monkygames.kbmaster.driver.belkin.n52.N52());
 	addDevice(new com.monkygames.kbmaster.driver.belkin.n52te.N52TE());
+    }
+
+    private void createOtherDrivers(){
+	addDevice(new com.monkygames.kbmaster.driver.lacunary_limited.ipv6buddy.IPV6Buddy());
     }
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //
