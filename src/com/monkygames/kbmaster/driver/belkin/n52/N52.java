@@ -32,7 +32,8 @@ public class N52 extends Nostromo{
 		"com.monkygames.kbmaster.driver.belkin.n52.N52",
 		"/com/monkygames/kbmaster/driver/belkin/n52/N52.fxml",
 		"/com/monkygames/kbmaster/driver/belkin/n52/resources/printable.png",
-		"http://www.amazon.com/gp/product/B0000DC643/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B0000DC643&linkCode=as2&tag=monkygamescom-20&linkId=EBBITLCCOAU4QXVX");
+		"http://www.amazon.com/gp/product/B0000DC643/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B0000DC643&linkCode=as2&tag=monkygamescom-20&linkId=EBBITLCCOAU4QXVX",
+		true);
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

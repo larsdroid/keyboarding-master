@@ -54,19 +54,22 @@ public abstract class Device implements Mapper{
      * @param uiFXMLURL the url to the package in order to load the driver.
      * @param imageBindingsTemplate used for exporting descriptions to an image.
      * @param amazonLink the amazon link to product page include associate code and null if none.
+     * @param hasMouse True if this device has a mouse component and false otherwise.
      */
     public Device(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version,
 		   String packageName, String uiFXMLURL, 
 		   String imageBindingsTemplate,
-		   String amazonLink){
+		   String amazonLink,
+		   boolean hasMouse){
 	this(new DeviceInformation(make,model,jinputName,
 						  deviceType, deviceIcon,
 						  deviceDescription, version,
 						  packageName, uiFXMLURL,
 						  imageBindingsTemplate,
-						  amazonLink));
+						  amazonLink,
+						  hasMouse));
     }
 // ============= Public Methods ============== //
     public DeviceInformation getDeviceInformation(){

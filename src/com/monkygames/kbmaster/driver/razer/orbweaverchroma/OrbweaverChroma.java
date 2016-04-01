@@ -41,7 +41,8 @@ public class OrbweaverChroma extends Device{
 		"com.monkygames.kbmaster.driver.razer.orbweaverchroma.OrbweaverChroma",
 		"/com/monkygames/kbmaster/driver/razer/orbweaverchroma/OrbweaverChroma.fxml",
 		"/com/monkygames/kbmaster/driver/razer/orbweaverchroma/resources/printable.png",
-		null);
+		null,
+		true);
 	// setup input bindings
 	int i = 1;
 	//`~1234

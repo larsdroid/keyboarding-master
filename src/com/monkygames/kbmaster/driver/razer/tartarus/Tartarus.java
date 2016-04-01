@@ -43,7 +43,8 @@ public class Tartarus extends Device{
 		"com.monkygames.kbmaster.driver.razer.tartarus.Tartarus",
 		"/com/monkygames/kbmaster/driver/razer/tartarus/Tartarus.fxml",
 		"/com/monkygames/kbmaster/driver/razer/tartarus/resources/printable.png",
-		"http://www.amazon.com/gp/product/B00EHBKUTE/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00EHBKUTE&linkCode=as2&tag=monkygamescom-20&linkId=BAIC34E3NQE62O44");
+		"http://www.amazon.com/gp/product/B00EHBKUTE/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00EHBKUTE&linkCode=as2&tag=monkygamescom-20&linkId=BAIC34E3NQE62O44",
+		true);
 	// setup input bindings
 	int i = 1;
 	inputMaps.put(i,new InputMap(i++,Key.TAB.getName(),    KeyEvent.VK_TAB));

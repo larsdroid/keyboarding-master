@@ -44,7 +44,8 @@ public class Taipan extends Device{
 		"com.monkygames.kbmaster.driver.razer.taipan.Taipan",
 		"/com/monkygames/kbmaster/driver/razer/taipan/Taipan.fxml",
 		"/com/monkygames/kbmaster/driver/razer/taipan/resources/taipan_printable.png",
-		"http://www.amazon.com/gp/product/B008BGXYBM/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B008BGXYBM&linkCode=as2&tag=monkygamescom-20&linkId=TNHGSNN5OYZP3VYX");
+		"http://www.amazon.com/gp/product/B008BGXYBM/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B008BGXYBM&linkCode=as2&tag=monkygamescom-20&linkId=TNHGSNN5OYZP3VYX",
+		true);
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

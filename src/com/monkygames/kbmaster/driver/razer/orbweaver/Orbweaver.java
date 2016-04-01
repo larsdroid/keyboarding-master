@@ -40,7 +40,8 @@ public class Orbweaver extends Device{
 		"com.monkygames.kbmaster.driver.razer.orbweaver.Orbweaver",
 		"/com/monkygames/kbmaster/driver/razer/orbweaver/Orbweaver.fxml",
 		"/com/monkygames/kbmaster/driver/razer/orbweaver/resources/printable.png",
-		"http://www.amazon.com/gp/product/B00B1N07QM/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00B1N07QM&linkCode=as2&tag=monkygamescom-20&linkId=LPAUWACY6JUOHNNW");
+		"http://www.amazon.com/gp/product/B00B1N07QM/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00B1N07QM&linkCode=as2&tag=monkygamescom-20&linkId=LPAUWACY6JUOHNNW",
+		true);
 	// setup input bindings
 	int i = 1;
 	//`~1234

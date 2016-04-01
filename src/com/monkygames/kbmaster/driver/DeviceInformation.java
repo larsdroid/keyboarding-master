@@ -54,12 +54,16 @@ public class DeviceInformation {
      * The link to the amazon product page with the associate code embedded.
      */
     private String amazonLink;
+    /**
+     * True if this device has a mouse component and false otherwise.
+     */
+    private boolean hasMouse;
 
 // ============= Constructors ============== //
     public DeviceInformation(String make, String model, String jinputName, 
 		   DeviceType deviceType, String deviceIcon,
 		   String deviceDescription, String version, String packageName,
-		   String uiFXMLURL, String imageBindingsTemplate, String amazonLink){
+		   String uiFXMLURL, String imageBindingsTemplate, String amazonLink, boolean hasMouse){
 	this.make = make;
 	this.model = model;
 	this.jinputName = jinputName;
@@ -71,6 +75,7 @@ public class DeviceInformation {
 	this.uiFXMLURL = uiFXMLURL;
 	this.imageBindingsTemplate = imageBindingsTemplate;
 	this.amazonLink = amazonLink;
+	this.hasMouse = hasMouse;
     }
     
 // ============= Protected Methods ============== //
@@ -117,6 +122,10 @@ public class DeviceInformation {
 
     public String getAmazonLink(){
 	return amazonLink;
+    }
+
+    public boolean hasMouse(){
+	return hasMouse;
     }
     
 

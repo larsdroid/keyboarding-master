@@ -34,9 +34,10 @@ public class Nostromo extends Device{
 		   String deviceDescription, String version,
 		   String packageName, String uiFXMLURL, 
 		   String imageBindingsTemplate,
-		   String amazonLink){
+		   String amazonLink,
+		   boolean hasMouse){
 	super(make,model,jinputName,deviceType,deviceIcon,deviceDescription,
-	    version,packageName,uiFXMLURL,imageBindingsTemplate, amazonLink);
+	    version,packageName,uiFXMLURL,imageBindingsTemplate, amazonLink,hasMouse);
 	// setup input bindings
 	int i = 1;
 	inputMaps.put(i,new InputMap(i++,Key.TAB.getName(),    KeyEvent.VK_TAB));
@@ -80,7 +81,8 @@ public class Nostromo extends Device{
 		"com.monkygames.kbmaster.driver.razer.nostromo.Nostromo",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/Nostromo.fxml",
 		"/com/monkygames/kbmaster/driver/razer/nostromo/resources/printable.png",
-		"http://www.amazon.com/gp/product/B004AM5RB6/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B004AM5RB6&linkCode=as2&tag=monkygamescom-20&linkId=5K2VJULJ4OXZWMRO");
+		"http://www.amazon.com/gp/product/B004AM5RB6/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B004AM5RB6&linkCode=as2&tag=monkygamescom-20&linkId=5K2VJULJ4OXZWMRO",
+		true);
 
     }
 // ============= Public Methods ============== //

@@ -39,7 +39,8 @@ public class Marauder extends Device{
 		"com.monkygames.kbmaster.driver.razer.marauder.Marauder",
 		"/com/monkygames/kbmaster/driver/razer/marauder/Marauder.fxml",
 		"/com/monkygames/kbmaster/driver/razer/marauder/resources/printable.png",
-		"http://www.amazon.com/gp/product/B004EYSH30/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B004EYSH30&linkCode=as2&tag=monkygamescom-20&linkId=GXXG2WKU6PBUPTRD");
+		"http://www.amazon.com/gp/product/B004EYSH30/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B004EYSH30&linkCode=as2&tag=monkygamescom-20&linkId=GXXG2WKU6PBUPTRD",
+		true);
 	int i = 1;
 	inputMaps.put(i,new InputMap(i++,Key.ESCAPE.getName(),	KeyEvent.VK_ESCAPE));
 	inputMaps.put(i,new InputMap(i++,Key.F1.getName(),	KeyEvent.VK_F1));

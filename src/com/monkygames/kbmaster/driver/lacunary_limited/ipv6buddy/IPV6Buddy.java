@@ -38,7 +38,8 @@ public class IPV6Buddy extends Device{
 		"com.monkygames.kbmaster.driver.lacunary_limited.ipv6buddy.IPV6Buddy",
 		"/com/monkygames/kbmaster/driver/lacunary_limited/ipv6buddy/IPV6Buddy.fxml",
 		"/com/monkygames/kbmaster/driver/lacunary_limited/ipv6buddy/resources/printable.png",
-		null);
+		null,
+		false);
 	int i = 1;
 	inputMaps.put(i,new InputMap(i++,Key.D.getName(),         KeyEvent.VK_D));
 	inputMaps.put(i,new InputMap(i++,Key.E.getName(),         KeyEvent.VK_E));

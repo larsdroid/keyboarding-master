@@ -33,7 +33,8 @@ public class N52TE extends Nostromo{
 		"com.monkygames.kbmaster.driver.belkin.n52te.N52TE",
 		"/com/monkygames/kbmaster/driver/belkin/n52te/N52TE.fxml",
 		"/com/monkygames/kbmaster/driver/belkin/n52te/resources/printable.png",
-		null);
+		null,
+		true);
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //

@@ -33,6 +33,7 @@ import net.java.games.input.Mouse;
 /**
  * Handles initializing and managing hardware.
  * Also is responsible for polling the devices (as a thread).
+ * Some devices may not have a mouse.
  * @version 1.0
  */
 public class HardwareEngine implements Runnable{
@@ -117,6 +118,11 @@ public class HardwareEngine implements Runnable{
      */
     private boolean isMouseRelative = true;
     private float unit_width, unit_height;
+
+    /**
+     * Used for determining if a mouse should be polled.
+     */
+    private boolean hasMouse = true;
 // ============= Constructors ============== //
     public HardwareEngine(Device device){
 	keyboards = new ArrayList<>();
@@ -130,6 +136,7 @@ public class HardwareEngine implements Runnable{
 	    Logger.getLogger(HardwareEngine.class.getName()).log(Level.SEVERE, null, ex);
 	}
 	hardwareListeners = new ArrayList<>();
+	hasMouse          = device.getDeviceInformation().hasMouse();
     }
 // ============= Public Methods ============== //
     /**
@@ -142,8 +149,10 @@ public class HardwareEngine implements Runnable{
 		    keyboard.grab();
 		}
 	    }
-	    if(mouse != null){
-		mouse.grab();
+	    if(hasMouse){
+		if(mouse != null){
+		    mouse.grab();
+		}
 	    }
 	}else{
 	    if(keyboards.size() > 0){
@@ -151,10 +160,11 @@ public class HardwareEngine implements Runnable{
 		    keyboard.ungrab();
 		}
 	    }
-	    if(mouse != null){
-		mouse.ungrab();
+	    if(hasMouse){
+		if(mouse != null){
+		    mouse.ungrab();
+		}
 	    }
-
 	}
 	this.isEnabled = isEnabled;
     }
@@ -268,8 +278,14 @@ public class HardwareEngine implements Runnable{
 	    }
 	}	
 
-	if(keyboards.size() == 0 && mouse == null){
-	    return false;
+	if(hasMouse){
+	    if(keyboards.size() == 0 && mouse == null){
+		return false;
+	    }
+	}else{
+	    if(keyboards.size() == 0){
+		return false;
+	    }
 	}
 	return true;
     }
@@ -286,9 +302,11 @@ public class HardwareEngine implements Runnable{
 	if(isHardware){
 	    keyboards.clear();
 	}
-	if(controller == mouse){
-	    mouse = null;
-	    isHardware = true;
+	if(hasMouse){
+	    if(controller == mouse){
+		mouse = null;
+		isHardware = true;
+	    }
 	}
 	if(isHardware){
 	    doesHardwareExist = false;
@@ -335,9 +353,11 @@ public class HardwareEngine implements Runnable{
 	    }
 
 	    // poll mouse
-	    if(mouse != null && !mouse.poll()){
-		hardwareDisconnected(mouse);
-		continue;
+	    if(hasMouse){
+		if(mouse != null && !mouse.poll()){
+		    hardwareDisconnected(mouse);
+		    continue;
+		}
 	    }
 
 	    // handles just detecting if a device is connected or not.
@@ -359,73 +379,75 @@ public class HardwareEngine implements Runnable{
 		}
 	    }
 	    // handle mouse events
-	    for(Event event: mouseEventQueue.getEvents()){
-		//System.out.println("===== New Event Queue =====");
-		Component component = event.getComponent();
-		//System.out.println("component = "+component);
-		String name = component.getIdentifier().getName();
+	    if(hasMouse){
+		for(Event event: mouseEventQueue.getEvents()){
+		    //System.out.println("===== New Event Queue =====");
+		    Component component = event.getComponent();
+		    //System.out.println("component = "+component);
+		    String name = component.getIdentifier().getName();
 
-		WheelMapping mapping = null;
-		if(component.getIdentifier() == Axis.X){
-		    Point point = MouseInfo.getPointerInfo().getLocation();
-		    float rel = component.getPollData();
-		    float x = point.x + rel;
-		    robot.mouseMove((int)x, point.y);
-		    //System.out.println("X: rel = "+rel);
-		    /*
-		    // note, have to modify the relative
-		    float pol_dat = component.getPollData();
-		    float rel = component.getPollData() * unit_width;
-		    // between (0, 1)
-		    if(rel > 0 && rel < 1){
-			rel = 1;
-		    // between (-1, 0)
-		    }else if(rel < 0 && rel > -1){
-			rel = -1;
-		    }
-		    float x = point.x + rel;
-		    robot.mouseMove((int)x, point.y);
-		    */
-		    //System.out.println("Mouse Move: [pol,rel,x_o,x_n,x_i] ["+pol_dat+","+rel+","+point.x+","+x+","+(int)x);
-		}else if(component.getIdentifier() == Axis.Y){
-		    Point point = MouseInfo.getPointerInfo().getLocation();
-		    float rel = component.getPollData();
-		    float y = point.y + rel;
-		    robot.mouseMove(point.x, (int)y);
-		    /*
-		    float rel = component.getPollData() * unit_height;
-		    if(rel > 0 && rel < 1){
-			rel = 1;
-		    // between (-1, 0)
-		    }else if(rel < 0 && rel > -1){
-			rel = -1;
-		    }
-		    float y = point.y + rel;
-		    robot.mouseMove(point.x, (int)y);
-		    */
-		}else if(component.getIdentifier() == Axis.Z && event.getValue() >= 1){
-		    mapping = keymap.getzUpWheelMapping();
-		    if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){
-			processOutput(name, mapping.getOutput(),1);
-			robot.delay(10);
-			processOutput(name, mapping.getOutput(),0);
+		    WheelMapping mapping = null;
+		    if(component.getIdentifier() == Axis.X){
+			Point point = MouseInfo.getPointerInfo().getLocation();
+			float rel = component.getPollData();
+			float x = point.x + rel;
+			robot.mouseMove((int)x, point.y);
+			//System.out.println("X: rel = "+rel);
+			/*
+			// note, have to modify the relative
+			float pol_dat = component.getPollData();
+			float rel = component.getPollData() * unit_width;
+			// between (0, 1)
+			if(rel > 0 && rel < 1){
+			    rel = 1;
+			// between (-1, 0)
+			}else if(rel < 0 && rel > -1){
+			    rel = -1;
+			}
+			float x = point.x + rel;
+			robot.mouseMove((int)x, point.y);
+			*/
+			//System.out.println("Mouse Move: [pol,rel,x_o,x_n,x_i] ["+pol_dat+","+rel+","+point.x+","+x+","+(int)x);
+		    }else if(component.getIdentifier() == Axis.Y){
+			Point point = MouseInfo.getPointerInfo().getLocation();
+			float rel = component.getPollData();
+			float y = point.y + rel;
+			robot.mouseMove(point.x, (int)y);
+			/*
+			float rel = component.getPollData() * unit_height;
+			if(rel > 0 && rel < 1){
+			    rel = 1;
+			// between (-1, 0)
+			}else if(rel < 0 && rel > -1){
+			    rel = -1;
+			}
+			float y = point.y + rel;
+			robot.mouseMove(point.x, (int)y);
+			*/
+		    }else if(component.getIdentifier() == Axis.Z && event.getValue() >= 1){
+			mapping = keymap.getzUpWheelMapping();
+			if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){
+			    processOutput(name, mapping.getOutput(),1);
+			    robot.delay(10);
+			    processOutput(name, mapping.getOutput(),0);
+			}else{
+			    processOutput(name, mapping.getOutput(),event.getValue());
+			}
+		    }else if(component.getIdentifier() == Axis.Z && event.getValue() <= -1){
+			mapping = keymap.getzDownWheelMapping();
+			if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){
+			    processOutput(name, mapping.getOutput(),1);
+			    robot.delay(10);
+			    processOutput(name, mapping.getOutput(),0);
+			}else{
+			    processOutput(name, mapping.getOutput(),event.getValue());
+			}
+		    }else if(component.getIdentifier() == Axis.Z && event.getValue() == 0){
+			// on release, don't do anything
 		    }else{
-			processOutput(name, mapping.getOutput(),event.getValue());
+			ButtonMapping bMapping = keymap.getButtonMapping(name);
+			processOutput(name, bMapping.getOutput(),event.getValue());
 		    }
-		}else if(component.getIdentifier() == Axis.Z && event.getValue() <= -1){
-		    mapping = keymap.getzDownWheelMapping();
-		    if(mapping.getOutput() instanceof OutputKey || mapping.getOutput() instanceof OutputKeymapSwitch){
-			processOutput(name, mapping.getOutput(),1);
-			robot.delay(10);
-			processOutput(name, mapping.getOutput(),0);
-		    }else{
-			processOutput(name, mapping.getOutput(),event.getValue());
-		    }
-		}else if(component.getIdentifier() == Axis.Z && event.getValue() == 0){
-		    // on release, don't do anything
-		}else{
-		    ButtonMapping bMapping = keymap.getButtonMapping(name);
-		    processOutput(name, bMapping.getOutput(),event.getValue());
 		}
 	    }
 	}
@@ -468,35 +490,37 @@ public class HardwareEngine implements Runnable{
 		continue;
 	    }
 	    // poll mouse
-	    if(!mouse.poll()){
-		hardwareDisconnected(mouse);
-		continue;
-	    }
-	    EventQueue queue = mouse.getEventQueue();
-	    while(queue.getNextEvent(event)){
-		Component component = event.getComponent();
-
-		WheelMapping mapping = null;
-		isMouseEvent = false;
-		if(component.getIdentifier() == Axis.Z && event.getValue() == 1){
-		    mapping = keymap.getzUpWheelMapping();
-		    isMouseEvent = true;
-		}else if(component.getIdentifier() == Axis.Z && event.getValue() == -1){
-		    mapping = keymap.getzDownWheelMapping();
-		    isMouseEvent = true;
+	    if(hasMouse){
+		if(!mouse.poll()){
+		    hardwareDisconnected(mouse);
+		    continue;
 		}
-		/*
-		}else{
-		    // must be middle mouse click
-		    mapping = keymap.getMiddleWheelMapping();
-		    if(event.getValue() == 0){
+		EventQueue queue = mouse.getEventQueue();
+		while(queue.getNextEvent(event)){
+		    Component component = event.getComponent();
+
+		    WheelMapping mapping = null;
+		    isMouseEvent = false;
+		    if(component.getIdentifier() == Axis.Z && event.getValue() == 1){
+			mapping = keymap.getzUpWheelMapping();
+			isMouseEvent = true;
+		    }else if(component.getIdentifier() == Axis.Z && event.getValue() == -1){
+			mapping = keymap.getzDownWheelMapping();
 			isMouseEvent = true;
 		    }
-		}
-		*/
-		if(isMouseEvent){
-		    for(HardwareListener listener: this.hardwareListeners){
-			listener.eventIndexPerformed(mapping.getInputHardware().getID()+20);
+		    /*
+		    }else{
+			// must be middle mouse click
+			mapping = keymap.getMiddleWheelMapping();
+			if(event.getValue() == 0){
+			    isMouseEvent = true;
+			}
+		    }
+		    */
+		    if(isMouseEvent){
+			for(HardwareListener listener: this.hardwareListeners){
+			    listener.eventIndexPerformed(mapping.getInputHardware().getID()+20);
+			}
 		    }
 		}
 	    }
