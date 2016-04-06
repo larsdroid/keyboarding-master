@@ -84,26 +84,23 @@ public class IPV6Buddy extends Device{
 	int row6_y = row5_y+button_height+space;
 
 	int pos[] = new int[2];
-	if(buttonID == 20){
-	    pos[0] = x;
-	    pos[1] = row5_y;
-	}else if(buttonID >= 1 && buttonID <= 4){
+	if(buttonID >= 1 && buttonID <= 4){
 	    pos[0] = x+(buttonID-1)*(button_width+space);
 	    pos[1] = row1_y;
 	}else if(buttonID >= 5 && buttonID <= 8){
-	    pos[0] = x+(buttonID-4)*(button_width+space);
+	    pos[0] = x+(buttonID-5)*(button_width+space);
 	    pos[1] = row2_y;
 	}else if(buttonID >= 9 && buttonID <= 12){
-	    pos[0] = x+(buttonID-8)*(button_width+space);
+	    pos[0] = x+(buttonID-9)*(button_width+space);
 	    pos[1] = row3_y;
 	}else if(buttonID >= 13 && buttonID <= 16){
-	    pos[0] = x+(buttonID-12)*(button_width+space);
+	    pos[0] = x+(buttonID-13)*(button_width+space);
 	    pos[1] = row4_y;
-	}else if(buttonID >= 17 && buttonID <= 19){
-	    pos[0] = x+(buttonID-16)*(button_width+space);
+	}else if(buttonID >= 17 && buttonID <= 20){
+	    pos[0] = x+(buttonID-17)*(button_width+space);
 	    pos[1] = row5_y;
 	}else if(buttonID >= 21 && buttonID <= 23){
-	    pos[0] = x+(buttonID-20)*(button_width+space);
+	    pos[0] = x+(buttonID-21)*(button_width+space);
 	    pos[1] = row6_y;
 	}
 	return pos;
