@@ -140,6 +140,7 @@ public class DriverManager{
 
     private void createOtherDrivers(){
 	addDevice(new com.monkygames.kbmaster.driver.lacunary_limited.ipv6buddy.IPV6Buddy());
+	addDevice(new com.monkygames.kbmaster.driver.digitus.numpad.Numpad());
     }
 // ============= Implemented Methods ============== //
 // ============= Extended Methods ============== //
