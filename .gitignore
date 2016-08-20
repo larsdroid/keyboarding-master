@@ -29,3 +29,4 @@ leds/
 manifest.mf
 nbproject/
 installer
+/.nb-gradle/
