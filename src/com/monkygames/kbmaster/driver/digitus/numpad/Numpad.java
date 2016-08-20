@@ -47,17 +47,17 @@ public class Numpad extends Device{
 	inputMaps.put(i,new InputMap(i++,Key._7.getName(),        KeyEvent.VK_7));
 	inputMaps.put(i,new InputMap(i++,Key._8.getName(),        KeyEvent.VK_8));
 	inputMaps.put(i,new InputMap(i++,Key._9.getName(),        KeyEvent.VK_9));
-	inputMaps.put(i,new InputMap(i++,Key.ADD.getName(),       KeyEvent.VK_ADD));
+	inputMaps.put(i,new InputMap(i++,Key.BACK.getName(),      KeyEvent.VK_BACK_SPACE));
 	inputMaps.put(i,new InputMap(i++,Key._4.getName(),        KeyEvent.VK_4));
 	inputMaps.put(i,new InputMap(i++,Key._5.getName(),        KeyEvent.VK_5));
 	inputMaps.put(i,new InputMap(i++,Key._6.getName(),        KeyEvent.VK_6));
+	inputMaps.put(i,new InputMap(i++,Key.ADD.getName(),       KeyEvent.VK_ADD));
 	inputMaps.put(i,new InputMap(i++,Key._1.getName(),        KeyEvent.VK_1));
 	inputMaps.put(i,new InputMap(i++,Key._2.getName(),        KeyEvent.VK_2));
 	inputMaps.put(i,new InputMap(i++,Key._3.getName(),        KeyEvent.VK_3));
-	inputMaps.put(i,new InputMap(i++,Key.RETURN.getName(),    KeyEvent.VK_ENTER));
 	inputMaps.put(i,new InputMap(i++,Key._0.getName(),        KeyEvent.VK_0));
-	inputMaps.put(i,new InputMap(i++,Key.BACK.getName(),      KeyEvent.VK_BACK_SPACE));
 	inputMaps.put(i,new InputMap(i++,Key.PERIOD.getName(),    KeyEvent.VK_PERIOD));
+	inputMaps.put(i,new InputMap(i++,Key.RETURN.getName(),    KeyEvent.VK_ENTER));
     }
 // ============= Public Methods ============== //
 // ============= Protected Methods ============== //
@@ -84,14 +84,17 @@ public class Numpad extends Device{
 	}else if(buttonID >= 5 && buttonID <= 8){
 	    pos[0] = x+(buttonID-5)*(button_width+space);
 	    pos[1] = row3_y;
-	}else if(buttonID >= 9 && buttonID <= 11){
+	}else if(buttonID >= 9 && buttonID <= 12){
 	    pos[0] = x+(buttonID-9)*(button_width+space);
 	    pos[1] = row4_y;
-	}else if(buttonID >= 12 && buttonID <= 15){
-	    pos[0] = x+(buttonID-12)*(button_width+space);
+	}else if(buttonID >= 13 && buttonID <= 16){
+	    pos[0] = x+(buttonID-13)*(button_width+space);
 	    pos[1] = row5_y;
-	}else if(buttonID >= 16 && buttonID <= 18){
-	    pos[0] = x+(buttonID-16)*(button_width+space);
+	}else if(buttonID == 17){
+	    pos[0] = x;
+	    pos[1] = row6_y;
+	}else if(buttonID == 18){
+	    pos[0] = x+(2)*(button_width+space);
 	    pos[1] = row6_y;
 	}
 	return pos;
