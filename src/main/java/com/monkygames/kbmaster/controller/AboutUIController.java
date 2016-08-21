@@ -43,10 +43,10 @@ public class AboutUIController implements Initializable{
     /**
      * Used for selecting the product to display.
      */
-    public enum AboutType {DB4O, INSTALLBUILDER, JAVA,
+    public enum AboutType { INSTALLBUILDER, JAVA,
 			    JAVAFX, JINPUT, KBM, XSTREAM, LINUXGAMER}
 
-    private AboutProgram aboutDB4O, aboutInstallBuilder, aboutJInput,
+    private AboutProgram aboutInstallBuilder, aboutJInput,
 			aboutJava, aboutJavaFX, aboutKBM, aboutXStream, 
 			aboutLinuxGamer;
 
@@ -63,9 +63,6 @@ public class AboutUIController implements Initializable{
     public void showAbout(AboutType aboutType){
 	AboutProgram aboutProgram = null;
 	switch(aboutType){
-	    case DB4O:
-		aboutProgram = aboutDB4O;
-		break;
 	    case INSTALLBUILDER:
 		aboutProgram = aboutInstallBuilder;
 		break;
@@ -110,7 +107,6 @@ public class AboutUIController implements Initializable{
 // ============= Implemented Methods ============== //
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	aboutDB4O = new AboutDB4O();
 	aboutInstallBuilder = new AboutInstallBuilder();
 	aboutJInput = new AboutJInput();
 	aboutJava = new AboutJava();

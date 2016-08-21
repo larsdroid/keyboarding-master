@@ -39,11 +39,6 @@
             <Image preserveRatio="false" smooth="false" url="@resources/icons/jinput.png" />
           </image>
         </ImageView>
-        <ImageView id="db4oLogo" fx:id="db4oIV" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true">
-          <image>
-            <Image preserveRatio="false" smooth="false" url="@resources/icons/db4o.png" />
-          </image>
-        </ImageView>
         <ImageView id="kryonetLogo" fitHeight="40.17071533203125" fitWidth="40.17071533203125" onMouseClicked="#handleAboutEvent" pickOnBounds="true" preserveRatio="true" fx:id="xstreamIV">
           <image>
             <Image url="@resources/icons/xstream.png" />

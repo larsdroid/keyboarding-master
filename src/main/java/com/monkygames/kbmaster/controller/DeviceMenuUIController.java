@@ -86,7 +86,7 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
     private Label versionL;
     @FXML
     private ImageView kbmIV, linuxGamerIV, javaIV, javafxIV, jinputIV, 
-			db4oIV, installBuilderIV, xstreamIV;
+			installBuilderIV, xstreamIV;
     @FXML
     private ImageView accountIcon;
     /**
@@ -314,8 +314,6 @@ public class DeviceMenuUIController implements Initializable, EventHandler<Actio
 	    aboutController.showAbout(AboutUIController.AboutType.JAVAFX);
 	}else if(src == jinputIV){
 	    aboutController.showAbout(AboutUIController.AboutType.JINPUT);
-	}else if(src == db4oIV){
-	    aboutController.showAbout(AboutUIController.AboutType.DB4O);
 	}else if(src == installBuilderIV){
 	    aboutController.showAbout(AboutUIController.AboutType.INSTALLBUILDER);
 	}else if(src == xstreamIV){
