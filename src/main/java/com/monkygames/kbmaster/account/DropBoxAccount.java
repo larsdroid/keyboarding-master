@@ -5,12 +5,17 @@ package com.monkygames.kbmaster.account;
 
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
-import com.dropbox.core.DbxClient;
-import com.dropbox.core.DbxEntry;
+import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.DbxWebAuthNoRedirect;
-import com.dropbox.core.DbxWriteMode;
+import com.dropbox.core.DbxWebAuth;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.DbxUserFilesRequests;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.FolderMetadata;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.UploadUploader;
 import com.monkygames.kbmaster.KeyboardingMaster;
 import com.monkygames.kbmaster.account.dropbox.MetaData;
 import com.monkygames.kbmaster.account.dropbox.SyncMetaData;
@@ -21,7 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,16 +37,17 @@ import java.util.logging.Logger;
 public class DropBoxAccount implements CloudAccount{
 
     private DbxAppInfo appInfo;
-    private DbxWebAuthNoRedirect webAuth;
+    private DbxWebAuth webAuth;
     private String accessToken;
-    private DbxClient client;
+    //private DbxClient client;
+    private DbxClientV2 client;
     private DbxRequestConfig config;
 	
     public DropBoxAccount(){
         // setup dropbox
         appInfo = new DbxAppInfo(DropBoxApp.APP_KEY, DropBoxApp.APP_SECRET);
-        config = new DbxRequestConfig("kbmaster/"+KeyboardingMaster.VERSION, Locale.getDefault().toString());
-        webAuth = new DbxWebAuthNoRedirect(config, appInfo);
+        config = new DbxRequestConfig("kbmaster/"+KeyboardingMaster.VERSION);
+        webAuth = new DbxWebAuth(config, appInfo);
     }
 
     public DropBoxAccount(String accessToken){
@@ -57,10 +63,15 @@ public class DropBoxAccount implements CloudAccount{
 
     /**
      * Returns the authorization URL.
+     * @return The authorize URL.
      */
     public String getAuthorizeURL(){
         // Have the user sign in and authorize your app.
-        return webAuth.start();
+        //return webAuth.start();
+        DbxWebAuth.Request authRequest = webAuth.newRequestBuilder()
+	    .withNoRedirect()
+	    .build();
+	return webAuth.authorize(authRequest);
     }
 
     /**
@@ -70,17 +81,26 @@ public class DropBoxAccount implements CloudAccount{
     public void setAuthorizeCode(String code){
         DbxAuthFinish authFinish;
         try {
+	    authFinish = webAuth.finishFromCode(code);
+	    accessToken = authFinish.getAccessToken();
+	    setupClient();
+        } catch (DbxException ex) {
+	    Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	/*
+        DbxAuthFinish authFinish;
+        try {
             authFinish = webAuth.finish(code);
             accessToken = authFinish.accessToken;
             setupClient();
         } catch (DbxException ex) {
             Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
+	*/
     }
 
     @Override
     public boolean sync() {
-
         // sync globalaccount
         if(syncFile(XStreamManager.globalAccountFileName)){
             //System.out.println("[DropBoxAccount:sync] "+GlobalAccount.dbFileName+" sync success");
@@ -98,6 +118,58 @@ public class DropBoxAccount implements CloudAccount{
 
         try {
             // sync profiles
+	    DbxUserFilesRequests request = client.files();
+	    ListFolderResult result = client.files().listFolder("/"+profileDir);
+            if(result == null){
+                FolderMetadata folderMetadata = client.files().createFolder("/"+profileDir);
+                // upload only xml files from profiles directory
+                for(File file: localProfileDir.listFiles()){
+                    if(isValidFile(file.getName())){
+                        if(!syncFile(profileDir+"/"+file.getName())){
+                            return false;
+                        }
+                    }
+                }
+            }else{
+                List<Metadata> list = result.getEntries();
+                if(list.isEmpty()){
+                    FolderMetadata folderMetadata = client.files().createFolder("/"+profileDir);
+                    // upload only xml files from profiles directory
+                    for(File file: localProfileDir.listFiles()){
+                        if(isValidFile(file.getName())){
+                            if(!syncFile(profileDir+"/"+file.getName())){
+                                return false;
+                            }
+                        }
+                    }
+                }else{
+                    // need to iterate through all and compare individual files
+                    while(result.getHasMore()){
+
+                        for (Metadata metadata : result.getEntries()) {
+                            System.out.println(metadata.getPathLower());
+	                }
+                        for(File file: localProfileDir.listFiles()){
+                            if(isValidFile(file.getName())){
+                                if(!syncFile(profileDir+"/"+file.getName())){
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    // now iterate through all children
+                    for(File file: localProfileDir.listFiles()){
+                        if(isValidFile(file.getName())){
+                            if(!syncFile(profileDir+"/"+file.getName())){
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            /*
             DbxEntry.WithChildren listing = client.getMetadataWithChildren("/"+profileDir);
             if(listing == null){
                 // need to create the directory
@@ -107,7 +179,6 @@ public class DropBoxAccount implements CloudAccount{
                 }
                 // upload only xml files from profiles directory
                 for(File file: localProfileDir.listFiles()){
-
                     if(isValidFile(file.getName())){
                         if(!syncFile(profileDir+"/"+file.getName())){
                             return false;
@@ -134,6 +205,7 @@ public class DropBoxAccount implements CloudAccount{
                 }
             }
 
+            */
         } catch (DbxException ex) {
             Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -142,7 +214,8 @@ public class DropBoxAccount implements CloudAccount{
     }
 
     private void setupClient(){
-        client = new DbxClient(config, accessToken);
+        //client = new DbxClient(config, accessToken);
+        client = new DbxClientV2(config, accessToken);
     }
 
     private boolean syncFile(String filename){
@@ -192,21 +265,22 @@ public class DropBoxAccount implements CloudAccount{
     }
 
     /**
-     * Return the drobox metadata from the cloud.
+     * Return the Drobox metadata from the cloud.
      * @param filename the name of the file to get the rev number
      * @return the metadata and -1 if it doesn't exist
      */
     private MetaData getCloudDropboxMetaData(String filename){
-        DbxEntry.File entry;
         try {
-            entry = (DbxEntry.File)client.getMetadata("/"+filename);
+            Metadata entry = client.files().getMetadata("/"+filename);
             if(entry != null){
-                MetaData metaData = new MetaData(entry.rev, entry.lastModified.getTime());
-                return metaData;
-            }else{
-                // doens't exist
-                return null;
+                if(entry instanceof FileMetadata){
+                    FileMetadata fileMetadata = (FileMetadata)entry;
+                    MetaData metaData = new MetaData(fileMetadata.getRev(), 
+                            fileMetadata.getServerModified().getTime());
+                    return metaData;
+                }
             }
+	    return null;
         } catch (DbxException ex) {
             Logger.getLogger(DropBoxAccount.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -243,10 +317,9 @@ public class DropBoxAccount implements CloudAccount{
         try {
             File inputFile = new File(filename);
             inputStream = new FileInputStream(inputFile);
-            DbxEntry.File uploadedFile = client.uploadFile("/"+filename,
-            DbxWriteMode.force(), inputFile.length(), inputStream);
-            MetaData metaData = new MetaData(uploadedFile.rev,uploadedFile.lastModified.getTime());
-            //System.out.println("[DropBox:uploadFile] "+metaData);
+            UploadUploader uploader = client.files().upload("/"+filename);
+            FileMetadata fileMetadata = uploader.uploadAndFinish(inputStream);
+            MetaData metaData = new MetaData(fileMetadata.getRev(),fileMetadata.getServerModified().getTime());
             return metaData;
         }catch (Exception e){
             e.printStackTrace();
@@ -264,15 +337,17 @@ public class DropBoxAccount implements CloudAccount{
 
     /**
      * Download the file from the cloud.
-     * @return the metadata for the downloaded file (on success) 
+     * @return the meta data for the downloaded file (on success) 
      * and null on failure.
      */
     private MetaData downloadFile(String filename){
         FileOutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(filename);
-        DbxEntry.File downloadedFile = client.getFile("/"+filename, null, outputStream);
-            MetaData metaData = new MetaData(downloadedFile.rev, downloadedFile.lastModified.getTime());
+            DbxDownloader<FileMetadata> downloader = client.files().download("/"+filename);
+            FileMetadata result = downloader.getResult();
+            MetaData metaData = new MetaData(result.getRev(), result.getServerModified().getTime());
+            downloader.download(outputStream);
             return metaData;
         }catch (Exception e){
         } finally {
