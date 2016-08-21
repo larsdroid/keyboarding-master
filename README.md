@@ -12,3 +12,6 @@ Keyboarding Master uses Gradle as the build tool.  Issue the following commands:
 * *gradle run*: Runs the project
 
 Additional developer documentation is [here](https://kbmaster.atlassian.net/wiki/display/KBM/Developer+Documentation)
+
+## Issues
+Jira is used to manage the issue tracking. Please [use](https://kbmaster.atlassian.net) the issue tracker for reporting bugs.
