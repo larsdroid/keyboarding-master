@@ -7,7 +7,7 @@ mainClassName = "com.monkygames.kbmaster.KeyboardingMaster"
 repositories {
     mavenCentral()
     flatDir {
-        dirs 'libs/input'
+        dirs 'libs/input' , 'libs/native'
     }
 }
 
@@ -18,3 +18,5 @@ dependencies {
     compile name: 'jinput'
 }
 
+
+applicationDefaultJvmArgs = ["-Djava.library.path=libs/native"]
