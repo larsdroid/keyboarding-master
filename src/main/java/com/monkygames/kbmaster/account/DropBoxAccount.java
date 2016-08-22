@@ -105,9 +105,9 @@ public class DropBoxAccount implements CloudAccount{
     public boolean sync() {
         // sync globalaccount
         if(syncFile(XStreamManager.globalAccountFileName)){
-            System.out.println("[DropBoxAccount:sync] "+XStreamManager.globalAccountFileName+" sync success");
+            //System.out.println("[DropBoxAccount:sync] "+XStreamManager.globalAccountFileName+" sync success");
         }else{
-            System.out.println("[DropBoxAcount:sync] "+XStreamManager.globalAccountFileName+" sync failure");
+            //System.out.println("[DropBoxAcount:sync] "+XStreamManager.globalAccountFileName+" sync failure");
             return false;
         }
 
@@ -149,7 +149,7 @@ public class DropBoxAccount implements CloudAccount{
                     while(result.getHasMore()){
 
                         for (Metadata metadata : result.getEntries()) {
-                            System.out.println(metadata.getPathLower());
+                            //System.out.println(metadata.getPathLower());
 	                }
                         for(File file: localProfileDir.listFiles()){
                             if(isValidFile(file.getName())){
@@ -223,9 +223,9 @@ public class DropBoxAccount implements CloudAccount{
     private boolean syncFile(String filename){
         MetaData localMetaData = getLocalDropboxMetaData(filename);
         MetaData cloudMetaData = getCloudDropboxMetaData(filename);
-        System.out.println("[DropBox] filename = "+filename);
-        System.out.println("local = "+localMetaData);
-        System.out.println("cloud = "+cloudMetaData);
+        //System.out.println("[DropBox] filename = "+filename);
+        //System.out.println("local = "+localMetaData);
+        //System.out.println("cloud = "+cloudMetaData);
 
         // note, the conditionals below could be reduced;
         // however, for code readabilty, i have elected to
@@ -235,27 +235,27 @@ public class DropBoxAccount implements CloudAccount{
         // OR local only exists
         if( (localMetaData == null && cloudMetaData == null) ||
             (localMetaData != null && cloudMetaData == null) ){
-            System.out.println("[DropBox] uploading b/c local/cloud doesn't exist");
+            //System.out.println("[DropBox] uploading b/c local/cloud doesn't exist");
             return uploadAndUpdateLocalFile(filename);
         }
 
         // cloud only exists
         if(localMetaData == null && cloudMetaData != null){
-            System.out.println("[DropBox] Only cloud exists so download");
+            //System.out.println("[DropBox] Only cloud exists so download");
             return downloadAndUpdateLocalFile(filename);
         }
 
         // test if the file has been updated 
         if(localMetaData.rev.equals("update")){
-            System.out.println("[DropBox] metadata says to upload");
+            //System.out.println("[DropBox] metadata says to upload");
             return uploadAndUpdateLocalFile(filename);
         }else if(localMetaData.rev.equals(cloudMetaData.rev)){
-            System.out.println("[DropBox] metadata are equal");
+            //System.out.println("[DropBox] metadata are equal");
             return true;
         }else{
             // different, select which one
             if(localMetaData.lastModified > cloudMetaData.lastModified){
-                System.out.println("[DropBox] local data is newer");
+                //System.out.println("[DropBox] local data is newer");
                 // local data is newer
                 return uploadAndUpdateLocalFile(filename);
             }else{
@@ -273,7 +273,7 @@ public class DropBoxAccount implements CloudAccount{
      */
     private MetaData getCloudDropboxMetaData(String filename){
         try {
-            System.out.println("[DropBoxAccount:getCloudDropboxMetaData] "+filename);
+            //System.out.println("[DropBoxAccount:getCloudDropboxMetaData] "+filename);
             Metadata entry = client.files().getMetadata("/"+filename);
             if(entry != null){
                 if(entry instanceof FileMetadata){
@@ -315,7 +315,7 @@ public class DropBoxAccount implements CloudAccount{
      * and null on failure.
      */ 
     private MetaData uploadFile(String filename){
-        System.out.println("[DropBoxAccount:uploadFile] "+filename);
+        //System.out.println("[DropBoxAccount:uploadFile] "+filename);
         FileInputStream inputStream = null;
 	UploadUploader uploader     = null;
 	UploadBuilder builder       = null;
@@ -382,7 +382,7 @@ public class DropBoxAccount implements CloudAccount{
             Object obj = XStreamManager.getStreamManager().readFile(filename);
             if(obj == null){
                 // problems
-                System.out.println("Error in updating metadata: "+filename);
+                //System.out.println("Error in updating metadata: "+filename);
                 return false;
             }
 
@@ -402,7 +402,7 @@ public class DropBoxAccount implements CloudAccount{
             return XStreamManager.getStreamManager().writeFile(filename, syncMD);
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Error in updating metadata: "+filename);
+            //System.out.println("Error in updating metadata: "+filename);
             return false;
         }
     }
