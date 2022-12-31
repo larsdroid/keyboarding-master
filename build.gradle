@@ -1,6 +1,8 @@
-
-apply plugin: 'java'
-apply plugin: 'application'
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
 
 mainClassName = "com.monkygames.kbmaster.KeyboardingMaster"
 
@@ -12,11 +14,21 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.9'
-    compile group: 'com.itextpdf', name: 'itextpdf', version: '5.0.6'
-    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
-    compile name: 'jinput'
+    implementation group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.9'
+    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.0.6'
+    implementation group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: '2.1.1'
+    implementation name: 'jinput'
 }
 
+javafx {
+    version = "19"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing', 'javafx.web' ]
+}
 
-applicationDefaultJvmArgs = ["-Djava.library.path=libs/native"]
+application {
+    applicationDefaultJvmArgs = [
+            "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+            "--add-opens", "java.base/java.util=ALL-UNNAMED",
+            "-Djava.library.path=libs/native"
+    ]
+}
